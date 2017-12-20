@@ -1,0 +1,64 @@
+                                      Lista dei Riferimenti fra Programmi del 13/10/2017
+        --------------------------------------------------------------------------------
+        Azn.T206                      Cancellazione Anagrafica Fido
+        --------------------------------------------------------------------------------
+        TRA170                        Cancellazione Anagrafe FIDI
+        . BRO310                      Gestione anagrafica cedente
+        . . ANA045                    Ricerca Gruppo x Denominazione
+        . . . ANA046                  Ricerca Gruppo x Codice Discendente
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . STF203                    Determ. Sofferenza soggetto (Dt.Rif >= 31/12/2009)
+        . . . UTISOC                  Verifica aree abilitate alla società
+        . . DCER01                    Decodifica Errori da SYSERR - KPJBA
+        . MODER1                      Gestione errori T.P.: invio messaggio a coda PGM
+        . MODER2                      Gestione errori T.P.: pulizia coda messaggi PGM
+        . MODER3                      Gestione errori T.P.: acquisizione desrizione ERR.
+        . TCA373                      Agg. automatico fidi debitore
+        . . TRA373                    Agg. automatico fidi debitore
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . DCER11                  Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . STDC01                  Reperimento testo e gravità messaggio
+        . . . STD028                  Converte un importo da una divisa ad un'altra
+        . . . TRA383                  Recupero dati FidoC x delibere FidiD NonAutonomi
+        . . KU101R                    Utilities CrtDupObj Obj_FrLib_ObTyp_ToLib_NwObj
+        . . . KU102C                  Utilities CrtDupObj CrtDupObj
+        . . . . KU103C                Utilities CrtDupObj DltPrvObj
+        . TRA152                      Ricerca Fidi di un cedente
+        --------------------------------------------------------------------------------
+        TRA170    RPGLE 7-TRA1700V  5-ANAFID3L  5-ANAFI22L  5-ANAFI30L  1-ANACED1L
+        .         .     5-STOFID2L  5-STOFI22L  5-STOFI32L  5-REFICO2L  5-REFIRA2L
+        .         .     5-PIAFID1L  1-CONATT0F  1-FATTURKL  1-NOTGIO4L  1-GARREL5L
+        .         .     1-PARAM
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        DCER01    CLP
+        STF203    RPGLE 1-AGCORI1L  1-AGPERF1L  1-AGPNDT2L  1-AGRAPP1L  1-AGRAPP2L
+        .         .     1-AGSDET1L  1-AGSNPF1L  1-AGSOFF1L  1-ANACON1L  1-FCLBRN1L
+        .         .     1-FCLBRN2L  1-FCLBRN3L  1-FORBRN1L  1-FORBRN2L  1-FORBRN3L
+        .         .     1-FORBRN4L  1-MST0011L  1-PARAM     1-SC2MED2L  1-SC2SCO1L
+        UTISOC    RPG   1-MST0011L  1-PARAM
+        MODER1    CLP
+        MODER2    CLP
+        MODER3    CLP
+        TCA373    CLP   8-WFIDEB0F  8-WFIDE20F  8-WFIDEL0F
+        TRA373    RPGLE 7-FIDDEB3L  7-FIDDE22L  7-FIDDEL1L  3-LOGAAF1L  5-PARAM
+        .         .     7-STFIDE2L  7-STFID22L  7-STFIDL2L  7-WFIDEB3L  7-WFIDEL1L
+        .         .     7-WFIDEL3L  7-WFIDEL4L  7-WFIDE22L  1-AGCONE1L  1-AGCORI1L
+        .         .     1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C
+        .         .     1-ANAASS1L  1-ANADEB1L  1-ANARAP1L  1-FIDDEB4L  1-FIDDEL6L
+        .         .     1-RAPPTO3L  1-RAPPTO4L  1-RAPPTO7L  1-TABFID1L  1-USRPWR1L
+        .         .     1-WFIDEB4L  3-TRA3730V
+        DCER11    CLP
+        STDC01    CLP
+        STD028    RPG   1-CAMBIO1L  1-MST0011L
+        TRA383    RPGLE 1-ANAFID3L  1-FIDDEL1L  1-REFIRA1L  1-TABFID1L
+        KU101R    RPG
+        KU102C    CLP   d-DBFPRD    8-&OBJ      B-KQDBR
+        KU103C    CLP   B-KQDBR     9-&FILE     8-KQDBR     1-&WHREFI   1-KQDBR
+        TRA152    RPG   1-ANAFID4L  1-ANAFI33L  1-ANAFID3L  1-ANACED1L  1-MST0011L
+        .         .     3-TRA1520V
+        --------------------------------------------------------------------------------
+

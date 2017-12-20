@@ -1,0 +1,616 @@
+  Programma  . . . . . . . . . . . :   ANA018
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   ANA018
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Controllo se RAPNDG è annullabile
+  Ultima modifica. . . . . . . . . :   03/12/12  11:22:24
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 h decedit('0,') datedit(*YMD.) option(*nodebugio:*srcstmt)                                          AE114 121203     000100
+000200 h fixnbr(*zoned:*inputpacked)                                                                             120918     000200
+000300  **************************************************************************                               060830     000300
+000400  *                                                                                                        060830     000400
+000500  *  Programmatore.: Andrea Emmanueli                                                                      120918     000500
+000600  *  Data creazione: 03/12/2012                                                                            121203     000600
+000700  *                                                                                                        060830     000700
+000800  *  Descrizionea..: Controllo se RAPNDG è annullabile                                                     121203     000800
+000900  *                                                                                                        060830     000900
+001000  **************************************************************************                               060830     001000
+001200  **************************************************************************                               060830     001200
+001300  *                                                                                                        060830     001300
+001400  * Input-only files                                                                                       060830     001400
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Controllo se RAPNDG è annullabile                  *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *ZONED      *INPUTPACKED     *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001500 fAGRAPP1L  if   e           k disk                                                                        121203     001500
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  AGRAPP1L         MODELL/AGRAPP1L                             *
+        * Formato/i record . . . . . :  AGRAPP1R         AGRAPP1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001600 fANARAP2L  if   e           k disk                                                                        121203     001600
+001700  *                                                                                                        060830     001700
+001800  **************************************************************************                               060830     001800
+002000  **************************************************************************                               060830     002000
+002100  *                                                                                                        060830     002100
+002200  * Variabili di sistema ---------------------------------------------------                               060830     002200
+002300  *                                                                                                        060830     002300
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANARAP2L         MODELL/ANARAP2L                             *
+        * Formato/i record . . . . . :  ANARAP1R         ANARAP1R                                    *
+        *--------------------------------------------------------------------------------------------*
+002400 d                sds                                                                                      060830     002400
+002500 d   $Parms          *parms                                                                                060830     002500
+002600 d   $ProcName       *proc                                                                                 060830     002600
+002700 d   $PgmName              1     10                                                                        060830     002700
+002800 d   $JobName            244    253                                                                        060830     002800
+002900 d   $UserName           254    263                                                                        060830     002900
+003000 d   $JobNumber          264    269s 0                                                                     060830     003000
+003100  *                                                                                                        060830     003100
+003200  * Variabili locali -------------------------------------------------------                               060830     003200
+003300  *                                                                                                        121004     003300
+003400 d £Ced            s                   like(ARCED) dim(9999) inz                                           121203     003400
+003500 d £iCed           s              6  0 inz                                                                 121203     003500
+003600 d £iCedMax        s              6  0 inz                                                                 121203     003600
+003700 d £Deb            s                   like(ARDEB) dim(9999) inz                                           121203     003700
+003800 d £iDeb           s              6  0 inz                                                                 121203     003800
+003900 d £iDebMax        s              6  0 inz                                                                 121203     003900
+004000  *                                                                                                        060830     004000
+004100  * Parametri --------------------------------------------------------------                               060830     004100
+004200  *                                                                                                        060830     004200
+004300 d $Entry_NdgC     s                   like(RPCANG)                                                        121203     004300
+004400 d $Entry_NdgD     s                   like(RPCANG)                                                        121203     004400
+004500 d $Entry_Ann      s              1                                                                        121203     004500
+004600  *                                    ' '=No                                                              121203     004600
+004700  *                                    'S'=Sì                                                              121203     004700
+004800  *                                                                                                        060830     004800
+004900  **************************************************************************                               060830     004900
+005100  **************************************************************************                               060830     005100
+005200  *  MAIN                                                                                                  060830     005200
+005300  **************************************************************************                               060830     005300
+005400  *                                                                                                        060830     005400
+005500  *                 -------------------------                                                              060830     005500
+000001=IAGRAPP1R                                                                                                           1000001
+        *--------------------------------------------------------------------------------------------*                     1
+        * Formato record RPG . . . . :  AGRAPP1R                                                     *                     1
+        * Formato esterno  . . . . . :  AGRAPP1R : MODELL/AGRAPP1L                                   *                     1
+        * Formato testo. . . . . . . :  COLLEGAMENTO ANAGRAFE/RAPPORTI FACTORING                     *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000002=I                             A    1    3  RPTREC                          Cde Tipo Rec File -RAP-                  1000002
+000003=I                             A    4    4  RPFLAG                          Sts Record V/A               CMN         1000003
+000004=I                             A    5    5  RPLOCK                          Sts Blocco record            CMN         1000004
+000005=I                             P    6   10 0RPNAZN                          Nbr Azione Aggiornamento     CMN         1000005
+000006=I                             P   11   14 0RPDINS                          Dte Inserimento              CMN         1000006
+000007=I                             P   15   18 0RPDUPD                          Dte Aggiornamento            CMN         1000007
+000008=I                             P   19   22 0RPHEXE                          Tme Ora Modifica             CMN         1000008
+000009=I                             A   23   32  RPUSER                          Nar Profilo Utente           CMN         1000009
+000010=I                             A   33   40  RPCANG                          Codice Anagrafe Generale                 1000010
+000011=I                             A   41   41  RPTRFA                          Tipo Rapporto Factoring      C=Cedente
+000012=I                             P   42   46 0RPCDRF                          Codice Rapporto Factoring                1000012
+000013=I                             A   47   86  RPNOTE                          Nar Note                     FE          1000013
+000014=I                             A   87   87  RPCCRI                          Concentrazione Rischio                   1000014
+000001=IANARAP1R                                                                                                           2000001
+        *--------------------------------------------------------------------------------------------*                     2
+        * Formato record RPG . . . . :  ANARAP1R                                                     *                     2
+        * Formato esterno  . . . . . :  ANARAP1R : MODELL/ANARAP2L                                   *                     2
+        * Formato testo. . . . . . . :  ANAGRAFICA RAPPORTI                                          *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000002=I                             A    1    3  ARTREC                          Cde Tipo Rec File -AR1-      CMN         2000002
+000003=I                             A    4    4  ARFLAG                          Sts Record V/A               CMN         2000003
+000004=I                             P    5    9 0ARNAZN                          Nbr Azione Aggiornamento     CMN         2000004
+000005=I                             A   10   10  ARLOCK                          Sts Blocco record            CMN         2000005
+000006=I                             P   11   15 0ARNREC                          Nbr Relativo Record          CMN         2000006
+000007=I                             S   16   23 0ARDINS                          Dte Inserimento              CMN         2000007
+000008=I                             S   24   31 0ARDUPD                          Dte Aggiornamento            CMN         2000008
+000009=I                             S   32   36 0ARCED                           Cde Cedente                  AC          2000009
+000010=I                             S   37   44 0ARDEB                           Cde Debitore                 AD          2000010
+000011=I                             S   45   52 0ARLIR1                          Dte Emissione C.I.M.         AR          2000011
+000012=I                             S   53   60 0ARLIR2                          Dte Scadenza C.I.M.          AR          2000012
+000013=I                             A   61   62  ARTRIC                          Cde Riconoscimento CIM       AR          2000013
+000014=I                             S   63   69 0ARNF1C                          Nbr 1° Fattura C.I.M.        AR          2000014
+000015=I                             S   70   77 0ARDF1C                          Dte 1° Fattura C.I.M.        AR          2000015
+000016=I                             A   78   79  ARTNOT                          Cde Notifica Cessioni        MST         2000016
+000017=I                             A   80   81  ARTRCC                          Cde Riconoscim.Cessioni      MST         2000017
+000018=I                             A   82   82  ARELIM                          Sts Eliminazione  E=Elim.    AC          2000018
+000019=I                             A   83   85  ARCDIV                          Cde Divisa                   MST         2000019
+000020=I                             P   86   90 0ARIFPD                          Val Fido PDO (/1000)         AR          2000020
+000021=I                             S   91   98 0ARDFD2                          Dte Revisione Fido PDO       AR          2000021
+000022=I                             P   99  103 0ARIFPT                          Val Fido PTO (/1000)         AR          2000022
+000023=I                             P  104  108 0ARIPFU                          Val Fido PTO Utilizz.(/1000) AR          2000023
+000024=I                             S  109  116 0ARDFT2                          Dte Revisione Fido PTO       AR          2000024
+000025=I                             A  117  117  ARDACE                          Sts Plafond da Cedente       AR          2000025
+000026=I                             A  118  122  ARCFCT                          Cde Factor                   FC          2000026
+000027=I                             A  123  124  ARMODS                          Cde Sollecito Pagamento      MST         2000027
+000028=I                             A  125  126  ARMODP                          Cde Preavviso Pagamento      MST         2000028
+000029=I                             P  127  133 2ARSALD                          Val Saldo O/S                AR          2000029
+000030=I                             S  134  139 0ARD1CE                          Dte SAM 1° Cessione          AR          2000030
+000031=I                             S  140  145 0ARDUCE                          Dte SAM Ultima Cessione      AR          2000031
+000032=I                             S  146  151 0ARDULM                          Dte SAM Ultimo Movimento     AR          2000032
+000033=I                             P  152  153 0ARGGRI                          Nbr GG Franchigia Comm.Plus  PA          2000033
+000034=I                             A  154  155  ARCTRF                          Cde Tipo Rapporto            AR          2000034
+000035=I                             A  156  156  ARFAAI                          Sts Abil. Add. Iniz.Y/N      AR          2000035
+000036=I                             P  157  158 0ARNGAI                          Nbr GG Val.Add.Iniz          AR          2000036
+000037=I                             A  159  159  ARFIL                           Cde Filiale                  MST         2000037
+000038=I                             A  160  160  ARSEO                           Cde Settore                  MST         2000038
+000039=I                             A  161  161  ARCNTZ                          Cde Contenzioso              MST         2000039
+000040=I                             A  162  171  ARRSRC                          Nar Ridotta Cedente          AC          2000040
+000041=I                             A  172  181  ARRSRD                          Nar Ridotta Debitore         AD          2000041
+000042=I                             A  182  182  AREMSC                          Sts Emis.Sol.Cpy CED(Y/N)    AR          2000042
+000043=I                             A  183  183  AREMSD                          Sts Emis.Sollec. DEB(Y/N)    AR          2000043
+000044=I                             A  184  184  ARSPSD                          Sts Sped.Sollec. DEB         PA          2000044
+000045=I                             A  185  185  ARSPW1                          Sts Emis.Cred.essere a DEB               2000045
+000046=I                             A  186  186  ARSPW2                          Sts Sped.Cred.essere a DEB               2000046
+000047=I                             P  187  188 0ARDMDS                          Dte Contr. Mty Deb. SS       AR          2000047
+000048=I                             P  189  190 0ARDMDA                          Dte Contr. Mty Deb. AA       AR          2000048
+000049=I                             P  191  192 0ARDMDM                          Dte Contr. Mty Deb. MM       AR          2000049
+000050=I                             P  193  194 0ARDMDG                          Dte Contr. Mty Deb. GG       AR          2000050
+000051=I                             P  195  196 0ARGVAL                          Nbr GG Val. Accr. Mty Ced.   AC          2000051
+000052=I                             P  197  198 0ARGSIC                          Nbr GG Sosp.Inter. Mty Ced.  AC          2000052
+000053=I                             P  199  200 0ARGGDL                          Nbr GG Dilazione Mty Deb.    AC          2000053
+000054=I                             P  201  202 0ARGINT                          Nbr GG Decorr. Int. Mty Deb. AR          2000054
+000055=I                             P  203  204 0ARGGMT                          Nbr GG Pag. Differimento     RP          2000055
+000056=I                             A  205  206  ARMGVA                          Cde Mod.calc.Val. Mty                    2000056
+000057=I                             A  207  207  ARFTFV                          Sts Tasso Mty Fisso/Var      AR          2000057
+000058=I                             A  208  208  ARFAIN                          Sts Fat.ne Autom.Int. Mty    AR          2000058
+000059=I                             A  209  209  ARFMAP                          Sts Fattur. Mty Ant/Post     AR          2000059
+000060=I                             A  210  210  ARSPDM                          Sts Spd FT/NC Mty            PA          2000060
+000061=I                             A  211  213  ARDIVD                          Cde Divisa fattura oneri deb.            2000061
+000062=I                             P  214  215 0ARDIVI                          Nbr Divisore Oneri Debitore              2000062
+000063=I                             P  216  217 0ARRCMS                          Dte Revoca Mty Deb. SS       AR          2000063
+000064=I                             P  218  219 0ARRCMA                          Dte Revoca Mty Deb. AA       AR          2000064
+000065=I                             P  220  221 0ARRCMM                          Dte Revoca Mty Deb. MM       AR          2000065
+000066=I                             P  222  223 0ARRCMG                          Dte Revoca Mty Deb. GG       AR          2000066
+000067=I                             A  224  224  ARSISQ                          Cde Modo calcolo scad.int                2000067
+000068=I                             S  225  226 0ARSIGG                          Nbr GG Dilazione scad.int                2000068
+000069=I                             S  227  228 0ARSIA1                          Dte Accorpamento scad.int 1              2000069
+000070=I                             S  229  230 0ARSIA2                          Dte Accorpamento scad.int 2              2000070
+000071=I                             S  231  232 0ARSIA3                          Dte Accorpamento scad.int 3              2000071
+000072=I                             A  233  234  ARSIGA                          Cde Giorno accorp. scad.int              2000072
+000073=I                             A  235  236  ARSISD                          Cde GG settim. acc.da sc.int             2000073
+000074=I                             A  237  238  ARSISA                          Cde GG settim. acc. a sc.int             2000074
+000075=I                             S  239  239 0ARSINS                          Nbr Settimane dilaz. sc.int              2000075
+000076=I                             A  240  240  ARRMTY                          Sts Rapporto Maturity                    2000076
+000077=I                             S  241  242 0ARGMTY                          Nbr GG Maturity incasso                  2000077
+000078=I                             S  243  250 0ARDECA                          Debitore capofila                        2000078
+000079=I                             A  251  251  ARWRK1                          Sts Sped. DDS/MUC                        2000079
+000080=I                             A  252  252  ARWRK2                          Stp Comp Dil                             2000080
+000081=I                             A  253  253  ARWRK3                          Sped Comp Dil                            2000081
+000082=I                             A  254  254  ARWRK4                          Stp Sol Deb                              2000082
+000083=I                             A  255  255  ARWRK5                          Sped Sol Deb                             2000083
+000084=I                             A  256  256  ARWRK6                          Sts Byte Work 06             AR          2000084
+000085=I                             A  257  257  ARWRK7                          Sts Byte Work 07             AR          2000085
+000086=I                             A  258  258  ARWRK8                          Sts Byte Work 08             AR          2000086
+000087=I                             A  259  259  ARWRK9                          Sts Byte Work 09             AR          2000087
+000088=I                             A  260  260  ARWRK0                          Piano di rientro deb. S/                 2000088
+000089=I                             A  261  266  ARUINS                          Utente di Inserimento                    2000089
+000090=I                             A  267  272  ARUUPD                          Utente di Aggiornamento                  2000090
+000091=I                             S  273  277 0ARPRE                           Cde Presentatore             PA          2000091
+000092=I                             S  278  285 0ARDDEC                          Data Decorrenza                          2000092
+000093=I                             S  286  293 0ARDREV                          Data Revoca                              2000093
+000094=I                             S  294  296 0ARGGDS                          GG DSO                                   2000094
+000095=I                             S  297  299 0ARGGST                          GG Stress Time                           2000095
+000096=I                             S  300  302 0ARGGMA                          GG Margine                               2000096
+000097=I                             S  303  304 0ARPDSO                          Periodicità ricalcolo DSO                2000097
+000098=I                             A  305  306  ARMDSO                          Cde Mod.calc. GG DSO                     2000098
+000099=I                             P  307  310 5ARTASM                          Tasso di mora                            2000099
+000100=I                             A  311  312  ARCINM                          Indice tasso                             2000100
+000101=I                             P  313  316 5ARSPRM                          Spread                                   2000101
+000102=I                             A  317  317  ARINDM                          Interessi di mora                        2000102
+000103=I                             S  318  319 0ARPIDM                          Periodicità Int. di Mora                 2000103
+000104=I                             A  320  320  ARCNVD                          Convenzione Grande Debitore              2000104
+005600 c                   exsr      PgmBegin                                                                    060830     005600
+005700  *                 -------------------------                                                              060830     005700
+005800  *                                                                                                        060830     005800
+005900  * MAIN (START) -----------------------------------------------------------                               060830     005900
+006000  *                                                                                                        121203     006000
+006100  * Caricamento schiera cedenti e debitori (START)                                                         121203     006100
+006200  *                                                                                                        060830     006200
+006300 c                   clear                   £Ced                                                          121203     006300
+006400 c                   clear                   £iCed                                                         121203     006400
+006500 c                   clear                   £iCedMax                                                      121203     006500
+006600 c                   clear                   £Deb                                                          121203     006600
+006700 c                   clear                   £iDeb                                                         121203     006700
+006800 c                   clear                   £iDebMax                                                      121203     006800
+006900  *                                                                                                        121203     006900
+007000 c                   eval      RPCANG = $Entry_NdgC                                                        121203     007000
+007100 c                   eval      RPTRFA = 'C'                                                                121203     007100
+007200 c     Key_AGRAPP    setll     AGRAPP1L                                                                    121203     007200
+007300 c                   dou           %eof(AGRAPP1L)                                                B01       121203     007300
+007400 c     Key_AGRAPP    reade     AGRAPP1L                                                           01       121203     007400
+007500 c                   if            not %eof(AGRAPP1L)                                            B02       121203     007500
+007600 c                             and RPFLAG <> 'A'                                                 B02       121203     007600
+007700 c                   eval      £iCed = £iCed + 1                                                  02       121203     007700
+007800 c                   eval      £Ced(£iCed) = RPCDRF                                               02       121203     007800
+007900 c                   endif                                                                       E02       121203     007900
+008000 c                   enddo                                                                       E01       121203     008000
+008100 c                   eval      £iCedMax = £iCed                                                            121203     008100
+008200  *                                                                                                        121203     008200
+008300 c                   eval      RPCANG = $Entry_NdgD                                                        121203     008300
+008400 c                   eval      RPTRFA = 'D'                                                                121203     008400
+008500 c     Key_AGRAPP    setll     AGRAPP1L                                                                    121203     008500
+008600 c                   dou           %eof(AGRAPP1L)                                                B01       121203     008600
+008700 c     Key_AGRAPP    reade     AGRAPP1L                                                           01       121203     008700
+008800 c                   if            not %eof(AGRAPP1L)                                            B02       121203     008800
+008900 c                             and RPFLAG <> 'A'                                                 B02       121203     008900
+009000 c                   eval      £iDeb = £iDeb + 1                                                  02       121203     009000
+009100 c                   eval      £Deb(£iDeb) = RPCDRF                                               02       121203     009100
+009200 c                   endif                                                                       E02       121203     009200
+009300 c                   enddo                                                                       E01       121203     009300
+009400 c                   eval      £iDebMax = £iDeb                                                            121203     009400
+009500  *                                                                                                        121203     009500
+009600  * Caricamento schiera cedenti e debitori (END)                                                           121203     009600
+009700  *                                                                                                        121203     009700
+009800  * Ricostruzione rapporti e controllo (START)                                                             121203     009800
+009900  *                                                                                                        121203     009900
+010000 c                   eval      $Entry_Ann = 'S'                                                            121203     010000
+010100 c                   for       £iCed = 1 to £iCedMax                                             B01       121203     010100
+010200 c                   for       £iDeb = 1 to £iDebMax                                             B02       121203     010200
+010300  *                                                                                                        121203     010300
+010400 c                   eval      ARCED = £Ced(£iCed)                                                02       121203     010400
+010500 c                   eval      ARDEB = £Deb(£iDeb)                                                02       121203     010500
+010600 c     Key_ANARAP    chain     ANARAP2L                                                           02       121203     010600
+010700 c                   if            %found(ANARAP2L)                                              B03       121203     010700
+010800 c                             and ARFLAG <> 'A'                                                 B03       121203     010800
+010900 c                   eval      $Entry_Ann = ' '                                                   03       121203     010900
+011000 c                   leave                                                                        03       121203     011000
+011100 c                   endif                                                                       E03       121203     011100
+011200  *                                                                                                        121203     011200
+011300 c                   endfor                                                                      E02       121203     011300
+011400 c                   if            $Entry_Ann = ' '                                              B02       121203     011400
+011500 c                   leave                                                                        02       121203     011500
+011600 c                   endif                                                                       E02       121203     011600
+011700 c                   endfor                                                                      E01       121203     011700
+011800  *                                                                                                        121203     011800
+011900  * Ricostruzione rapporti e controllo (END)                                                               121203     011900
+012000  *                                                                                                        060830     012000
+012100  * MAIN (END) -------------------------------------------------------------                               060830     012100
+012200  *                                                                                                        060830     012200
+012300 c     EndOfPgm      tag                                                                                   060830     012300
+012400  *                                                                                                        060830     012400
+012500  *                 -------------------------                                                              060830     012500
+012600 c                   exsr      PgmEnd                                                                      060830     012600
+012700  *                 -------------------------                                                              060830     012700
+012800  *                                                                                                        060830     012800
+012900 c                   eval      *inlr = *on                                                                 060830     012900
+013000  *                                                                                                        060830     013000
+013100  **************************************************************************                               060830     013100
+013300 c     PgmBegin      begsr                                                                                 060830     013300
+013400  **************************************************************************                               060830     013400
+013500  *  Elaborazioni iniziali e apertura file                                                                 060830     013500
+013600  **************************************************************************                               060830     013600
+013700  *                                                                                                        060830     013700
+013800  * Operazioni preliminari (START) -----------------------------------------                               060830     013800
+013900  *                                                                                                        060830     013900
+014000 c                   eval      $Entry_Ann = 'S'                                                            121203     014000
+014100  *                                                                                                        060830     014100
+014200  * Operazioni preliminari (END) -------------------------------------------                               060830     014200
+014300  *                                                                                                        060830     014300
+014400  * Apertura file (START)---------------------------------------------------                               060830     014400
+014500  *                                                                                                        060830     014500
+014600  *                                                                                                        060830     014600
+014700  * Apertura file (END) ----------------------------------------------------                               060830     014700
+014800  *                                                                                                        060830     014800
+014900  * Operazioni varie (START) -----------------------------------------------                               060830     014900
+015000  *                                                                                                        060830     015000
+015100  *                                                                                                        121016     015100
+015200  * Operazioni varie (END) -------------------------------------------------                               060830     015200
+015300  *                                                                                                        060830     015300
+015400  **************************************************************************                               060830     015400
+015500 c                   endsr                                                                                 060830     015500
+015700 c     PgmEnd        begsr                                                                                 060830     015700
+015800  **************************************************************************                               060830     015800
+015900  *  Elaborazioni finali e chiusura file                                                                   060830     015900
+016000  **************************************************************************                               060830     016000
+016100  *                                                                                                        060830     016100
+016200  * Operazioni varie (START) -----------------------------------------------                               060830     016200
+016300  *                                                                                                        060830     016300
+016400  *                                                                                                        060830     016400
+016500  * Operazioni varie (END) -------------------------------------------------                               060830     016500
+016600  *                                                                                                        060830     016600
+016700  * Chiusura file (START)---------------------------------------------------                               060830     016700
+016800  *                                                                                                        060830     016800
+016900  *                                                                                                        060830     016900
+017000  * Chiusura file (END) ----------------------------------------------------                               060830     017000
+017100  *                                                                                                        060830     017100
+017200  * Operazioni finali (START) ----------------------------------------------                               060830     017200
+017300  *                                                                                                        060830     017300
+017400  *                                                                                                        060830     017400
+017500  * Operazioni finali (END) ------------------------------------------------                               060830     017500
+017600  *                                                                                                        060830     017600
+017700  **************************************************************************                               060830     017700
+017800 c                   endsr                                                                                 060830     017800
+018000 c     *inzsr        begsr                                                                                 060830     018000
+018100  **************************************************************************                               060830     018100
+018200  *  Definizione parametri e chiavi                                                                        060830     018200
+018300  **************************************************************************                               060830     018300
+018400  *                                                                                                        060830     018400
+018500  * Definizione parametri --------------------------------------------------                               060830     018500
+018600  *                                                                                                        060830     018600
+018700 c     *entry        plist                                                                                 060830     018700
+018800 c                   parm                    $Entry_NdgC                                                   121203     018800
+018900 c                   parm                    $Entry_NdgD                                                   121203     018900
+019000 c                   parm                    $Entry_Ann                                                    121203     019000
+019100  *                                                                                                        060830     019100
+019200  * Definizione chiavi -----------------------------------------------------                               060830     019200
+019300  *                                                                                                        121003     019300
+019400 c     Key_AGRAPP    klist                                                                                 121203     019400
+019500 c                   kfld                    RPCANG                                                        121203     019500
+019600 c                   kfld                    RPTRFA                                                        121203     019600
+019700  *                                                                                                        121203     019700
+019800 c     Key_ANARAP    klist                                                                                 121203     019800
+019900 c                   kfld                    ARCED                                                         121203     019900
+020000 c                   kfld                    ARDEB                                                         121203     020000
+020100  *                                                                                                        060830     020100
+020200  **************************************************************************                               060830     020200
+020300 c                   endsr                                                                                 060830     020300
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+*RNF7066 00        001500  Il Formato record AGRAPP1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00        001600  Il Formato record ANARAP1R non viene utilizzato per
+                           l'immissione e l'emissione.
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      1  AGRAPP1L
+           AGRAPP1R
+                        RPCANG                  CHAR        8
+                        RPTRFA                  CHAR        1
+                        RPCDRF                  PACK      8,0 SIGNED
+      2  ANARAP2L
+           ANARAP1R
+                        ARCED                   ZONE      5,0 SIGNED
+                        ARDEB                   ZONE      8,0 SIGNED
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         AGRAPP1L          DISK                   001500D     007200      007300      007400
+                                                  007500      008500      008600      008700
+                                                  008800
+           AGRAPP1R                               001500D    1000001
+         ANARAP2L          DISK                   001600D     010600      010700
+           ANARAP1R                               001600D    2000001
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         $ENTRY_ANN        A(1)                   004500D     010000M     010900M     011400
+                           BASED(_QRNL_PRM+)      014000M     019000M
+         $ENTRY_NDGC       A(8)                   004300D     007000      018800M
+                           BASED(_QRNL_PRM+)
+         $ENTRY_NDGD       A(8)                   004400D     008300      018900M
+                           BASED(_QRNL_PRM+)
+*RNF7031 $JOBNAME          A(10)                  002800D
+*RNF7031 $JOBNUMBER        S(6,0)                 003000D
+*RNF7031 $PARMS            S(3,0)                 002500D
+*RNF7031 $PGMNAME          A(10)                  002700D
+*RNF7031 $PROCNAME         A(10)                  002600D
+*RNF7031 $USERNAME         A(10)                  002900D
+         *ENTRY            PLIST                  018700D
+         *INLR             N(1)                   012900M
+         *INZSR            BEGSR                  018000D
+         £CED(9999)        P(5,0)                 003400D     006300M     007800M     010400
+         £DEB(9999)        P(8,0)                 003700D     006600M     009100M     010500
+         £ICED             P(6,0)                 003500D     006400M     007700M     007700
+                                                  007800      008100      010100      010400
+         £ICEDMAX          P(6,0)                 003600D     006500M     008100M     010100
+         £IDEB             P(6,0)                 003800D     006700M     009000M     009000
+                                                  009100      009400      010200      010500
+         £IDEBMAX          P(6,0)                 003900D     006800M     009400M     010200
+*RNF7031 ARCDIV            A(3)                  2000019D
+         ARCED             P(5,0)                 003400     2000009D     010400M     019900
+*RNF7031 ARCFCT            A(5)                  2000026D
+*RNF7031 ARCINM            A(2)                  2000100D
+*RNF7031 ARCNTZ            A(1)                  2000039D
+*RNF7031 ARCNVD            A(1)                  2000104D
+*RNF7031 ARCTRF            A(2)                  2000034D
+*RNF7031 ARDACE            A(1)                  2000025D
+*RNF7031 ARDDEC            P(8,0)                2000092D
+         ARDEB             P(8,0)                 003700     2000010D     010500M     020000
+*RNF7031 ARDECA            P(8,0)                2000078D
+*RNF7031 ARDFD2            P(8,0)                2000021D
+*RNF7031 ARDFT2            P(8,0)                2000024D
+*RNF7031 ARDF1C            P(8,0)                2000015D
+*RNF7031 ARDINS            P(8,0)                2000007D
+*RNF7031 ARDIVD            A(3)                  2000061D
+*RNF7031 ARDIVI            P(3,0)                2000062D
+*RNF7031 ARDMDA            P(2,0)                2000048D
+*RNF7031 ARDMDG            P(2,0)                2000050D
+*RNF7031 ARDMDM            P(2,0)                2000049D
+*RNF7031 ARDMDS            P(2,0)                2000047D
+*RNF7031 ARDREV            P(8,0)                2000093D
+*RNF7031 ARDUCE            P(6,0)                2000031D
+*RNF7031 ARDULM            P(6,0)                2000032D
+*RNF7031 ARDUPD            P(8,0)                2000008D
+*RNF7031 ARD1CE            P(6,0)                2000030D
+*RNF7031 ARELIM            A(1)                  2000018D
+*RNF7031 AREMSC            A(1)                  2000042D
+*RNF7031 AREMSD            A(1)                  2000043D
+*RNF7031 ARFAAI            A(1)                  2000035D
+*RNF7031 ARFAIN            A(1)                  2000058D
+*RNF7031 ARFIL             A(1)                  2000037D
+         ARFLAG            A(1)                  2000003D     010800
+*RNF7031 ARFMAP            A(1)                  2000059D
+*RNF7031 ARFTFV            A(1)                  2000057D
+*RNF7031 ARGGDL            P(3,0)                2000053D
+*RNF7031 ARGGDS            P(3,0)                2000094D
+*RNF7031 ARGGMA            P(3,0)                2000096D
+*RNF7031 ARGGMT            P(3,0)                2000055D
+*RNF7031 ARGGRI            P(3,0)                2000033D
+*RNF7031 ARGGST            P(3,0)                2000095D
+*RNF7031 ARGINT            P(3,0)                2000054D
+*RNF7031 ARGMTY            P(2,0)                2000077D
+*RNF7031 ARGSIC            P(3,0)                2000052D
+*RNF7031 ARGVAL            P(3,0)                2000051D
+*RNF7031 ARIFPD            P(9,0)                2000020D
+*RNF7031 ARIFPT            P(9,0)                2000022D
+*RNF7031 ARINDM            A(1)                  2000102D
+*RNF7031 ARIPFU            P(9,0)                2000023D
+*RNF7031 ARLIR1            P(8,0)                2000011D
+*RNF7031 ARLIR2            P(8,0)                2000012D
+*RNF7031 ARLOCK            A(1)                  2000005D
+*RNF7031 ARMDSO            A(2)                  2000098D
+*RNF7031 ARMGVA            A(2)                  2000056D
+*RNF7031 ARMODP            A(2)                  2000028D
+*RNF7031 ARMODS            A(2)                  2000027D
+*RNF7031 ARNAZN            P(9,0)                2000004D
+*RNF7031 ARNF1C            P(7,0)                2000014D
+*RNF7031 ARNGAI            P(3,0)                2000036D
+*RNF7031 ARNREC            P(9,0)                2000006D
+*RNF7031 ARPDSO            P(2,0)                2000097D
+*RNF7031 ARPIDM            P(2,0)                2000103D
+*RNF7031 ARPRE             P(5,0)                2000091D
+*RNF7031 ARRCMA            P(2,0)                2000064D
+*RNF7031 ARRCMG            P(2,0)                2000066D
+*RNF7031 ARRCMM            P(2,0)                2000065D
+*RNF7031 ARRCMS            P(2,0)                2000063D
+*RNF7031 ARRMTY            A(1)                  2000076D
+*RNF7031 ARRSRC            A(10)                 2000040D
+*RNF7031 ARRSRD            A(10)                 2000041D
+*RNF7031 ARSALD            P(13,2)               2000029D
+*RNF7031 ARSEO             A(1)                  2000038D
+*RNF7031 ARSIA1            P(2,0)                2000069D
+*RNF7031 ARSIA2            P(2,0)                2000070D
+*RNF7031 ARSIA3            P(2,0)                2000071D
+*RNF7031 ARSIGA            A(2)                  2000072D
+*RNF7031 ARSIGG            P(2,0)                2000068D
+*RNF7031 ARSINS            P(1,0)                2000075D
+*RNF7031 ARSISA            A(2)                  2000074D
+*RNF7031 ARSISD            A(2)                  2000073D
+*RNF7031 ARSISQ            A(1)                  2000067D
+*RNF7031 ARSPDM            A(1)                  2000060D
+*RNF7031 ARSPRM            P(7,5)                2000101D
+*RNF7031 ARSPSD            A(1)                  2000044D
+*RNF7031 ARSPW1            A(1)                  2000045D
+*RNF7031 ARSPW2            A(1)                  2000046D
+*RNF7031 ARTASM            P(7,5)                2000099D
+*RNF7031 ARTNOT            A(2)                  2000016D
+*RNF7031 ARTRCC            A(2)                  2000017D
+*RNF7031 ARTREC            A(3)                  2000002D
+*RNF7031 ARTRIC            A(2)                  2000013D
+*RNF7031 ARUINS            A(6)                  2000089D
+*RNF7031 ARUUPD            A(6)                  2000090D
+*RNF7031 ARWRK0            A(1)                  2000088D
+*RNF7031 ARWRK1            A(1)                  2000079D
+*RNF7031 ARWRK2            A(1)                  2000080D
+*RNF7031 ARWRK3            A(1)                  2000081D
+*RNF7031 ARWRK4            A(1)                  2000082D
+*RNF7031 ARWRK5            A(1)                  2000083D
+*RNF7031 ARWRK6            A(1)                  2000084D
+*RNF7031 ARWRK7            A(1)                  2000085D
+*RNF7031 ARWRK8            A(1)                  2000086D
+*RNF7031 ARWRK9            A(1)                  2000087D
+*RNF7031 ENDOFPGM          TAG                    012300D
+         KEY_AGRAPP        KLIST                  007200      007400      008500      008700
+                                                  019400D
+         KEY_ANARAP        KLIST                  010600      019800D
+         PGMBEGIN          BEGSR                  005600      013300D
+         PGMEND            BEGSR                  012600      015700D
+         RPCANG            A(8)                   004300      004400     1000010D     007000M
+                                                  008300M     019500
+*RNF7031 RPCCRI            A(1)                  1000014D
+         RPCDRF            P(8,0)                1000012D     007800      009100
+*RNF7031 RPDINS            P(6,0)                1000006D
+*RNF7031 RPDUPD            P(6,0)                1000007D
+         RPFLAG            A(1)                  1000003D     007600      008900
+*RNF7031 RPHEXE            P(6,0)                1000008D
+*RNF7031 RPLOCK            A(1)                  1000004D
+*RNF7031 RPNAZN            P(9,0)                1000005D
+*RNF7031 RPNOTE            A(40)                 1000013D
+*RNF7031 RPTREC            A(3)                  1000002D
+         RPTRFA            A(1)                  1000011D     007100M     008400M     019600
+*RNF7031 RPUSER            A(10)                 1000009D
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         LR                                       012900M
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00    116 Il nome o l'indicatore non sono referenziati.
+*RNF7066 00      2 Il nome di formato record di un file descritto esternamente
+                   non è utilizzato.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :      118
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :      118
+  Totali origine
+    Record . . . . . . . . . . . . :      315
+    Specifiche  . . . . . . . . . . :      205
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :      110
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma ANA018 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 20/12/17 alle 10:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

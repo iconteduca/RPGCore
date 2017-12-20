@@ -1,0 +1,47 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T461                      Collegamento Clausole di Mitigaz.Rischio PTO/Fido
+        --------------------------------------------------------------------------------
+        TRA411                        Collegamento Clausole di Mitigazione/Fido
+        . BRO310                      Gestione anagrafica cedente
+        . . ANA045                    Ricerca Gruppo x Denominazione
+        . . . ANA046                  Ricerca Gruppo x Codice Discendente
+        . TRA152                      Ricerca Fidi di un cedente
+        . TRA412                      Collegamento Clausole di Mitigazione/Fido - add
+        . TRA413                      Condizioni Clausole di Mitigazione Rischio PTO
+        . . BRO310                    Gestione anagrafica cedente
+        . . TRA412                    Collegamento Clausole di Mitigazione/Fido - add
+        . TRA414                      Determinazione tipologia PTO IAS
+        . TRA415                      Aggiornamento PTO IAS su RAC collegati al fido
+        . . TRA002                    Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . TRA436                      Gestione Scaglioni Bonus/malus per cedente (guida)
+        . . BRO310                    Gestione anagrafica cedente
+        . . TRA437                    Gestione Scaglioni Bonus/malus per cedente
+        . TRA440                      Storicizzazione Fido modificato
+        . TRA447                      Storico giorni termine P.U.G.
+        . TRA448                      Gestione Scaglioni Ricalcolo commissioni (guida)
+        . . BRO310                    Gestione anagrafica cedente
+        . . TRA449                    Gestione Scaglioni Ricalcolo commissioni
+        --------------------------------------------------------------------------------
+        TRA411    RPGLE 1-ANACED1L  5-ANAFID3L  1-ANAFI31L  1-CEDCLA1L  7-CLAFID2L
+        .         .     1-CLAFID3L  1-CLAMIT1L  1-MST0011L  1-PARAM     5-PTOIAS2L
+        .         .     1-RAPPTO1L  1-REFIRA2L  1-TABFID1L  7-TRA4110V
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        TRA152    RPG   1-ANAFID4L  1-ANAFI33L  1-ANAFID3L  1-ANACED1L  1-MST0011L
+        .         .     3-TRA1520V
+        TRA412    RPGLE 1-CLAMIT1L  7-TRA4120V
+        TRA413    RPGLE 1-ANACED1L  7-CEDCLA1L  1-CEDCLA2L  1-CLAMIT1L  1-MST0011L
+        .         .     1-PARAM     7-TRA4130V
+        TRA414    RPGLE 1-ANAFID3L  1-CLAFID2L  1-CLAMIT1L  1-REFIRA1L  1-PARAM
+        TRA415    RPGLE 3-PTOIAS1L  5-RAPPTOCL  1-REFIRA2L  2-STORPT0F  1-TABFID1L
+        TRA002    RPGLE
+        TRA436    RPGLE 1-ANACED1L  1-CEDSCA1L  1-CEDSCA2L  1-PARAM     7-TRA4360V
+        TRA437    RPGLE 1-ANACED1L  7-CEDSCA1L  1-CEDSCA2L  1-MST0011L  7-TRA4370V
+        TRA440    RPGLE 1-ANAFID3L  7-STOFID2L
+        TRA447    RPGLE 1-ANACED1L  1-ANAFID3L  1-STOFID3L  1-STOFIDBL  7-TRA4470V
+        TRA448    RPGLE 1-ANACED1L  1-CEDSCA3L  1-CEDSCA4L  1-PARAM     7-TRA4480V
+        TRA449    RPGLE 1-ANACED1L  7-CEDSCA3L  1-CEDSCA4L  1-MST0011L  7-TRA4490V
+        --------------------------------------------------------------------------------

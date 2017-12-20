@@ -1,0 +1,82 @@
+ Programma . . . . . . . . . . . . . . . . . . :   TCA180
+   Libreria . . . . . . . . . . . . . . . .    :     QTEMP
+ File origine  . . . . . . . . . . . . . . . . :   QCLSRC
+   Libreria . . . . . . . . . . . . . . . .    :     SRCFAC
+ Nome membro origine . . . . . . . . . . . . . :   TCA180   11/10/07 14:55:40
+ Opzioni stampa origine  . . . . . . . . . . . :   *SOURCE  *XREF  *GEN  *NOSECLVL  *NOSRCDBG  *NOLSTDBG
+ Opzioni di generazione del programma  . . . . :   *NOLIST  *NOXREF  *NOPATCH
+ Profilo utente  . . . . . . . . . . . . . . . :   *USER
+ Registrazione programma . . . . . . . . . . . :   *JOB
+ Comando RTVCLSRC consentito . . . . . . . . . :   *YES
+ Sostituzione programma . . . . . . . . . .  . :   *NO
+ Release di destinazione . . . . . . . . . . . :   V6R1M0
+ Autorizzazione . . . . . . . . . . . . . .  . :   *LIBCRTAUT
+ Sequenza di ordin.  . . . . . . . . . . . . . :   *HEX
+ Identificativo lingua . . . . . . . . . . . . :   *JOBRUN
+ Testo  . . . . . . . . . . . . . . . . .    . :   Annullamento/Ripristino anagrafe conti
+ Compilatore . . . . . . . . . . . . . . . . . :   IBM Control Language Compiler
+                                      Origine linguaggio di controllo
+ NUMSEQ  *...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8 ...+... 9 ...+.  DATA
+    100- /**        EDP140S2    STRSTE      09/10/2007  15:16:37                      **/                 09/10/07
+    200- /**===================================================================*       */                 11/01/07
+    300- /**                                                                   *       */                 11/01/07
+    400- /**  SOTTOSISTEMA    -  GESTIONE ANAGRAFE                             *       */                 11/01/07
+    500- /**                                                                   *       */                 11/01/07
+    600- /**  AUTORE          -  PICO DE PAPERIS                               *       */                 11/01/07
+    700- /**  DATA            -  11/01/2007                                    *       */                 11/01/07
+    800- /**                                                                   *       */                 11/01/07
+    900- /**  RIVISTO DA      -                                                *       */                 11/01/07
+   1000- /**          IL      -                                                *       */                 11/01/07
+   1100- /**                                                                   *       */                 11/01/07
+   1200- /**  DESCRIZIONE     -  ANNULLAMENTO/RIPRISTINO ANAGRAFE CONTI        *       */                 16/01/07
+   1300- /**                                                                   *       */                 11/01/07
+   1400- /**===================================================================*       */                 11/01/07
+   1500-              PGM        PARM(&KPJBA)                                                                       inizio PGM, riceve il Parametro KPJBA
+   1600-              DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)                                         06/04/93  che è Char 502
+   1700-                                                                                                  27/05/93
+   1800- /*  Spegnimento indicatori per richiamo PGM */                                                   06/04/93
+   1900-  GUTENTAG:   CHGJOB     SWS(00000000)                                                            16/01/07  mette in Off gli otto Switch, vecchissimo metodo di comunicare fra CLP e RPG,
+   2000-                                                                                                  06/04/93  che li trattano come *InU1 / *InU8
+   2100- /*  Richiamo PGM di annullamento/ripristino conto  */                                            11/01/07
+   2200-              CALL       PGM(TRA180) PARM(&KPJBA)                                                 11/01/07  richiama TRA180 passando KPJBA
+   2300-                                                                                                  07/04/93  che tratterà U1, U2 e U3
+   2400- /*  Se ripristinato un conto annullato allora             */                                     16/01/07
+   2500- /*  richiamo procedura di variazione conto/condizioni     */                                     11/01/07
+   2600-              IF         COND(%SWITCH(011XXXXX)) THEN(DO)                                         16/01/07  se il primo Switch è Off, il secondo e il terzo sono On e gli altri cinque indifferenti
+   2700-     /*  Anagrafica conto           */                                                            26/01/07  esegue da DO a ENDDO
+   2800- INDIETRO:    CALL       PGM(TRA070) PARM(&KPJBA)                                                 09/10/07  richiama TRA070
+   2900-                                                                                                  26/01/07
+   3000-     /*  Tassi                      */                                                            16/01/07
+   3100-              CHGJOB     SWS(00000000)                                                            09/10/07  arimette in Off gli Switch
+   3200-              CALL       PGM(TRA072) PARM(&KPJBA)                                                 16/01/07  richiama TRA072
+   3300-              IF         COND(%SWITCH(1XXXXXXX)) THEN(GOTO +                                      09/10/07  se il primo Switch è On salta alla tag INDIETRO
+   3400                            CMDLBL(INDIETRO))                                                      09/10/07
+   3500-                                                                                                  16/01/07
+   3600-     /*  Condizioni                 */                                                            16/01/07
+   3700-              CALL       PGM(TRA073) PARM(&KPJBA)                                                 16/01/07  altrimenti richiama TRA073
+   3800-                                                                                                  16/01/07
+   3900-     /*  Ritorno al pgm annullamento/ripristino */                                                16/01/07
+   4000-              GOTO       CMDLBL(GUTENTAG)                                                         16/01/07  salta alla tag GUTENTAG (non è indispensabile ridere)
+   4100-                                                                                                  16/01/07
+   4200-              ENDDO                                                                               16/01/07  fine del DO, se non era Off-On-On non ha eseguito il blocco
+   4300-
+   4400-  FINE:       ENDPGM                                                                                        fine del programma
+                               * * * * * *  F I N E   O R I G I N E  * * * * * *
+                                          Riferimenti incrociati
+ Variabili dichiarate
+ Proprietar.                 Definito    Oggetto         Lunghezza   Riferimenti
+ &KPJBA                        1600      *CHAR             502          1500   2200   2800   3200   3700
+ Identificativi definiti
+ Identific.       Definito    Riferimenti
+ FINE               4400
+ GUTENTAG           1900        4000
+ INDIETRO           2800        3300
+                     * * *  F I N E   R I F E R I M E N T I   I N C R O C I A T I  * * *
+                                         Riepilogo messaggi
+               Gravità
+ Totale        0-9  10-19  20-29  30-39  40-49  50-59  60-69  70-79  80-89  90-99
+     0           0      0      0      0      0      0      0      0      0      0
+ Programma TCA180 creato nella libreria QTEMP sul 20/10/17 al 10:13:11.
+ Programma TCA180 creato in libreria QTEMP. Gravità massima errori è 00.
+                                 * * * *   F I N E   R I E P I L O G O   M E S S A G G I   * * * *
+                                 * * * * *   F I N E   C O M P I L A Z I O N E   * * * * * *

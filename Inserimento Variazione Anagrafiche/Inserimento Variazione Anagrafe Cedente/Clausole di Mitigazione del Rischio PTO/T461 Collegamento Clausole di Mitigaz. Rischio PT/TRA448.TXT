@@ -1,0 +1,1884 @@
+  Comando  . . . . . . . . . . . . :   CRTBNDRPG
+    Emesso da  . . . . . . . . . . :     LESENR
+  Programma  . . . . . . . . . . . :   TRA448
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   TRA448
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Gestione Scaglioni Ricalcolo commissioni (guida)
+  Ultima modifica. . . . . . . . . :   20/12/12  15:22:26
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 H*================================================================*                                       111005     000100
+     2 H DECEDIT('0,') DATEDIT(*YMD/)                                                                            111005     000200
+     3 H FIXNBR(*ZONED:*INPUTPACKED) OPTION(*NODEBUGIO:*SRCSTMT)                                                 111005     000300
+000400 F*================================================================*                                       111005     000400
+000500 F*  AREA ..............: FACTORING                                *                                       111005     000500
+000600 F*                                                                *                                       111005     000600
+000700 F*  DESCRIZIONE .......: Gestione Scaglioni Ricalcolo commissioni *                                       121220     000700
+000800 F*                       per cedente   (Guida)                    *                                       120920     000800
+000900 F*                                                                *                                       111005     000900
+001000 F*  PROGRAMMATORE .....: LUIGI RICCI                              *                                       111005     001000
+001100 F*                                                                *                                       111005     001100
+001200 F*  PRIMA COMPILAZIONE : 20/12/2012                               *                                       121220     001200
+001300 F*================================================================*                                       111005     001300
+001400 F* F I L E                                                        *                                       111005     001400
+001500 F*================================================================*                                       111005     001500
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Gestione Scaglioni Ricalcolo commissioni (guida)   *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *ZONED      *INPUTPACKED     *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001600 FANACED1L  IF   E           K DISK                                                                        120920     001600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANACED1L         MODELL/ANACED1L                             *
+        * Formato/i record . . . . . :  ANACED1R         ANACED1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001700 FCEDSCA3L  IF   E           K DISK                                                                        121220     001700
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  CEDSCA3L         MODELL/CEDSCA3L                             *
+        * Formato/i record . . . . . :  CEDSCA1R         CEDSCA1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001800 FCEDSCA4L  IF   E           K DISK    rename(CEDSCA1R:CEDSCA4)                                            121220     001800
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  CEDSCA4L         MODELL/CEDSCA4L                             *
+        * Formato/i record . . . . . :  CEDSCA4          CEDSCA1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001900 FPARAM     IF   E           K DISK                                                                        120925     001900
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  PARAM            MODELL/PARAM                                *
+        * Formato/i record . . . . . :  PARAM1R          PARAM1R                                     *
+        *--------------------------------------------------------------------------------------------*
+002000 FTRA4480V  CF   E             WORKSTN                                                                     121220     002000
+002100 F                                     SFILE(UVSFL2:UVNRR2)                                                111005     002100
+002200 D*================================================================*                                       111005     002200
+002300 D* T A B E L L E                                                  *                                       111005     002300
+002400 D*================================================================*                                       111005     002400
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  TRA4480V         OBJFAC/TRA4480V                             *
+        * Formato/i record . . . . . :  UVMAPPA1         UVMAPPA1                                    *
+        *                               UVSFL2           UVSFL2                                      *
+        *                               UVSCTL2          UVSCTL2                                     *
+        *                               UVMAPPA2         UVMAPPA2                                    *
+        *                               UVSFL99          UVSFL99                                     *
+        *                               UVSCTL99         UVSCTL99                                    *
+        *                               UVMAPPA9         UVMAPPA9                                    *
+        *--------------------------------------------------------------------------------------------*
+002500 D CDE             S             60    DIM(30)                                                             111005     002500
+002600 D CID             S              7    DIM(30)                                                             111005     002600
+002700 D*================================================================*                                       111005     002700
+002800 D IAS           E DS                                                                                      120924     002800
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  IAS                                                          *                     1
+        * Formato esterno  . . . . . :  IAS : MODELL/IAS                                             *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000001=D IASMBP                         2S 0                                      Mesi Breve Periodo                       1000001
+000002=D IASDNC                         8S 0                                      Data decorr. nuovo calcolo               1000002
+000003=D IASAUD                         1A                                        Default autorizzazione Pdo (S/N)         1000003
+000004=D IASDSD                         8S 0                                      Data scadenza deroga scaduto             1000004
+000005=D IASAPT                         1A                                        Attribuzione automatica tipo PTO IAS in base a cla
+000006=D IASMSD                         3S 0                                      N.mesi inq. storico deter.               1000006
+000007=D IASDCS                         8S 0                                      Data decorr. nuovo calcolo scad.No.Deter.PDO
+000008=D IASDCD                         8S 0                                      Data decorr. nuovo calcolo deteriorato
+000009=D IASGGG                         3S 0                                      Numero giorni di grazia                  1000009
+000010=D IASDAG                         8S 0                                      Data decorr. Autorizzazione globale      1000010
+000011=D IASD4A                         8S 0                                      Data decorr. IV agg. circolare 140       1000011
+000012=D IASCNT                         8S 0                                      Data decorr. impieghi per conto          1000012
+000013=D IASEOD                         1A                                        Esclusione scaduto oneri debitori        1000013
+000014=D IASNS1                         1A                                        CR-Considera non scaduti crediti contestati
+000015=D IASNS2                         1A                                        CR-Considera non scaduti crediti ATD NoNOT incassa
+000016=D IASGTI                         3S 0                                      Giorni tecnici incasso scaduto CR        1000016
+000017=D IASFIL                        41A                                        Filler                                   1000017
+002900 D KPJBA         E DS                                                                                      111005     002900
+003000 **================================================================*                                       120920     003000
+        *--------------------------------------------------------------------------------------------*                     2
+        * Struttura dati . . . . . . :  KPJBA                                                        *                     2
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     2
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000001=D KNMUS                         10A                                        Nome Utente                   -B-        2000001
+000002=D KTPRF                          3A                                        Tipo Utente                   -B-        2000002
+000003=D KNRAZ                          9S 0                                      Num. Azione                   -B-        2000003
+000004=D KTSIF                          3A                                        Tipo Sistema Informativo      -B-        2000004
+000005=D KNMTD                         10A                                        Nome Terminale                -B-        2000005
+000006=D KFLRC                          1A                                        Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D KNRVJ                          9S 0                                      Num. Azione Interrotta        -B-        2000007
+000008=D KMSMN                          7A                                        Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D KNRJO                          6A                                        Num. Lavoro                   -B-        2000009
+000010=D KSTJO                          1A                                        Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D KFLMS                          1A                                        Flag Messaggio Pendente       -X-        2000011
+000012=D KTMIN                          6S 0                                      Time Fine Azione              -A- HHMMSS
+000013=D KCDAZ                          4A                                        Cod. Azione                   -B-        2000013
+000014=D KTPAZ                          1A                                        Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D KCDRC                          1A                                        Cod. Ripartenza               -C- b 0123 5678
+000016=D KTPFN                          1A                                        Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D KQOTD                         10A                                        Nome OutQ Terminale           -B-        2000017
+000018=D KNMEB                         10A                                        Nome Lavoro                   -B-        2000018
+000019=D KNMSB                          3S 0                                      Num. Sbmjob Eseguiti          -B-        2000019
+000020=D KNRRB                          2A                                        Num. ReSbmjob Batch           -A-        2000020
+000021=D KNSIF                          9A                                        Nome Sistema Informativo      -B-        2000021
+000022=D KCDJD                          2A                                        Cod. JobD                     -A-        2000022
+000023=D KQIEB                          7A                                        Nome JobQ                     -B-        2000023
+000024=D KQOFR                         10A                                        Nome OutQ                     -B-        2000024
+000025=D KKEYF                          5S 0                                      Cod. RRN Azione               -B-        2000025
+000026=D KRCDS                          5S 0                                      Cod. RRN Sessione             -A-        2000026
+000027=D KEXCN                          1A                                        Flag Controllo JobD     Batch -X-        2000027
+000028=D KCOAZ                          4A                                        Cod. Azione             Batch -C-        2000028
+000029=D KFLAD                          1A                                        Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D KQOPR                         10A                                        Nome OutQ               Batch -C-        2000030
+000031=D KNMCP                          2A                                        Num. Copie Stampe       Batch -X-        2000031
+000032=D KJOST                          1A                                        Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D KSTEB                          1A                                        Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D KCOJB                          2A                                        Cod. JobD               Batch -C-        2000034
+000035=D KQEBI                          7A                                        Nome JobQ               Batch -C-        2000035
+000036=D KMDST                         10A                                        Nome Modulo Stampe      Batch -X-        2000036
+000037=D KFIER                         30A                                        Cod. LibFilMbr in Errore      -X-        2000037
+000038=D KCANC                          1A                                        Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D KGRAZ                          3A                                        Cod. Gruppo Azione            -C-        2000039
+000040=D KFSLG                          1A                                        Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D KTPWS                          1A                                        Tipo Terminale                -X- N=Nrm
+000042=D KDTJB                          6A                                        Data Lavoro             Batch -X-        2000042
+000043=D KJRNM                         10A                                        Nome Journal                  -X-        2000043
+000044=D KJRLB                         10A                                        Libr.Journal                  -X-        2000044
+000045=D KRITB                          1A                                        Flag Ritorno Batch            -C-        2000045
+000046=D KBUFF                          8A                                        Fllr                          -X-        2000046
+000047=D KPJBU                        256A                                        Dati Applicativo              -D-        2000047
+003100 d $ENTRY_         ds                                                                                      120920     003100
+003200 d  $ENTRY_Ced                    5s 0                                                                     120920     003200
+003300 d  $ENTRY_Opz                    1                                                                        120920     003300
+003400 d*                                                                                                        120920     003400
+003500 d BRO310_KPJBA  e ds                  extname(KPJBA) prefix(BRO310_)                                      120920     003500
+        *--------------------------------------------------------------------------------------------*                     3
+        * Struttura dati . . . . . . :  BRO310_KPJBA                                                 *                     3
+        * Prefisso . . . . . . . . . :  BRO310_ :    0                                               *                     3
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     3
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     3
+        *--------------------------------------------------------------------------------------------*                     3
+000001=D BRO310_KNMUS                  10A   EXTFLD (KNMUS)                       Nome Utente                   -B-        3000001
+000002=D BRO310_KTPRF                   3A   EXTFLD (KTPRF)                       Tipo Utente                   -B-        3000002
+000003=D BRO310_KNRAZ                   9S 0 EXTFLD (KNRAZ)                       Num. Azione                   -B-        3000003
+000004=D BRO310_KTSIF                   3A   EXTFLD (KTSIF)                       Tipo Sistema Informativo      -B-        3000004
+000005=D BRO310_KNMTD                  10A   EXTFLD (KNMTD)                       Nome Terminale                -B-        3000005
+000006=D BRO310_KFLRC                   1A   EXTFLD (KFLRC)                       Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D BRO310_KNRVJ                   9S 0 EXTFLD (KNRVJ)                       Num. Azione Interrotta        -B-        3000007
+000008=D BRO310_KMSMN                   7A   EXTFLD (KMSMN)                       Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D BRO310_KNRJO                   6A   EXTFLD (KNRJO)                       Num. Lavoro                   -B-        3000009
+000010=D BRO310_KSTJO                   1A   EXTFLD (KSTJO)                       Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D BRO310_KFLMS                   1A   EXTFLD (KFLMS)                       Flag Messaggio Pendente       -X-        3000011
+000012=D BRO310_KTMIN                   6S 0 EXTFLD (KTMIN)                       Time Fine Azione              -A- HHMMSS
+000013=D BRO310_KCDAZ                   4A   EXTFLD (KCDAZ)                       Cod. Azione                   -B-        3000013
+000014=D BRO310_KTPAZ                   1A   EXTFLD (KTPAZ)                       Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D BRO310_KCDRC                   1A   EXTFLD (KCDRC)                       Cod. Ripartenza               -C- b 0123 5678
+000016=D BRO310_KTPFN                   1A   EXTFLD (KTPFN)                       Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D BRO310_KQOTD                  10A   EXTFLD (KQOTD)                       Nome OutQ Terminale           -B-        3000017
+000018=D BRO310_KNMEB                  10A   EXTFLD (KNMEB)                       Nome Lavoro                   -B-        3000018
+000019=D BRO310_KNMSB                   3S 0 EXTFLD (KNMSB)                       Num. Sbmjob Eseguiti          -B-        3000019
+000020=D BRO310_KNRRB                   2A   EXTFLD (KNRRB)                       Num. ReSbmjob Batch           -A-        3000020
+000021=D BRO310_KNSIF                   9A   EXTFLD (KNSIF)                       Nome Sistema Informativo      -B-        3000021
+000022=D BRO310_KCDJD                   2A   EXTFLD (KCDJD)                       Cod. JobD                     -A-        3000022
+000023=D BRO310_KQIEB                   7A   EXTFLD (KQIEB)                       Nome JobQ                     -B-        3000023
+000024=D BRO310_KQOFR                  10A   EXTFLD (KQOFR)                       Nome OutQ                     -B-        3000024
+000025=D BRO310_KKEYF                   5S 0 EXTFLD (KKEYF)                       Cod. RRN Azione               -B-        3000025
+000026=D BRO310_KRCDS                   5S 0 EXTFLD (KRCDS)                       Cod. RRN Sessione             -A-        3000026
+000027=D BRO310_KEXCN                   1A   EXTFLD (KEXCN)                       Flag Controllo JobD     Batch -X-        3000027
+000028=D BRO310_KCOAZ                   4A   EXTFLD (KCOAZ)                       Cod. Azione             Batch -C-        3000028
+000029=D BRO310_KFLAD                   1A   EXTFLD (KFLAD)                       Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D BRO310_KQOPR                  10A   EXTFLD (KQOPR)                       Nome OutQ               Batch -C-        3000030
+000031=D BRO310_KNMCP                   2A   EXTFLD (KNMCP)                       Num. Copie Stampe       Batch -X-        3000031
+000032=D BRO310_KJOST                   1A   EXTFLD (KJOST)                       Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D BRO310_KSTEB                   1A   EXTFLD (KSTEB)                       Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D BRO310_KCOJB                   2A   EXTFLD (KCOJB)                       Cod. JobD               Batch -C-        3000034
+000035=D BRO310_KQEBI                   7A   EXTFLD (KQEBI)                       Nome JobQ               Batch -C-        3000035
+000036=D BRO310_KMDST                  10A   EXTFLD (KMDST)                       Nome Modulo Stampe      Batch -X-        3000036
+000037=D BRO310_KFIER                  30A   EXTFLD (KFIER)                       Cod. LibFilMbr in Errore      -X-        3000037
+000038=D BRO310_KCANC                   1A   EXTFLD (KCANC)                       Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D BRO310_KGRAZ                   3A   EXTFLD (KGRAZ)                       Cod. Gruppo Azione            -C-        3000039
+000040=D BRO310_KFSLG                   1A   EXTFLD (KFSLG)                       Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D BRO310_KTPWS                   1A   EXTFLD (KTPWS)                       Tipo Terminale                -X- N=Nrm
+000042=D BRO310_KDTJB                   6A   EXTFLD (KDTJB)                       Data Lavoro             Batch -X-        3000042
+000043=D BRO310_KJRNM                  10A   EXTFLD (KJRNM)                       Nome Journal                  -X-        3000043
+000044=D BRO310_KJRLB                  10A   EXTFLD (KJRLB)                       Libr.Journal                  -X-        3000044
+000045=D BRO310_KRITB                   1A   EXTFLD (KRITB)                       Flag Ritorno Batch            -C-        3000045
+000046=D BRO310_KBUFF                   8A   EXTFLD (KBUFF)                       Fllr                          -X-        3000046
+000047=D BRO310_KPJBU                 256A   EXTFLD (KPJBU)                       Dati Applicativo              -D-        3000047
+003600 d BRO310_         ds                                                                                      120920     003600
+003700 d  BRO310_xxxxx                 10                                                                        120920     003700
+003800 d  BRO310_DRCed                 10    overlay(BRO310_xxxxx:1)                                             120920     003800
+003900 d  BRO310_CdCed                  5s 0 overlay(BRO310_xxxxx:1)                                             120920     003900
+004000 d*                                                                                                        120920     004000
+004100 d TRA449_KPJBA  e ds                  extname(KPJBA) prefix(TRA449_)                                      121220     004100
+        *--------------------------------------------------------------------------------------------*                     4
+        * Struttura dati . . . . . . :  TRA449_KPJBA                                                 *                     4
+        * Prefisso . . . . . . . . . :  TRA449_ :    0                                               *                     4
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     4
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     4
+        *--------------------------------------------------------------------------------------------*                     4
+000001=D TRA449_KNMUS                  10A   EXTFLD (KNMUS)                       Nome Utente                   -B-        4000001
+000002=D TRA449_KTPRF                   3A   EXTFLD (KTPRF)                       Tipo Utente                   -B-        4000002
+000003=D TRA449_KNRAZ                   9S 0 EXTFLD (KNRAZ)                       Num. Azione                   -B-        4000003
+000004=D TRA449_KTSIF                   3A   EXTFLD (KTSIF)                       Tipo Sistema Informativo      -B-        4000004
+000005=D TRA449_KNMTD                  10A   EXTFLD (KNMTD)                       Nome Terminale                -B-        4000005
+000006=D TRA449_KFLRC                   1A   EXTFLD (KFLRC)                       Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D TRA449_KNRVJ                   9S 0 EXTFLD (KNRVJ)                       Num. Azione Interrotta        -B-        4000007
+000008=D TRA449_KMSMN                   7A   EXTFLD (KMSMN)                       Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D TRA449_KNRJO                   6A   EXTFLD (KNRJO)                       Num. Lavoro                   -B-        4000009
+000010=D TRA449_KSTJO                   1A   EXTFLD (KSTJO)                       Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D TRA449_KFLMS                   1A   EXTFLD (KFLMS)                       Flag Messaggio Pendente       -X-        4000011
+000012=D TRA449_KTMIN                   6S 0 EXTFLD (KTMIN)                       Time Fine Azione              -A- HHMMSS
+000013=D TRA449_KCDAZ                   4A   EXTFLD (KCDAZ)                       Cod. Azione                   -B-        4000013
+000014=D TRA449_KTPAZ                   1A   EXTFLD (KTPAZ)                       Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D TRA449_KCDRC                   1A   EXTFLD (KCDRC)                       Cod. Ripartenza               -C- b 0123 5678
+000016=D TRA449_KTPFN                   1A   EXTFLD (KTPFN)                       Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D TRA449_KQOTD                  10A   EXTFLD (KQOTD)                       Nome OutQ Terminale           -B-        4000017
+000018=D TRA449_KNMEB                  10A   EXTFLD (KNMEB)                       Nome Lavoro                   -B-        4000018
+000019=D TRA449_KNMSB                   3S 0 EXTFLD (KNMSB)                       Num. Sbmjob Eseguiti          -B-        4000019
+000020=D TRA449_KNRRB                   2A   EXTFLD (KNRRB)                       Num. ReSbmjob Batch           -A-        4000020
+000021=D TRA449_KNSIF                   9A   EXTFLD (KNSIF)                       Nome Sistema Informativo      -B-        4000021
+000022=D TRA449_KCDJD                   2A   EXTFLD (KCDJD)                       Cod. JobD                     -A-        4000022
+000023=D TRA449_KQIEB                   7A   EXTFLD (KQIEB)                       Nome JobQ                     -B-        4000023
+000024=D TRA449_KQOFR                  10A   EXTFLD (KQOFR)                       Nome OutQ                     -B-        4000024
+000025=D TRA449_KKEYF                   5S 0 EXTFLD (KKEYF)                       Cod. RRN Azione               -B-        4000025
+000026=D TRA449_KRCDS                   5S 0 EXTFLD (KRCDS)                       Cod. RRN Sessione             -A-        4000026
+000027=D TRA449_KEXCN                   1A   EXTFLD (KEXCN)                       Flag Controllo JobD     Batch -X-        4000027
+000028=D TRA449_KCOAZ                   4A   EXTFLD (KCOAZ)                       Cod. Azione             Batch -C-        4000028
+000029=D TRA449_KFLAD                   1A   EXTFLD (KFLAD)                       Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D TRA449_KQOPR                  10A   EXTFLD (KQOPR)                       Nome OutQ               Batch -C-        4000030
+000031=D TRA449_KNMCP                   2A   EXTFLD (KNMCP)                       Num. Copie Stampe       Batch -X-        4000031
+000032=D TRA449_KJOST                   1A   EXTFLD (KJOST)                       Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D TRA449_KSTEB                   1A   EXTFLD (KSTEB)                       Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D TRA449_KCOJB                   2A   EXTFLD (KCOJB)                       Cod. JobD               Batch -C-        4000034
+000035=D TRA449_KQEBI                   7A   EXTFLD (KQEBI)                       Nome JobQ               Batch -C-        4000035
+000036=D TRA449_KMDST                  10A   EXTFLD (KMDST)                       Nome Modulo Stampe      Batch -X-        4000036
+000037=D TRA449_KFIER                  30A   EXTFLD (KFIER)                       Cod. LibFilMbr in Errore      -X-        4000037
+000038=D TRA449_KCANC                   1A   EXTFLD (KCANC)                       Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D TRA449_KGRAZ                   3A   EXTFLD (KGRAZ)                       Cod. Gruppo Azione            -C-        4000039
+000040=D TRA449_KFSLG                   1A   EXTFLD (KFSLG)                       Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D TRA449_KTPWS                   1A   EXTFLD (KTPWS)                       Tipo Terminale                -X- N=Nrm
+000042=D TRA449_KDTJB                   6A   EXTFLD (KDTJB)                       Data Lavoro             Batch -X-        4000042
+000043=D TRA449_KJRNM                  10A   EXTFLD (KJRNM)                       Nome Journal                  -X-        4000043
+000044=D TRA449_KJRLB                  10A   EXTFLD (KJRLB)                       Libr.Journal                  -X-        4000044
+000045=D TRA449_KRITB                   1A   EXTFLD (KRITB)                       Flag Ritorno Batch            -C-        4000045
+000046=D TRA449_KBUFF                   8A   EXTFLD (KBUFF)                       Fllr                          -X-        4000046
+000047=D TRA449_KPJBU                 256A   EXTFLD (KPJBU)                       Dati Applicativo              -D-        4000047
+004200 d TRA449_         ds                                                                                      121220     004200
+004300 d  TRA449_Ced                    5s 0                                                                     121220     004300
+004400 d  TRA449_Dtva                   8s 0                                                                     121220     004400
+004500 d  TRA449_Opz                    1                                                                        121220     004500
+004600 d  TRA449_Rtrn                   1                                                                        121220     004600
+004700 **================================================================*                                       111005     004700
+004800 d wsClr1          s              1    inz(*off)                                                           121121     004800
+004900 d wscnts          s              5  0                                                                     111006     004900
+005000 d wsdtva          s                   like(csdtva)                                                        120920     005000
+005100 d WSRKS2          s                   like(uvnrr2)                                                        111005     005100
+005200 **                                                                                                        111005     005200
+005300 **================================================================*                                       111005     005300
+005400 ** F L U S S O     P R I N C I P A L E                                                                    111005     005400
+005500 **================================================================*                                       111005     005500
+005600 **                                                                                                        111005     005600
+000001=IANACED1R                                                                                                           5000001
+        *--------------------------------------------------------------------------------------------*                     5
+        * Formato record RPG . . . . :  ANACED1R                                                     *                     5
+        * Formato esterno  . . . . . :  ANACED1R : MODELL/ANACED1L                                   *                     5
+        * Formato testo. . . . . . . :  ANAGRAFICA CEDENTI                                           *                     5
+        *--------------------------------------------------------------------------------------------*                     5
+000002=I                             A    1    3  ACTREC                          Cde Tipo Rec.File -AC1-                  5000002
+000003=I                             A    4    4  ACFLAG                          Sts Record V/A               CMN         5000003
+000004=I                             P    5    9 0ACNAZN                          Nbr Azione Aggiornamento     CMN         5000004
+000005=I                             A   10   10  ACLOCK                          Sts Blocco record            CMN         5000005
+000006=I                             P   11   15 0ACNREC                          Nbr Relativo Record          CMN         5000006
+000007=I                             S   16   23 0ACDINS                          Data Inserimento                         5000007
+000008=I                             S   24   31 0ACDUPD                          Data Aggiornamento                       5000008
+000009=I                             S   32   36 0ACCED                           Cde Cedente                  AC          5000009
+000010=I                             A   37   71  ACRAS                           Nar Ragione Sociale          AC          5000010
+000011=I                             A   72  106  ACRAS2                          Nar Rag.Sociale Seguito      AC          5000011
+000012=I                             A  107  136  ACIND                           Nar Indirizzo                AC          5000012
+000013=I                             A  137  141  ACCAP                           Cde C.A.P.                   MST         5000013
+000014=I                             A  142  166  ACLOC                           Nar Località                 AC          5000014
+000015=I                             A  167  168  ACPROV                          Cde Provincia                MST         5000015
+000016=I                             A  169  171  ACNAZ                           Cde Nazione                  MST         5000016
+000017=I                             A  172  176  ACFACT                          Cde Factor                   FC          5000017
+000018=I                             A  177  180  ACRAMO                          Cde Ramo attività            MST         5000018
+000019=I                             A  181  190  ACRSR                           Nar Ridotta Cedente                      5000019
+000020=I                             A  191  206  ACFISC                          Cde Fiscale                  AC          5000020
+000021=I                             S  207  217 0ACPIVA                          Cde Partita I.V.A.           AC          5000021
+000022=I                             A  218  221  ACFGRD                          Cde Forma Giuridica          MST         5000022
+000023=I                             A  222  223  ACRIVA                          Cde Regime I.V.A.            MST         5000023
+000024=I                             A  224  224  ACFIL                           Cde Filiale                  MST         5000024
+000025=I                             A  225  225  ACSEO                           Cde Settore                  MST         5000025
+000026=I                             A  226  227  ACEVI                           Cde Evidenza                 MST         5000026
+000027=I                             A  228  228  ACCNTZ                          Cde Contenzioso              MST         5000027
+000028=I                             A  229  229  ACFSOF                          Sts Sofferenza (S/N)                     5000028
+000029=I                             S  230  237 0ACDCON                          Dte Contratto Fact.                      5000029
+000030=I                             S  238  239 0ACDRCS                          Dte SS Risoluz.ne Cnt Fct    AC          5000030
+000031=I                             S  240  241 0ACDRCA                          Dte AA Risoluz.ne Cnt Fct    AC          5000031
+000032=I                             S  242  243 0ACDRCM                          Dte MM Risoluz.ne Cnt Fct    AC          5000032
+000033=I                             S  244  245 0ACDRCG                          Dte GG Risoluz.ne Cnt Fact.  AC          5000033
+000034=I                             A  246  246  ACFLEM                          Sts Eliminazione  E=Elim.    AC          5000034
+000035=I                             S  247  248 0ACDASS                          Dte SS Appendice Sconto      AC          5000035
+000036=I                             S  249  250 0ACDASA                          Dte AA Appendice Sconto      AC          5000036
+000037=I                             S  251  252 0ACDASM                          Dte MM Appendice Sconto      AC          5000037
+000038=I                             S  253  254 0ACDASG                          Dte GG Appendice Sconto      AC          5000038
+000039=I                             S  255  256 0ACDEXS                          Dte SS Appendice Estero      AC          5000039
+000040=I                             S  257  258 0ACDEXA                          Dte AA Appendice Estero      AC          5000040
+000041=I                             S  259  260 0ACDEXM                          Dte MM Appendice Estero      AC          5000041
+000042=I                             S  261  262 0ACDEXG                          Dte GG Appendice Estero      AC          5000042
+000043=I                             S  263  264 0ACDSTS                          Dte SS App.antic.straord.    AC          5000043
+000044=I                             S  265  266 0ACDSTA                          Dte AA App.antic.straord.    AC          5000044
+000045=I                             S  267  268 0ACDSTM                          Dte MM App.antic.straord.    AC          5000045
+000046=I                             S  269  270 0ACDSTG                          Dte GG App.antic.straord.    AC          5000046
+000047=I                             A  271  272  ACGAR                           Cde Garanzia 01                          5000047
+000048=I                             A  273  274  ACGAR2                          Cde Garanzia 02                          5000048
+000049=I                             A  275  276  ACGAR3                          Cde Garanzia 03                          5000049
+000050=I                             A  277  278  ACDM01                          Cde Doc.Mancante 01                      5000050
+000051=I                             A  279  280  ACDM02                          Cde Doc.Mancante 02                      5000051
+000052=I                             A  281  282  ACDM03                          Cde Doc.Mancante 03                      5000052
+000053=I                             A  283  284  ACDM04                          Cde Doc.Mancante 04                      5000053
+000054=I                             A  285  286  ACDM05                          Cde Doc.Mancante 05                      5000054
+000055=I                             A  287  288  ACDM06                          Cde Doc.Mancante 06                      5000055
+000056=I                             A  289  290  ACDM07                          Cde Doc.Mancante 07                      5000056
+000057=I                             A  291  292  ACDM08                          Cde Doc.Mancante 08                      5000057
+000058=I                             A  293  294  ACDM09                          Cde Doc.Mancante 09                      5000058
+000059=I                             A  295  296  ACDM10                          Cde Doc.Mancante 10                      5000059
+000060=I                             A  297  298  ACDM11                          Cde Doc.Mancante 11                      5000060
+000061=I                             A  299  300  ACDM12                          Cde Doc.Mancante 12                      5000061
+000062=I                             A  301  302  ACDM13                          Cde Doc.Mancante 13                      5000062
+000063=I                             A  303  304  ACDM14                          Cde Doc.Mancante 14                      5000063
+000064=I                             A  305  306  ACDM15                          Cde Doc.Mancante 15                      5000064
+000065=I                             A  307  308  ACDM16                          Cde Doc.Mancante 16                      5000065
+000066=I                             A  309  310  ACDM17                          Cde Doc.Mancante 17                      5000066
+000067=I                             A  311  312  ACDM18                          Cde Doc.Mancante 18                      5000067
+000068=I                             A  313  314  ACDM19                          Cde Doc.Mancante 19                      5000068
+000069=I                             A  315  316  ACDM20                          Cde Doc.Mancante 20                      5000069
+000070=I                             A  317  332  ACTELB                          Nbr Telefono                 AC          5000070
+000071=I                             A  333  348  ACTEXB                          Nbr Telex /Fax               AC          5000071
+000072=I                             A  349  368  ACPERB                          Nar Persona da contattare    AC          5000072
+000073=I                             A  369  371  ACRAPB                          Cde Rapporto ns.banca                    5000073
+000074=I                             A  372  372  ACWRK1                          Sts Byte Work 01                         5000074
+000075=I                             A  373  373  ACWRK2                          Sts Byte Work 02                         5000075
+000076=I                             A  374  374  ACWRK3                          Sts Byte Work 03                         5000076
+000077=I                             A  375  375  ACWRK4                          Sts Byte Work 04                         5000077
+000078=I                             A  376  376  ACWRK5                          Sts Byte Work 05                         5000078
+000079=I                             A  377  377  ACWRK6                          Sts Byte Work 06                         5000079
+000080=I                             A  378  378  ACWRK7                          Sts Byte Work 07                         5000080
+000081=I                             A  379  379  ACWRK8                          Sts Byte Work 08                         5000081
+000082=I                             A  380  380  ACWRK9                          Sts Byte Work 09                         5000082
+000083=I                             A  381  381  ACWRK0                          Sts Byte Work 10                         5000083
+000084=I                             S  382  386 0ACPRE                           Cde Presentatore             PA          5000084
+000085=I                             A  387  387  ACSPWE                          Sts Sped. Weekly             PA          5000085
+000086=I                             A  388  388  ACSPCR                          Sts Sped. Crediti in Essere  PA          5000086
+000087=I                             A  389  389  ACSPEC                          Sts Sped.E/C con FT          PA          5000087
+000088=I                             A  390  390  ACSPSC                          Sts Sped.Soll.Copia CED      PA          5000088
+000089=I                             A  391  391  ACSPCB                          Sts Spedizione Contabili     PA          5000089
+000090=I                             A  392  392  ACSPW1                          Sts Sped.Let/Riep. x Var.Cto PA          5000090
+000091=I                             A  393  393  ACSPW2                          Sts Sped.Generico            AC          5000091
+000092=I                             A  394  428  ACNOT1                          Nar Note Aggiuntive 1                    5000092
+000093=I                             A  429  463  ACNOT2                          Nar Note Aggiuntive 2                    5000093
+000094=I                             A  464  498  ACNOT3                          Nar Note Aggiuntive 3                    5000094
+000095=I                             A  499  533  ACNOT4                          Nar Note Aggiuntive 4                    5000095
+000096=I                             A  534  568  ACNOT5                          Nar Note Aggiuntive 5                    5000096
+000097=I                             A  569  569  ACIMGR                          Sts appartenenza al gruppo   AC          5000097
+000098=I                             A  570  575  ACCBLO                          Codice CAB (6x)                          5000098
+000099=I                             A  576  578  ACSGRP                          Cde Sottogruppo Attiv. Econ. MST         5000099
+000100=I                             A  579  581  ACSETE                          Cde Settore Attività Econom. MST         5000100
+000101=I                             A  582  584  ACSSET                          Cde Sottosettore Attiv. Econ.MST         5000101
+000102=I                             A  585  587  ACGRP                           Cde Gruppo Attività EconomicaMST         5000102
+000103=I                             A  588  590  ACBRAN                          Cde Branca Attività EconomicaMST         5000103
+000104=I                             P  591  595 2ACSPIF                          Val Spese Istrutt. Fornitore             5000104
+000105=I                             P  596  600 2ACSPID                          Val Spese Istrutt. Debitore              5000105
+000106=I                             P  601  605 2ACSPCD                          Val Spesa Copia Documento                5000106
+000107=I                             P  606  610 2ACSCHI                          Val Spesa Chiusura Conto                 5000107
+000108=I                             P  611  615 2ACSRIS                          Val Spesa Rinnovo/Istrut.                5000108
+000109=I                             P  616  620 2ACSDPR                          Val Spesa Dist./Pres. RIBA               5000109
+000110=I                             A  621  623  ACCDIV                          Cde Divisa                   MST         5000110
+000111=I                             P  624  625 0ACDMCS                          Dte Contr. Mty Ced. SS       AC          5000111
+000112=I                             P  626  627 0ACDMCA                          Dte Contr. Mty Ced. AA       AC          5000112
+000113=I                             P  628  629 0ACDMCM                          Dte Contr. Mty Ced. MM       AC          5000113
+000114=I                             P  630  631 0ACDMCG                          Dte Contr. Mty Ced. GG       AC          5000114
+000115=I                             P  632  633 0ACGVAL                          Nbr GG Val. Accr. Mty Ced.   AC          5000115
+000116=I                             P  634  635 0ACGGDL                          Nbr GG Dilazione Mty Deb.    AC          5000116
+000117=I                             P  636  637 0ACGSIC                          Nbr GG Sosp.Inter. Mty Ced.  AC          5000117
+000118=I                             A  638  638  ACLIQ                           Sts Società in liquidaz.                 5000118
+000119=I                             P  639  640 0ACGGVB                          Nbr GG Val. Beneficiario                 5000119
+000120=I                             A  641  642  ACMCVB                          Cde Mod.calc.Val.Benef.                  5000120
+000121=I                             A  643  643  ACAVVB                          Sts Stampa Avviso Bonifico               5000121
+000122=I                             P  644  648 0ACIFPT                          Val Fido PTO (Mil)                       5000122
+000123=I                             P  649  653 0ACIPFU                          Val Fido Utilizzato PTO                  5000123
+000124=I                             S  654  661 0ACDFT2                          Dte Revisione Fido PTO                   5000124
+000125=I                             A  662  662  ACFCFC                          Comunicato Fido                          5000125
+000126=I                             S  663  667 0ACNRFS                          Numero Foglio di Sintesi                 5000126
+000127=I                             S  668  675 0ACDTFS                          Data Foglio di Sintesi                   5000127
+000128=I                             S  676  683 0ACDECO                          Data Decor. Variazione Cond.             5000128
+000129=I                             A  684  685  ACLANG                          Lingua                                   5000129
+000130=I                             A  686  735  ACMAIL                          Indirizzo Mail                           5000130
+000131=I                             A  736  738  ACCDIS                          Cde Canale Distr.                        5000131
+000132=I                             A  739  739  ACSPMC                          Sts Sped. Lett. Mod. Contr.              5000132
+000133=I                             P  740  743 2ACSDIN                          Val Spese Leg.Den.di Insolv              5000133
+000134=I                             P  744  747 2ACCANI                          Val Spese Canone WEB                     5000134
+000135=I                             P  748  749 0ACPERI                          Periodicità canone WEB                   5000135
+000136=I                             P  750  753 2ACCERT                          Certif. a società di rev.                5000136
+000137=I                             P  754  757 2ACINCO                          Recupero forfattario SP.Post             5000137
+000138=I                             P  758  761 2ACSFAX                          Val spese Fax per pagina                 5000138
+000139=I                             A  762  767  ACUINS                          Utente di Inserimento                    5000139
+000140=I                             A  768  773  ACUUPD                          Utente di Aggiornamento                  5000140
+000141=I                             P  774  778 2ACSIDI                          Spese Istrutt. Debitore ITA              5000141
+000142=I                             P  779  783 2ACSIDE                          Spese Istrutt. Deb. UE                   5000142
+000143=I                             P  784  788 2ACSIDX                          Spese Istrutt. Deb. EXTRA-UE             5000143
+000144=I                             A  789  789  ACFMCH                          Sts fatt.mens.comm.fact/hand             5000144
+000145=I                             A  790  889  ACPEC                           Indirizzo PEC                            5000145
+000146=I                             A  890  989  ACPUMA                          Acronimo PUMA                            5000146
+000147=I                             A  990  990  ACNCCG                          Sblocco presentabilità=99 se Fido sola Garanzia/No
+000148=I                             A  991 1020  ACINDI                          Indirizzo Puro                           5000148
+000149=I                             A 1021 1035  ACCIVI                          Civico Sede                              5000149
+000150=I                             S 1036 1043 0ACDTW1                          Campo Work 1                             5000150
+000151=I                             S 1044 1051 0ACDTW2                          Campo Work 2                             5000151
+000001=ICEDSCA1R                                                                                                           6000001
+        *--------------------------------------------------------------------------------------------*                     6
+        * Formato record RPG . . . . :  CEDSCA1R                                                     *                     6
+        * Formato esterno  . . . . . :  CEDSCA1R : MODELL/CEDSCA3L                                   *                     6
+        * Formato testo. . . . . . . :  SCAGLIONI BONUS/MALUS  CEDENTE                               *                     6
+        *--------------------------------------------------------------------------------------------*                     6
+000002=I                             A    1    3  CSTREC                          Cde Tipo Rec.File -CSC-                  6000002
+000003=I                             A    4    4  CSFLAG                          Sts Record V/A               CMN         6000003
+000004=I                             S    5   12 0CSDINS                          Dte Inserimento                          6000004
+000005=I                             S   13   18 0CSTIME                          Ora Inserimento                          6000005
+000006=I                             A   19   24  CSUINS                          Utente di Inserimento                    6000006
+000007=I                             S   25   32 0CSDUPD                          Dte Aggiornamento                        6000007
+000008=I                             A   33   38  CSUUPD                          Utente di Aggiornamento                  6000008
+000009=I                             S   39   43 0CSCED                           Cde Cedente                  AC          6000009
+000010=I                             P   44   48 0CSDTVA                          Data Inizio Validità                     6000010
+000011=I                             P   49   53 0CSDTSC                          Data Fine Validità                       6000011
+000012=I                             P   54   55 0CSPERI                          Periodicità calcolo                      6000012
+000013=I                             A   56   56  CSBASC                          Base di calcolo: S=Solare M=Mobile       6000013
+000014=I                             A   57   57  CSSCAT                          Tipo scaglione ("B"=Bonus/"M"=Malus "R"=Ricalcolo
+000015=I                             A   58   58  CSENTI                          Entità ("C"=Commissioni/"T"=Turnover/"G"=Pagamenti
+000016=I                             S   59   65 5CSFAS2                          % fascia fino a                          6000016
+000017=I                             S   66   78 2CSFASA                          Importo fascia fino a                    6000017
+000018=I                             A   79   79  CSIMPO                          Imponibile ("C"=Commissioni/"T"=Turnover/"G"=Pagam
+000019=I                             S   80   86 5CSCOMM                          % commissioni da applicare               6000019
+000020=I                             A   87   87  CSMODA                          Commissioni da applicare ("C"=Commissioni/"T"=Turn
+000001=ICEDSCA4                                                                                                            7000001
+        *--------------------------------------------------------------------------------------------*                     7
+        * Formato record RPG . . . . :  CEDSCA4                                                      *                     7
+        * Formato esterno  . . . . . :  CEDSCA1R : MODELL/CEDSCA4L                                   *                     7
+        * Formato testo. . . . . . . :  SCAGLIONI BONUS/MALUS  CEDENTE                               *                     7
+        *--------------------------------------------------------------------------------------------*                     7
+000002=I                             A    1    3  CSTREC                          Cde Tipo Rec.File -CSC-                  7000002
+000003=I                             A    4    4  CSFLAG                          Sts Record V/A               CMN         7000003
+000004=I                             S    5   12 0CSDINS                          Dte Inserimento                          7000004
+000005=I                             S   13   18 0CSTIME                          Ora Inserimento                          7000005
+000006=I                             A   19   24  CSUINS                          Utente di Inserimento                    7000006
+000007=I                             S   25   32 0CSDUPD                          Dte Aggiornamento                        7000007
+000008=I                             A   33   38  CSUUPD                          Utente di Aggiornamento                  7000008
+000009=I                             S   39   43 0CSCED                           Cde Cedente                  AC          7000009
+000010=I                             P   44   48 0CSDTVA                          Data Inizio Validità                     7000010
+000011=I                             P   49   53 0CSDTSC                          Data Fine Validità                       7000011
+000012=I                             P   54   55 0CSPERI                          Periodicità calcolo                      7000012
+000013=I                             A   56   56  CSBASC                          Base di calcolo: S=Solare M=Mobile       7000013
+000014=I                             A   57   57  CSSCAT                          Tipo scaglione ("B"=Bonus/"M"=Malus "R"=Ricalcolo
+000015=I                             A   58   58  CSENTI                          Entità ("C"=Commissioni/"T"=Turnover/"G"=Pagamenti
+000016=I                             S   59   65 5CSFAS2                          % fascia fino a                          7000016
+000017=I                             S   66   78 2CSFASA                          Importo fascia fino a                    7000017
+000018=I                             A   79   79  CSIMPO                          Imponibile ("C"=Commissioni/"T"=Turnover/"G"=Pagam
+000019=I                             S   80   86 5CSCOMM                          % commissioni da applicare               7000019
+000020=I                             A   87   87  CSMODA                          Commissioni da applicare ("C"=Commissioni/"T"=Turn
+000001=IPARAM1R                                                                                                            8000001
+        *--------------------------------------------------------------------------------------------*                     8
+        * Formato record RPG . . . . :  PARAM1R                                                      *                     8
+        * Formato esterno  . . . . . :  PARAM1R : MODELL/PARAM                                       *                     8
+        *--------------------------------------------------------------------------------------------*                     8
+000002=I                             A    1    1  PAFLAG                                                                   8000002
+000003=I                             A    2    3  PATREC                                                                   8000003
+000004=I                             A    4    6  PAKEYA                                                                   8000004
+000005=I                             A    7   15  PAKEYB                                                                   8000005
+000006=I                             A   16  128  PADESC                                                                   8000006
+000001=IUVMAPPA1                                                                                                           9000001
+        *--------------------------------------------------------------------------------------------*                     9
+        * Formato record RPG . . . . :  UVMAPPA1                                                     *                     9
+        * Formato esterno  . . . . . :  UVMAPPA1 : OBJFAC/TRA4480V                                   *                     9
+        *--------------------------------------------------------------------------------------------*                     9
+000002=I                             N    1    1  *IN95                                                                    9000002
+000003=I                             A    2   11  CSRREC                                                                   9000003
+000004=I                             A   12   21  CSRFLD                                                                   9000004
+000005=I                             A   22   22  UVOPZ                                                                    9000005
+000006=I                             S   23   27 0UVCED                                                                    9000006
+000007=I                             S   28   35 0UVDTVA                                                                   9000007
+000001=IUVSFL2                                                                                                            10000001
+        *--------------------------------------------------------------------------------------------*                    10
+        * Formato record RPG . . . . :  UVSFL2                                                       *                    10
+        * Formato esterno  . . . . . :  UVSFL2 : OBJFAC/TRA4480V                                     *                    10
+        *--------------------------------------------------------------------------------------------*                    10
+000002=I                             S    1    8 0UV2HDV                                                                  10000002
+000003=I                             A    9    9  UV2OPZ                                                                  10000003
+000004=I                             S   10   14 0UV2CED                                                                  10000004
+000005=I                             A   15   49  UV2RSC                                                                  10000005
+000006=I                             S   50   57 0UV2DVA                                                                  10000006
+000007=I                             S   58   65 0UV2DSC                                                                  10000007
+000001=IUVSCTL2                                                                                                           11000001
+        *--------------------------------------------------------------------------------------------*                    11
+        * Formato record RPG . . . . :  UVSCTL2                                                      *                    11
+        * Formato esterno  . . . . . :  UVSCTL2 : OBJFAC/TRA4480V                                    *                    11
+        *--------------------------------------------------------------------------------------------*                    11
+000002=I                             N    1    1  *IN95                                                                   11000002
+000003=I                             S    2    5 0UVNRR2                                                                  11000003
+000001=IUVMAPPA2                                                                                                          12000001
+        *--------------------------------------------------------------------------------------------*                    12
+        * Formato record RPG . . . . :  UVMAPPA2                                                     *                    12
+        * Formato esterno  . . . . . :  UVMAPPA2 : OBJFAC/TRA4480V                                   *                    12
+        *--------------------------------------------------------------------------------------------*                    12
+000001=IUVSFL99                                                                                                           13000001
+        *--------------------------------------------------------------------------------------------*                    13
+        * Formato record RPG . . . . :  UVSFL99                                                      *                    13
+        * Formato esterno  . . . . . :  UVSFL99 : OBJFAC/TRA4480V                                    *                    13
+        *--------------------------------------------------------------------------------------------*                    13
+000002=I                             A    1    4  UVMSGK                                                                  13000002
+000003=I                             A    5   14  UVSFLQ                                                                  13000003
+000001=IUVSCTL99                                                                                                          14000001
+        *--------------------------------------------------------------------------------------------*                    14
+        * Formato record RPG . . . . :  UVSCTL99                                                     *                    14
+        * Formato esterno  . . . . . :  UVSCTL99 : OBJFAC/TRA4480V                                   *                    14
+        *--------------------------------------------------------------------------------------------*                    14
+000002=I                             A    1   10  UVSFLQ                                                                  14000002
+000001=IUVMAPPA9                                                                                                          15000001
+        *--------------------------------------------------------------------------------------------*                    15
+        * Formato record RPG . . . . :  UVMAPPA9                                                     *                    15
+        * Formato esterno  . . . . . :  UVMAPPA9 : OBJFAC/TRA4480V                                   *                    15
+        *--------------------------------------------------------------------------------------------*                    15
+005700 C                   EXSR      HOUSEK                                                                      111005     005700
+005800 ** SE SOCIETA' ABILITATA                                                                                  120925     005800
+005900 C                   if        iasapt = 'S'                                                      B01       120925     005900
+006000 **                                                                                                        111005     006000
+006100 C                   DO        *HIVAL                                                            B02       111005     006100
+006200 **                                                                                                        111005     006200
+006300 C                   SELECT                                                                      B03       111005     006300
+006400 C     WSFUNC        WHENEQ    'P'                                                               X03       111005     006400
+006500 C                   EXSR      PREPAP                                                             03       111005     006500
+006600 **                                                                                                        111005     006600
+006700 C     WSFUNC        WHENEQ    'V'                                                               X03       111005     006700
+006800 C                   EXSR      VISUAL                                                             03       111005     006800
+006900 C                   EXSR      ROUTES                                                             03       111005     006900
+007000 **                                                                                                        111005     007000
+007100 C     WSFUNC        WHENEQ    'C'                                                               X03       111005     007100
+007200 C                   EXSR      CONTRL                                                             03       111005     007200
+007300 **                                                                                                        111005     007300
+007400 C     WSFUNC        WHENEQ    'E'                                                               X03       111005     007400
+007500 C                   EXSR      EXECUT                                                             03       111005     007500
+007600 **                                                                                                        111005     007600
+007700 C                   ENDSL                                                                       E03       111005     007700
+007800 C                   ENDDO                                                                       E02       111005     007800
+007900 **                                                                                                        120925     007900
+008000 c                   else                                                                        X01       120925     008000
+008100 c                   eval      kmsmn = 'SYS1962'                                                  01       120925     008100
+008200 c                   endif                                                                       E01       120925     008200
+008300 **                                                                                                        111005     008300
+008400 C                   SETON                                        LR----                                   111005     008400
+008500 **===============================================================**                                       111005     008500
+008600 **        PREPAP -  PREPARAZIONE MAPPE                            *                                       111005     008600
+008700 **===============================================================**                                       111005     008700
+008800 C     PREPAP        BEGSR                                                                                 111005     008800
+008900 **                                                                                                        111005     008900
+009000 ** Spegnimento indicatori errore generale, forzatura e conferma                                           111005     009000
+009100 C                   SETOFF                                       979998                                   111005     009100
+009200 c                   movea     wszero        *in(30)                                                       111005     009200
+009300 **                                                                                                        111005     009300
+009400 C     WSNMAP        CASEQ     1             SPREP1                                                        111005     009400
+009500 C     WSNMAP        CASEQ     2             SPREP2                                                        111005     009500
+009600 C                   ENDCS                                                                                 111005     009600
+009700 **                                                                                                        111005     009700
+009800 C                   MOVEA     *BLANKS       CDE                                                           111005     009800
+009900 C                   MOVEA     *BLANKS       CID                                                           111005     009900
+010000 C                   Z-ADD     0             X1                                                            111005     010000
+010100 **                                                                                                        111005     010100
+010200 C                   MOVEL     'V'           WSFUNC                                                        111005     010200
+010300 **                                                                                                        120920     010300
+010400 ** Se richimato da Inquiry salta la prima videata                                                         120920     010400
+010500 c                   if            $entry_opz = '4'                                              B01       120920     010500
+010600 c                             and wsnmap = 1                                                    B01       120920     010600
+010700 c                   exsr      contrl                                                             01       120920     010700
+010800 C  N99              MOVEL     'E'           WSFUNC                                               01       120920     010800
+010900 c                   endif                                                                       E01       120920     010900
+011000 **                                                                                                        111005     011000
+011100 C                   ENDSR                                                                                 111005     011100
+011200 **===============================================================**                                       111005     011200
+011300 **        VISUAL - VISUALIZZAZIONE                                *                                       111005     011300
+011400 **===============================================================**                                       111005     011400
+011500 C     VISUAL        BEGSR                                                                                 111005     011500
+011600 **                                                                                                        111005     011600
+011700 C  N99              WRITE     UVMAPPA9                                                                    111005     011700
+011800 C   99              WRITE     UVSCTL99                                                                    111005     011800
+011900 **                                                                                                        111005     011900
+012000 C                   SETOFF                                       99----                                   111005     012000
+012100 **                                                                                                        111005     012100
+012200 C                   SELECT                                                                      B01       111005     012200
+012300 C     WSNMAP        WHENEQ    1                                                                 X01       111005     012300
+012400 C                   EXFMT     UVMAPPA1                                                           01       111005     012400
+012500 **                                                                                                        111005     012500
+012600 C     WSNMAP        WHENEQ    2                                                                 X01       111005     012600
+012700 C                   WRITE     UVMAPPA2                                                           01       111005     012700
+012800 C                   EXFMT     UVSCTL2                                                            01       111005     012800
+012900 **                                                                                                        111005     012900
+013000 C                   ENDSL                                                                       E01       111005     013000
+013100 **                                                                                                        111005     013100
+013200 C                   MOVEL     'C'           WSFUNC                                                        111005     013200
+013300 **                                                                                                        111005     013300
+013400 C                   ENDSR                                                                                 111005     013400
+013500 **===============================================================**                                       111005     013500
+013600 **        ROUTES - TASTI                                          *                                       111005     013600
+013700 **================================================================*                                       111005     013700
+013800 C     ROUTES        BEGSR                                                                                 111005     013800
+013900 ** Fine lavoro                                                                                            111005     013900
+014000 C     *INKA         IFEQ      *ON                                                               B01       111005     014000
+014100 C                   SETON                                        LR----                          01       111005     014100
+014200 C   LR              RETURN                                                                       01       111005     014200
+014300 C                   END                                                                         E01       111005     014300
+014400 ** Mappa precedente                                                                                       111005     014400
+014500 C     *INKB         IFEQ      *ON                                                               B01       111005     014500
+014600 c                   if        wsnmap = 2 and                                                    B02       120920     014600
+014700 c                             $entry_opz = '4'                                                  B02       120920     014700
+014800 C                   SETON                                        LR----                          02       120920     014800
+014900 C                   RETURN                                                                       02       120920     014900
+015000 c                   endif                                                                       E02       120920     015000
+015100 C                   SETOFF                                       9798--                          01       111005     015100
+015200 C                   MOVEL     'P'           WSFUNC                                               01       111005     015200
+015300 C                   SUB       1             WSNMAP                                               01       111005     015300
+015400 C                   ENDIF                                                                       E01       111005     015400
+015500 ** Conferma scelta                                                                                        111005     015500
+015600 C     *INKC         IFEQ      *ON                                                               B01       111005     015600
+015700 C     *INKK         OREQ      *ON                                                                01       111005     015700
+015800 c                   if        wsnmap = 2                                                        B02       120921     015800
+015900 c                   seton                                        95----                          02       120921     015900
+016000 c                   endif                                                                       E02       120921     016000
+016100 C   95              EXSR      CONTRL                                                             01       111005     016100
+016200 C                   SETOFF                                       98----                          01       111005     016200
+016300 **    *in99 indicatore generale di errore                                                                 111005     016300
+016400 C     *IN99         IFEQ      '0'                                                               B02       111005     016400
+016500 C     *IN97         OREQ      *on                                                                02       120920     016500
+016600 C     *INKK         ANDEQ     *on                                                                02       120920     016600
+016700 C                   MOVEL     'E'           WSFUNC                                               02       111005     016700
+016800 C                   ENDIF                                                                       E02       111005     016800
+016900 C                   ENDIF                                                                       E01       111005     016900
+017000 **                                                                                                        111005     017000
+017100 C                   ENDSR                                                                                 111005     017100
+017200 **===============================================================**                                       111005     017200
+017300 **        CONTRL - CONTROLLA LE VIDEATE                           *                                       111005     017300
+017400 **===============================================================**                                       111005     017400
+017500 C     CONTRL        BEGSR                                                                                 111005     017500
+017600 **                                                                                                        111005     017600
+017700 ** Spegnimento indicatori                                                                                 111005     017700
+017800 C                   SETOFF                                       979899                                   111005     017800
+017900 c                   movea     wszero        *in(30)                                                       111005     017900
+018000 C                   MOVEA     *BLANKS       CDE                                                           111005     018000
+018100 C                   MOVEA     *BLANKS       CID                                                           111005     018100
+018200 C                   Z-ADD     0             X1                                                            111005     018200
+018300 **                                                                                                        111005     018300
+018400 C     WSNMAP        CASEQ     1             CONTR1                                                        111005     018400
+018500 C     WSNMAP        CASEQ     2             CONTR2                                                        111005     018500
+018600 C                   ENDCS                                                                                 111005     018600
+018700 **                                                                                                        111005     018700
+018800 ** Errore= decodifica e visualizzazione messaggio con                                                     111005     018800
+018900 ** F03 disabilitato                                                                                       111005     018900
+019000 C     *IN99         IFEQ      *ON                                                               B01       111005     019000
+019100 C                   EXSR      DECODE                                                             01       111005     019100
+019200 C                   SETOFF                                       98----                          01       111005     019200
+019300 C                   ELSE                                                                        X01       111005     019300
+019400 C                   SETON                                        98----                          01       111005     019400
+019500 C                   ENDIF                                                                       E01       111005     019500
+019600 **                                                                                                        111005     019600
+019700 C                   MOVEL     'V'           WSFUNC                                                        111005     019700
+019800 **                                                                                                        111005     019800
+019900 C                   ENDSR                                                                                 111005     019900
+020000 **===============================================================**                                       111005     020000
+020100 **        EXECUT - ESEGUE LA ELABORAZIONE DELLE VIDEATE           *                                       111005     020100
+020200 **===============================================================**                                       111005     020200
+020300 C     EXECUT        BEGSR                                                                                 111005     020300
+020400 **                                                                                                        111005     020400
+020500 C                   SELECT                                                                      B01       111005     020500
+020600 C     WSNMAP        WHENEQ    1                                                                 X01       111005     020600
+020700 C                   EXSR      EXECT1                                                             01       111005     020700
+020800 C     WSNMAP        WHENEQ    2                                                                 X01       111005     020800
+020900 C                   EXSR      EXECT2                                                             01       111005     020900
+021000 C                   ENDSL                                                                       E01       111005     021000
+021100 **                                                                                                        111005     021100
+021200 C                   ENDSR                                                                                 111005     021200
+021300 **===============================================================**                                       111005     021300
+021400 **        SPREP1 - PREPARAZIONE MAPPA 1                           *                                       111005     021400
+021500 **===============================================================**                                       111005     021500
+021600 C     SPREP1        BEGSR                                                                                 111005     021600
+021700 **                                                                                                        111005     021700
+021800 C                   SETOFF                                       9897--                                   111005     021800
+021900 **                                                                                                        121121     021900
+022000 c                   if        wsClr1 = *on                                                      B01       121121     022000
+022100 c                   clear                   uvopz                                                01       121121     022100
+022200 c                   clear                   uvced                                                01       121121     022200
+022300 c                   clear                   uvrasc                                               01       121121     022300
+022400 c                   clear                   uvdtva                                               01       121121     022400
+022500 c                   eval      wsClr1 = *off                                                      01       121121     022500
+022600 c                   endif                                                                       E01       121121     022600
+022700 **                                                                                                        120920     022700
+022800 c                   setoff                                       21----                                   120925     022800
+022900 c                   if        $entry_ced <> 0                                                   B01       120920     022900
+023000 c                   seton                                        21----                          01       120925     023000
+023100 c                   eval      uvced = $entry_ced                                                 01       120920     023100
+023200 c                   eval      uvopz = $entry_opz                                                 01       120920     023200
+023300 c                   endif                                                                       E01       120920     023300
+023400 **                                                                                                        111005     023400
+023500 C                   ENDSR                                                                                 111005     023500
+023600 **===============================================================**                                       111005     023600
+023700 **        SPREP2 - PREPARAZIONE MAPPA 2                           *                                       111005     023700
+023800 **===============================================================**                                       111005     023800
+023900 C     SPREP2        BEGSR                                                                                 111005     023900
+024000 **                                                                                                        111005     024000
+024100 C                   SETOFF                                       9897--                                   111005     024100
+024200 c     uvopz         comp      '1'                                ----01                                   111005     024200
+024300 c     uvopz         comp      '2'                                ----02                                   111005     024300
+024400 c     uvopz         comp      '3'                                ----03                                   111005     024400
+024500 c     uvopz         comp      '4'                                ----04                                   111005     024500
+024600 c*                                                                                                        111005     024600
+024700 C* PULIZIA SUBFILE                                                                                        111005     024700
+024800 C                   SETON                                        1516--                                   111005     024800
+024900 C                   WRITE     UVSCTL2                                                                     111005     024900
+025000 C                   SETOFF                                       15----                                   111005     025000
+025100 C                   Z-ADD     0             WSRKS2                                                        111005     025100
+025200 c*                                                                                                        111005     025200
+025300 c* Caricamento subfile                                                                                    111005     025300
+025400 c                   if        uvced  <> 0                                                       B01       120920     025400
+025500 c     uvced         setll     CEDSCA4                                                            01       121220     025500
+025600 c                   else                                                                        X01       111005     025600
+025700 c     *loval        setll     CEDSCA4                                                            01       121220     025700
+025800 c                   endif                                                                       E01       111005     025800
+025900 c*                                                                                                        111005     025900
+026000 c                   do        *hival                                                            B01       111005     026000
+026100 c                   if        uvced  <> 0                                                       B02       120920     026100
+026200 c     uvced         reade     CEDSCA4                            ----17                          02       121220     026200
+026300 c                   else                                                                        X02       111005     026300
+026400 c                   read      CEDSCA4                            ----17                          02       121220     026400
+026500 c                   endif                                                                       E02       111005     026500
+026600 c   17              leave                                                                        01       111005     026600
+026700 c*                                                                                                        111005     026700
+026800 c                   clear                   UVSFL2                                               01       111005     026800
+026900 c                   eval      uv2ced = csced                                                     01       120920     026900
+027000 c     csced         chain     ANACED1R                                                           01       120920     027000
+027100 c                   if        %found                                                            B02       111005     027100
+027200 c                   eval      uv2rsc = acras                                                     02       120920     027200
+027300 c                   endif                                                                       E02       111005     027300
+027400 c                   eval      uv2hdv = csdtva                                                    01       120920     027400
+027500 C                   MOVEL     '4'           SHFERD                                               01       111005     027500
+027600 C                   MOVEL     csdtva        SHDTIN                                               01       120920     027600
+027700 C                   CALL      'STD012'      PL_STD012                                            01       111005     027700
+027800 c                   move      shdtou        uv2dva                                               01       111005     027800
+027900 C                   MOVEL     '4'           SHFERD                                               01       121105     027900
+028000 C                   MOVEL     csdtsc        SHDTIN                                               01       121105     028000
+028100 C                   CALL      'STD012'      PL_STD012                                            01       121105     028100
+028200 c                   move      shdtou        uv2dsc                                               01       121105     028200
+028300 c*                                                                                                        111005     028300
+028400 C                   ADD       1             WSRKS2                                               01       111005     028400
+028500 C                   Z-ADD     WSRKS2        UVNRR2                                               01       111005     028500
+028600 C                   WRITE     UVSFL2                                                             01       111005     028600
+028700 c*                                                                                                        120920     028700
+028800 c     kCEDSCA       setgt     CEDSCA4                                                            01       121220     028800
+028900 c*                                                                                                        111005     028900
+029000 c                   enddo                                                                       E01       111005     029000
+029100 C*                                                                                                        111005     029100
+029200 C     WSRKS2        COMP      0                                  ----16                                   111005     029200
+029300 c                   z-add     1             uvnrr2                                                        111005     029300
+029400 **                                                                                                        111005     029400
+029500 C                   ENDSR                                                                                 111005     029500
+029600 **===============================================================**                                       111005     029600
+029700 **        CONTR1 - CONTROLLI DELLA PRIMA VIDEATA                  *                                       111005     029700
+029800 **===============================================================**                                       111005     029800
+029900 C     CONTR1        BEGSR                                                                                 111005     029900
+030000 **                                                                                                        111005     030000
+030100 ** Opzione                                                                                                111005     030100
+030200 c                   if        uvopz = *blank                                                    B01       111005     030200
+030300 C                   MOVE      'SYS0001'     WSMSID                                               01       111005     030300
+030400 C                   EXSR      REGERR                                                             01       111005     030400
+030500 C                   SETON                                        --30--                          01       111005     030500
+030600 c                   endif                                                                       E01       111005     030600
+030700 c*                                                                                                        120925     030700
+030800 ** Ricerca cedente                                                                                        120925     030800
+030900 C                   IF            *INKD  = *on                                                  B01       120925     030900
+031000 c                             and csrfld = 'UVCED'                                              B01       120925     031000
+031100 c                             and *IN21  = *off                                                 B01       120925     031100
+031200 c                   exsr      RicCed                                                             01       120925     031200
+031300 C                   ENDIF                                                                       E01       120925     031300
+031400 **                                                                                                        111005     031400
+031500 ** Cedente                                                                                                120920     031500
+031600 c                   clear                   uvrasc                                                        120920     031600
+031700 c                   if        uvced  <> 0                                                       B01       120920     031700
+031800 c     uvced         chain     ANACED1R                                                           01       120920     031800
+031900 c                   if        not %found                                                        B02       111005     031900
+032000 C                   MOVE      'SYS8179'     WSMSID                                               02       120920     032000
+032100 C                   EXSR      REGERR                                                             02       111005     032100
+032200 C                   SETON                                        --32--                          02       111005     032200
+032300 c                   else                                                                        X02       111005     032300
+032400 c                   movel     acras         uvrasc                                               02       120920     032400
+032500 c                   if            acflag = 'A'                                                  B03       121121     032500
+032600 c                             and uvopz <> '4'                                                  B03       121121     032600
+032700 C                   MOVE      'SYS3993'     WSMSID                                               03       120920     032700
+032800 C                   EXSR      REGERR                                                             03       111005     032800
+032900 C                   SETON                                        --32--                          03       111005     032900
+033000 c                   endif                                                                       E03       111005     033000
+033100 c                   endif                                                                       E02       111005     033100
+033200 c                   else                                                                        X01       111005     033200
+033300 c                   if        uvopz = '1'                                                       B02       111005     033300
+033400 C                   MOVE      'SYS0401'     WSMSID                                               02       120920     033400
+033500 C                   EXSR      REGERR                                                             02       111005     033500
+033600 C                   SETON                                        --32--                          02       111005     033600
+033700 c                   endif                                                                       E02       111005     033700
+033800 c                   endif                                                                       E01       111005     033800
+033900 **                                                                                                        111005     033900
+034000 ** Data decorenza                                                                                         111005     034000
+034100 c                   z-add     0             wsdtva                                                        111005     034100
+034200 c                   if        uvdtva <> 0                                                       B01       111005     034200
+034300 C                   MOVEL     '1'           SHFERD                                               01       111005     034300
+034400 C                   MOVEL     UVDTVA        SHDTIN                                               01       111005     034400
+034500 C                   CALL      'STD012'      PL_STD012                                            01       111005     034500
+034600 C     SHFERD        IFNE      *BLANKS                                                           B02       111005     034600
+034700 C                   MOVE      'SYS1875'     WSMSID                                               02       111005     034700
+034800 C                   EXSR      REGERR                                                             02       111005     034800
+034900 C                   SETON                                        --31--                          02       111005     034900
+035000 C                   ELSE                                                                        X02       111005     035000
+035100 C                   MOVEL     SHDTOU        WSDTVA                                               02       111005     035100
+035200 C                   ENDIF                                                                       E02       111005     035200
+035300 c                   else                                                                        X01       111005     035300
+035400 c                   if        uvopz = '1'                                                       B02       111005     035400
+035500 C                   MOVE      'SYS0101'     WSMSID                                               02       111005     035500
+035600 C                   EXSR      REGERR                                                             02       111005     035600
+035700 C                   SETON                                        --31--                          02       111005     035700
+035800 c                   endif                                                                       E02       111005     035800
+035900 c                   endif                                                                       E01       111005     035900
+036000 c*        In immissione la data deve essere maggiore della precedente                                     111005     036000
+036100 c                   if        uvopz = '1' and                                                   B01       111005     036100
+036200 c                             wsdtva <> 0                                                       B01       111005     036200
+036300 c     uvced         setgt     CEDSCA1R                                                           01       120920     036300
+036400 c     uvced         readpe    CEDSCA1R                                                           01       120920     036400
+036500 c                   if        not %eof and                                                      B02       111005     036500
+036600 c                             csdtva >= wsdtva                                                  B02       120920     036600
+036700 C                   MOVE      'SYS0164'     WSMSID                                               02       111005     036700
+036800 C                   EXSR      REGERR                                                             02       111005     036800
+036900 C                   SETON                                        --31--                          02       111005     036900
+037000 c                   endif                                                                       E02       111005     037000
+037100 c                   endif                                                                       E01       111005     037100
+037200 c*        In variazione/annullamento/inquiry                                                              111005     037200
+037300 c                   if        (uvopz = '2' or                                                   B01       111005     037300
+037400 c                              uvopz = '3' or                                                   B01       111005     037400
+037500 c                              uvopz = '4') and                                                 B01       111005     037500
+037600 c                             wsdtva <> 0                                                       B01       111005     037600
+037700 c                   eval      csced  = uvced                                                     01       120920     037700
+037800 c                   eval      csdtva = wsdtva                                                    01       120920     037800
+037900 c     kCEDSCA       chain     CEDSCA1R                                                           01       120920     037900
+038000 c                   if        not %found                                                        B02       111005     038000
+038100 C                   MOVE      'SYS1496'     WSMSID                                               02       120920     038100
+038200 C                   EXSR      REGERR                                                             02       111005     038200
+038300 C                   SETON                                        --3132                          02       111005     038300
+038400 c                   else                                                                        X02       111005     038400
+038500 c*                 Annullamento solo se ultima decorrenza                                                 111005     038500
+038600 c                   if        uvopz = '3'                                                       B03       111005     038600
+038700 c     kCEDSCA       setgt     CEDSCA1R                                                           03       120920     038700
+038800 c     uvced         reade     CEDSCA1R                                                           03       120920     038800
+038900 c                   if        not %eof                                                          B04       111005     038900
+039000 C                   MOVE      'SYS8299'     WSMSID                                               04       111005     039000
+039100 C                   EXSR      REGERR                                                             04       111005     039100
+039200 C                   SETON                                        --3132                          04       111005     039200
+039300 c                   endif                                                                       E04       111005     039300
+039400 c                   endif                                                                       E03       111005     039400
+039500 c                   endif                                                                       E02       111005     039500
+039600 c                   endif                                                                       E01       111005     039600
+039700 **                                                                                                        111005     039700
+039800 C                   ENDSR                                                                                 111005     039800
+039900 **===================================================================                                     111005     039900
+040000 ** CONTR2 CONTROLLI SECONDA MAPPA                                                                         111005     040000
+040100 **===================================================================                                     111005     040100
+040200 C     CONTR2        BEGSR                                                                                 111005     040200
+040300 C*                                                                                                        111005     040300
+040400 c                   z-add     0             wscnts                                                        111006     040400
+040500 c  N16              do        *hival                                                            B01       120601     040500
+040600 c                   readc     UVSFL2                                                             01       111006     040600
+040700 c                   if        %eof                                                              B02       111006     040700
+040800 c                   leave                                                                        02       111006     040800
+040900 c                   endif                                                                       E02       111006     040900
+041000 c                   setoff                                       1931--                          01       111006     041000
+041100 c                   if        uv2opz = 'X'                                                      B02       111006     041100
+041200 c                   seton                                        19----                          02       111006     041200
+041300 c                   add       1             wscnts                                               02       111006     041300
+041400 c                   exsr      CtlSf2                                                             02       111006     041400
+041500 c                   endif                                                                       E02       111006     041500
+041600 c                   update    UVSFL2                                                             01       111006     041600
+041700 c                   enddo                                                                       E01       111006     041700
+041800 c*                                                                                                        111006     041800
+041900 c                   if        wscnts = 0                                                        B01       111006     041900
+042000 C                   MOVE      'SYS0058'     WSMSID                                               01       111006     042000
+042100 C                   EXSR      REGERR                                                             01       111006     042100
+042200 c                   endif                                                                       E01       111006     042200
+042300 C*                                                                                                        111005     042300
+042400 C                   ENDSR                                                                                 111005     042400
+042500 **===================================================================                                     111006     042500
+042600 **  Controlli record subfile 2                                                                            111006     042600
+042700 **===================================================================                                     111006     042700
+042800 C     CtlSf2        BEGSR                                                                                 111006     042800
+042900 C*                                                                                                        111006     042900
+043000 c* Verifica esistenza record                                                                              111006     043000
+043100 c                   eval      csced  = uv2ced                                                             120920     043100
+043200 c                   eval      csdtva = uv2hdv                                                             120920     043200
+043300 c     kCEDSCA       chain     CEDSCA1R                                                                    120920     043300
+043400 c                   if        not %found                                                        B01       111006     043400
+043500 C                   MOVE      'SYS1496'     WSMSID                                               01       120920     043500
+043600 C                   EXSR      REGERR                                                             01       111006     043600
+043700 C                   SETON                                        --31--                          01       111006     043700
+043800 c                   else                                                                        X01       111006     043800
+043900 c*                 Annullamento solo se ultima decorrenza                                                 111006     043900
+044000 c                   if        uvopz = '3'                                                       B02       111006     044000
+044100 c     kCEDSCA       setgt     CEDSCA1R                                                           02       120920     044100
+044200 c     uv2ced        reade     CEDSCA1R                                                           02       120920     044200
+044300 c                   if        not %eof                                                          B03       111006     044300
+044400 C                   MOVE      'SYS8299'     WSMSID                                               03       111006     044400
+044500 C                   EXSR      REGERR                                                             03       111006     044500
+044600 C                   SETON                                        --31--                          03       111006     044600
+044700 c                   endif                                                                       E03       111006     044700
+044800 c                   endif                                                                       E02       111006     044800
+044900 c                   endif                                                                       E01       111006     044900
+045000 C*                                                                                                        111006     045000
+045100 C                   ENDSR                                                                                 111006     045100
+045200 **===============================================================**                                       111005     045200
+045300 ** EXECT1 - ELABORA LA PRIMA VIDEATA                              *                                       111005     045300
+045400 **===============================================================**                                       111005     045400
+045500 C     EXECT1        BEGSR                                                                                 111005     045500
+045600 **                                                                                                        111005     045600
+045700 c                   if        uvced  = 0 or                                                     B01       120920     045700
+045800 c                             uvdtva = 0                                                        B01       111005     045800
+045900 C                   Z-ADD     2             WSNMAP                                               01       111005     045900
+046000 C                   MOVEL     'P'           WSFUNC                                               01       120920     046000
+046100 c                   else                                                                        X01       111005     046100
+046200 C                   exsr      GesSca                                                             01       120920     046200
+046300 C                   MOVEL     'P'           WSFUNC                                               01       121121     046300
+046400 c                   endif                                                                       E01       111005     046400
+046500 **                                                                                                        111005     046500
+046600 C                   ENDSR                                                                                 111005     046600
+046700 **===============================================================**                                       111005     046700
+046800 ** EXECT2 - ELABORA LA SECONDA VIDEATA                            *                                       111005     046800
+046900 **===============================================================**                                       111005     046900
+047000 C     EXECT2        BEGSR                                                                                 111005     047000
+047100 **                                                                                                        111005     047100
+047200 c                   do        *hival                                                            B01       111006     047200
+047300 c                   readc     uvsfl2                                                             01       111005     047300
+047400 c                   if        %eof                                                              B02       111006     047400
+047500 c                   leave                                                                        02       111006     047500
+047600 c                   endif                                                                       E02       111006     047600
+047700 c                   if        uv2opz = 'X'                                                      B02       111006     047700
+047800 c                   eval      uvced  = uv2ced                                                    02       120920     047800
+047900 c                   eval      wsdtva = uv2hdv                                                    02       111006     047900
+048000 c                   exsr      GesSca                                                             02       120920     048000
+048100 c                   endif                                                                       E02       111005     048100
+048200 c                   enddo                                                                       E01       111006     048200
+048300 **                                                                                                        111005     048300
+048400 C                   Z-ADD     1             WSNMAP                                                        111005     048400
+048500 C                   MOVEL     'P'           WSFUNC                                                        111005     048500
+048600 **                                                                                                        120920     048600
+048700 ** Se richiamato da Inquiry esce                                                                          120920     048700
+048800 c                   if        $entry_opz = '4'                                                  B01       120920     048800
+048900 c                   seton                                        LR----                          01       120920     048900
+049000 c                   return                                                                       01       120920     049000
+049100 c                   endif                                                                       E01       120920     049100
+049200 **                                                                                                        111005     049200
+049300 C                   ENDSR                                                                                 111005     049300
+049400 **===============================================================**                                       120920     049400
+049500 **  Gestione dettaglio scaglioni                                  *                                       120920     049500
+049600 **===============================================================**                                       120920     049600
+049700 C     GesSca        BEGSR                                                                                 120920     049700
+049800 **                                                                                                        120920     049800
+049900 c                   eval      TRA449_KPJBA = KPJBA                                                        121220     049900
+050000 c                   clear                   TRA449_                                                       121220     050000
+050100 c                   eval      TRA449_ced  = uvced                                                         121220     050100
+050200 c                   eval      TRA449_dtva = wsdtva                                                        121220     050200
+050300 c                   eval      TRA449_opz  = uvopz                                                         121220     050300
+050400 c                   eval      TRA449_kpjbu = TRA449_                                                      121220     050400
+050500 c                   call      'TRA449'                                                                    121220     050500
+050600 c                   parm                    TRA449_KPJBA                                                  121220     050600
+050700 c                   eval      TRA449_ = TRA449_kpjbu                                                      121220     050700
+050800 c                   if        TRA449_rtrn = '1'                                                 B01       121220     050800
+050900 c                   eval      wsClr1 = *on                                                       01       121121     050900
+051000 c                   endif                                                                       E01       121121     051000
+051100 **                                                                                                        120920     051100
+051200 C                   ENDSR                                                                                 120920     051200
+051300 **===============================================================**                                       111005     051300
+051400 ** Ricerca cedente                                                *                                       120920     051400
+051500 **===============================================================**                                       111005     051500
+051600 C     RicCed        BEGSR                                                                                 120920     051600
+051700 **                                                                                                        111005     051700
+051800 c                   clear                   BRO310_                                                       120920     051800
+051900 c                   eval      BRO310_DRCed = 'A'                                                          120920     051900
+052000 c                   eval      BRO310_KPJBA = KPJBA                                                        120920     052000
+052100 c                   eval      BRO310_KPJBU = BRO310_                                                      120920     052100
+052200 c                   call      'BRO310'                                                                    120920     052200
+052300 c                   parm                    BRO310_KPJBA                                                  120920     052300
+052400 c                   eval      BRO310_ = BRO310_KPJBU                                                      120920     052400
+052500 c                   eval      uvced = BRO310_CdCed                                                        120920     052500
+052600 **                                                                                                        111005     052600
+052700 C                   ENDSR                                                                                 111005     052700
+052800 **===============================================================**                                       111005     052800
+052900 **        DECODE - DECODIFICA GLI ERRORI                          *                                       111005     052900
+053000 **===============================================================**                                       111005     053000
+053100 C     DECODE        BEGSR                                                                                 111005     053100
+053200 **                                                                                                        111005     053200
+053300 C                   CALL      'DCER01'      PLIST2                                                        111005     053300
+053400 **                                                                                                        111005     053400
+053500 C     WSSLVL        COMP      60                                 --97--                                   111005     053500
+053600 **                                                                                                        111005     053600
+053700 C                   ENDSR                                                                                 111005     053700
+053800 **================================================================*                                       111005     053800
+053900 **        REGERR - REGISTRA GLI ERRORI                            *                                       111005     053900
+054000 **===============================================================**                                       111005     054000
+054100 C     REGERR        BEGSR                                                                                 111005     054100
+054200 **                                                                                                        111005     054200
+054300 C     X1            IFLT      30                                                                B01       111005     054300
+054400 C                   ADD       1             X1                                                   01       111005     054400
+054500 C                   MOVEL     WSMSID        CID(X1)                                              01       111005     054500
+054600 C                   MOVEL     *BLANKS       WSMSID                                               01       111005     054600
+054700 C                   MOVEL     WSCDER        CDE(X1)                                              01       111005     054700
+054800 C                   MOVEL     *BLANKS       WSCDER                                               01       111005     054800
+054900 C                   END                                                                         E01       111005     054900
+055000 C                   SETON                                        99----                                   111005     055000
+055100 **                                                                                                        111005     055100
+055200 C                   ENDSR                                                                                 111005     055200
+055300 **===============================================================**                                       111005     055300
+055400 **        HOUSEK - HOUSEKEEPING                                   *                                       111005     055400
+055500 **===============================================================**                                       111005     055500
+055600 C     HOUSEK        BEGSR                                                                                 111005     055600
+055700 **                                                                                                        111005     055700
+055800 C     *ENTRY        PLIST                                                                                 111005     055800
+055900 C                   PARM                    KPJBA                                                         111005     055900
+056000 c                   eval      $entry_ = kpjbu                                                             120920     056000
+056100 **                                                                                                        111005     056100
+056200 ** PLIST per decodifica messaggio                                                                         111005     056200
+056300 C     PLIST2        PLIST                                                                                 111005     056300
+056400 C                   PARM                    KPJBA                                                         111005     056400
+056500 C                   PARM                    CID                                                           111005     056500
+056600 C                   PARM                    CDE                                                           111005     056600
+056700 C                   PARM                    WSSLVL                                                        111005     056700
+056800 ** Controllo data                                                                                         111005     056800
+056900 C     PL_STD012     PLIST                                                                                 111005     056900
+057000 C                   PARM                    SHDTIN            8                                           111005     057000
+057100 C                   PARM                    SHDTOU            8                                           111005     057100
+057200 C                   PARM                    SHFERD            1                                           111005     057200
+057300 **                                                                                                        111005     057300
+057400 ** DEFINIZIONE CAMPI                                                                                      111005     057400
+057500 C                   MOVEL     '*       '    UVSFLQ                                                        111005     057500
+057600 C                   MOVEL     *ALL'0'       WSZERO           30                                           111005     057600
+057700 C                   MOVEL     *BLANK        WSCDER           60                                           111005     057700
+057800 C                   MOVEL     *BLANK        WSCDQS           50                                           111005     057800
+057900 C                   MOVEL     *BLANK        WSMSID            7                                           111005     057900
+058000 C                   MOVEL     *ZEROS        WSNEXT            1 0                                         111005     058000
+058100 C                   MOVEL     *ZEROS        WSSLVL            2 0                                         111005     058100
+058200 C                   MOVEL     *ZEROS        X1                2 0                                         111005     058200
+058300 C                   Z-ADD     1             WSNMAP            1 0                                         111005     058300
+058400 C                   MOVEL     'P'           WSFUNC            1                                           111005     058400
+058500 C                   SETON                                        98----                                   111005     058500
+058600 **                                                                                                        111005     058600
+058700 ** DEFINIZIONE CHIAVI                                                                                     111005     058700
+058800 c     kCEDSCA       klist                                                                                 120920     058800
+058900 c                   kfld                    csced                                                         120920     058900
+059000 c                   kfld                    csdtva                                                        120920     059000
+059100 **                                                                                                        120925     059100
+059200 c     pakey         klist                                                                                 120925     059200
+059300 c                   kfld                    pakeya                                                        120925     059300
+059400 c                   kfld                    pakeyb                                                        120925     059400
+059500 **                                                                                                        120925     059500
+059600 ** Dati IAS                                                                                               120925     059600
+059700 c                   eval      pakeya = 'IAS'                                                              120925     059700
+059800 c                   eval      pakeyb = *all'0'                                                            120925     059800
+059900 c                   move      1             pakeyb                                                        120925     059900
+060000 c     pakey         chain     PARAM                                                                       120925     060000
+060100 c                   if        %found                                                            B01       120925     060100
+060200 c                   eval      IAS = padesc                                                       01       120925     060200
+060300 c                   else                                                                        X01       120925     060300
+060400 c                   clear                   IAS                                                  01       120925     060400
+060500 c                   endif                                                                       E01       120925     060500
+060600 **                                                                                                        111005     060600
+060700 C                   ENDSR                                                                                 111005     060700
+000001=OUVMAPPA1                                                                                                          16000001
+        *--------------------------------------------------------------------------------------------*                    16
+        * Formato record RPG . . . . :  UVMAPPA1                                                     *                    16
+        * Formato esterno  . . . . . :  UVMAPPA1 : OBJFAC/TRA4480V                                   *                    16
+        *--------------------------------------------------------------------------------------------*                    16
+000002=O                       *IN21                4N CHAR        1                                                      16000002
+000003=O                       *IN30                3N CHAR        1                                                      16000003
+000004=O                       *IN31                6N CHAR        1                                                      16000004
+000005=O                       *IN32                5N CHAR        1                                                      16000005
+000006=O                       *IN97                2N CHAR        1                                                      16000006
+000007=O                       *IN98                1N CHAR        1                                                      16000007
+000008=O                       CSRREC              16A CHAR       10                                                      16000008
+000009=O                       CSRFLD              26A CHAR       10                                                      16000009
+000010=O                       KNSIF               35A CHAR        9                                                      16000010
+000011=O                       UVOPZ               36A CHAR        1                                                      16000011
+000012=O                       UVCED               41S ZONE      5,0                                                      16000012
+000013=O                       UVRASC              76A CHAR       35                                                      16000013
+000014=O                       UVDTVA              84S ZONE      8,0                                                      16000014
+000001=OUVSFL2                                                                                                            17000001
+        *--------------------------------------------------------------------------------------------*                    17
+        * Formato record RPG . . . . :  UVSFL2                                                       *                    17
+        * Formato esterno  . . . . . :  UVSFL2 : OBJFAC/TRA4480V                                     *                    17
+        *--------------------------------------------------------------------------------------------*                    17
+000002=O                       *IN19                1N CHAR        1                                                      17000002
+000003=O                       *IN31                2N CHAR        1                                                      17000003
+000004=O                       UV2HDV              10S ZONE      8,0                                                      17000004
+000005=O                       UV2OPZ              11A CHAR        1                                                      17000005
+000006=O                       UV2CED              16S ZONE      5,0                                                      17000006
+000007=O                       UV2RSC              51A CHAR       35                                                      17000007
+000008=O                       UV2DVA              59S ZONE      8,0                                                      17000008
+000009=O                       UV2DSC              67S ZONE      8,0                                                      17000009
+000001=OUVSCTL2                                                                                                           18000001
+        *--------------------------------------------------------------------------------------------*                    18
+        * Formato record RPG . . . . :  UVSCTL2                                                      *                    18
+        * Formato esterno  . . . . . :  UVSCTL2 : OBJFAC/TRA4480V                                    *                    18
+        *--------------------------------------------------------------------------------------------*                    18
+000002=O                       *IN02                7N CHAR        1                                                      18000002
+000003=O                       *IN03                6N CHAR        1                                                      18000003
+000004=O                       *IN04                8N CHAR        1                                                      18000004
+000005=O                       *IN15                3N CHAR        1                                                      18000005
+000006=O                       *IN16                4N CHAR        1                                                      18000006
+000007=O                       *IN17                5N CHAR        1                                                      18000007
+000008=O                       *IN97                2N CHAR        1                                                      18000008
+000009=O                       *IN98                1N CHAR        1                                                      18000009
+000010=O                       UVNRR2              12S ZONE      4,0                                                      18000010
+000011=O                       KNSIF               21A CHAR        9                                                      18000011
+000001=OUVMAPPA2                                                                                                          19000001
+        *--------------------------------------------------------------------------------------------*                    19
+        * Formato record RPG . . . . :  UVMAPPA2                                                     *                    19
+        * Formato esterno  . . . . . :  UVMAPPA2 : OBJFAC/TRA4480V                                   *                    19
+        *--------------------------------------------------------------------------------------------*                    19
+000002=O                       *IN97                2N CHAR        1                                                      19000002
+000003=O                       *IN98                1N CHAR        1                                                      19000003
+000001=OUVSCTL99                                                                                                          20000001
+        *--------------------------------------------------------------------------------------------*                    20
+        * Formato record RPG . . . . :  UVSCTL99                                                     *                    20
+        * Formato esterno  . . . . . :  UVSCTL99 : OBJFAC/TRA4480V                                   *                    20
+        *--------------------------------------------------------------------------------------------*                    20
+000002=O                       *IN99                1N CHAR        1                                                      20000002
+000003=O                       UVSFLQ              11A CHAR       10                                                      20000003
+000001=OUVMAPPA9                                                                                                          21000001
+        *--------------------------------------------------------------------------------------------*                    21
+        * Formato record RPG . . . . :  UVMAPPA9                                                     *                    21
+        * Formato esterno  . . . . . :  UVMAPPA9 : OBJFAC/TRA4480V                                   *                    21
+        *--------------------------------------------------------------------------------------------*                    21
+000002=O                       UVNONE               1A CHAR        1                                                      21000002
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+*RNF7066 00        001900  Il Formato record PARAM1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00        002000  Il Formato record UVSFL99 non viene utilizzato per
+                           l'immissione e l'emissione.
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+          P o s i z i o n i   b u f f e r    d i   e m i s s i o n e
+Riga   Iniz. Fine  Campo o costante
+Numero Pos   Pos
+  16000002     4     4 *IN21
+  16000003     3     3 *IN30
+  16000004     6     6 *IN31
+  16000005     5     5 *IN32
+  16000006     2     2 *IN97
+  16000007     1     1 *IN98
+  16000008     7    16 CSRREC
+  16000009    17    26 CSRFLD
+  16000010    27    35 KNSIF
+  16000011    36    36 UVOPZ
+  16000012    37    41 UVCED
+  16000013    42    76 UVRASC
+  16000014    77    84 UVDTVA
+  17000002     1     1 *IN19
+  17000003     2     2 *IN31
+  17000004     3    10 UV2HDV
+  17000005    11    11 UV2OPZ
+  17000006    12    16 UV2CED
+  17000007    17    51 UV2RSC
+  17000008    52    59 UV2DVA
+  17000009    60    67 UV2DSC
+  17000002     1     1 *IN19
+  17000003     2     2 *IN31
+  17000004     3    10 UV2HDV
+  17000005    11    11 UV2OPZ
+  17000006    12    16 UV2CED
+  17000007    17    51 UV2RSC
+  17000008    52    59 UV2DVA
+  17000009    60    67 UV2DSC
+  18000002     7     7 *IN02
+  18000003     6     6 *IN03
+  18000004     8     8 *IN04
+  18000005     3     3 *IN15
+  18000006     4     4 *IN16
+  18000007     5     5 *IN17
+  18000008     2     2 *IN97
+  18000009     1     1 *IN98
+  18000010     9    12 UVNRR2
+  18000011    13    21 KNSIF
+  19000002     2     2 *IN97
+  19000003     1     1 *IN98
+  20000002     1     1 *IN99
+  20000003     2    11 UVSFLQ
+  21000002     1     1 UVNONE
+     * * * * *   F I N E   P O S I Z I O N E   B U F F E R   D I   E M I S I O N E    * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      1  ANACED1L
+           ANACED1R
+                        ACCED                   ZONE      5,0 SIGNED
+      2  CEDSCA3L
+           CEDSCA1R
+                        CSCED                   ZONE      5,0 SIGNED
+                        CSDTVA                  PACK      8,0 SIGNED
+                        CSSCAT                  CHAR        1
+                        CSFAS2                  ZONE      7,5 SIGNED
+                        CSFASA                  ZONE     13,2 SIGNED
+      3  CEDSCA4L
+           CEDSCA4 è il nome RPG del formato esterno CEDSCA1R.
+                        CSCED                   ZONE      5,0 SIGNED
+                        CSDTVA                  PACK      8,0 SIGNED     DESCEND
+                        CSSCAT                  CHAR        1
+                        CSFAS2                  ZONE      7,5 SIGNED
+                        CSFASA                  ZONE     13,2 SIGNED
+      4  PARAM
+           PARAM1R
+                        PAKEYA                  CHAR        3
+                        PAKEYB                  CHAR        9
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         ANACED1L          DISK                   001600D
+           ANACED1R                               001600D    5000001      027000      031800
+         CEDSCA3L          DISK                   001700D
+           CEDSCA1R                               001700D    6000001      036300      036400
+                                                  037900      038700      038800      043300
+                                                  044100      044200
+         CEDSCA4L          DISK                   001800D
+           CEDSCA4                                001800     7000001      025500      025700
+                                                  026200      026400      028800
+         PARAM             DISK                   001900D     060000
+           PARAM1R                                001900D    8000001
+         TRA4480V          WORKSTN                002000D
+           UVMAPPA1                               002000D    9000001      012400    16000001
+           UVSFL2                                 002000D   10000001      026800M     028600
+                                                  040600      041600      047300    17000001
+           UVSCTL2                                002000D   11000001      012800      024900
+                                                18000001
+           UVMAPPA2                               002000D   12000001      012700    19000001
+           UVSFL99                                002000D   13000001
+           UVSCTL99                               002000D   14000001      011800    20000001
+           UVMAPPA9                               002000D   15000001      011700    21000001
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         $ENTRY_           DS(6)                  003100D     056000M
+         $ENTRY_CED        S(5,0)                 003200D     022900      023100
+         $ENTRY_OPZ        A(1)                   003300D     010500      014700      023200
+                                                  048800
+         *ENTRY            PLIST                  055800D
+         *IN(99)           N(1)                   009200M     017900M
+         *INKA             N(1)                   014000
+         *INKB             N(1)                   014500
+         *INKC             N(1)                   015600
+         *INKD             N(1)                   030900
+         *INKK             N(1)                   015700      016600
+         *IN02             N(1)                 18000002
+         *IN03             N(1)                 18000003
+         *IN04             N(1)                 18000004
+         *IN15             N(1)                 18000005
+         *IN16             N(1)                 18000006
+         *IN17             N(1)                 18000007
+         *IN19             N(1)                 17000002
+         *IN21             N(1)                   031100    16000002
+         *IN30             N(1)                 16000003
+         *IN31             N(1)                 16000004    17000003
+         *IN32             N(1)                 16000005
+         *IN95             N(1)                  9000002M   11000002M
+         *IN97             N(1)                   016500    16000006    18000008    19000002
+         *IN98             N(1)                 16000007    18000009    19000003
+         *IN99             N(1)                   016400      019000    20000002
+*RNF7031 ACAVVB            A(1)                  5000121D
+*RNF7031 ACBRAN            A(3)                  5000103D
+*RNF7031 ACCANI            P(7,2)                5000134D
+*RNF7031 ACCAP             A(5)                  5000013D
+*RNF7031 ACCBLO            A(6)                  5000098D
+*RNF7031 ACCDIS            A(3)                  5000131D
+*RNF7031 ACCDIV            A(3)                  5000110D
+*RNF7031 ACCED             P(5,0)                5000009D
+*RNF7031 ACCERT            P(7,2)                5000136D
+*RNF7031 ACCIVI            A(15)                 5000149D
+*RNF7031 ACCNTZ            A(1)                  5000027D
+*RNF7031 ACDASA            P(2,0)                5000036D
+*RNF7031 ACDASG            P(2,0)                5000038D
+*RNF7031 ACDASM            P(2,0)                5000037D
+*RNF7031 ACDASS            P(2,0)                5000035D
+*RNF7031 ACDCON            P(8,0)                5000029D
+*RNF7031 ACDECO            P(8,0)                5000128D
+*RNF7031 ACDEXA            P(2,0)                5000040D
+*RNF7031 ACDEXG            P(2,0)                5000042D
+*RNF7031 ACDEXM            P(2,0)                5000041D
+*RNF7031 ACDEXS            P(2,0)                5000039D
+*RNF7031 ACDFT2            P(8,0)                5000124D
+*RNF7031 ACDINS            P(8,0)                5000007D
+*RNF7031 ACDMCA            P(2,0)                5000112D
+*RNF7031 ACDMCG            P(2,0)                5000114D
+*RNF7031 ACDMCM            P(2,0)                5000113D
+*RNF7031 ACDMCS            P(2,0)                5000111D
+*RNF7031 ACDM01            A(2)                  5000050D
+*RNF7031 ACDM02            A(2)                  5000051D
+*RNF7031 ACDM03            A(2)                  5000052D
+*RNF7031 ACDM04            A(2)                  5000053D
+*RNF7031 ACDM05            A(2)                  5000054D
+*RNF7031 ACDM06            A(2)                  5000055D
+*RNF7031 ACDM07            A(2)                  5000056D
+*RNF7031 ACDM08            A(2)                  5000057D
+*RNF7031 ACDM09            A(2)                  5000058D
+*RNF7031 ACDM10            A(2)                  5000059D
+*RNF7031 ACDM11            A(2)                  5000060D
+*RNF7031 ACDM12            A(2)                  5000061D
+*RNF7031 ACDM13            A(2)                  5000062D
+*RNF7031 ACDM14            A(2)                  5000063D
+*RNF7031 ACDM15            A(2)                  5000064D
+*RNF7031 ACDM16            A(2)                  5000065D
+*RNF7031 ACDM17            A(2)                  5000066D
+*RNF7031 ACDM18            A(2)                  5000067D
+*RNF7031 ACDM19            A(2)                  5000068D
+*RNF7031 ACDM20            A(2)                  5000069D
+*RNF7031 ACDRCA            P(2,0)                5000031D
+*RNF7031 ACDRCG            P(2,0)                5000033D
+*RNF7031 ACDRCM            P(2,0)                5000032D
+*RNF7031 ACDRCS            P(2,0)                5000030D
+*RNF7031 ACDSTA            P(2,0)                5000044D
+*RNF7031 ACDSTG            P(2,0)                5000046D
+*RNF7031 ACDSTM            P(2,0)                5000045D
+*RNF7031 ACDSTS            P(2,0)                5000043D
+*RNF7031 ACDTFS            P(8,0)                5000127D
+*RNF7031 ACDTW1            P(8,0)                5000150D
+*RNF7031 ACDTW2            P(8,0)                5000151D
+*RNF7031 ACDUPD            P(8,0)                5000008D
+*RNF7031 ACEVI             A(2)                  5000026D
+*RNF7031 ACFACT            A(5)                  5000017D
+*RNF7031 ACFCFC            A(1)                  5000125D
+*RNF7031 ACFGRD            A(4)                  5000022D
+*RNF7031 ACFIL             A(1)                  5000024D
+*RNF7031 ACFISC            A(16)                 5000020D
+         ACFLAG            A(1)                  5000003D     032500
+*RNF7031 ACFLEM            A(1)                  5000034D
+*RNF7031 ACFMCH            A(1)                  5000144D
+*RNF7031 ACFSOF            A(1)                  5000028D
+*RNF7031 ACGAR             A(2)                  5000047D
+*RNF7031 ACGAR2            A(2)                  5000048D
+*RNF7031 ACGAR3            A(2)                  5000049D
+*RNF7031 ACGGDL            P(3,0)                5000116D
+*RNF7031 ACGGVB            P(3,0)                5000119D
+*RNF7031 ACGRP             A(3)                  5000102D
+*RNF7031 ACGSIC            P(3,0)                5000117D
+*RNF7031 ACGVAL            P(3,0)                5000115D
+*RNF7031 ACIFPT            P(9,0)                5000122D
+*RNF7031 ACIMGR            A(1)                  5000097D
+*RNF7031 ACINCO            P(7,2)                5000137D
+*RNF7031 ACIND             A(30)                 5000012D
+*RNF7031 ACINDI            A(30)                 5000148D
+*RNF7031 ACIPFU            P(9,0)                5000123D
+*RNF7031 ACLANG            A(2)                  5000129D
+*RNF7031 ACLIQ             A(1)                  5000118D
+*RNF7031 ACLOC             A(25)                 5000014D
+*RNF7031 ACLOCK            A(1)                  5000005D
+*RNF7031 ACMAIL            A(50)                 5000130D
+*RNF7031 ACMCVB            A(2)                  5000120D
+*RNF7031 ACNAZ             A(3)                  5000016D
+*RNF7031 ACNAZN            P(9,0)                5000004D
+*RNF7031 ACNCCG            A(1)                  5000147D
+*RNF7031 ACNOT1            A(35)                 5000092D
+*RNF7031 ACNOT2            A(35)                 5000093D
+*RNF7031 ACNOT3            A(35)                 5000094D
+*RNF7031 ACNOT4            A(35)                 5000095D
+*RNF7031 ACNOT5            A(35)                 5000096D
+*RNF7031 ACNREC            P(9,0)                5000006D
+*RNF7031 ACNRFS            P(5,0)                5000126D
+*RNF7031 ACPEC             A(100)                5000145D
+*RNF7031 ACPERB            A(20)                 5000072D
+*RNF7031 ACPERI            P(2,0)                5000135D
+*RNF7031 ACPIVA            P(11,0)               5000021D
+*RNF7031 ACPRE             P(5,0)                5000084D
+*RNF7031 ACPROV            A(2)                  5000015D
+*RNF7031 ACPUMA            A(100)                5000146D
+*RNF7031 ACRAMO            A(4)                  5000018D
+*RNF7031 ACRAPB            A(3)                  5000073D
+         ACRAS             A(35)                 5000010D     027200      032400
+*RNF7031 ACRAS2            A(35)                 5000011D
+*RNF7031 ACRIVA            A(2)                  5000023D
+*RNF7031 ACRSR             A(10)                 5000019D
+*RNF7031 ACSCHI            P(8,2)                5000107D
+*RNF7031 ACSDIN            P(7,2)                5000133D
+*RNF7031 ACSDPR            P(8,2)                5000109D
+*RNF7031 ACSEO             A(1)                  5000025D
+*RNF7031 ACSETE            A(3)                  5000100D
+*RNF7031 ACSFAX            P(7,2)                5000138D
+*RNF7031 ACSGRP            A(3)                  5000099D
+*RNF7031 ACSIDE            P(9,2)                5000142D
+*RNF7031 ACSIDI            P(9,2)                5000141D
+*RNF7031 ACSIDX            P(9,2)                5000143D
+*RNF7031 ACSPCB            A(1)                  5000089D
+*RNF7031 ACSPCD            P(8,2)                5000106D
+*RNF7031 ACSPCR            A(1)                  5000086D
+*RNF7031 ACSPEC            A(1)                  5000087D
+*RNF7031 ACSPID            P(9,2)                5000105D
+*RNF7031 ACSPIF            P(9,2)                5000104D
+*RNF7031 ACSPMC            A(1)                  5000132D
+*RNF7031 ACSPSC            A(1)                  5000088D
+*RNF7031 ACSPWE            A(1)                  5000085D
+*RNF7031 ACSPW1            A(1)                  5000090D
+*RNF7031 ACSPW2            A(1)                  5000091D
+*RNF7031 ACSRIS            P(8,2)                5000108D
+*RNF7031 ACSSET            A(3)                  5000101D
+*RNF7031 ACTELB            A(16)                 5000070D
+*RNF7031 ACTEXB            A(16)                 5000071D
+*RNF7031 ACTREC            A(3)                  5000002D
+*RNF7031 ACUINS            A(6)                  5000139D
+*RNF7031 ACUUPD            A(6)                  5000140D
+*RNF7031 ACWRK0            A(1)                  5000083D
+*RNF7031 ACWRK1            A(1)                  5000074D
+*RNF7031 ACWRK2            A(1)                  5000075D
+*RNF7031 ACWRK3            A(1)                  5000076D
+*RNF7031 ACWRK4            A(1)                  5000077D
+*RNF7031 ACWRK5            A(1)                  5000078D
+*RNF7031 ACWRK6            A(1)                  5000079D
+*RNF7031 ACWRK7            A(1)                  5000080D
+*RNF7031 ACWRK8            A(1)                  5000081D
+*RNF7031 ACWRK9            A(1)                  5000082D
+         BRO310_           DS(10)                 003600D     051800M     052100      052400M
+         BRO310_CDCED      S(5,0)                 003900D     052500
+         BRO310_DRCED      A(10)                  003800D     051900M
+*RNF7031 BRO310_KBUFF      A(8)                  3000046D
+*RNF7031 BRO310_KCANC      A(1)                  3000038D
+*RNF7031 BRO310_KCDAZ      A(4)                  3000013D
+*RNF7031 BRO310_KCDJD      A(2)                  3000022D
+*RNF7031 BRO310_KCDRC      A(1)                  3000015D
+*RNF7031 BRO310_KCOAZ      A(4)                  3000028D
+*RNF7031 BRO310_KCOJB      A(2)                  3000034D
+*RNF7031 BRO310_KDTJB      A(6)                  3000042D
+*RNF7031 BRO310_KEXCN      A(1)                  3000027D
+*RNF7031 BRO310_KFIER      A(30)                 3000037D
+*RNF7031 BRO310_KFLAD      A(1)                  3000029D
+*RNF7031 BRO310_KFLMS      A(1)                  3000011D
+*RNF7031 BRO310_KFLRC      A(1)                  3000006D
+*RNF7031 BRO310_KFSLG      A(1)                  3000040D
+*RNF7031 BRO310_KGRAZ      A(3)                  3000039D
+*RNF7031 BRO310_KJOST      A(1)                  3000032D
+*RNF7031 BRO310_KJRLB      A(10)                 3000044D
+*RNF7031 BRO310_KJRNM      A(10)                 3000043D
+*RNF7031 BRO310_KKEYF      S(5,0)                3000025D
+*RNF7031 BRO310_KMDST      A(10)                 3000036D
+*RNF7031 BRO310_KMSMN      A(7)                  3000008D
+*RNF7031 BRO310_KNMCP      A(2)                  3000031D
+*RNF7031 BRO310_KNMEB      A(10)                 3000018D
+*RNF7031 BRO310_KNMSB      S(3,0)                3000019D
+*RNF7031 BRO310_KNMTD      A(10)                 3000005D
+*RNF7031 BRO310_KNMUS      A(10)                 3000001D
+*RNF7031 BRO310_KNRAZ      S(9,0)                3000003D
+*RNF7031 BRO310_KNRJO      A(6)                  3000009D
+*RNF7031 BRO310_KNRRB      A(2)                  3000020D
+*RNF7031 BRO310_KNRVJ      S(9,0)                3000007D
+*RNF7031 BRO310_KNSIF      A(9)                  3000021D
+         BRO310_KPJBA      DS(502)                003500D     052000M     052300M
+         BRO310_KPJBU      A(256)                3000047D     052100M     052400
+*RNF7031 BRO310_KQEBI      A(7)                  3000035D
+*RNF7031 BRO310_KQIEB      A(7)                  3000023D
+*RNF7031 BRO310_KQOFR      A(10)                 3000024D
+*RNF7031 BRO310_KQOPR      A(10)                 3000030D
+*RNF7031 BRO310_KQOTD      A(10)                 3000017D
+*RNF7031 BRO310_KRCDS      S(5,0)                3000026D
+*RNF7031 BRO310_KRITB      A(1)                  3000045D
+*RNF7031 BRO310_KSTEB      A(1)                  3000033D
+*RNF7031 BRO310_KSTJO      A(1)                  3000010D
+*RNF7031 BRO310_KTMIN      S(6,0)                3000012D
+*RNF7031 BRO310_KTPAZ      A(1)                  3000014D
+*RNF7031 BRO310_KTPFN      A(1)                  3000016D
+*RNF7031 BRO310_KTPRF      A(3)                  3000002D
+*RNF7031 BRO310_KTPWS      A(1)                  3000041D
+*RNF7031 BRO310_KTSIF      A(3)                  3000004D
+         BRO310_XXXXX      A(10)                  003700D     003800      003900
+         CDE(30)           A(60)                  002500D     009800M     018000M     054700M
+                                                  056600M
+         CID(30)           A(7)                   002600D     009900M     018100M     054500M
+                                                  056500M
+         CONTRL            BEGSR                  007200      010700      016100      017500D
+         CONTR1            BEGSR                  018400      029900D
+         CONTR2            BEGSR                  018500      040200D
+*RNF7031 CSBASC            A(1)                  6000013D    7000013M
+         CSCED             P(5,0)                6000009D    7000009M     026900      027000
+                                                  037700M     043100M     058900
+*RNF7031 CSCOMM            P(7,5)                6000019D    7000019M
+*RNF7031 CSDINS            P(8,0)                6000004D    7000004M
+         CSDTSC            P(8,0)                6000011D    7000011M     028000
+         CSDTVA            P(8,0)                 005000     6000010D    7000010M     027400
+                                                  027600      036600      037800M     043200M
+                                                  059000
+*RNF7031 CSDUPD            P(8,0)                6000007D    7000007M
+*RNF7031 CSENTI            A(1)                  6000015D    7000015M
+*RNF7031 CSFASA            P(13,2)               6000017D    7000017M
+*RNF7031 CSFAS2            P(7,5)                6000016D    7000016M
+*RNF7031 CSFLAG            A(1)                  6000003D    7000003M
+*RNF7031 CSIMPO            A(1)                  6000018D    7000018M
+*RNF7031 CSMODA            A(1)                  6000020D    7000020M
+*RNF7031 CSPERI            P(2,0)                6000012D    7000012M
+         CSRFLD            A(10)                 9000004M     031000    16000009
+         CSRREC            A(10)                 9000003M   16000008
+*RNF7031 CSSCAT            A(1)                  6000014D    7000014M
+*RNF7031 CSTIME            P(6,0)                6000005D    7000005M
+*RNF7031 CSTREC            A(3)                  6000002D    7000002M
+*RNF7031 CSUINS            A(6)                  6000006D    7000006M
+*RNF7031 CSUUPD            A(6)                  6000008D    7000008M
+         CTLSF2            BEGSR                  041400      042800D
+         DECODE            BEGSR                  019100      053100D
+         EXECT1            BEGSR                  020700      045500D
+         EXECT2            BEGSR                  020900      047000D
+         EXECUT            BEGSR                  007500      020300D
+         GESSCA            BEGSR                  046200      048000      049700D
+         HOUSEK            BEGSR                  005700      055600D
+         IAS               DS(113)                002800D     060200M     060400M
+         IASAPT            A(1)                  1000005D     005900
+*RNF7031 IASAUD            A(1)                  1000003D
+*RNF7031 IASCNT            S(8,0)                1000012D
+*RNF7031 IASDAG            S(8,0)                1000010D
+*RNF7031 IASDCD            S(8,0)                1000008D
+*RNF7031 IASDCS            S(8,0)                1000007D
+*RNF7031 IASDNC            S(8,0)                1000002D
+*RNF7031 IASDSD            S(8,0)                1000004D
+*RNF7031 IASD4A            S(8,0)                1000011D
+*RNF7031 IASEOD            A(1)                  1000013D
+*RNF7031 IASFIL            A(41)                 1000017D
+*RNF7031 IASGGG            S(3,0)                1000009D
+*RNF7031 IASGTI            S(3,0)                1000016D
+*RNF7031 IASMBP            S(2,0)                1000001D
+*RNF7031 IASMSD            S(3,0)                1000006D
+*RNF7031 IASNS1            A(1)                  1000014D
+*RNF7031 IASNS2            A(1)                  1000015D
+*RNF7031 KBUFF             A(8)                  2000046D
+*RNF7031 KCANC             A(1)                  2000038D
+*RNF7031 KCDAZ             A(4)                  2000013D
+*RNF7031 KCDJD             A(2)                  2000022D
+*RNF7031 KCDRC             A(1)                  2000015D
+         KCEDSCA           KLIST                  028800      037900      038700      043300
+                                                  044100      058800D
+*RNF7031 KCOAZ             A(4)                  2000028D
+*RNF7031 KCOJB             A(2)                  2000034D
+*RNF7031 KDTJB             A(6)                  2000042D
+*RNF7031 KEXCN             A(1)                  2000027D
+*RNF7031 KFIER             A(30)                 2000037D
+*RNF7031 KFLAD             A(1)                  2000029D
+*RNF7031 KFLMS             A(1)                  2000011D
+*RNF7031 KFLRC             A(1)                  2000006D
+*RNF7031 KFSLG             A(1)                  2000040D
+*RNF7031 KGRAZ             A(3)                  2000039D
+*RNF7031 KJOST             A(1)                  2000032D
+*RNF7031 KJRLB             A(10)                 2000044D
+*RNF7031 KJRNM             A(10)                 2000043D
+*RNF7031 KKEYF             S(5,0)                2000025D
+*RNF7031 KMDST             A(10)                 2000036D
+         KMSMN             A(7)                  2000008D     008100M
+*RNF7031 KNMCP             A(2)                  2000031D
+*RNF7031 KNMEB             A(10)                 2000018D
+*RNF7031 KNMSB             S(3,0)                2000019D
+*RNF7031 KNMTD             A(10)                 2000005D
+*RNF7031 KNMUS             A(10)                 2000001D
+*RNF7031 KNRAZ             S(9,0)                2000003D
+*RNF7031 KNRJO             A(6)                  2000009D
+*RNF7031 KNRRB             A(2)                  2000020D
+*RNF7031 KNRVJ             S(9,0)                2000007D
+         KNSIF             A(9)                  2000021D   16000010    18000011
+         KPJBA             DS(502)                002900D     049900      052000      055900M
+                           BASED(_QRNL_PRM+)      056400M
+         KPJBU             A(256)                2000047D     056000
+*RNF7031 KQEBI             A(7)                  2000035D
+*RNF7031 KQIEB             A(7)                  2000023D
+*RNF7031 KQOFR             A(10)                 2000024D
+*RNF7031 KQOPR             A(10)                 2000030D
+*RNF7031 KQOTD             A(10)                 2000017D
+*RNF7031 KRCDS             S(5,0)                2000026D
+*RNF7031 KRITB             A(1)                  2000045D
+*RNF7031 KSTEB             A(1)                  2000033D
+*RNF7031 KSTJO             A(1)                  2000010D
+*RNF7031 KTMIN             S(6,0)                2000012D
+*RNF7031 KTPAZ             A(1)                  2000014D
+*RNF7031 KTPFN             A(1)                  2000016D
+*RNF7031 KTPRF             A(3)                  2000002D
+*RNF7031 KTPWS             A(1)                  2000041D
+*RNF7031 KTSIF             A(3)                  2000004D
+         PADESC            A(113)                8000006D     060200
+*RNF7031 PAFLAG            A(1)                  8000002D
+         PAKEY             KLIST                  059200D     060000
+         PAKEYA            A(3)                  8000004D     059300      059700M
+         PAKEYB            A(9)                  8000005D     059400      059800M     059900M
+*RNF7031 PATREC            A(2)                  8000003D
+         PL_STD012         PLIST                  027700      028100      034500      056900D
+         PLIST2            PLIST                  053300      056300D
+         PREPAP            BEGSR                  006500      008800D
+         REGERR            BEGSR                  030400      032100      032800      033500
+                                                  034800      035600      036800      038200
+                                                  039100      042100      043600      044500
+                                                  054100D
+         RICCED            BEGSR                  031200      051600D
+         ROUTES            BEGSR                  006900      013800D
+         SHDTIN            A(8)                   027600M     028000M     034400M     057000D
+         SHDTOU            A(8)                   027800      028200      035100      057100D
+         SHFERD            A(1)                   027500M     027900M     034300M     034600
+                                                  057200D
+         SPREP1            BEGSR                  009400      021600D
+         SPREP2            BEGSR                  009500      023900D
+         TRA449_           DS(15)                 004200D     050000M     050400      050700M
+         TRA449_CED        S(5,0)                 004300D     050100M
+         TRA449_DTVA       S(8,0)                 004400D     050200M
+*RNF7031 TRA449_KBUFF      A(8)                  4000046D
+*RNF7031 TRA449_KCANC      A(1)                  4000038D
+*RNF7031 TRA449_KCDAZ      A(4)                  4000013D
+*RNF7031 TRA449_KCDJD      A(2)                  4000022D
+*RNF7031 TRA449_KCDRC      A(1)                  4000015D
+*RNF7031 TRA449_KCOAZ      A(4)                  4000028D
+*RNF7031 TRA449_KCOJB      A(2)                  4000034D
+*RNF7031 TRA449_KDTJB      A(6)                  4000042D
+*RNF7031 TRA449_KEXCN      A(1)                  4000027D
+*RNF7031 TRA449_KFIER      A(30)                 4000037D
+*RNF7031 TRA449_KFLAD      A(1)                  4000029D
+*RNF7031 TRA449_KFLMS      A(1)                  4000011D
+*RNF7031 TRA449_KFLRC      A(1)                  4000006D
+*RNF7031 TRA449_KFSLG      A(1)                  4000040D
+*RNF7031 TRA449_KGRAZ      A(3)                  4000039D
+*RNF7031 TRA449_KJOST      A(1)                  4000032D
+*RNF7031 TRA449_KJRLB      A(10)                 4000044D
+*RNF7031 TRA449_KJRNM      A(10)                 4000043D
+*RNF7031 TRA449_KKEYF      S(5,0)                4000025D
+*RNF7031 TRA449_KMDST      A(10)                 4000036D
+*RNF7031 TRA449_KMSMN      A(7)                  4000008D
+*RNF7031 TRA449_KNMCP      A(2)                  4000031D
+*RNF7031 TRA449_KNMEB      A(10)                 4000018D
+*RNF7031 TRA449_KNMSB      S(3,0)                4000019D
+*RNF7031 TRA449_KNMTD      A(10)                 4000005D
+*RNF7031 TRA449_KNMUS      A(10)                 4000001D
+*RNF7031 TRA449_KNRAZ      S(9,0)                4000003D
+*RNF7031 TRA449_KNRJO      A(6)                  4000009D
+*RNF7031 TRA449_KNRRB      A(2)                  4000020D
+*RNF7031 TRA449_KNRVJ      S(9,0)                4000007D
+*RNF7031 TRA449_KNSIF      A(9)                  4000021D
+         TRA449_KPJBA      DS(502)                004100D     049900M     050600M
+         TRA449_KPJBU      A(256)                4000047D     050400M     050700
+*RNF7031 TRA449_KQEBI      A(7)                  4000035D
+*RNF7031 TRA449_KQIEB      A(7)                  4000023D
+*RNF7031 TRA449_KQOFR      A(10)                 4000024D
+*RNF7031 TRA449_KQOPR      A(10)                 4000030D
+*RNF7031 TRA449_KQOTD      A(10)                 4000017D
+*RNF7031 TRA449_KRCDS      S(5,0)                4000026D
+*RNF7031 TRA449_KRITB      A(1)                  4000045D
+*RNF7031 TRA449_KSTEB      A(1)                  4000033D
+*RNF7031 TRA449_KSTJO      A(1)                  4000010D
+*RNF7031 TRA449_KTMIN      S(6,0)                4000012D
+*RNF7031 TRA449_KTPAZ      A(1)                  4000014D
+*RNF7031 TRA449_KTPFN      A(1)                  4000016D
+*RNF7031 TRA449_KTPRF      A(3)                  4000002D
+*RNF7031 TRA449_KTPWS      A(1)                  4000041D
+*RNF7031 TRA449_KTSIF      A(3)                  4000004D
+         TRA449_OPZ        A(1)                   004500D     050300M
+         TRA449_RTRN       A(1)                   004600D     050800
+         UVCED             P(5,0)                9000006M     022200M     023100M     025400
+                                                  025500      026100      026200      031700
+                                                  031800      036300      036400      037700
+                                                  038800      045700      047800M     050100
+                                                  052500M   16000012
+         UVDTVA            P(8,0)                9000007M     022400M     034200      034400
+                                                  045800    16000014
+*RNF7031 UVMSGK            A(4)                 13000002D
+         UVNONE            A(1)                 21000002
+         UVNRR2            P(4,0)                 002100      005100    11000003M     028500M
+                                                  029300M   18000010
+         UVOPZ             A(1)                  9000005M     022100M     023200M     024200
+                                                  024300      024400      024500      030200
+                                                  032600      033300      035400      036100
+                                                  037300      037400      037500      038600
+                                                  044000      050300    16000011
+         UVRASC            A(35)                  022300M     031600M     032400M   16000013
+         UVSFLQ            A(10)                13000003M   14000002M     057500M   20000003
+         UV2CED            P(5,0)               10000004M     026900M     043100      044200
+                                                  047800    17000006
+         UV2DSC            P(8,0)               10000007M     028200M   17000009
+         UV2DVA            P(8,0)               10000006M     027800M   17000008
+         UV2HDV            P(8,0)               10000002M     027400M     043200      047900
+                                                17000004
+         UV2OPZ            A(1)                 10000003M     041100      047700    17000005
+         UV2RSC            A(35)                10000005M     027200M   17000007
+         VISUAL            BEGSR                  006800      011500D
+         WSCDER            A(60)                  054700      054800M     057700D
+         WSCDQS            A(50)                  057800D
+         WSCLR1            A(1)                   004800D     022000      022500M     050900M
+         WSCNTS            P(5,0)                 004900D     040400M     041300M     041900
+         WSDTVA            P(8,0)                 005000D     034100M     035100M     036200
+                                                  036600      037600      037800      047900M
+                                                  050200
+         WSFUNC            A(1)                   006400      006700      007100      007400
+                                                  010200M     010800M     013200M     015200M
+                                                  016700M     019700M     046000M     046300M
+                                                  048500M     058400D
+         WSMSID            A(7)                   030300M     032000M     032700M     033400M
+                                                  034700M     035500M     036700M     038100M
+                                                  039000M     042000M     043500M     044400M
+                                                  054500      054600M     057900D
+         WSNEXT            P(1,0)                 058000D
+         WSNMAP            P(1,0)                 009400      009500      010600      012300
+                                                  012600      014600      015300M     015800
+                                                  018400      018500      020600      020800
+                                                  045900M     048400M     058300D
+         WSRKS2            P(4,0)                 005100D     025100M     028400M     028500
+                                                  029200
+         WSSLVL            P(2,0)                 053500      056700M     058100D
+         WSZERO            A(30)                  009200      017900      057600D
+         X1                P(2,0)                 010000M     018200M     054300      054400M
+                                                  054500      054700      058200D
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         *IN                                      009200M     017900M
+*RNF7031 01                                       024200D
+         02                                       024300D   18000002
+         03                                       024400D   18000003
+         04                                       024500D   18000004
+         15                                       024800D     025000D   18000005
+         16                                       024800D     029200D     040500    18000006
+         17                                       026200D     026400D     026600    18000007
+         19                                       041000D     041200D   17000002
+         21                                       022800D     023000D     031100    16000002
+         30                                       030500D   16000003      009200M     017900M
+         31                                       034900D     035700D     036900D     038300D
+                                                  039200D     041000D     043700D     044600D
+                                                16000004    17000003      009200M     017900M
+         32                                       032200D     032900D     033600D     038300D
+                                                  039200D   16000005      009200M     017900M
+         33                                       009200M     017900M
+         34                                       009200M     017900M
+         35                                       009200M     017900M
+         36                                       009200M     017900M
+         37                                       009200M     017900M
+         38                                       009200M     017900M
+         39                                       009200M     017900M
+         40                                       009200M     017900M
+         41                                       009200M     017900M
+         42                                       009200M     017900M
+         43                                       009200M     017900M
+         44                                       009200M     017900M
+         45                                       009200M     017900M
+         46                                       009200M     017900M
+         47                                       009200M     017900M
+         48                                       009200M     017900M
+         49                                       009200M     017900M
+         50                                       009200M     017900M
+         51                                       009200M     017900M
+         52                                       009200M     017900M
+         53                                       009200M     017900M
+         54                                       009200M     017900M
+         55                                       009200M     017900M
+         56                                       009200M     017900M
+         57                                       009200M     017900M
+         58                                       009200M     017900M
+         59                                       009200M     017900M
+         95                                      9000002M   11000002M     015900D     016100
+         97                                       009100D     015100D     016500      017800D
+                                                  021800D     024100D     053500D   16000006
+                                                18000008    19000002
+         98                                       009100D     015100D     016200D     017800D
+                                                  019200D     019400D     021800D     024100D
+                                                  058500D   16000007    18000009    19000003
+         99                                       009100D     010800      011700      011800
+                                                  012000D     016400      017800D     019000
+                                                  055000D   20000002
+         LR                                       008400D     014100D     014200      014800D
+                                                  048900D
+         KA                                       014000
+         KB                                       014500
+         KC                                       015600
+         KD                                       030900
+         KK                                       015700      016600
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00    320 Il nome o l'indicatore non sono referenziati.
+*RNF7066 00      2 Il nome di formato record di un file descritto esternamente
+                   non è utilizzato.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :      322
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :      322
+  Totali origine
+    Record . . . . . . . . . . . . :     1028
+    Specifiche  . . . . . . . . . . :      849
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :      179
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma TRA448 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 12/12/17 alle 16:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

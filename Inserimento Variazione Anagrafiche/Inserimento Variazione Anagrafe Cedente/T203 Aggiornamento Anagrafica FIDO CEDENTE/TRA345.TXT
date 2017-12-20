@@ -1,0 +1,374 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 14/12/2006                                     V03Check Controllo dati Video03
+ *                                                                             Check Potere organo deliberante
+ *  Descrizione programma..: Calc. valore reale massimale rischio org.del.     con '2', V02ORDL, £RevoDate/£DlbDate, V03CODF, TRA344_SFClaR e TRA344_SFTotC
+ *                           Utilizzato per calcolare il valore reale dei   se [...illeggibile...] ==> SCI0081 99 "&1" superiore a potere organo deliberante.
+ *                           massimali di rischio dell'organo deliberante
+ *                           nel caso di riutilizzo rischi.
+ *                           Nel caso di non riutilizzo, il programma
+ *                           ritorna pari pari il valore presente su DLBFI2
+ *                           Il programma reperisce i dati da DLBFID/2
+ *                           piuttosto che da STORDE/2 in base al valore
+ *                           della data di riferimento ricevuta come para-
+ *                           metro. La data potrebbe essere quella di deli-
+ *                           bera fido oppure quella del giorno.
+ **************************************************************************
+ * Input-only files
+fDLBFI21L  if   e           k disk
+fPARAM     if   e           k disk
+fRSKFID1L  if   e           k disk
+fRSKFID2L  if   e           k disk    rename(RSKFID1R:RSKFID2R)
+fRSKFI22L  if   e           k disk
+fSTORD21L  if   e           k disk    prefix(DF:2)
+fTABFID1L  if   e           k disk
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+ * Variabili locali -------------------------------------------------------
+d EPD008        e ds
+d £DLBFID       e ds                  extname(DLBFID0F)
+ *
+d £i              s              6  0 inz
+d £ValoreReale    s                   like(DFVALO) inz
+d £RischioGar     s                   like(RFCRSK) inz
+d £RischioDebC    s                   like(RFCRSK) inz
+d £Rischi         s                   dim(9) like(RFCRSK) inz(*hival)
+d £iRischi        s              6  0 inz
+d £iRischiMax     s              6  0 inz
+d £Classi         s                   dim(99) like(RFCLAR)
+d £iClassi        s              6  0 inz
+d £iClassiMax     s              6  0 inz
+d £ClaRVal        s                   dim(99) like(DFVALO) inz
+d £Riutilizzo     s               n   inz
+d £ConvTPVA       ds
+d  RFTPVA
+d  £RFTPVA_N                     1  0 overlay(RFTPVA:1)
+d £FoundDLBFI2    s              1    inz
+ *                                    0=Dati inesistenti o annullati
+ *                                    1=Dati attuali
+ *                                    2=Dati storici
+ *
+ * Parametri --------------------------------------------------------------
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)
+d $Entry_         ds
+d  $Entry_From                   1
+ *                                    Provenienza:
+ *                                    1=Non usare                           se è per questo, io non userei nemmeno '4', '5', '*' e '!'
+ *                                    2=Gestione fido cedenti
+ *                                    3=Gestione fido debitori
+d  $Entry_OrDel                       like(DFORDE)
+ *                                    Organo deliberante
+d  $Entry_Date                   8  0
+ *                                    Data di riferimento
+d  $Entry_CdFid                       like(RFCODF)
+ *                                    Codice fido,      alternativo a CdRsk
+d  $Entry_CdRsk                       like(RFCRSK)
+ *                                    Codice rischio,   alternativo a CdFid
+d  $Entry_Rischi                18    dim(9)
+d  $Entry_CRsk                   3    overlay($Entry_Rischi:1)
+ *                                    Elenco rischi per il cod. fido
+d  $Entry_ValoR                 15  2 overlay($Entry_Rischi:4)
+ *                                    Valore reale massimale per rischio
+d  $Entry_Classi                17    dim(99)
+d  $Entry_SFClaR                 2  0 overlay($Entry_Classi:1)
+ *                                    Somma Fidi: Classe di rischio  (Fac.)
+ *                                    Obbligatorio per riutilizzo rischi
+d  $Entry_SFTotC                15  2 overlay($Entry_Classi:3)
+ *                                    Somma Fidi: Totale             (Fac.)
+ *                                    Obbligatorio per riutilizzo rischi
+ *
+d TRA347_KPJBA  e ds                  extname(KPJBA) prefix(TRA347_)
+d TRA347_         ds
+d  TRA347_OrDel                       like(DFORDE)
+d  TRA347_Date                   8  0
+d  TRA347_Found                  1
+d  TRA347_DZ$USI                10
+d  TRA347_DZ$DIN                 8  0
+d  TRA347_DZ$TIN                 6  0
+d TRA347_DLBFID e ds                  extname(DLBFID0F) prefix(TRA347_)
+ *
+d STD028_       e ds                  extname(DSPS28) prefix(STD028_)
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   for       £i = 1 to %elem($Entry_CRsk)                  inizializza
+c                   eval      $Entry_CRsk(£i) = *hival
+c                   eval      $Entry_Valor(£i) = 0
+c                   endfor
+ * Reperimento codici rischio di cui reperire il valore (START)
+c                   reset                   £Rischi
+c                   eval      £iRischi = 0
+c                   eval      £iRischiMax = 0
+c                   select                                                  Select
+c                   when          $Entry_CdFid <> *blank                    Se Inp_Codice_Fido
+c     $Entry_CdFid  chain     TABFID1L                                      Legge TabFid1L con TFPRR=0
+c                   if            not %found(TABFID1L)
+c                   goto      EndOfPgm                                      <<<
+c                   endif
+c     $Entry_CdFid  setll     RSKFI22L
+c                   dou           %eof(RSKFI22L)
+c     $Entry_CdFid  reade     RSKFI22L                                      Legge i Cde_Rischio_Fidi della Forma Tecnica
+c                   if            not %eof(RSKFI22L)
+c                             and RFANNU <> 'A'
+c                   eval      £iRischi = £iRischi + 1
+c                   eval      £Rischi(£iRischi) = RFCRSK                    per catalogarli
+c                   endif
+c                   enddo
+c                   when          $Entry_CdRsk <> *blank                    Se Inp_Codice_Rischio
+c                   eval      £iRischi = £iRischi + 1                       lo cataloga
+c                   eval      £Rischi(£iRischi) = $Entry_CdRSk
+c                   other
+c                   goto      EndOfPgm                                      <<<
+c                   endsl
+ *
+c                   eval      £RischioGar = *blank
+c                   if            $Entry_CdFid <> *blank                    Se Inp_Codice_Fido
+c     *loval        setll     RSKFID1L
+c                   dou           %eof(RSKFID1L)                            Legge il primo record di RSKFID1L
+c                             or  (    RFANNU <> 'A'                        valido
+c                                  and RFGARE = 'S')                        e Sts_Garanzie_Reali='S'
+c                   read      RSKFID1L
+c                   enddo
+c                   if            not %eof(RSKFID1L)                        Per EmilRo legge 010 Rischi garantiti da garanzie reali
+c                   eval      £RischioGar = RFCRSK
+c                   eval      £iRischi = £iRischi + 1
+c                   eval      £Rischi(£iRischi) = £RischioGar               e lo cataloga
+c                   endif
+c                   endif
+ *
+c                   eval      £RischioDebC = *blank
+c                   if            $Entry_CdFid <> *blank                    Se Inp_Codice_Fido
+c     *loval        setll     RSKFID1L
+c                   dou           %eof(RSKFID1L)                            Legge il primo record di RSKFID1L
+c                             or  (    RFANNU <> 'A'                        valido
+c                                  and RFDEBC = 'S')                        e Sts_Debitore_Convenzionato='S'
+c                   read      RSKFID1L
+c                   enddo
+c                   if            not %eof(RSKFID1L)                        Per EmilRo legge 011 Anticipo Crediti Notif.Prosolvendo Debit.Convenz.
+c                   eval      £RischioDebC = RFCRSK
+c                   eval      £iRischi = £iRischi + 1
+c                   eval      £Rischi(£iRischi) = £RischioDebC              e lo cataloga
+c                   endif
+c                   endif
+ *
+c                   sorta     £Rischi                                       Riordina
+c                   eval      £iRischiMax = £iRischi
+ *
+ * Reperimento codici rischio di cui reperire il valore (END)
+ *
+c                   if            £iRischiMax >= 1                          Se catalogati
+ *
+ * Reperimento classi rischio di cui reperire il valore (START)
+ *
+c                   reset                   £Classi
+c                   eval      £iClassi = 0
+c                   eval      £iClassiMax = 0
+ *
+c                   select                                                  Select
+c                   when          $Entry_From = '2'                         Se 2=Gestione_Fido_Cedenti
+c                   eval      RFTRSK = 'C'                                    'C'
+c                   when          $Entry_From = '3'                         Se 3=Gestione_Fido_Debitori
+c                   eval      RFTRSK = 'D'                                    'D'
+c                   endsl
+c     RFTRSK        setll     RSKFID2L                                      Posiziona Cedenti o Debitori
+c                   dou           %eof(RSKFID2L)
+c     RFTRSK        reade     RSKFID2L
+c                   if            not %eof(RSKFID2L)                        Se Trovato
+c                             and RFANNU <> 'A'                                e non Annullato
+c                   eval      £iClassi = £iClassi + 1
+c                   eval      £Classi(£iClassi) = RFCLAR                    cataloga Num_Classe_Rischio_Fidi
+c     Key_RSKFID    setgt     RSKFID2L                                      e passa al prossimo RFCLAR, per EmilRo C = 1, 2, 3, 4, 10, 98 e 99
+c                   endif                                                                                          D = 20, 21, 22, 23 e 24
+c                   enddo
+ *
+c                   eval      £iClassiMax = £iClassi
+ *
+ * Reperimento classi rischio di cui reperire il valore (END)
+ *
+ * Calcolo valori reali massimali rischio (START)
+ *
+c                   if            £Riutilizzo                               Se *On
+ *
+c                   for       £iClassi = 1 to £iClassiMax                   Per ogni Classe
+ *
+c                   select
+c                   when          $Entry_From = '2'
+c                   eval      RFTRSK = 'C'
+c                   when          $Entry_From = '3'
+c                   eval      RFTRSK = 'D'
+c                   endsl
+c                   eval      RFCLAR = £Classi(£iClassi)
+c     Key_RSKFID    chain     RSKFID2L                                      Legge C/D + Num_Classe_Rischio_Fidi
+c                   if            %found(RSKFID2L)                          Per Trovato
+c                             and RFCRSK <> £RischioGar                       e Cde_Rischio_Fidi non RischioGar
+c                             and RFCRSK <> £RischioDebC                                       e non RischioDebC
+c                   eval      DFORDE = $Entry_OrDel                         Cde_Organo_Deliberante
+c                   eval      DFCRSK = RFCRSK                               Cde_Rischio_Fidi
+c                   eval      £FoundDLBFI2 = '0'
+c                   select                                                  Select
+c                   when          TRA347_Found = '1'                        Se 1=Dati attuali
+c     Key_DLBFI2    chain     DLBFI21L                                         legge DlbFi21L
+c                   if            %found(DLBFI21L)
+c                   eval      £FoundDLBFI2 = '1'                               e se lo segna
+c                   endif
+c                   when          TRA347_Found = '2'                        Se 2=Dati storici
+c                   eval      DF$DIN = TRA347_DZ$DIN
+c                   eval      DF$TIN = TRA347_DZ$TIN
+c                   eval      DF$USI = TRA347_DZ$USI
+c     Key_STORD2    chain     STORD21L                                         legge StOrD21L
+c                   if            %found(STORD21L)
+c                   eval      £FoundDLBFI2 = '2'                               e se lo segna
+c                   endif
+c                   endsl
+c                   if            £FoundDLBFI2 > '0'                        Se trovato qui o là
+ *
+c                   if            £iClassi = 1                              Per "Prima_Classe"
+c                   eval      £ClaRVal(£iClassi) = DFVALO                   = Importo/Percent._Max_Rischio
+c                   else
+c                   eval      £i = %lookup(£Classi(£iClassi - 1):           cerca la Classe precedente nella schiera
+c                                                            $Entry_SFClaR)
+c                   if            £i >= 1                                   se trovata
+c                   eval      £ClaRVal(£iClassi) = DFVALO                   = Importo/Percent._Max_Rischio
+c                             + £ClaRVal(£iClassi - 1)                      + £ClaRVal( precedente )
+c                             - $Entry_SFTotC(£i)                           - Somma Fidi Totale
+c                   else                                                    se non trovata
+c                   eval      £ClaRVal(£iClassi) = DFVALO                   = Importo/Percent._Max_Rischio
+c                             + £ClaRVal(£iClassi - 1)                      + £ClaRVal( precedente )
+c                   endif
+c                   endif
+ *
+c                   endif
+c                   endif
+ *
+c                   endfor
+ *
+c                   endif
+ *
+ * Calcolo valori reali massimali rischio (END)
+ *
+ * Reperimento valori reali massimali rischio (START)
+ *
+c                   for       £iRischi = 1 to £iRischiMax                   Per ogni Rischio
+c                   eval      RFCRSK = £Rischi(£iRischi)
+c     RFCRSK        chain     RSKFID1L                                      Legge RSKFID1L
+c                   if            %found(TABFID1L)                          Per Trovato
+ *
+c                   if            £Riutilizzo                               Se Riutilizzo
+c                             and RFCRSK <> £RischioGar                      e Cde_Rischio_Fidi non RischioGar
+c                             and RFCRSK <> £RischioDebC                                      e non RischioDebC
+c                   eval      £i = %lookup(RFCLAR:£Classi)                  lo cerca nella schiera
+c                   if            £i >= 1                                   se trovato
+c                   eval      $Entry_CRsk(£iRischi) = RFCRSK                valorizza codice
+c                   eval      $Entry_ValoR(£iRischi) = £ClaRVal(£i)                          e valore
+c                   endif
+c                   else                                                    altrimenti
+c                   eval      DFORDE = $Entry_OrDel                         Cde_Organo_Deliberante
+c                   eval      DFCRSK = RFCRSK                               Cde_Rischio_Fidi
+c                   eval      £FoundDLBFI2 = '0'
+c                   select
+c                   when          TRA347_Found = '1'                        Se 1=Dati attuali
+c     Key_DLBFI2    chain     DLBFI21L
+c                   if            %found(DLBFI21L)
+c                   eval      £FoundDLBFI2 = '1'
+c                   endif
+c                   when          TRA347_Found = '2'                        Se 2=Dati storici
+c                   eval      DF$DIN = TRA347_DZ$DIN
+c                   eval      DF$TIN = TRA347_DZ$TIN
+c                   eval      DF$USI = TRA347_DZ$USI
+c     Key_STORD2    chain     STORD21L
+c                   if            %found(STORD21L)
+c                   eval      £FoundDLBFI2 = '2'
+c                   endif
+c                   endsl
+c                   if            £FoundDLBFI2 > '0'                        Se Dati Attuali/Storici
+c                   eval      $Entry_CRsk(£iRischi) = RFCRSK                valorizza codice
+c                   eval      $Entry_ValoR(£iRischi) = DFVALO                                e valore
+c                   endif
+c                   endif
+ *
+c                   endif
+c                   endfor
+ *
+ * Reperimento valori reali massimali rischio (END)
+ *
+c                   endif
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+ *
+c                   exsr      PgmEnd
+ *
+c                   eval      *inLR = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni varie (START) -----------------------------------------------
+c                   eval      PAKEYA = 'ACC'
+c                   eval      PAKEYB = '000000005'
+c     key_PARAM     chain     PARAM                                         Legge PARAM/ACC/000000005
+c                   if            %found(PARAM)                             Es..: 2017123120161231C2016123120121231D2016123120151231120041231200520161231S24224220161231N
+c                   eval      EPD008 = PADESC                               e valorizza i 17 campi di EPD008
+c                   else                                                    che NON servono...
+c                   clear                   EPD008                          ... tanto valeva fare solo la Clear
+c                   endif
+ *
+c                   clear                   TRA347_
+c                   eval      TRA347_OrDel = $Entry_OrDel
+c                   eval      TRA347_Date  = $Entry_Date
+c                   eval      TRA347_KPJBA = $Entry_KPJBA
+c                   eval      TRA347_KPJBU = TRA347_
+c                   call      'TRA347'      PL_TRA347                       Chiama TRA347 Reperimento Dati da DLBFID o STORDE
+c                   eval      TRA347_ = TRA347_KPJBU
+c                   eval      £DLBFID = TRA347_DLBFID
+c                   if            TRA347_Found <= '0'                       Se 0=Dati inesistenti o annullati
+c                   goto      EndOfPgm                                      ==> End-of-Pgm
+c                   endif
+c                   eval      £Riutilizzo =     (    $Entry_From = '2'      If 2=Gestione_Fido_Cedenti And Sts_Riutilizzo_Rischi_Ced='S'
+c                                                and DFRIUC = 'S')
+c                                           or  (    $Entry_From = '3'      Or 3=Gestione_Fido_Debitori And Sts_Riutilizzo_Rischi_Deb='S'
+c                                                and DFRIUD = 'S')          ==> £Riutilizzo = *On
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ *
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c                   parm                    $Entry_
+c     PL_TRA347     plist
+c                   parm                    TRA347_KPJBA
+c                   parm                    TRA347_DLBFID
+c     PL_STD028     plist
+c                   parm                    STD028_
+ * Definizione chiavi -----------------------------------------------------
+c     Key_DLBFI2    klist
+c                   kfld                    DFORDE
+c                   kfld                    DFCRSK
+c     Key_PARAM     klist
+c                   kfld                    PAKEYA
+c                   kfld                    PAKEYB
+c     Key_RSKFID    klist
+c                   kfld                    RFTRSK
+c                   kfld                    RFCLAR
+c     Key_STORD2    klist
+c                   kfld                    DFORDE
+c                   kfld                    DFCRSK
+c                   kfld                    DF$DIN
+c                   kfld                    DF$TIN
+c                   kfld                    DF$USI
+ *
+c                   endsr

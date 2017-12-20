@@ -1,0 +1,17 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T479                      Condizioni Ricalcolo commissioni
+        --------------------------------------------------------------------------------
+        TRA448                        Gestione Scaglioni Ricalcolo commissioni (guida)
+        . BRO310                      Gestione anagrafica cedente
+        . . ANA045                    Ricerca Gruppo x Denominazione
+        . . . ANA046                  Ricerca Gruppo x Codice Discendente
+        . TRA449                      Gestione Scaglioni Ricalcolo commissioni
+        --------------------------------------------------------------------------------
+        TRA448    RPGLE 1-ANACED1L  1-CEDSCA3L  1-CEDSCA4L  1-PARAM     7-TRA4480V
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        TRA449    RPGLE 1-ANACED1L  7-CEDSCA3L  1-CEDSCA4L  1-MST0011L  7-TRA4490V
+        --------------------------------------------------------------------------------

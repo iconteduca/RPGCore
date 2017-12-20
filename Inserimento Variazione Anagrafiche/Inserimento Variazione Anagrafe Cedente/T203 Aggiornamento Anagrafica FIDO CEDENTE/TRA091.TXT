@@ -1,0 +1,288 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  AREA ..............: FACTORING                                        *
+ *  DESCRIZIONE .......: CONTROLLI FIDI/CONTI                             * V04Check_1 Controllo dati Video04, Screen 1
+ *  PROGRAMMATORE .....: MARCELLO FRANZOSO                                *    Check Congruenze con Dati Conto
+ *  PRIMA COMPILAZIONE : 19/06/2006                                       *      con RCCED
+ *                                                                        *          RCCON1, RCCON2, RCCON3
+ *  Il *pgm controlla che non vi siano incongruenze tra Fido e            *          V04CADI
+ *  Conti nei dati che il Conto deve ereditare dal Fido.                  *          V04MCIN
+ *                                                                        *       Se Errore '1' o '2'
+ *  Il *pgm può essere richiamato dalle funzioni di:                      *          SYS7513 99 Modalità calcolo interessi incongruente con anagrafica conti
+ *  - GESTIONE ANAGRAFICA CONTI E FIDI                                    *       Se V04CADI <> TRA091_CAIN
+ *    Parametri:                                                          *          SCI0017 01 Cadenza addebito interessi tra fido e conto incongruenti
+ *    $$CED                                                               *
+ *    $$CNT                                                               *
+ *    $$CAIN                                                              *
+ *    $$MCIN                                                              *
+ *                                                                        *
+ *  PARAMETRI IN INPUT:                                                   *
+ *  $$CED  (5 0 *DEC)  ===> CODICE CEDENTE                                *
+ *  $$CNT   (3 *CHAR)  ===> CODICE CONTO                                  *
+ *  $$CAIN (2 0 *DEC)  ===> CADENZA INTERESSI FIDO                        *
+ *  $$MCIN  (1 *CHAR)  ===> TIPOLOGIA INTERESSI                           *
+ *                                                                        *
+ *  PARAMETRI IN OUTPUT:                                                  *
+ *  $$FLER  (10 *CHAR)  ===> FLAG ERRORE                                  *
+ *  VALORI: *BLANK ==> OK                                                 *
+ *          '1' ==> FIDO CON INTERESSI ANTICIPATI E CONTO POSTICIPATI     *
+ *          '2' ==> FIDO CON INTERESSI POSTICIPATI E CONTO ANTICIPATI     *
+ *          '3' ==> IMPOSSIBILE VARIARE CADENZA                           *
+ *          '4' ==> ESISTE DEC.TASSI CON DATA *GE A QUELLA DETERMINATA    *
+ *  $$DTDE  (8 0 *DEC) ===> DATA DECORRENZA NUOVO TASSI/CONDIZIONI        *
+ **************************************************************************
+ * F I L E
+ **************************************************************************
+fANACON1LIF  E           K        DISK
+fSTOCOT3LIF  E           K        DISK
+fSTOCOT1LIF  E           K        DISK
+f            STOCOT1R                          KRENAMESTOCT1
+fPARAM   IF  E           K        DISK
+fMST0011LIF  E           K        DISK
+ **************************************************************************
+ * T A B E L L E
+ **************************************************************************
+ * S T R U T T U R E    D A T I    E S T E R N E
+ **************************************************************************
+iKPJBA     E DS
+iCNT       E DS
+iDAT01     E DS
+ **************************************************************************
+ * S T R U T T U R E    D A T I    I N T E R N E
+ **************************************************************************
+i            DS
+i                                        1   3 DSCON
+i                                        1   1 DSCON1
+i                                        2   2 DSCON2
+i                                        3   3 DSCON3
+ *
+i            DS
+i                                        1   80DSDATA
+i                                        1   20DSSS
+i                                        3   40DSAA
+i                                        5   60DSMM
+i                                        7   80DSGG
+ *
+i            DS
+i                                        1  10 DSFLER
+i                                        1   1 DSFL01
+i                                        2   2 DSFL02
+i                                        3   3 DSFL03
+i                                        4   4 DSFL04
+i                                        5   5 DSFL05
+i                                        6   6 DSFL06
+i                                        7   7 DSFL07
+i                                        8   8 DSFL08
+i                                        9   9 DSFL09
+i                                       10  10 DSFL10
+ **************************************************************************
+ * F L U S S O     P R I N C I P A L E
+ **************************************************************************
+c                     EXSR HOUSEK
+ *
+c                     EXSR ELABOR
+ *
+c                     MOVELDSFLER    $$FLER
+c                     Z-ADDSTCAIN    $$CAIN
+ *
+c                     SETON                     LR
+ **************************************************************************
+ *        ELABOR - ELABORAZIONE
+ **************************************************************************
+c           ELABOR    BEGSR
+ *
+c                     EXSR DACNT
+ *
+c                     ENDSR
+ **************************************************************************
+ *        DACNT  - RICHIESTA DA GESTIONE CONTI
+ **************************************************************************
+c           DACNT     BEGSR
+ *
+c           KFICO     CHAINANACON1L             99                          Legge AnaCon1L con $$CED, $$CNT
+c           *IN99     IFEQ *OFF                                             Se Trovato
+ *
+ * CONTROLLA MODALIT´ CALCOLO INTERESSI
+c                     EXSR CALINT                                           Esegue ...
+ *
+ * CONTROLLA MODALIT´ CADENZA ADDEBITO INTERESSI
+c                     EXSR CADINT                                           Esegue ...
+ *
+ * DETERMINA NUOVA DECORRENZA TASSI DA D01INT E CONTROLLA
+ * CHE NON ESISTANO TASSI DECORRENZE CON DATA UGUALE O SUPERIORE
+c                     EXSR CALDEC                                           Esegue ...
+ *
+c                     ENDIF
+ *
+c                     ENDSR
+ **************************************************************************
+ *        CALINT  - CONTROLLA MODALIT´ CALCOLO INTERESSI
+ **************************************************************************
+c           CALINT    BEGSR
+ *
+ * REPERISCE DATI CONTO
+c                     MOVEL'CNT'     MTKEYA
+c                     MOVEL*ZEROS    MTKEYB
+c                     MOVE $$CNT     MTKEYB
+c           MTKEY     CHAINMST0011L             97                          Legge Mst001/CNT con $$CNT
+c           *IN97     IFEQ *OFF                                             Se Trovato
+c                     MOVELMTDESC    CNT                                       Valorizza CNT
+c                     ELSE
+c                     CLEARCNT
+c                     ENDIF
+ *
+c                     SELEC                                                 Select
+ *
+ * SE FIDO PREVEDE INT. ANTICIPATI E CONTO POSTICIPATI ---> ERRORE
+c           $$MCIN    WHEQ '1'                                              When Inp_Tipologia_Interessi = '1'
+c           CNTFG1    ANDEQ'1'                                                 e CNT/Interessi Post 0/1  = '1'
+c                     MOVEL'1'       DSFL01                                      Errore '1' ==> Fido con Interessi Anticipati e Conto Posticipati
+ *
+ * SE FIDO PREVEDE INT. POSTICIPATI E CONTO ANTICIPATI ---> ERRORE
+c           $$MCIN    WHEQ '2'                                              When Inp_Tipologia_Interessi = '2'
+c           CNTFG2    ANDEQ'1'                                                 e CNT/Interessi Ant. 0/1  = '1'
+c                     MOVEL'2'       DSFL02                                      Errore '2' ==> Fido con Interessi Posticipati e Conto Anticipati
+ *
+c                     ENDSL
+ *
+c                     ENDSR
+ **************************************************************************
+ *        CADINT  - CONTROLLA CADENZA ADDEBITO INTERESSI
+ **************************************************************************
+c           CADINT    BEGSR
+ *
+c                     SETOF                     10
+ *
+ * REPERISCE CONDIZIONI ALL'ULTIMO FINE MESE
+c           KSTO      SETLLSTOCOT3L                                         Si posiziona su StoCoT3L con $$CED, $$CON e Data_Odierna
+c           KSTO1     READESTOCOT3L                 96                       e legge il primo $$CED e $$CON
+c           *IN96     IFEQ *OFF                                             Se Trovato
+ *
+ * SE CADENZE FIDO E CONTO SONO IRREGOLARI O INFRUTTIFERE ===> OK
+c           $$CAIN    IFEQ 0                                                Se $$CAIN =  0 And STCAIN = 99   ( Inp_Cadenza_Interessi_Fido
+c           STCAIN    ANDEQ99                                                                                e STOCOT/Codice_Capitalizzazione_Interessi )
+c           $$CAIN    OREQ 99                                               Or $$CAIN = 99 And STCAIN =  0
+c           STCAIN    ANDEQ0
+c           $$CAIN    OREQ 0                                                Or $$CAIN =  0 And STCAIN =  0
+c           STCAIN    ANDEQ0
+c           $$CAIN    OREQ 99                                               Or $$CAIN = 99 And STCAIN = 99
+c           STCAIN    ANDEQ99
+c                     SETON                     10                             *In10 = *On
+c                     ENDIF
+ *
+ *CONTROLLA SE POSSIBILE INSERIRE NUOVA CADENZA PARTENDO DAL MESE DI D01INT
+c           *IN10     IFEQ *OFF                                             Altrimenti
+c           $$CAIN    ANDNESTCAIN                                           Se $$CAIN <> STCAIN
+c           STCAIN    ANDNE*ZEROS                                            e STCAIN <> *Zeros
+ *
+c           DSMM      DIV  STCAIN    RISUL   50                             Se STCAIN non è 0 e non è 99,
+c                     MVR            RESTO   30                                può essere 1, 3, 6 o 12...
+ *
+ * SE RESTO = 0 VUOL DIRE CHE SONO A FINE PERIODO E SI PU÷ INSERIRE DECOR.
+c           RESTO     IFNE *ZEROS                                           Se Resto <> 0
+c                     MOVEL'3'       DSFL03                                    Errore '3' ==> Impossibile Variare Cadenza
+c                     ENDIF
+ *
+c                     ENDIF
+ *
+c                     ENDIF
+ *
+c                     ENDSR
+ **************************************************************************
+ *        CALDEC  - CALCOLA E CONTROLLA NUOVA DECORRENZA
+ **************************************************************************
+c           CALDEC    BEGSR
+ *
+ * CALCOLO DATA INIZIO/FINE PERIODO                                         Calcola Data di Fine Periodo
+c                     CALL 'STD006'
+c                     PARM           $$CAIN
+c                     PARM D01INT    DATACW  80
+c                     PARM *ZEROS    DATINW  80
+c                     PARM *ZEROS    DATFIW  80
+ *
+c                     Z-ADDDATINW    DATIN   80
+c                     Z-ADDDATFIW    DATFI   80
+ *
+ * CALCOLO DATA DECORRENZA (DATFI + 1 GG)                                   e aggiunge un giorno
+c                     CALL 'STD007'
+c                     PARM DATFI     ££DTA   80
+c                     PARM 1         ££DIF   50
+ *
+c                     Z-ADD££DTA     DSDATA
+c                     Z-ADD££DTA     $$DTDE
+c                     Z-ADD*ZEROS    FIRST   10
+ *
+ * CONTROLLA CHE NON ESISTANO TASSI CON DECOR. = O > A QUELLA DETERMINATA   Con questa Data
+c           KSTO      SETLLSTOCOT1L                                         si posiziona su StoCoT1L con $$CED, $$CON e Data_Decorrenza_Calcolata
+c           *IN93     DOWEQ*OFF
+c           KSTO1     READESTOCOT1L                 93                       e legge StoCoT1L per $$CED e $$CON
+c   93                LEAVE                                                 Se --.
+ *                                                                               ¦
+c                     Z-ADD1         FIRST   10                                  ¦
+ *                                                                               ¦
+c                     ENDDO                                                      ¦
+ *                                                                               ¦
+c           FIRST     IFGT 0                                                     '--> NON è End-Of-File
+c                     MOVEL'4'       DSFL04                                    Errore '4' ==> Esiste Dec.Tassi con Data *GE a Quella Determinata
+c                     ENDIF
+ *
+c                     ENDSR
+ **************************************************************************
+ *        HOUSEK - HOUSEKEEPING
+ **************************************************************************
+c           HOUSEK    BEGSR
+ *
+c           *ENTRY    PLIST
+c                     PARM           KPJBA
+c                     PARM           $$CED   50
+c                     PARM           $$CNT   3
+c                     PARM           $$CAIN  20
+c                     PARM           $$MCIN  1
+c                     PARM           $$FLER 10
+c                     PARM           $$DTDE  80
+ *
+c                     MOVEL$$CNT     DSCON
+ *
+c           KFICO     KLIST
+c                     KFLD           $$CED
+c                     KFLD           DSCON1
+c                     KFLD           DSCON2
+c                     KFLD           DSCON3
+ *
+c           KSTO      KLIST
+c                     KFLD           $$CED
+c                     KFLD           DSCON1
+c                     KFLD           DSCON2
+c                     KFLD           DSCON3
+c                     KFLD           DSSS
+c                     KFLD           DSAA
+c                     KFLD           DSMM
+c                     KFLD           DSGG
+ *
+c           KSTO1     KLIST
+c                     KFLD           $$CED
+c                     KFLD           DSCON1
+c                     KFLD           DSCON2
+c                     KFLD           DSCON3
+ *
+c           PAKEY     KLIST
+c                     KFLD           PAKEYA
+c                     KFLD           PAKEYB
+ *
+c           MTKEY     KLIST
+c                     KFLD           MTKEYA
+c                     KFLD           MTKEYB
+ *
+ * REPERISCE DATA ULTIMO FINE MESE
+c                     MOVEL'DAT'     PAKEYA
+c                     MOVEL*ZEROS    PAKEYB
+c                     MOVE '1'       PAKEYB
+c           PAKEY     CHAINPARAM                50
+c           *IN50     IFEQ *OFF
+c                     MOVELPADESC    DAT01
+c                     ELSE
+c                     CLEARDAT01
+c                     ENDIF
+ *
+c                     MOVEL*DATE     DSDATA
+ *
+c                     ENDSR

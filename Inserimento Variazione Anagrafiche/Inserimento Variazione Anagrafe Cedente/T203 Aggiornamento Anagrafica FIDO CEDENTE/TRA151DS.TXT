@@ -1,0 +1,101 @@
+ Nome file . . . . . . . . . . . . . . . . . . . . . :   TRA151DS
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  QTEMP
+ Attributo file  . . . . . . . . . . . . . . . . . . :   Fisico
+ File origine contenente DDS  . . . . . . . . . . . . :  QDSSRC
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  SRCFAC
+ Membro origine con DDS  . . . . . . . . . . . :         TRA151DS
+ Ultima modifica membro orig.  . . . . . . . . . . . . : 17/05/07  16:36:09
+ Opzioni elenco origine  . . . . . . . . . . . . . . :   *SOURCE    *LIST      *NOSECLVL  *NOEVENTF
+ Livello gravità generaz. DDS  . . . . . . . . . . . :   20
+ Indicaz. liv. di gravità DDS  . . . . . . . . . . . . : 00
+ Tipo file . . . . . . . . . . . . . . . . . . . . . :   *DATA
+ Autorizzazione . . . . . . . . . . . . . . . . . . :    *LIBCRTAUT
+ Sostituz. file  . . . . . . . . . . . . . . . . . . . : *NO
+ Testo . . . . . . . . . . . . . . . . . . . . . . . :   Nuova Gestione anagrafico fidi: Parametri
+ Compilatore  . . . . . . . . . . . . . . . . . . . . :  Processore descrizione dati IBM System i5
+                                      Origine descrizione dati
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+    100  AE026A**   EDP150S1    EMMAND      03/05/2007  10:45:31                          03/05/07
+    200  AE016 ************************************************************************** 11/05/06
+    300        *                                                                          11/05/06
+    400        *  Programmatore..........: Andrea Emmanueli                               11/05/06
+    500        *  Data creazione.........: 11/05/2006                                     11/05/06
+    600        *                                                                          11/05/06
+    700        *  Aggiornato da..........:                                                11/05/06
+    800        *  Data aggiornamento.....:                                                11/05/06
+    900        *                                                                          11/05/06
+   1000        *  Descrizione programma..: Nuova Gestione anagrafico fidi: Parametri      11/05/06
+   1100        *                                                                          11/05/06
+   1200        ************************************************************************** 11/05/06
+   1300                                                                                   23/11/05
+   1400                                              REF(*LIBL/DCTFAC)                    23/11/05
+   1500                                                                                   23/11/05
+   1600        *------------------------------------------------------------------------- 23/11/05
+   1700                                                                                   23/11/05
+   1800                  R TRA1511R                                                       11/05/06
+   1900                                                                                   23/11/05
+   2000                    $OP            1          TEXT('Tipo Gestione: -               11/05/06
+   2100                                              1=Inserimento, -                     11/05/06
+   2200                                              2=Aggiornamento')                    11/05/06
+   2300                    $EXIT          1          TEXT('Modo di uscita: -              11/05/06
+*                                                 CPD5262-*
+   2400                                              0=Fine, -                            11/05/06
+   2500                                              1=Mappa precedente, -                11/05/06
+   2600                                              2=Mappa successiva, -                11/05/06
+   2700                                              3=Conferma')                         11/05/06
+   2800                    $VIDEO         3          TEXT('Video aperto')                 17/05/06
+   2900                    $PRFD     R               REFFLD(££PRFD)                       11/05/06
+   3000                    $CAZE     R               REFFLD(££CAZE)                       15/05/06
+   3100                    $UPDFC         1          TEXT('Aggiornam. file collegati: -   03/07/06
+   3200                                              0=No, -                              30/06/06
+   3300                                              1=Sì')                               30/06/06
+   3400  AE026             $ANNAN         1          TEXT('Ann. anagrafiche se revoca: -  03/05/07
+   3500  AE026                                       0=No, -                              03/05/07
+   3600  AE026                                       1=Sì')                               03/05/07
+                         * * * * *   F I N E  O R I G I N E   * * * * *
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+   1800                  R TRA1511R
+   2000                    $OP            1A  B      TEXT('Tipo Gestione: 1=Inserimento,-     1            1       1
+   2000                                               2=Aggiornamento')
+      0                                              COLHDG('$OP')
+   2300                    $EXIT          1A  B      TEXT('Modo di uscita: 0=Fine, 1=Map-     1            2       2
+   2300                                              pa precedente, 2=Mappa successiva, -
+   2300                                              3=Conferma')
+      0                                              COLHDG('$EXIT')
+   2800                    $VIDEO         3A  B      TEXT('Video aperto')                     3            3       3
+      0                                              COLHDG('$VIDEO')
+   2900                    $PRFD          5P 0B                                               3            6       6
+ * Campo di riferim.  . . . . . . . . . . . :  ££PRFD
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   2900                                              TEXT('Nbr Progressivo Fido         -
+   2900                                              FD                   ') +
+   2900                                              COLHDG('Nbr' 'Prog' 'Fido')
+   3000                    $CAZE          1A  B                                               1            9       9
+ * Campo di riferim.  . . . . . . . . . . . :  ££CAZE
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   3000                                              TEXT('Causale Azione eseguita      -
+   3000                                                                   ') +
+   3000                                              COLHDG('Caus.' 'Azione' 'Eseg.')
+   3100                    $UPDFC         1A  B      TEXT('Aggiornam. file collegati: 0=-     1           10      10
+   3100                                              No, 1=Sì')
+      0                                              COLHDG('$UPDFC')
+   3400                    $ANNAN         1A  B      TEXT('Ann. anagrafiche se revoca: 0-     1           11      11
+   3400                                              =No, 1=Sì')
+      0                                              COLHDG('$ANNAN')
+                 * * * * *   F I N E  O R I G I N E  E S P A N S A   * * * * *
+                                             Messaggi
+    ID      Numero    gravità
+* CPD5262      10        1      Messaggio . . . :   Il testo contiene più di 50 caratteri.
+                                          Riepilogo messaggi
+ Totale            Informativo            Avvert.        Err.        Grave
+                       (0-9)              (10-19)       (20-29)      (30-99)
+        1                 0                    1             0            0
+* CPC7301      00               Messaggio . . . :   File TRA151DS creato nella libreria QTEMP.
+                         * * * * *   F I N E  C O M P I L A Z I O N E   * * * * *
+

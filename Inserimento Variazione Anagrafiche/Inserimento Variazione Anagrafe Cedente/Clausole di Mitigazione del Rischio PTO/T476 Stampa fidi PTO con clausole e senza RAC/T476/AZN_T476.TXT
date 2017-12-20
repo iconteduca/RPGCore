@@ -1,0 +1,9 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T476                      Stampa fidi PTO con clausole e senza RAC
+        --------------------------------------------------------------------------------
+        TRA418                        Stampa fidi PTO con clausole e senza RAC
+        --------------------------------------------------------------------------------
+        TRA418    RPGLE 1-ANACED1L  1-ANAFID3L  1-CLAFID2L  1-MST0011L  1-PARAM
+        .         .     1-RAPPTO1L  1-REFICO2L  1-REFIRA2L  1-TABFID1L  2-TRA4180P
+        --------------------------------------------------------------------------------

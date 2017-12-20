@@ -1,0 +1,1001 @@
+  Comando  . . . . . . . . . . . . :   CRTBNDRPG
+    Emesso da  . . . . . . . . . . :     LESENR
+  Programma  . . . . . . . . . . . :   TRA415
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   TRA415
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Aggiornamento PTO IAS su RAC collegati al fido
+  Ultima modifica. . . . . . . . . :   17/07/12  14:17:21
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 H*================================================================*                                       120626     000100
+     2 H DECEDIT('0,') DATEDIT(*YMD/)                                                                            120626     000200
+     3 H FIXNBR(*ZONED:*INPUTPACKED) OPTION(*NODEBUGIO:*SRCSTMT)                                                 120626     000300
+000400 F*================================================================*                                       120626     000400
+000500 F*  AREA ..............: FACTORING                                *                                       120626     000500
+000600 F*                                                                *                                       120626     000600
+000700 F*  DESCRIZIONE .......: Aggiornamento tipo PTO IAS su RAC        *                                       120626     000700
+000800 F*                       collegati al fido.                       *                                       120626     000800
+000900 F*                                                                *                                       120626     000900
+001000 F*  PROGRAMMATORE .....: LUIGI RICCI                              *                                       120626     001000
+001100 F*                                                                *                                       120626     001100
+001200 F*  PRIMA COMPILAZIONE : 26/06/2012                               *                                       120626     001200
+001300 F*================================================================*                                       120626     001300
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Aggiornamento PTO IAS su RAC collegati al fido     *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *ZONED      *INPUTPACKED     *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001400 FPTOIAS1L  if a e           k disk                                                                        120629     001400
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  PTOIAS1L         MODELL/PTOIAS1L                             *
+        * Formato/i record . . . . . :  PTOIAS1R         PTOIAS1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001500 FRAPPTOCL  uf   e           k disk    rename(RAPPTO1R:RAPPTOC)                                            120629     001500
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  RAPPTOCL         MODELL/RAPPTOCL                             *
+        * Formato/i record . . . . . :  RAPPTOC          RAPPTO1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001600 FREFIRA2L  if   e           k disk                                                                        120626     001600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  REFIRA2L         MODELL/REFIRA2L                             *
+        * Formato/i record . . . . . :  REFIRA1R         REFIRA1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001700 FSTORPT0F  o    e             disk                                                                        120626     001700
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  STORPT0F         MODELL/STORPT0F                             *
+        * Formato/i record . . . . . :  STORPT1R         STORPT1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001800 FTABFID1L  if   e           k disk                                                                        120626     001800
+001900  ******************************************************************                                       120626     001900
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  TABFID1L         MODELL/TABFID1L                             *
+        * Formato/i record . . . . . :  TABFID           TABFID                                      *
+        *--------------------------------------------------------------------------------------------*
+002000 D KPJBA         e ds                                                                                      120626     002000
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  KPJBA                                                        *                     1
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     1
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000001=D KNMUS                         10A                                        Nome Utente                   -B-        1000001
+000002=D KTPRF                          3A                                        Tipo Utente                   -B-        1000002
+000003=D KNRAZ                          9S 0                                      Num. Azione                   -B-        1000003
+000004=D KTSIF                          3A                                        Tipo Sistema Informativo      -B-        1000004
+000005=D KNMTD                         10A                                        Nome Terminale                -B-        1000005
+000006=D KFLRC                          1A                                        Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D KNRVJ                          9S 0                                      Num. Azione Interrotta        -B-        1000007
+000008=D KMSMN                          7A                                        Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D KNRJO                          6A                                        Num. Lavoro                   -B-        1000009
+000010=D KSTJO                          1A                                        Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D KFLMS                          1A                                        Flag Messaggio Pendente       -X-        1000011
+000012=D KTMIN                          6S 0                                      Time Fine Azione              -A- HHMMSS
+000013=D KCDAZ                          4A                                        Cod. Azione                   -B-        1000013
+000014=D KTPAZ                          1A                                        Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D KCDRC                          1A                                        Cod. Ripartenza               -C- b 0123 5678
+000016=D KTPFN                          1A                                        Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D KQOTD                         10A                                        Nome OutQ Terminale           -B-        1000017
+000018=D KNMEB                         10A                                        Nome Lavoro                   -B-        1000018
+000019=D KNMSB                          3S 0                                      Num. Sbmjob Eseguiti          -B-        1000019
+000020=D KNRRB                          2A                                        Num. ReSbmjob Batch           -A-        1000020
+000021=D KNSIF                          9A                                        Nome Sistema Informativo      -B-        1000021
+000022=D KCDJD                          2A                                        Cod. JobD                     -A-        1000022
+000023=D KQIEB                          7A                                        Nome JobQ                     -B-        1000023
+000024=D KQOFR                         10A                                        Nome OutQ                     -B-        1000024
+000025=D KKEYF                          5S 0                                      Cod. RRN Azione               -B-        1000025
+000026=D KRCDS                          5S 0                                      Cod. RRN Sessione             -A-        1000026
+000027=D KEXCN                          1A                                        Flag Controllo JobD     Batch -X-        1000027
+000028=D KCOAZ                          4A                                        Cod. Azione             Batch -C-        1000028
+000029=D KFLAD                          1A                                        Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D KQOPR                         10A                                        Nome OutQ               Batch -C-        1000030
+000031=D KNMCP                          2A                                        Num. Copie Stampe       Batch -X-        1000031
+000032=D KJOST                          1A                                        Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D KSTEB                          1A                                        Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D KCOJB                          2A                                        Cod. JobD               Batch -C-        1000034
+000035=D KQEBI                          7A                                        Nome JobQ               Batch -C-        1000035
+000036=D KMDST                         10A                                        Nome Modulo Stampe      Batch -X-        1000036
+000037=D KFIER                         30A                                        Cod. LibFilMbr in Errore      -X-        1000037
+000038=D KCANC                          1A                                        Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D KGRAZ                          3A                                        Cod. Gruppo Azione            -C-        1000039
+000040=D KFSLG                          1A                                        Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D KTPWS                          1A                                        Tipo Terminale                -X- N=Nrm
+000042=D KDTJB                          6A                                        Data Lavoro             Batch -X-        1000042
+000043=D KJRNM                         10A                                        Nome Journal                  -X-        1000043
+000044=D KJRLB                         10A                                        Libr.Journal                  -X-        1000044
+000045=D KRITB                          1A                                        Flag Ritorno Batch            -C-        1000045
+000046=D KBUFF                          8A                                        Fllr                          -X-        1000046
+000047=D KPJBU                        256A                                        Dati Applicativo              -D-        1000047
+002100 D §RAPPTO       e ds                  extname(RAPPTO0F)                                                   120626     002100
+        *--------------------------------------------------------------------------------------------*                     2
+        * Struttura dati . . . . . . :  §RAPPTO                                                      *                     2
+        * Formato esterno  . . . . . :  RAPPTO1R : MODELL/RAPPTO0F                                   *                     2
+        * Formato testo. . . . . . . :  ANAGRAFE RAPPORTI                                            *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000001=D RTFLAG                         1A                                        Sts Record V/A               CMN         2000001
+000002=D RTNAZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         2000002
+000003=D RTUINS                         6A                                        Utente di Inserimento                    2000003
+000004=D RTDINS                         8P 0                                      Dte Inserimento                          2000004
+000005=D RTUUPD                         6A                                        Utente di Aggiornamento                  2000005
+000006=D RTDUPD                         8P 0                                      Dte Aggiornamento                        2000006
+000007=D RTCED                          5S 0                                      Cde Cedente                  AC          2000007
+000008=D RTDEB                          8S 0                                      Cde Debitore                 AD          2000008
+000009=D RTNRAC                         4S 0                                      Nbr RAC PTO                  RP          2000009
+000010=D RTTRAC                         1A                                        Cde Tipo RAC PTO             RP          2000010
+000011=D RTTROT                         1A                                        Cde Rotatività Mty           RP          2000011
+000012=D RTDDEC                         8S 0                                      Dte Decorrenza RAC PTO       RT          2000012
+000013=D RTDRIL                         8S 0                                      Dte Rilascio RAC PTO         RT          2000013
+000014=D RTCDIV                         3A                                        Cde Divisa                   MST         2000014
+000015=D RTIRAC                        14P 2                                      Val R.A.C. PTO               RT          2000015
+000016=D RTPBLO                         1A                                        Sts Blocco Plafond pto Aut   RT          2000016
+000017=D RTIMUT                        14P 2                                      Val RAC Utilizzato           RT          2000017
+000018=D RTIMAS                        14P 2                                      Val RAC Assicurato           RT          2000018
+000019=D RTPCCO                         5P 2                                      Pct Copertura                            2000019
+000020=D RTMTER                         1A                                        Cde Modo Termine RAC         RP          2000020
+000021=D RTDSCA                         8S 0                                      Dte Scadenza RAC PTO         RT          2000021
+000022=D RTDREV                         8S 0                                      Dte Revoca RAC PTO           RT          2000022
+000023=D RTPCGZ                         5P 2                                      Pct Garanzia                             2000023
+000024=D RTGGDC                         3S 0                                      Nbr GG Ammessi doc/cess      RP          2000024
+000025=D RTTPAG                         1A                                        Cde Tipo Pagamento           MST         2000025
+000026=D RTMPAG                         2A                                        Cde Modo Pagamento (FM/DF)   RP          2000026
+000027=D RTGGDF                         3S 0                                      Nbr GG Pag. Differimento     RP          2000027
+000028=D RTGGTO                         3S 0                                      Nbr GG Tolleranza            RP          2000028
+000029=D RTIRBK                        14P 2                                      Val RAC PTO BKI              RT          2000029
+000030=D RTNOTE                        50A                                        Nar Note                     RT          2000030
+000031=D RTCASS                         5S 0                                      Cde Assicurazione                        2000031
+000032=D RTTIAS                         3S 0                                      Tipo Pto IAS                             2000032
+000033=D RTGDCD                         1A                                        Modal. applicazione gg doc-ces           2000033
+000034=D RTLATI                         2A                                        Codice concessione LMA                   2000034
+000035=D RTDRIA                         8S 0                                      Dte Competenza per assicurazione         2000035
+002200 D §STORPT       e ds                  extname(STORPT0F)                                                   120626     002200
+002300  ******************************************************************                                       120626     002300
+        *--------------------------------------------------------------------------------------------*                     3
+        * Struttura dati . . . . . . :  §STORPT                                                      *                     3
+        * Formato esterno  . . . . . :  STORPT1R : MODELL/STORPT0F                                   *                     3
+        * Formato testo. . . . . . . :  STOrico anagrafe RaPporTi                                    *                     3
+        *--------------------------------------------------------------------------------------------*                     3
+000001=D RZ$AZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         3000001
+000002=D RZ$USI                         6A                                        Utente di Inserimento                    3000002
+000003=D RZ$DIN                         8P 0                                      Dte Inserimento                          3000003
+000004=D RZFLAG                         1A                                        Sts Record V/A               CMN         3000004
+000005=D RZNAZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         3000005
+000006=D RZUINS                         6A                                        Utente di Inserimento                    3000006
+000007=D RZDINS                         8P 0                                      Dte Inserimento                          3000007
+000008=D RZUUPD                         6A                                        Utente di Aggiornamento                  3000008
+000009=D RZDUPD                         8P 0                                      Dte Aggiornamento                        3000009
+000010=D RZCED                          5S 0                                      Cde Cedente                  AC          3000010
+000011=D RZDEB                          8S 0                                      Cde Debitore                 AD          3000011
+000012=D RZNRAC                         4S 0                                      Nbr RAC PTO                  RP          3000012
+000013=D RZTRAC                         1A                                        Cde Tipo RAC PTO             RP          3000013
+000014=D RZTROT                         1A                                        Cde Rotatività Mty           RP          3000014
+000015=D RZDDEC                         8S 0                                      Dte Decorrenza RAC PTO       RT          3000015
+000016=D RZDRIL                         8S 0                                      Dte Rilascio RAC PTO         RT          3000016
+000017=D RZCDIV                         3A                                        Cde Divisa                   MST         3000017
+000018=D RZIRAC                        14P 2                                      Val R.A.C. PTO               RT          3000018
+000019=D RZPBLO                         1A                                        Sts Blocco Plafond pto Aut   RT          3000019
+000020=D RZIMUT                        14P 2                                      Val RAC Utilizzato           RT          3000020
+000021=D RZIMAS                        14P 2                                      Val RAC Assicurato           RT          3000021
+000022=D RZPCCO                         5P 2                                      Pct Copertura                            3000022
+000023=D RZMTER                         1A                                        Cde Modo Termine RAC         RP          3000023
+000024=D RZDSCA                         8S 0                                      Dte Scadenza RAC PTO         RT          3000024
+000025=D RZDREV                         8S 0                                      Dte Revoca RAC PTO           RT          3000025
+000026=D RZPCGZ                         5P 2                                      Pct Garanzia                             3000026
+000027=D RZGGDC                         3S 0                                      Nbr GG Ammessi doc/cess      RP          3000027
+000028=D RZTPAG                         1A                                        Cde Tipo Pagamento           MST         3000028
+000029=D RZMPAG                         2A                                        Cde Modo Pagamento (FM/DF)   RP          3000029
+000030=D RZGGDF                         3S 0                                      Nbr GG Pag. Differimento     RP          3000030
+000031=D RZGGTO                         3S 0                                      Nbr GG Tolleranza            RP          3000031
+000032=D RZIRBK                        14P 2                                      Val RAC PTO BKI              RT          3000032
+000033=D RZNOTE                        50A                                        Nar Note                     RT          3000033
+000034=D RZCASS                         5S 0                                      CDE ASSICURAZIONE                        3000034
+000035=D RZTIAS                         3S 0                                      TIPO PTO IAS                             3000035
+000036=D RZGDCD                         1A                                        Modal. applicazione gg doc-ces           3000036
+000037=D RZLATI                         2A                                        Codice concessione LMA                   3000037
+000038=D RZDRIA                         8S 0                                      Dte Competenza per assicurazione         3000038
+002400 D $ENTRY_         ds                                                                                      120626     002400
+002500 d  $ENTRY_Prfd                   5s 0                                                                     120626     002500
+002600 d  $ENTRY_Codf                   4                                                                        120626     002600
+002700 d  $ENTRY_Tias                   3  0                                                                     120626     002700
+002800 d  $ENTRY_updr                   1                                         T=Tutti/E=in essere            120629     002800
+002900 d  $ENTRY_Forz                   1                                         F=Forzatura                    120629     002900
+003000  ******************************************************************                                       120629     003000
+003100 d wsgiro          s              1  0                                                                     120629     003100
+003200 d wslastA         s               n                                                                       120629     003200
+003300 d wslastR         s               n                                                                       120629     003300
+003400  ******************************************************************                                       120626     003400
+003500 c*                                                                                                        120627     003500
+003600 c* Solo fido PTO                                                                                          120627     003600
+000001=IPTOIAS1R                                                                                                           4000001
+        *--------------------------------------------------------------------------------------------*                     4
+        * Formato record RPG . . . . :  PTOIAS1R                                                     *                     4
+        * Formato esterno  . . . . . :  PTOIAS1R : MODELL/PTOIAS1L                                   *                     4
+        * Formato testo. . . . . . . :  FORZATURA PTO IAS                                            *                     4
+        *--------------------------------------------------------------------------------------------*                     4
+000002=I                             A    1    3  PITREC                          Cde Tipo Rec.File -PTI-                  4000002
+000003=I                             A    4    4  PIFLAG                          Sts Record V/A               CMN         4000003
+000004=I                             S    5   12 0PIDINS                          Dte Inserimento                          4000004
+000005=I                             A   13   18  PIUINS                          Utente di Inserimento                    4000005
+000006=I                             S   19   26 0PIDUPD                          Dte Aggiornamento                        4000006
+000007=I                             A   27   32  PIUUPD                          Utente di Aggiornamento                  4000007
+000008=I                             S   33   37 0PIPRFD                          Nbr Progressivo Fido         FD          4000008
+000009=I                             A   38   41  PICODF                          Cde Fido                     FD          4000009
+000010=I                             S   42   44 0PIIASO                          Old Tipo Pto IAS                         4000010
+000011=I                             S   45   47 0PIIASN                          New Tipo Pto IAS                         4000011
+000012=I                             S   48   52 0PICED                           Cde Cedente                  AC          4000012
+000013=I                             S   53   56 0PINRAC                          Nbr RAC PTO                  RP          4000013
+000001=IRAPPTOC                                                                                                            5000001
+        *--------------------------------------------------------------------------------------------*                     5
+        * Formato record RPG . . . . :  RAPPTOC                                                      *                     5
+        * Formato esterno  . . . . . :  RAPPTO1R : MODELL/RAPPTOCL                                   *                     5
+        * Formato testo. . . . . . . :  ANAGRAFE RAPPORTI                                            *                     5
+        *--------------------------------------------------------------------------------------------*                     5
+000002=I                             A    1    1  RTFLAG                          Sts Record V/A               CMN         5000002
+000003=I                             P    2    6 0RTNAZN                          Nbr Azione Aggiornamento     CMN         5000003
+000004=I                             A    7   12  RTUINS                          Utente di Inserimento                    5000004
+000005=I                             P   13   17 0RTDINS                          Dte Inserimento                          5000005
+000006=I                             A   18   23  RTUUPD                          Utente di Aggiornamento                  5000006
+000007=I                             P   24   28 0RTDUPD                          Dte Aggiornamento                        5000007
+000008=I                             S   29   33 0RTCED                           Cde Cedente                  AC          5000008
+000009=I                             S   34   41 0RTDEB                           Cde Debitore                 AD          5000009
+000010=I                             S   42   45 0RTNRAC                          Nbr RAC PTO                  RP          5000010
+000011=I                             A   46   46  RTTRAC                          Cde Tipo RAC PTO             RP          5000011
+000012=I                             A   47   47  RTTROT                          Cde Rotatività Mty           RP          5000012
+000013=I                             S   48   55 0RTDDEC                          Dte Decorrenza RAC PTO       RT          5000013
+000014=I                             S   56   63 0RTDRIL                          Dte Rilascio RAC PTO         RT          5000014
+000015=I                             A   64   66  RTCDIV                          Cde Divisa                   MST         5000015
+000016=I                             P   67   74 2RTIRAC                          Val R.A.C. PTO               RT          5000016
+000017=I                             A   75   75  RTPBLO                          Sts Blocco Plafond pto Aut   RT          5000017
+000018=I                             P   76   83 2RTIMUT                          Val RAC Utilizzato           RT          5000018
+000019=I                             P   84   91 2RTIMAS                          Val RAC Assicurato           RT          5000019
+000020=I                             P   92   94 2RTPCCO                          Pct Copertura                            5000020
+000021=I                             A   95   95  RTMTER                          Cde Modo Termine RAC         RP          5000021
+000022=I                             S   96  103 0RTDSCA                          Dte Scadenza RAC PTO         RT          5000022
+000023=I                             S  104  111 0RTDREV                          Dte Revoca RAC PTO           RT          5000023
+000024=I                             P  112  114 2RTPCGZ                          Pct Garanzia                             5000024
+000025=I                             S  115  117 0RTGGDC                          Nbr GG Ammessi doc/cess      RP          5000025
+000026=I                             A  118  118  RTTPAG                          Cde Tipo Pagamento           MST         5000026
+000027=I                             A  119  120  RTMPAG                          Cde Modo Pagamento (FM/DF)   RP          5000027
+000028=I                             S  121  123 0RTGGDF                          Nbr GG Pag. Differimento     RP          5000028
+000029=I                             S  124  126 0RTGGTO                          Nbr GG Tolleranza            RP          5000029
+000030=I                             P  127  134 2RTIRBK                          Val RAC PTO BKI              RT          5000030
+000031=I                             A  135  184  RTNOTE                          Nar Note                     RT          5000031
+000032=I                             S  185  189 0RTCASS                          Cde Assicurazione                        5000032
+000033=I                             S  190  192 0RTTIAS                          Tipo Pto IAS                             5000033
+000034=I                             A  193  193  RTGDCD                          Modal. applicazione gg doc-ces           5000034
+000035=I                             A  194  195  RTLATI                          Codice concessione LMA                   5000035
+000036=I                             S  196  203 0RTDRIA                          Dte Competenza per assicurazione         5000036
+000001=IREFIRA1R                                                                                                           6000001
+        *--------------------------------------------------------------------------------------------*                     6
+        * Formato record RPG . . . . :  REFIRA1R                                                     *                     6
+        * Formato esterno  . . . . . :  REFIRA1R : MODELL/REFIRA2L                                   *                     6
+        * Formato testo. . . . . . . :  RELAZIONI FIDI/RAPPORTI                                      *                     6
+        *--------------------------------------------------------------------------------------------*                     6
+000002=I                             A    1    3  RRTREC                          Cde Tipo Rec.File -TFC-                  6000002
+000003=I                             A    4    4  RRFLAG                          Sts Record V/A               CMN         6000003
+000004=I                             P    5    9 0RRNAZN                          Nbr Azione Aggiornamento     CMN         6000004
+000005=I                             A   10   10  RRLOCK                          Sts Blocco record            CMN         6000005
+000006=I                             A   11   16  RRUINS                          Utente di Inserimento                    6000006
+000007=I                             P   17   21 0RRDINS                          Dte di 8 cifre                           6000007
+000008=I                             A   22   31  RRUSER                          Utente di Aggiornamento                  6000008
+000009=I                             P   32   36 0RRDUPD                          Dte di 8 cifre                           6000009
+000010=I                             P   37   39 0RRCED                           Cde Cedente                  AC          6000010
+000011=I                             P   40   42 0RRPRFD                          Nbr Progressivo Fido         FD          6000011
+000012=I                             A   43   46  RRCODF                          Cde Fido                     FD          6000012
+000013=I                             P   47   51 0RRDEB                           Cde Debitore                 AD          6000013
+000001=ITABFID                                                                                                             7000001
+        *--------------------------------------------------------------------------------------------*                     7
+        * Formato record RPG . . . . :  TABFID                                                       *                     7
+        * Formato esterno  . . . . . :  TABFID : MODELL/TABFID1L                                     *                     7
+        * Formato testo. . . . . . . :  TABELLA FIDI                                                 *                     7
+        *--------------------------------------------------------------------------------------------*                     7
+000002=I                             A    1    3  RTREC                           Cde Tipo Rec.File -TDF-      CMN         7000002
+000003=I                             A    4    4  RFLAG                           Sts Record V/A               CMN         7000003
+000004=I                             P    5    9 0RNAZN                           Nbr Azione Aggiornamento     CMN         7000004
+000005=I                             A   10   15  TFUUPD                          Utente di Aggiornamento                  7000005
+000006=I                             P   16   20 0TFDUPD                          Dte Aggiornamento                        7000006
+000007=I                             A   21   24  TFCDF                           Cde Fido                     FD          7000007
+000008=I                             P   25   26 0TFPRR                           Nbr Progr.vo Riga Descr.     F2          7000008
+000009=I                             A   27   86  TFDSF                           Nar Descrizione Fido         FD          7000009
+000010=I                             A   87   87  TFTFIM                          Tipo Fido Minerva                        7000010
+000011=I                             A   88   89  TFTFID                          Tipologia fido (TFD)                     7000011
+000012=I                             A   90   90  TFCECR                          Cessione credito S/N                     7000012
+000013=I                             A   91   91  TFNOCR                          Notifica credito S/N                     7000013
+000014=I                             A   92   92  TFRICR                          Riconoscimento credito S/N               7000014
+000015=I                             A   93   94  TFTDEB                          Tipologia debitore (TDE)                 7000015
+000016=I                             A   95   95  TFMACR                          Mod. accoglimento crediti                7000016
+000017=I                             A   96   96  TFVARB                          Variabile/Testo                          7000017
+000018=I                             A   97   97  TFVERA                          Sts Versam. anticipati S/N               7000018
+000019=I                             A   98   98  TFCRFU                          Sts Crediti futuri S/N                   7000019
+000020=I                             A   99   99  TFLOFI                          Sts Locaz. finanziarie S/N               7000020
+000021=I                             A  100  100  TFMATU                          Sts Operazioni maturity S/N              7000021
+000022=I                             A  101  101  TFSCON                          Sts Sconto S/N                           7000022
+000023=I                             A  102  102  TFACCR                          Sts Acquisto crediti                     7000023
+000024=I                             A  103  103  TFREFD                          Sts Relazione Fido-Debitori              7000024
+000025=I                             A  104  104  TFFTYP                          Sts Fido Ced/Deb                         7000025
+000026=I                             A  105  105  TFPTAS                          Sts PTO Riassicurato (S/N)               7000026
+000027=I                             A  106  106  TFPTSS                          Sts PTO Ass.SenzaScop. (S/N)             7000027
+000028=I                             A  107  107  TFCSCO                          Scadenza Convenzionale                   7000028
+003700 c     $entry_codf   chain     TABFID                                                                      120627     003700
+003800 c                   if            %found                                                        B01       120627     003800
+003900 c                             and tfmacr = '1'                                                  B01       120627     003900
+004000  *                                                                                                        120626     004000
+004100 c                   for       wsgiro = 1 to 2                                                   B02       120629     004100
+004200 c                   eval      rrprfd = $entry_prfd                                               02       120626     004200
+004300 c                   if        wsgiro = 1                                                        B03       120629     004300
+004400 c                   eval      rrcodf = $entry_codf                                               03       120626     004400
+004500 c                   else                                                                        X03       120629     004500
+004600 c                   eval      rrcodf = *blank                                                    03       120629     004600
+004700 c                   endif                                                                       E03       120629     004700
+004800 c     krefira       setll     REFIRA1R                                                           02       120626     004800
+004900 c                   do        *hival                                                            B03       120626     004900
+005000 c     krefira       reade     REFIRA1R                                                           03       120626     005000
+005100 c                   if        %eof                                                              B04       120626     005100
+005200 c                   leave                                                                        04       120626     005200
+005300 c                   endif                                                                       E04       120626     005300
+005400 c                   exsr      AggRAC                                                             03       120626     005400
+005500 c                   enddo                                                                       E03       120626     005500
+005600 c                   endfor                                                                      E02       120629     005600
+005700 c*                                                                                                        120627     005700
+005800 c                   endif                                                                       E01       120627     005800
+005900  *                                                                                                        120626     005900
+006000 C                   seton                                        LR----                                   120626     006000
+006100 c******************************************************************                                       120626     006100
+006200 c*  Aggiornamento RAC                                                                                     120626     006200
+006300 c******************************************************************                                       120626     006300
+006400 C     AggRAC        begsr                                                                                 120626     006400
+006500 c*                                                                                                        120626     006500
+006600 c                   eval      wslastR = *on                                                               120629     006600
+006700 c                   eval      wslastA = *on                                                               120629     006700
+006800 c     krappto       setgt     RAPPTOC                                                                     120629     006800
+006900 c                   do        *hival                                                            B01       120626     006900
+007000 c     krappto       readpe    RAPPTOC                                                            01       120629     007000
+007100 c                   if        %eof                                                              B02       120626     007100
+007200 c                   leave                                                                        02       120626     007200
+007300 c                   endif                                                                       E02       120626     007300
+007400 c*                                                                                                        120629     007400
+007500 c                   if        $entry_updr <> 'T'                                                B02       120629     007500
+007600 c* Nel caso di RAC tipo R/A viene aggiornato solo l'ultimo                                                120629     007600
+007700 c                   if        rttrac = 'R'                                                      B03       120629     007700
+007800 c                   if        wslastR = *off                                                    B04       120629     007800
+007900 c                   iter                                                                         04       120629     007900
+008000 c                   endif                                                                       E04       120629     008000
+008100 c                   eval      wslastR = *off                                                     03       120629     008100
+008200 c                   endif                                                                       E03       120629     008200
+008300 c                   if        rttrac = 'A'                                                      B03       120629     008300
+008400 c                   if        wslastA = *off                                                    B04       120629     008400
+008500 c                   iter                                                                         04       120629     008500
+008600 c                   endif                                                                       E04       120629     008600
+008700 c                   eval      wslastA = *off                                                     03       120629     008700
+008800 c                   endif                                                                       E03       120629     008800
+008900 c* Non scaduti                                                                                            120629     008900
+009000 c                   if            rtdsca <> 0                                                   B03       120626     009000
+009100 c                             and rtdsca < *date                                                B03       120626     009100
+009200 c                              or rtdrev <> 0                                                   B03       120626     009200
+009300 c                             and rtdrev < *date                                                B03       120626     009300
+009400 c                   iter                                                                         03       120626     009400
+009500 c                   endif                                                                       E03       120626     009500
+009600 c                   endif                                                  $entry_updr <> 'T'   E02       120629     009600
+009700 c* Riassicurati                                                                                           120629     009700
+009800 c**                 if            rtcass = 0                                                              120706     009800
+009900 c**                 iter                                                                                  120706     009900
+010000 c**                 endif                                                                                 120706     010000
+010100 c* Non forzati                                                                                            120629     010100
+010200 c     kptoias       chain     PTOIAS1R                                     forzato               01       120626     010200
+010300 c                   if        %found                                                            B02       120626     010300
+010400 c                   iter                                                                         02       120626     010400
+010500 c                   endif                                                                       E02       120626     010500
+010600 c*                                                                                                        120704     010600
+010700 c                   if        $entry_Forz = 'S'                            da forzatura         B02       120704     010700
+010800 c                             and rttias <> $entry_tias                                         B02       120717     010800
+010900 c                   exsr      WrtFrz                                                             02       120704     010900
+011000 c                   endif                                                                       E02       120704     011000
+011100 c*                                                                                                        120629     011100
+011200 c                   if        rttias <> $entry_tias                                             B02       120626     011200
+011300 c                   eval      §opera = '1'                                                       02       120626     011300
+011400 c                   call      'TRA002'      PL_TRA002                                            02       120626     011400
+011500 c                   eval      rtuupd = knmus                                                     02       120626     011500
+011600 c                   eval      rtdupd = *date                                                     02       120626     011600
+011700 c                   eval      rttias = $entry_tias                                               02       120626     011700
+011800 c                   update    RAPPTOC                                                            02       120629     011800
+011900 c                   exsr      Storic                                                             02       120626     011900
+012000 c                   endif                                                                       E02       120626     012000
+012100 c                   enddo                                                                       E01       120626     012100
+012200 c*                                                                                                        120626     012200
+012300 c                   endsr                                                                                 120626     012300
+012400 c******************************************************************                                       120626     012400
+012500 c*  Storicizza variazioni RAPPTO                                                                          120626     012500
+012600 c******************************************************************                                       120626     012600
+012700 C     Storic        begsr                                                                                 120626     012700
+012800 c*                                                                                                        120626     012800
+012900 c                   eval      RZ$AZN = knraz                                                              120626     012900
+013000 c                   eval      RZ$USI = knmus                                                              120626     013000
+013100 c                   eval      RZ$DIN = *date                                                              120626     013100
+013200 c                   write     STORPT1R                                                                    120626     013200
+013300 c*                                                                                                        120626     013300
+013400 c                   endsr                                                                                 120626     013400
+013500 c******************************************************************                                       120629     013500
+013600 c*  Memorizza la forzatura                                                                                120629     013600
+013700 c******************************************************************                                       120629     013700
+013800 C     WrtFrz        begsr                                                                                 120629     013800
+013900 c*                                                                                                        120629     013900
+014000 c                   clear                   PTOIAS1R                                                      120629     014000
+014100 c                   eval      PITREC = 'PTI'                                                              120629     014100
+014200 c                   eval      PIFLAG = 'V'                                                                120629     014200
+014300 c                   eval      PIDINS = *date                                                              120629     014300
+014400 c                   eval      PIUINS = knmus                                                              120629     014400
+014500 c                   eval      PIPRFD = $entry_prfd                                                        120629     014500
+014600 c                   eval      PICODF = $entry_codf                                                        120629     014600
+014700 c                   eval      PIIASO = rttias                                                             120704     014700
+014800 c                   eval      PIIASN = $entry_tias                                                        120704     014800
+014900 c                   eval      PICED  = rtced                                                              120629     014900
+015000 c                   eval      PINRAC = rtnrac                                                             120629     015000
+015100 c                   write     PTOIAS1R                                                                    120629     015100
+015200 c*                                                                                                        120629     015200
+015300 c                   endsr                                                                                 120629     015300
+015400 c******************************************************************                                       120626     015400
+015500 c*  Operazioni iniziali                                                                                   120626     015500
+015600 c******************************************************************                                       120626     015600
+015700 C     *inzsr        begsr                                                                                 120626     015700
+015800 c*                                                                                                        120626     015800
+015900 c* Parametri                                                                                              120626     015900
+016000 c     *entry        plist                                                                                 120626     016000
+016100 c                   parm                    KPJBA                                                         120626     016100
+016200 c                   eval      $ENTRY_ = kpjbu                                                             120626     016200
+016300 c*                                                                                                        120626     016300
+016400 c     PL_TRA002     plist                                                                                 120626     016400
+016500 c                   parm                    §RAPPTO                                                       120626     016500
+016600 c                   parm                    §STORPT                                                       120626     016600
+016700 c                   parm                    §opera            1                                           120626     016700
+016800 c                   parm                    §varia            1                                           120626     016800
+016900 c*                                                                                                        120626     016900
+017000 c* Chiavi                                                                                                 120626     017000
+017100 c     kptoias       klist                                                                                 120626     017100
+017200 c                   kfld                    rtced                                                         120626     017200
+017300 c                   kfld                    rtnrac                                                        120626     017300
+017400 c*                                                                                                        120626     017400
+017500 c     krappto       klist                                                                                 120626     017500
+017600 c                   kfld                    rrced                                                         120626     017600
+017700 c                   kfld                    rrdeb                                                         120626     017700
+017800 c*                                                                                                        120626     017800
+017900 c     krefira       klist                                                                                 120626     017900
+018000 c                   kfld                    rrprfd                                                        120626     018000
+018100 c                   kfld                    rrcodf                                                        120626     018100
+018200 c*                                                                                                        120626     018200
+018300 C                   endsr                                                                                 120626     018300
+000001=OPTOIAS1R                                                                                                           8000001
+        *--------------------------------------------------------------------------------------------*                     8
+        * Formato record RPG . . . . :  PTOIAS1R                                                     *                     8
+        * Formato esterno  . . . . . :  PTOIAS1R : MODELL/PTOIAS1L                                   *                     8
+        * Formato testo. . . . . . . :  FORZATURA PTO IAS                                            *                     8
+        *--------------------------------------------------------------------------------------------*                     8
+000002=O                       PITREC               3A CHAR        3              Cde Tipo Rec.File -PTI-                  8000002
+000003=O                       PIFLAG               4A CHAR        1              Sts Record V/A               CMN         8000003
+000004=O                       PIDINS              12S ZONE      8,0              Dte Inserimento                          8000004
+000005=O                       PIUINS              18A CHAR        6              Utente di Inserimento                    8000005
+000006=O                       PIDUPD              26S ZONE      8,0              Dte Aggiornamento                        8000006
+000007=O                       PIUUPD              32A CHAR        6              Utente di Aggiornamento                  8000007
+000008=O                       PIPRFD              37S ZONE      5,0              Nbr Progressivo Fido         FD          8000008
+000009=O                       PICODF              41A CHAR        4              Cde Fido                     FD          8000009
+000010=O                       PIIASO              44S ZONE      3,0              Old Tipo Pto IAS                         8000010
+000011=O                       PIIASN              47S ZONE      3,0              New Tipo Pto IAS                         8000011
+000012=O                       PICED               52S ZONE      5,0              Cde Cedente                  AC          8000012
+000013=O                       PINRAC              56S ZONE      4,0              Nbr RAC PTO                  RP          8000013
+000001=ORAPPTOC                                                                                                            9000001
+        *--------------------------------------------------------------------------------------------*                     9
+        * Formato record RPG . . . . :  RAPPTOC                                                      *                     9
+        * Formato esterno  . . . . . :  RAPPTO1R : MODELL/RAPPTOCL                                   *                     9
+        * Formato testo. . . . . . . :  ANAGRAFE RAPPORTI                                            *                     9
+        *--------------------------------------------------------------------------------------------*                     9
+000002=O                       RTFLAG               1A CHAR        1              Sts Record V/A               CMN         9000002
+000003=O                       RTNAZN               6P PACK      9,0              Nbr Azione Aggiornamento     CMN         9000003
+000004=O                       RTUINS              12A CHAR        6              Utente di Inserimento                    9000004
+000005=O                       RTDINS              17P PACK      8,0              Dte Inserimento                          9000005
+000006=O                       RTUUPD              23A CHAR        6              Utente di Aggiornamento                  9000006
+000007=O                       RTDUPD              28P PACK      8,0              Dte Aggiornamento                        9000007
+000008=O                       RTCED               33S ZONE      5,0              Cde Cedente                  AC          9000008
+000009=O                       RTDEB               41S ZONE      8,0              Cde Debitore                 AD          9000009
+000010=O                       RTNRAC              45S ZONE      4,0              Nbr RAC PTO                  RP          9000010
+000011=O                       RTTRAC              46A CHAR        1              Cde Tipo RAC PTO             RP          9000011
+000012=O                       RTTROT              47A CHAR        1              Cde Rotatività Mty           RP          9000012
+000013=O                       RTDDEC              55S ZONE      8,0              Dte Decorrenza RAC PTO       RT          9000013
+000014=O                       RTDRIL              63S ZONE      8,0              Dte Rilascio RAC PTO         RT          9000014
+000015=O                       RTCDIV              66A CHAR        3              Cde Divisa                   MST         9000015
+000016=O                       RTIRAC              74P PACK     14,2              Val R.A.C. PTO               RT          9000016
+000017=O                       RTPBLO              75A CHAR        1              Sts Blocco Plafond pto Aut   RT          9000017
+000018=O                       RTIMUT              83P PACK     14,2              Val RAC Utilizzato           RT          9000018
+000019=O                       RTIMAS              91P PACK     14,2              Val RAC Assicurato           RT          9000019
+000020=O                       RTPCCO              94P PACK      5,2              Pct Copertura                            9000020
+000021=O                       RTMTER              95A CHAR        1              Cde Modo Termine RAC         RP          9000021
+000022=O                       RTDSCA             103S ZONE      8,0              Dte Scadenza RAC PTO         RT          9000022
+000023=O                       RTDREV             111S ZONE      8,0              Dte Revoca RAC PTO           RT          9000023
+000024=O                       RTPCGZ             114P PACK      5,2              Pct Garanzia                             9000024
+000025=O                       RTGGDC             117S ZONE      3,0              Nbr GG Ammessi doc/cess      RP          9000025
+000026=O                       RTTPAG             118A CHAR        1              Cde Tipo Pagamento           MST         9000026
+000027=O                       RTMPAG             120A CHAR        2              Cde Modo Pagamento (FM/DF)   RP          9000027
+000028=O                       RTGGDF             123S ZONE      3,0              Nbr GG Pag. Differimento     RP          9000028
+000029=O                       RTGGTO             126S ZONE      3,0              Nbr GG Tolleranza            RP          9000029
+000030=O                       RTIRBK             134P PACK     14,2              Val RAC PTO BKI              RT          9000030
+000031=O                       RTNOTE             184A CHAR       50              Nar Note                     RT          9000031
+000032=O                       RTCASS             189S ZONE      5,0              Cde Assicurazione                        9000032
+000033=O                       RTTIAS             192S ZONE      3,0              Tipo Pto IAS                             9000033
+000034=O                       RTGDCD             193A CHAR        1              Modal. applicazione gg doc-ces           9000034
+000035=O                       RTLATI             195A CHAR        2              Codice concessione LMA                   9000035
+000036=O                       RTDRIA             203S ZONE      8,0              Dte Competenza per assicurazione         9000036
+000001=OSTORPT1R                                                                                                          10000001
+        *--------------------------------------------------------------------------------------------*                    10
+        * Formato record RPG . . . . :  STORPT1R                                                     *                    10
+        * Formato esterno  . . . . . :  STORPT1R : MODELL/STORPT0F                                   *                    10
+        * Formato testo. . . . . . . :  STOrico anagrafe RaPporTi                                    *                    10
+        *--------------------------------------------------------------------------------------------*                    10
+000002=O                       RZ$AZN               5P PACK      9,0              Nbr Azione Aggiornamento     CMN        10000002
+000003=O                       RZ$USI              11A CHAR        6              Utente di Inserimento                   10000003
+000004=O                       RZ$DIN              16P PACK      8,0              Dte Inserimento                         10000004
+000005=O                       RZFLAG              17A CHAR        1              Sts Record V/A               CMN        10000005
+000006=O                       RZNAZN              22P PACK      9,0              Nbr Azione Aggiornamento     CMN        10000006
+000007=O                       RZUINS              28A CHAR        6              Utente di Inserimento                   10000007
+000008=O                       RZDINS              33P PACK      8,0              Dte Inserimento                         10000008
+000009=O                       RZUUPD              39A CHAR        6              Utente di Aggiornamento                 10000009
+000010=O                       RZDUPD              44P PACK      8,0              Dte Aggiornamento                       10000010
+000011=O                       RZCED               49S ZONE      5,0              Cde Cedente                  AC         10000011
+000012=O                       RZDEB               57S ZONE      8,0              Cde Debitore                 AD         10000012
+000013=O                       RZNRAC              61S ZONE      4,0              Nbr RAC PTO                  RP         10000013
+000014=O                       RZTRAC              62A CHAR        1              Cde Tipo RAC PTO             RP         10000014
+000015=O                       RZTROT              63A CHAR        1              Cde Rotatività Mty           RP         10000015
+000016=O                       RZDDEC              71S ZONE      8,0              Dte Decorrenza RAC PTO       RT         10000016
+000017=O                       RZDRIL              79S ZONE      8,0              Dte Rilascio RAC PTO         RT         10000017
+000018=O                       RZCDIV              82A CHAR        3              Cde Divisa                   MST        10000018
+000019=O                       RZIRAC              90P PACK     14,2              Val R.A.C. PTO               RT         10000019
+000020=O                       RZPBLO              91A CHAR        1              Sts Blocco Plafond pto Aut   RT         10000020
+000021=O                       RZIMUT              99P PACK     14,2              Val RAC Utilizzato           RT         10000021
+000022=O                       RZIMAS             107P PACK     14,2              Val RAC Assicurato           RT         10000022
+000023=O                       RZPCCO             110P PACK      5,2              Pct Copertura                           10000023
+000024=O                       RZMTER             111A CHAR        1              Cde Modo Termine RAC         RP         10000024
+000025=O                       RZDSCA             119S ZONE      8,0              Dte Scadenza RAC PTO         RT         10000025
+000026=O                       RZDREV             127S ZONE      8,0              Dte Revoca RAC PTO           RT         10000026
+000027=O                       RZPCGZ             130P PACK      5,2              Pct Garanzia                            10000027
+000028=O                       RZGGDC             133S ZONE      3,0              Nbr GG Ammessi doc/cess      RP         10000028
+000029=O                       RZTPAG             134A CHAR        1              Cde Tipo Pagamento           MST        10000029
+000030=O                       RZMPAG             136A CHAR        2              Cde Modo Pagamento (FM/DF)   RP         10000030
+000031=O                       RZGGDF             139S ZONE      3,0              Nbr GG Pag. Differimento     RP         10000031
+000032=O                       RZGGTO             142S ZONE      3,0              Nbr GG Tolleranza            RP         10000032
+000033=O                       RZIRBK             150P PACK     14,2              Val RAC PTO BKI              RT         10000033
+000034=O                       RZNOTE             200A CHAR       50              Nar Note                     RT         10000034
+000035=O                       RZCASS             205S ZONE      5,0              CDE ASSICURAZIONE                       10000035
+000036=O                       RZTIAS             208S ZONE      3,0              TIPO PTO IAS                            10000036
+000037=O                       RZGDCD             209A CHAR        1              Modal. applicazione gg doc-ces          10000037
+000038=O                       RZLATI             211A CHAR        2              Codice concessione LMA                  10000038
+000039=O                       RZDRIA             219S ZONE      8,0              Dte Competenza per assicurazione        10000039
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+*RNF7086 00        001700  RPG gestisce il blocco per il file STORPT0F. L'INFDS viene
+                           aggiornato solo quando i blocchi di dati vengono
+                           trasferiti.
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+          P o s i z i o n i   b u f f e r    d i   e m i s s i o n e
+Riga   Iniz. Fine  Campo o costante
+Numero Pos   Pos
+   8000002     1     3 PITREC
+   8000003     4     4 PIFLAG
+   8000004     5    12 PIDINS
+   8000005    13    18 PIUINS
+   8000006    19    26 PIDUPD
+   8000007    27    32 PIUUPD
+   8000008    33    37 PIPRFD
+   8000009    38    41 PICODF
+   8000010    42    44 PIIASO
+   8000011    45    47 PIIASN
+   8000012    48    52 PICED
+   8000013    53    56 PINRAC
+   9000002     1     1 RTFLAG
+   9000003     2     6 RTNAZN
+   9000004     7    12 RTUINS
+   9000005    13    17 RTDINS
+   9000006    18    23 RTUUPD
+   9000007    24    28 RTDUPD
+   9000008    29    33 RTCED
+   9000009    34    41 RTDEB
+   9000010    42    45 RTNRAC
+   9000011    46    46 RTTRAC
+   9000012    47    47 RTTROT
+   9000013    48    55 RTDDEC
+   9000014    56    63 RTDRIL
+   9000015    64    66 RTCDIV
+   9000016    67    74 RTIRAC
+   9000017    75    75 RTPBLO
+   9000018    76    83 RTIMUT
+   9000019    84    91 RTIMAS
+   9000020    92    94 RTPCCO
+   9000021    95    95 RTMTER
+   9000022    96   103 RTDSCA
+   9000023   104   111 RTDREV
+   9000024   112   114 RTPCGZ
+   9000025   115   117 RTGGDC
+   9000026   118   118 RTTPAG
+   9000027   119   120 RTMPAG
+   9000028   121   123 RTGGDF
+   9000029   124   126 RTGGTO
+   9000030   127   134 RTIRBK
+   9000031   135   184 RTNOTE
+   9000032   185   189 RTCASS
+   9000033   190   192 RTTIAS
+   9000034   193   193 RTGDCD
+   9000035   194   195 RTLATI
+   9000036   196   203 RTDRIA
+  10000002     1     5 RZ$AZN
+  10000003     6    11 RZ$USI
+  10000004    12    16 RZ$DIN
+  10000005    17    17 RZFLAG
+  10000006    18    22 RZNAZN
+  10000007    23    28 RZUINS
+  10000008    29    33 RZDINS
+  10000009    34    39 RZUUPD
+  10000010    40    44 RZDUPD
+  10000011    45    49 RZCED
+  10000012    50    57 RZDEB
+  10000013    58    61 RZNRAC
+  10000014    62    62 RZTRAC
+  10000015    63    63 RZTROT
+  10000016    64    71 RZDDEC
+  10000017    72    79 RZDRIL
+  10000018    80    82 RZCDIV
+  10000019    83    90 RZIRAC
+  10000020    91    91 RZPBLO
+  10000021    92    99 RZIMUT
+  10000022   100   107 RZIMAS
+  10000023   108   110 RZPCCO
+  10000024   111   111 RZMTER
+  10000025   112   119 RZDSCA
+  10000026   120   127 RZDREV
+  10000027   128   130 RZPCGZ
+  10000028   131   133 RZGGDC
+  10000029   134   134 RZTPAG
+  10000030   135   136 RZMPAG
+  10000031   137   139 RZGGDF
+  10000032   140   142 RZGGTO
+  10000033   143   150 RZIRBK
+  10000034   151   200 RZNOTE
+  10000035   201   205 RZCASS
+  10000036   206   208 RZTIAS
+  10000037   209   209 RZGDCD
+  10000038   210   211 RZLATI
+  10000039   212   219 RZDRIA
+     * * * * *   F I N E   P O S I Z I O N E   B U F F E R   D I   E M I S I O N E    * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      1  PTOIAS1L
+           PTOIAS1R
+                        PICED                   ZONE      5,0 SIGNED
+                        PINRAC                  ZONE      4,0 SIGNED
+      2  RAPPTOCL
+           RAPPTOC è il nome RPG del formato esterno RAPPTO1R.
+                        RTCED                   ZONE      5,0 SIGNED
+                        RTDEB                   ZONE      8,0 SIGNED
+                        RTDDEC                  ZONE      8,0 SIGNED
+      3  REFIRA2L
+           REFIRA1R
+                        RRPRFD                  PACK      5,0 SIGNED
+                        RRCODF                  CHAR        4
+                        RRCED                   PACK      5,0 SIGNED
+                        RRDEB                   PACK      8,0 SIGNED
+      5  TABFID1L
+           TABFID
+                        TFCDF                   CHAR        4
+                        TFPRR                   PACK      3,0 SIGNED
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         PTOIAS1L          DISK                   001400D
+           PTOIAS1R                               001400D    4000001      010200      014000M
+                                                  015100     8000001
+         RAPPTOCL          DISK                   001500D
+           RAPPTOC                                001500     5000001      006800      007000
+                                                  011800     9000001
+         REFIRA2L          DISK                   001600D
+           REFIRA1R                               001600D    6000001      004800      005000
+         STORPT0F          DISK                   001700D
+           STORPT1R                               001700D     013200    10000001
+         TABFID1L          DISK                   001800D
+           TABFID                                 001800D    7000001      003700
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         $ENTRY_           DS(14)                 002400D     016200M
+         $ENTRY_CODF       A(4)                   002600D     003700      004400      014600
+         $ENTRY_FORZ       A(1)                   002900D     010700
+         $ENTRY_PRFD       S(5,0)                 002500D     004200      014500
+         $ENTRY_TIAS       S(3,0)                 002700D     010800      011200      011700
+                                                  014800
+         $ENTRY_UPDR       A(1)                   002800D     007500
+         *DATE             S(8,0)                 009100      009300      011600      013100
+                                                  014300
+         *ENTRY            PLIST                  016000D
+         *INZSR            BEGSR                  015700D
+         §OPERA            A(1)                   011300M     016700D
+         §RAPPTO           DS(203)                002100D     016500M
+         §STORPT           DS(219)                002200D     016600M
+         §VARIA            A(1)                   016800D
+         AGGRAC            BEGSR                  005400      006400D
+*RNF7031 KBUFF             A(8)                  1000046D
+*RNF7031 KCANC             A(1)                  1000038D
+*RNF7031 KCDAZ             A(4)                  1000013D
+*RNF7031 KCDJD             A(2)                  1000022D
+*RNF7031 KCDRC             A(1)                  1000015D
+*RNF7031 KCOAZ             A(4)                  1000028D
+*RNF7031 KCOJB             A(2)                  1000034D
+*RNF7031 KDTJB             A(6)                  1000042D
+*RNF7031 KEXCN             A(1)                  1000027D
+*RNF7031 KFIER             A(30)                 1000037D
+*RNF7031 KFLAD             A(1)                  1000029D
+*RNF7031 KFLMS             A(1)                  1000011D
+*RNF7031 KFLRC             A(1)                  1000006D
+*RNF7031 KFSLG             A(1)                  1000040D
+*RNF7031 KGRAZ             A(3)                  1000039D
+*RNF7031 KJOST             A(1)                  1000032D
+*RNF7031 KJRLB             A(10)                 1000044D
+*RNF7031 KJRNM             A(10)                 1000043D
+*RNF7031 KKEYF             S(5,0)                1000025D
+*RNF7031 KMDST             A(10)                 1000036D
+*RNF7031 KMSMN             A(7)                  1000008D
+*RNF7031 KNMCP             A(2)                  1000031D
+*RNF7031 KNMEB             A(10)                 1000018D
+*RNF7031 KNMSB             S(3,0)                1000019D
+*RNF7031 KNMTD             A(10)                 1000005D
+         KNMUS             A(10)                 1000001D     011500      013000      014400
+         KNRAZ             S(9,0)                1000003D     012900
+*RNF7031 KNRJO             A(6)                  1000009D
+*RNF7031 KNRRB             A(2)                  1000020D
+*RNF7031 KNRVJ             S(9,0)                1000007D
+*RNF7031 KNSIF             A(9)                  1000021D
+         KPJBA             DS(502)                002000D     016100M
+                           BASED(_QRNL_PRM+)
+         KPJBU             A(256)                1000047D     016200
+         KPTOIAS           KLIST                  010200      017100D
+*RNF7031 KQEBI             A(7)                  1000035D
+*RNF7031 KQIEB             A(7)                  1000023D
+*RNF7031 KQOFR             A(10)                 1000024D
+*RNF7031 KQOPR             A(10)                 1000030D
+*RNF7031 KQOTD             A(10)                 1000017D
+         KRAPPTO           KLIST                  006800      007000      017500D
+*RNF7031 KRCDS             S(5,0)                1000026D
+         KREFIRA           KLIST                  004800      005000      017900D
+*RNF7031 KRITB             A(1)                  1000045D
+*RNF7031 KSTEB             A(1)                  1000033D
+*RNF7031 KSTJO             A(1)                  1000010D
+*RNF7031 KTMIN             S(6,0)                1000012D
+*RNF7031 KTPAZ             A(1)                  1000014D
+*RNF7031 KTPFN             A(1)                  1000016D
+*RNF7031 KTPRF             A(3)                  1000002D
+*RNF7031 KTPWS             A(1)                  1000041D
+*RNF7031 KTSIF             A(3)                  1000004D
+         PICED             P(5,0)                4000012M     014900M    8000012
+         PICODF            A(4)                  4000009M     014600M    8000009
+         PIDINS            P(8,0)                4000004M     014300M    8000004
+         PIDUPD            P(8,0)                4000006M    8000006
+         PIFLAG            A(1)                  4000003M     014200M    8000003
+         PIIASN            P(3,0)                4000011M     014800M    8000011
+         PIIASO            P(3,0)                4000010M     014700M    8000010
+         PINRAC            P(4,0)                4000013M     015000M    8000013
+         PIPRFD            P(5,0)                4000008M     014500M    8000008
+         PITREC            A(3)                  4000002M     014100M    8000002
+         PIUINS            A(6)                  4000005M     014400M    8000005
+         PIUUPD            A(6)                  4000007M    8000007
+         PL_TRA002         PLIST                  011400      016400D
+*RNF7031 RFLAG             A(1)                  7000003D
+*RNF7031 RNAZN             P(9,0)                7000004D
+         RRCED             P(5,0)                6000010D     017600
+         RRCODF            A(4)                  6000012D     004400M     004600M     018100
+         RRDEB             P(8,0)                6000013D     017700
+*RNF7031 RRDINS            P(8,0)                6000007D
+*RNF7031 RRDUPD            P(8,0)                6000009D
+*RNF7031 RRFLAG            A(1)                  6000003D
+*RNF7031 RRLOCK            A(1)                  6000005D
+*RNF7031 RRNAZN            P(9,0)                6000004D
+         RRPRFD            P(5,0)                6000011D     004200M     018000
+*RNF7031 RRTREC            A(3)                  6000002D
+*RNF7031 RRUINS            A(6)                  6000006D
+*RNF7031 RRUSER            A(10)                 6000008D
+         RTCASS            S(5,0)                2000031D    5000032M    9000032
+         RTCDIV            A(3)                  2000014D    5000015M    9000015
+         RTCED             S(5,0)                2000007D    5000008M     014900      017200
+                                                 9000008
+         RTDDEC            S(8,0)                2000012D    5000013M    9000013
+         RTDEB             S(8,0)                2000008D    5000009M    9000009
+         RTDINS            P(8,0)                2000004D    5000005M    9000005
+         RTDREV            S(8,0)                2000022D    5000023M     009200      009300
+                                                 9000023
+         RTDRIA            S(8,0)                2000035D    5000036M    9000036
+         RTDRIL            S(8,0)                2000013D    5000014M    9000014
+         RTDSCA            S(8,0)                2000021D    5000022M     009000      009100
+                                                 9000022
+         RTDUPD            P(8,0)                2000006D    5000007M     011600M    9000007
+         RTFLAG            A(1)                  2000001D    5000002M    9000002
+         RTGDCD            A(1)                  2000033D    5000034M    9000034
+         RTGGDC            S(3,0)                2000024D    5000025M    9000025
+         RTGGDF            S(3,0)                2000027D    5000028M    9000028
+         RTGGTO            S(3,0)                2000028D    5000029M    9000029
+         RTIMAS            P(14,2)               2000018D    5000019M    9000019
+         RTIMUT            P(14,2)               2000017D    5000018M    9000018
+         RTIRAC            P(14,2)               2000015D    5000016M    9000016
+         RTIRBK            P(14,2)               2000029D    5000030M    9000030
+         RTLATI            A(2)                  2000034D    5000035M    9000035
+         RTMPAG            A(2)                  2000026D    5000027M    9000027
+         RTMTER            A(1)                  2000020D    5000021M    9000021
+         RTNAZN            P(9,0)                2000002D    5000003M    9000003
+         RTNOTE            A(50)                 2000030D    5000031M    9000031
+         RTNRAC            S(4,0)                2000009D    5000010M     015000      017300
+                                                 9000010
+         RTPBLO            A(1)                  2000016D    5000017M    9000017
+         RTPCCO            P(5,2)                2000019D    5000020M    9000020
+         RTPCGZ            P(5,2)                2000023D    5000024M    9000024
+*RNF7031 RTREC             A(3)                  7000002D
+         RTTIAS            S(3,0)                2000032D    5000033M     010800      011200
+                                                  011700M     014700     9000033
+         RTTPAG            A(1)                  2000025D    5000026M    9000026
+         RTTRAC            A(1)                  2000010D    5000011M     007700      008300
+                                                 9000011
+         RTTROT            A(1)                  2000011D    5000012M    9000012
+         RTUINS            A(6)                  2000003D    5000004M    9000004
+         RTUUPD            A(6)                  2000005D    5000006M     011500M    9000006
+         RZ$AZN            P(9,0)                3000001D     012900M   10000002
+         RZ$DIN            P(8,0)                3000003D     013100M   10000004
+         RZ$USI            A(6)                  3000002D     013000M   10000003
+         RZCASS            S(5,0)                3000034D   10000035
+         RZCDIV            A(3)                  3000017D   10000018
+         RZCED             S(5,0)                3000010D   10000011
+         RZDDEC            S(8,0)                3000015D   10000016
+         RZDEB             S(8,0)                3000011D   10000012
+         RZDINS            P(8,0)                3000007D   10000008
+         RZDREV            S(8,0)                3000025D   10000026
+         RZDRIA            S(8,0)                3000038D   10000039
+         RZDRIL            S(8,0)                3000016D   10000017
+         RZDSCA            S(8,0)                3000024D   10000025
+         RZDUPD            P(8,0)                3000009D   10000010
+         RZFLAG            A(1)                  3000004D   10000005
+         RZGDCD            A(1)                  3000036D   10000037
+         RZGGDC            S(3,0)                3000027D   10000028
+         RZGGDF            S(3,0)                3000030D   10000031
+         RZGGTO            S(3,0)                3000031D   10000032
+         RZIMAS            P(14,2)               3000021D   10000022
+         RZIMUT            P(14,2)               3000020D   10000021
+         RZIRAC            P(14,2)               3000018D   10000019
+         RZIRBK            P(14,2)               3000032D   10000033
+         RZLATI            A(2)                  3000037D   10000038
+         RZMPAG            A(2)                  3000029D   10000030
+         RZMTER            A(1)                  3000023D   10000024
+         RZNAZN            P(9,0)                3000005D   10000006
+         RZNOTE            A(50)                 3000033D   10000034
+         RZNRAC            S(4,0)                3000012D   10000013
+         RZPBLO            A(1)                  3000019D   10000020
+         RZPCCO            P(5,2)                3000022D   10000023
+         RZPCGZ            P(5,2)                3000026D   10000027
+         RZTIAS            S(3,0)                3000035D   10000036
+         RZTPAG            A(1)                  3000028D   10000029
+         RZTRAC            A(1)                  3000013D   10000014
+         RZTROT            A(1)                  3000014D   10000015
+         RZUINS            A(6)                  3000006D   10000007
+         RZUUPD            A(6)                  3000008D   10000009
+         STORIC            BEGSR                  011900      012700D
+*RNF7031 TFACCR            A(1)                  7000023D
+*RNF7031 TFCDF             A(4)                  7000007D
+*RNF7031 TFCECR            A(1)                  7000012D
+*RNF7031 TFCRFU            A(1)                  7000019D
+*RNF7031 TFCSCO            A(1)                  7000028D
+*RNF7031 TFDSF             A(60)                 7000009D
+*RNF7031 TFDUPD            P(8,0)                7000006D
+*RNF7031 TFFTYP            A(1)                  7000025D
+*RNF7031 TFLOFI            A(1)                  7000020D
+         TFMACR            A(1)                  7000016D     003900
+*RNF7031 TFMATU            A(1)                  7000021D
+*RNF7031 TFNOCR            A(1)                  7000013D
+*RNF7031 TFPRR             P(3,0)                7000008D
+*RNF7031 TFPTAS            A(1)                  7000026D
+*RNF7031 TFPTSS            A(1)                  7000027D
+*RNF7031 TFREFD            A(1)                  7000024D
+*RNF7031 TFRICR            A(1)                  7000014D
+*RNF7031 TFSCON            A(1)                  7000022D
+*RNF7031 TFTDEB            A(2)                  7000015D
+*RNF7031 TFTFID            A(2)                  7000011D
+*RNF7031 TFTFIM            A(1)                  7000010D
+*RNF7031 TFUUPD            A(6)                  7000005D
+*RNF7031 TFVARB            A(1)                  7000017D
+*RNF7031 TFVERA            A(1)                  7000018D
+         WRTFRZ            BEGSR                  010900      013800D
+         WSGIRO            P(1,0)                 003100D     004100      004300
+         WSLASTA           N(1)                   003200D     006700M     008400      008700M
+         WSLASTR           N(1)                   003300D     006600M     007800      008100M
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         LR                                       006000D
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00     78 Il nome o l'indicatore non sono referenziati.
+*RNF7086 00      1 L'RPG gestisce i blocchi per il file. L'INFDS viene
+                   aggiornato solo quando i blocchi di dati vengono trasferiti.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :       79
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :       79
+  Totali origine
+    Record . . . . . . . . . . . . :      481
+    Specifiche  . . . . . . . . . . :      425
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :       56
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma TRA415 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 12/12/17 alle 16:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

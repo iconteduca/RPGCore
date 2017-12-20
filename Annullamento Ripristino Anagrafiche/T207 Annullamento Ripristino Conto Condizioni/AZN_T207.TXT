@@ -1,0 +1,399 @@
+        Azn.T207                      Annullamento/Ripristino Conto/Condizioni
+        --------------------------------------------------------------------------------
+        TCA180                        Annullamento/Ripristino anagrafe conti
+        . TRA180                      Annullamento/Ripristino Anagrafe CONTI
+        . . STD012                    Gira e controlla la data con secolo
+        . . TRA003                    Controllo presenza interessi maturity conto/rapp.
+        . . . QSQLCLSE
+        . . . QSQLOPEN
+        . . . QSQROUTE
+        . . MODER3                    Gestione errori T.P.: acquisizione desrizione ERR.
+        . . MODER2                    Gestione errori T.P.: pulizia coda messaggi PGM
+        . . MODER1                    Gestione errori T.P.: invio messaggio a coda PGM
+        . TRA070                      Gestione anagrafe conto
+        . . APOQ01                    POOL Operazioni - Inquiry - Cedente/Operazione
+        . . . BRO310                  Gestione anagrafica cedente
+        . . . . ANA045                Ricerca Gruppo x Denominazione
+        . . . . . ANA046              Ricerca Gruppo x Codice Discendente
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . STF203                Determ. Sofferenza soggetto (Dt.Rif >= 31/12/2009)
+        . . . . . UTISOC              Verifica aree abilitate alla società
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . APOQ11                  POOL Operazioni - Inquiry - Cedente - DettOper.
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . POOL30                  POOL - Analisi Operazioni in Pool
+        . . . . STDTO2                Scrittura TrOpBa0F
+        . . . . . QMHRCVPM
+        . . . . . QMHSNDPM
+        . . . . . QMHRCVPM
+        . . . . . QMHSNDPM
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . STD028                Converte un importo da una divisa ad un'altra
+        . . . STD012                  Gira e controlla la data con secolo
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . BCA004                    Gestione anagrafe cedente
+        . . . TCA050                  Storico commissioni Cedente
+        . . . . TRA050                Gestione Anagrafe Cedente/dati oper. + REFACTORING
+        . . . . . BCA003              Gestione anagrafe rapporto dati R.A.C.
+        . . . . . . KU101R            Utilities CrtDupObj Obj_FrLib_ObTyp_ToLib_NwObj
+        . . . . . . . KU102C          Utilities CrtDupObj CrtDupObj
+        . . . . . . . . KU103C        Utilities CrtDupObj DltPrvObj
+        . . . . . . TRA042            Gestione dati R.A.C. fido pro-soluto            AE
+        . . . . . . . ASS001          Ricerca esclusione dall'assicurazione
+        . . . . . . . ASS017          Ricerca tipo concessione LMA
+        . . . . . . . . DCER01        Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . STD012        Gira e controlla la data con secolo
+        . . . . . . . BRR051          Analisi Assicurazioni sinonimi (per Inquiry)
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . DCER11          Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . . . . . STDC01          Reperimento testo e gravità messaggio
+        . . . . . . . STD012          Gira e controlla la data con secolo
+        . . . . . . . STD028          Converte un importo da una divisa ad un'altra
+        . . . . . . . STD130          Reper.Abilitazione AUF-Occupa plafond se scontate
+        . . . . . . . TRA120          Interrogazione Tabelle file MST001
+        . . . . . . . TRA346          Stampa lettera di concessione/variazione RAC
+        . . . . . . . . QCMDEXC
+        . . . . . . . . STD012        Gira e controlla la data con secolo
+        . . . . . . . . UCS001        Gestione Printer Files
+        . . . . . . . . . URS001      Gestione Printer Files
+        . . . . . . . . . . UCS003    USF - Printer Files - Utility x Gestione
+        . . . . . . . . . . . UCU150    stione Autorizzazioni Oggetto
+        . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . UCS026    Salvataggio Spool Files
+        . . . . . . . . . . URS006    Gestione Printer Files
+        . . . . . . . . . . . UCS006    stione Printer Files
+        . . . . . . . . . . . . URS008    ione Printer Files
+        . . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . URS005    Gestione Printer Files
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . URS007    Gestione Printer Files
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . UCS002    Gestione Printer Files
+        . . . . . . . . . . UCS004    Gestione Printer Files
+        . . . . . . . TRA377          Controlli preventivi Agg. automatico fidi debitore
+        . . . . . . . . STDC01        Reperimento testo e gravità messaggio
+        . . . . . . . . STD028        Converte un importo da una divisa ad un'altra
+        . . . . . . . TRA419          Clausole di Mitigazione collegate a rapporto
+        . . . . . . . . DCER01        Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . TRA411        Collegamento Clausole di Mitigazione/Fido
+        . . . . . . . . . BRO310      Gestione anagrafica cedente
+        . . . . . . . . . DCER01      Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . . STD003      UTY - Inversione della data
+        . . . . . . . . . TRA152      Ricerca Fidi di un cedente
+        . . . . . . . . . TRA412      Collegamento Clausole di Mitigazione/Fido - add
+        . . . . . . . . . . DCER01    Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . STD012    Gira e controlla la data con secolo
+        . . . . . . . . . TRA413      Condizioni Clausole di Mitigazione Rischio PTO
+        . . . . . . . . . . BRO310    Gestione anagrafica cedente
+        . . . . . . . . . . DCER01    Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . STD012    Gira e controlla la data con secolo
+        . . . . . . . . . . TRA412    Collegamento Clausole di Mitigazione/Fido - add
+        . . . . . . . . . TRA414      Determinazione tipologia PTO IAS
+        . . . . . . . . . TRA415      Aggiornamento PTO IAS su RAC collegati al fido
+        . . . . . . . . . . TRA002    Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . . . . . . . . . TRA436      Gestione Scaglioni Bonus/malus per cedente (guida)
+        . . . . . . . . . . BRO310    Gestione anagrafica cedente
+        . . . . . . . . . . DCER01    Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . STD012    Gira e controlla la data con secolo
+        . . . . . . . . . . TRA437    Gestione Scaglioni Bonus/malus per cedente
+        . . . . . . . . . . . DCER01    codifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . . STD012    ra e controlla la data con secolo
+        . . . . . . . . . TRA440      Storicizzazione Fido modificato
+        . . . . . . . . . TRA447      Storico giorni termine P.U.G.
+        . . . . . . . . . . STD003    UTY - Inversione della data
+        . . . . . . . . . TRA448      Gestione Scaglioni Ricalcolo commissioni (guida)
+        . . . . . . . . . . BRO310    Gestione anagrafica cedente
+        . . . . . . . . . . DCER01    Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . STD012    Gira e controlla la data con secolo
+        . . . . . . . . . . TRA449    Gestione Scaglioni Ricalcolo commissioni
+        . . . . . . . . . . . DCER01    codifica Errori da SYSERR - KPJBA
+        . . . . . . . . . . . STD012    ra e controlla la data con secolo
+        . . . . . . . WINTIA          RAPPORTI PTO - Selezione dalla tabella TIA
+        . . . . . . . . DCER01        Decodifica Errori da SYSERR - KPJBA
+        . . . . . . TRA001            Inquiry R.A.C. operazioni acquisto a titolo def.
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . DCER11          Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . . . . . STD012          Gira e controlla la data con secolo
+        . . . . . . TRA058            Gestione dati plafond pro-solvendo
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . . DCER11          Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . . . . . STDC01          Reperimento testo e gravità messaggio
+        . . . . . . . STD012          Gira e controlla la data con secolo
+        . . . . . . . STD130          Reper.Abilitazione AUF-Occupa plafond se scontate
+        . . . . . . . TRA120          Interrogazione Tabelle file MST001
+        . . . . . . . TRA346          Stampa lettera di concessione/variazione RAC
+        . . . . . . . TRA377          Controlli preventivi Agg. automatico fidi debitore
+        . . . . . . . TRA419          Clausole di Mitigazione collegate a rapporto
+        . . . . . BRC868              Elab.mensile fattura unica factoring - parametri
+        . . . . . . STD007            Aggiunge Giorni ad una Data
+        . . . . . . STD021            Trova nuova data
+        . . . . . . . STD016          Trasforma la data di 8 in numero e viceserva
+        . . . . . . . STD018          Verifica se data corrisponde a fine mese
+        . . . . . BRF001              BAE - Anagr.Sportelli   - Inquiry
+        . . . . . . BRF002            BAE - Anagr.Banche      - Inquiry
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . BRF002              BAE - Anagr.Banche      - Inquiry
+        . . . . . BRO310              Gestione anagrafica cedente
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . DCER11              Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . . . PRF009              BAE - Anagr.Rapporti           - Inquiry
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . STD012            Gira e controlla la data con secolo
+        . . . . . . PRF008            BAE - Anagr.Banche             - Inquiry
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . WIN015            Finestra : Commissione Disponibilità Fondo
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . PRO012              Ricerca Anagrafica Fornitori
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . QSQROUTE
+        . . . . . . QSQLOPEN
+        . . . . . . QSQLCLSE
+        . . . . . STDC01              Reperimento testo e gravità messaggio
+        . . . . . STD007              Aggiunge Giorni ad una Data
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . . . STD022              Inverte Data da AAAAMMGG a GGMMAAAA
+        . . . . . STD046              UTY - Controllo validità numero conto corrente
+        . . . . . STD047              UTY - Controllo validità CIN coordinate banca
+        . . . . . STD048              UTY - Calcolo Check Digit Coordinate IBAN
+        . . . . . STD073              Controllo univocità Indirizzo PEC
+        . . . . . TRA002              Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . . . . . TRA053              Gestione Contratti d'appalto per Banca Cedente
+        . . . . . . BRO209            Ricerca Contratti d'Appalto
+        . . . . . . . DCER01          Decodifica Errori da SYSERR - KPJBA
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . QCMDEXC
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . . TRA140              Interrogazione Tabelle file PARAM
+        . . . . . TRA346              Stampa lettera di concessione/variazione RAC
+        . . . . . WIN016              Richiesta autorizzazioni WEB
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . TRA052                Storico commissioni cedente
+        . . . . . BRO310              Gestione anagrafica cedente
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . STD007              Aggiunge Giorni ad una Data
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . . . STD022              Inverte Data da AAAAMMGG a GGMMAAAA
+        . . . . . STD025              Converte un importo da una divisa ad un'altra
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . . TRA413              Condizioni Clausole di Mitigazione Rischio PTO
+        . . . . . TRA436              Gestione Scaglioni Bonus/malus per cedente (guida)
+        . . . . . TRA448              Gestione Scaglioni Ricalcolo commissioni (guida)
+        . . . . . TRA509              Tabella commissioni - Inquiry/Scelta commissione
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . BRO310                    Gestione anagrafica cedente
+        . . DCER01                    Decodifica Errori da SYSERR - KPJBA
+        . . DCER11                    Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . PRO012                    Ricerca Anagrafica Fornitori
+        . . STDC01                    Reperimento testo e gravità messaggio
+        . . STD007                    Aggiunge Giorni ad una Data
+        . . STD012                    Gira e controlla la data con secolo
+        . . STD014                    Edita una Variabile - EdtCde
+        . . . QECCVTEC
+        . . . QECEDT
+        . . TRA074                    Gestione interrogazione tabella tipo conto
+        . . TRA083                    Interrogazione Codici ristrutt. crediti
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . TRA090                    Ricerca Fidi Cedente
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . DCER11                  Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . STDC01                  Reperimento testo e gravità messaggio
+        . . . TRA091                  Controlli Fidi/conti
+        . . . . STD006                Calcolo data inizio/fine periodo capital.ne
+        . . . . STD007                Aggiunge Giorni ad una Data
+        . . . TRA093                  Controllo uniformità conti per scadenza/anticipi
+        . . TRA120                    Interrogazione Tabelle file MST001
+        . . TRA250                    Aggiornamento dati debitore su anagrafe rapporti
+        . TRA072                      Gestione storicizzazione tassi-Conto
+        . . DCER01                    Decodifica Errori da SYSERR - KPJBA
+        . . DCER11                    Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . STDC01                    Reperimento testo e gravità messaggio
+        . . STD006                    Calcolo data inizio/fine periodo capital.ne
+        . . STD007                    Aggiunge Giorni ad una Data
+        . . STD012                    Gira e controlla la data con secolo
+        . . STD022                    Inverte Data da AAAAMMGG a GGMMAAAA
+        . . STD053                    UTY - Check e inserim. Decorr. mancanti su STOCOT
+        . . . STD080                  Determinazione Tasso Indice
+        . . . . STD014                Edita una Variabile - EdtCde
+        . . STD080                    Determinazione Tasso Indice
+        . . TRA076                    Gestione interrogazione tabella cadenza interessi
+        . . TRA099                    Inquiry Tabella Tassi Indicizzati
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . STD012                  Gira e controlla la data con secolo
+        . TRA073                      Gestione storicizzazione condizioni-conto
+        . . DCER01                    Decodifica Errori da SYSERR - KPJBA
+        . . STD007                    Aggiunge Giorni ad una Data
+        . . STD012                    Gira e controlla la data con secolo
+        . . STD022                    Inverte Data da AAAAMMGG a GGMMAAAA
+        . . STD023                    Calcola imp.in Euro e in Lire da imp. in divisa
+        . . TRA120                    Interrogazione Tabelle file MST001
+        . . TRA509                    Tabella commissioni - Inquiry/Scelta commissione
+        --------------------------------------------------------------------------------
+        TCA180    CLP
+        TRA180    RPG   3-TRA1800V  4-ANACON2L  1-ANACED1L  1-FATTUR06  1-NOTGIO4L
+        .         .     1-CONATT0F  1-POOLOG1L  1-POOLPS6L  1-SPEATT2L  1-ECVKEY2L
+        .         .     1-SPECED8L  4-REFICO1L
+        STD012    RPG
+        TRA003    RPGLE 1-FATTUR01  1-MST0011L  1-RAPCON1L  1-PARAM
+        MODER3    CLP
+        MODER2    CLP
+        MODER1    CLP
+        TRA070    RPGLE 7-TRA0700V  1-ANACED0F  1-TABINF1L  1-APPLAI1L  3-APPCON1L
+        .         .     7-ANACON2L  1-ANACONKL  1-ANACON1L  1-STOCOT1L  1-STOCOC1L
+        .         .     1-MST0011L  1-PARAM     1-POOLPO1L  1-CONATT0F  1-ANTCON1L
+        .         .     1-ANAFID3L  7-REFICO1L  1-USRPWR1L  7-CEDQGA1L  2-POOLOG0F
+        .         .     1-STOCOT3L  1-STOCOC3L  7-CONMIN1L  7-AP1CON1L  7-PROCED1L
+        .         .     7-PROCED2L  1-ANAFOR1L  1-REFACT1L
+        APOQ01    RPG   1-POOLPO3L  1-ANACED1L  3-APOQ010V
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        DCER01    CLP
+        STF203    RPGLE 1-AGCORI1L  1-AGPERF1L  1-AGPNDT2L  1-AGRAPP1L  1-AGRAPP2L
+        .         .     1-AGSDET1L  1-AGSNPF1L  1-AGSOFF1L  1-ANACON1L  1-FCLBRN1L
+        .         .     1-FCLBRN2L  1-FCLBRN3L  1-FORBRN1L  1-FORBRN2L  1-FORBRN3L
+        .         .     1-FORBRN4L  1-MST0011L  1-PARAM     1-SC2MED2L  1-SC2SCO1L
+        UTISOC    RPG   1-MST0011L  1-PARAM
+        APOQ11    RPG   3-APOQ110V  1-POOLPQ1L  1-POOLPO1L  1-POOLPP1L  1-ANACED1L
+        POOL30    RPGLE 7-POOL300V  1-POOLPO1L  1-POOLPQ1L  1-POOLPP1L  1-ANACONKL
+        .         .     1-ANACED1L  1-CONATT0F  1-BAERAP1L  1-PARAM     1-MST0011L
+        .         .     1-POOLPT5L  1-POOLPS3L
+        STDTO2    RPGLE d-KPJBAD    2-TROPBA0F  d-KPJBAD    2-TROPBA0F
+        STD028    RPG   1-CAMBIO1L  1-MST0011L
+        BCA004    CLP   1-RWPPTO3L  1-RWPPTO1L  1-RWPPTO0F
+        TCA050    CLP
+        TRA050    RPGLE 7-TRA0500V  5-ANACED0F  1-ANARAP2L  1-HISCED3L  7-RAPPTO1L
+        .         .     1-RAPPTO9L  2-STORPT0F  1-RWPPTO1L  1-BAECAB1L  1-BAEABI1L
+        .         .     1-BAERAP1L  1-MST0011L  1-PARAM     1-TABMIN1L  1-TABINF1L
+        .         .     1-BANCED1L  7-BANCED2L  7-PROCED1L  7-PROCED2L  1-ANAFOR1L
+        .         .     1-REFACT1L  1-ARKCON1L  1-CONTAB3L  1-ARKCONAL  1-ANACON1L
+        .         .     1-STOCOC1L  1-STOCOC3L  1-USRPWR1L  5-APPLAI1L
+        BCA003    CLP   8-RWPPTO0F  8-RWPPTO1L  8-RWPPTO3L  8-RWPPDO0F  8-RWPPDO1L
+        .         .     8-RWPPDO3L  A-RWPPDO0F  A-RWPPTO0F  1-RAPPDO0F  1-RAPPTO0F
+        KU101R    RPG
+        KU102C    CLP   d-DBFPRD    8-&OBJ      B-KQDBR
+        KU103C    CLP   B-KQDBR     9-&FILE     8-KQDBR     1-&WHREFI   1-KQDBR
+        TRA042    RPGLE 7-RWPPTO1L  1-ANARAP4L  1-ANARAP0F  1-RAPPTO1L  1-RWPPTO3L
+        .         .     1-STORPT0F  1-ANACED1L  1-ANADEB1L  1-ANAASS1L  1-MST0011L
+        .         .     1-PARAM     1-ANAFID3L  1-USRPWR1L  1-ASTLMA1L  1-ASDEBA5L
+        .         .     1-AGRAPP2L  1-REFIRA1L  1-TABFID1L  1-PTOIAS1L  1-RACSTA1L
+        .         .     7-TRA0420V
+        ASS001    RPGLE 1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGRAPP2L  1-AGSNPF1L
+        .         .     1-ASCONS3L  1-ASCONV1L  1-ASDEBA5L  1-ASPOLI1L  1-ASTAB11L
+        .         .     1-ASTAB71L  1-AGGRUP1L  1-PARAM
+        ASS017    RPGLE 1-ANAASS1L  1-ASTLMA1L  7-ASS0170V
+        BRR051    RPG   3-BRR0510V  1-ANAASS2L
+        DCER11    CLP
+        STDC01    CLP
+        STD130    RPGLE 1-PARAM
+        TRA120    RPG   3-TRA1200V  1-MST0011L
+        TRA346    RPGLE 3-RACSTA1L  1-ANACED1L  1-ANADEB1L  1-APPCED0F  1-MST0011L
+        .         .     1-PARAM     1-RAPPTO1L  1-STORPT0F  2-TRA3460P
+        UCS001    CLP
+        URS001    RPG   1-PRTFIL1L  1-KFSIF01L  1-PRTFDS1L  1-KCOUQ01L  2-URS0010P
+        .         .     2-URS0011P  2-URS0012P  1-URS0011L  2-URS0012F  1-PARAM
+        UCS003    CLP
+        UCU150    CLLE  1-KFAUT01L
+        UCS026    CLLE  B-&FILE     3-&SPLF     8-SAVESPLF  B-&FILE     3-&SPLF
+        .         .     8-SAVESPLF
+        URS006    RPG   2-ADDLSR0F
+        UCS006    CLP   2-&SPLF
+        URS008    RPGLE 1-URS0080W
+        UCS004    CLP
+        URS005    RPG   4-URS0010F
+        URS007    RPGLE 5-URS0012L
+        UCS002    CLP
+        TRA377    RPGLE 1-AGCONE1L  1-AGPERF1L  1-AGRAPP2L  1-AGSNPF1L  1-ANARAP1L
+        .         .     1-FIDDEB3L  1-FIDDEL1L  1-FIDDEB4L  1-PARAM     1-RAPPTO1L
+        .         .     1-USRPWR1L
+        TRA419    RPGLE 1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-CLAFID2L  1-REFIRA1L
+        .         .     7-TRA4190V
+        TRA411    RPGLE 1-ANACED1L  5-ANAFID3L  1-ANAFI31L  1-CEDCLA1L  7-CLAFID2L
+        .         .     1-CLAFID3L  1-CLAMIT1L  1-MST0011L  1-PARAM     5-PTOIAS2L
+        .         .     1-RAPPTO1L  1-REFIRA2L  1-TABFID1L  7-TRA4110V
+        STD003    RPG
+        TRA152    RPG   1-ANAFID4L  1-ANAFI33L  1-ANAFID3L  1-ANACED1L  1-MST0011L
+        .         .     3-TRA1520V
+        TRA412    RPGLE 1-CLAMIT1L  7-TRA4120V
+        TRA413    RPGLE 1-ANACED1L  7-CEDCLA1L  1-CEDCLA2L  1-CLAMIT1L  1-MST0011L
+        .         .     1-PARAM     7-TRA4130V
+        TRA414    RPGLE 1-ANAFID3L  1-CLAFID2L  1-CLAMIT1L  1-REFIRA1L  1-PARAM
+        TRA415    RPGLE 3-PTOIAS1L  5-RAPPTOCL  1-REFIRA2L  2-STORPT0F  1-TABFID1L
+        TRA002    RPGLE
+        TRA436    RPGLE 1-ANACED1L  1-CEDSCA1L  1-CEDSCA2L  1-PARAM     7-TRA4360V
+        TRA437    RPGLE 1-ANACED1L  7-CEDSCA1L  1-CEDSCA2L  1-MST0011L  7-TRA4370V
+        TRA440    RPGLE 1-ANAFID3L  7-STOFID2L
+        TRA447    RPGLE 1-ANACED1L  1-ANAFID3L  1-STOFID3L  1-STOFIDBL  7-TRA4470V
+        TRA448    RPGLE 1-ANACED1L  1-CEDSCA3L  1-CEDSCA4L  1-PARAM     7-TRA4480V
+        TRA449    RPGLE 1-ANACED1L  7-CEDSCA3L  1-CEDSCA4L  1-MST0011L  7-TRA4490V
+        WINTIA    RPGLE 1-PARAM     7-WINTIA0V
+        TRA001    RPGLE 1-ANAASS1L  1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-ASTLMA1L
+        .         .     1-MST0011L  1-PARAM     1-RAPPTOAL  1-USRPWR1L  7-TRA0010V
+        TRA058    RPGLE 7-RWPPDO1L  1-ANARAP4L  1-ANARAP0F  1-RAPPDO1L  1-RWPPDO3L
+        .         .     1-STORPD0F  1-ANACED1L  1-ANADEB1L  1-ANAASS1L  1-MST0011L
+        .         .     1-PARAM     1-ANAFID3L  1-USRPWR1L  1-ASTLMA1L  1-ASDEBA5L
+        .         .     1-AGRAPP2L  1-REFIRA1L  1-TABFID1L  1-PTOIAS1L  1-RACSTA1L
+        .         .     7-TRA0580V
+        BRC868    RPG   1-PARAM     1-ACLEN02L
+        STD007    RPGLE
+        STD021    RPG
+        STD016    RPG
+        STD018    RPG
+        BRF001    RPGLE 1-BAEABI1L  1-BAECAB1L  1-BAECAB2L  1-BAECAB3L  1-MST0011L
+        .         .     7-BRF0010V
+        BRF002    RPGLE 1-BAEABI1L  1-BAEABI2L  7-BRF0020V
+        PRF009    RPG   1-BAEABI1L  1-BAECAB1L  1-BAERAP1L  1-BAERAP2L  1-BAESAL1L
+        .         .     1-MST0011L  1-PARAM     1-ACCPIA1L  3-PRF0090V
+        PRF008    RPG   1-BAEABI1L  1-BAEABI4L  1-BAESPO1L  3-PRF0080V
+        WIN015    RPGLE 3-WIN0150V
+        PRO012    RPG   3-PRO0120V  1-ANAFOR1L  1-ANAFOR3L
+        STD022    RPGLE
+        STD046    RPG
+        STD047    RPG
+        STD048    RPGLE
+        STD073    RPGLE 1-AGPERF6L  1-AGSNPF6L  1-ANACEDIL  1-ANADEB8L
+        TRA053    RPGLE 1-ANACED1L  1-BAEABI1L  7-BANCON1L  1-BANCON2L  1-CONAPP1L
+        .         .     7-TRA0530F  1-TRA0531L  7-TRA0530V
+        BRO209    RPGLE 1-CONAPP1L  1-CONAPP2L  1-CONAPP3L  7-BRO2090V
+        TRA140    RPG   3-TRA1400V  1-PARAM
+        WIN016    RPGLE 3-WIN0160V  7-AUTINT1L  1-ANARAP1L  1-APPDEB1L  1-ANACED1L
+        .         .     1-ANADEB1L
+        TRA052    RPGLE 7-TRA0520V  5-ANACED0F  7-HISCED1L  1-TABINF1L  1-TABMIN1L
+        .         .     7-CEDSPE1L  5-CEDSPE2L  1-TBSPCE1L  7-DDSCED1L  1-PARAM
+        .         .     1-MST0011L
+        STD025    RPG   1-CAMBIO1L  1-MST0011L
+        TRA509    RPG   1-TBSPCE2L  3-TRA5090V
+        STD014    RPGLE
+        TRA074    RPG   3-TRA0700V  1-MST0011L  1-ANACON1L
+        TRA083    RPGLE 7-TRA0830V  1-MST0011L
+        TRA090    RPGLE 7-TRA0900V  1-ANAFID4L  1-ANAFID3L  1-REFICO1L  1-TABFID1L
+        .         .     1-ANAFI33L  1-ANAFI31L  1-STOCOT3L  1-MST0011L  1-PARAM
+        .         .     1-USRPWR1L
+        TRA091    RPG   1-ANACON1L  1-STOCOT3L  1-STOCOT1L  1-PARAM     1-MST0011L
+        STD006    RPG
+        TRA093    RPGLE 1-ANAFID3L  1-MST0011L  1-PEFTAB1L  1-PEFTAB2L  1-REFICO2L
+        .         .     1-WKFICO1L  1-WKAFID1L
+        TRA250    RPG   6-ANACON2L  1-ANACON1L  3-REFICO1L  6-STOCOT3L  6-ANTCON1L
+        .         .     2-DDSCOT0F  1-MST0011L
+        TRA072    RPGLE 7-TRA0720V  1-ANACED0F  1-ANACON2L  1-TABINF1L  1-TABMIN0L
+        .         .     7-STOCOT3L  5-STOCOT1L  1-STOCOC3L  1-CONTABAL  1-ARKCON5L
+        .         .     1-MST0011L  1-PARAM     1-TASIND1L  1-POOLPO3L  1-REFICO1L
+        .         .     1-ANAFID3L  1-USRPWR1L  7-DDSCOT1L  1-TABIND1L
+        STD053    RPGLE 1-TASIND5L  3-STOCOT1L  2-DDSCOT0F
+        STD080    RPG   1-PARAM     1-TASIND1L  1-TINMIN1L  1-CONMIN2L  1-TABIND1L
+        TRA076    RPG   3-TRA0720V  1-MST0011L
+        TRA099    RPGLE 1-TASIND1L  1-TABIND1L  1-PARAM     7-TRA0990V
+        TRA073    RPGLE 7-TRA0730V  1-ANACED0F  5-ANACON2L  7-STOCOC3L  5-STOCOC1L
+        .         .     1-STOCOT3L  1-CONTABBL  1-ARKCON6L  1-MST0011L  1-PARAM
+        .         .     1-TABINF1L  1-TABMIN0L  1-TABMIN1L  1-TABSTD1L  1-REFICO1L
+        .         .     7-CONSPE1L  5-CONSPE2L  1-TBSPCE1L  7-DDSCOC1L
+        STD023    RPG   1-CAMBIO1L  1-MST0011L
+        --------------------------------------------------------------------------------

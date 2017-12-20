@@ -1,0 +1,41 @@
+Azn.T212                      Annullamento/Ripristino Anagrafica Rapporto
+--------------------------------------------------------------------------------
+TRA210                        Annullamento/Ripristino Anagrafe RAPPORTI
+. ANA018                      Controllo se RAPNDG è annullabile
+. TCA373                      Agg. automatico fidi debitore
+. . TRA373                    Agg. automatico fidi debitore
+. . . TRA383                  Recupero dati FidoC x delibere FidiD NonAutonomi
+. TRA002                      Salvataggio RAPPTO0F in STORPT0F e controllo var.
+. TRA003                      Controllo presenza interessi maturity conto/rapp.
+. TRA346                      Stampa lettera di concessione/variazione RAC
+--------------------------------------------------------------------------------
+ANA018    RPGLE 1-AGRAPP1L  1-ANARAP2L
+TCA373    CLP   8-WFIDEB0F  8-WFIDE20F  8-WFIDEL0F
+TRA002    RPGLE
+TRA003    RPGLE 1-FATTUR01  1-MST0011L  1-RAPCON1L  1-PARAM
+TRA210    RPGLE 3-TRA2100V  1-ANACED1L  1-ANADEB1L  5-ANARAP2L  5-DECRAP0F
+.         .     5-RAPPTO1L  2-STORPT0F  5-WKANAR3L  1-FATTUR06  5-APPRAP1L
+.         .     1-FATCTC9L  5-REFIRA1L  1-AGRAPP2L  7-RAPNDG1L  1-MST0011L
+.         .     2-STORAP0F
+TRA346    RPGLE 3-RACSTA1L  1-ANACED1L  1-ANADEB1L  1-APPCED0F  1-MST0011L
+.         .     1-PARAM     1-RAPPTO1L  1-STORPT0F  2-TRA3460P
+TRA373    RPGLE 7-FIDDEB3L  7-FIDDE22L  7-FIDDEL1L  3-LOGAAF1L  5-PARAM
+.         .     7-STFIDE2L  7-STFID22L  7-STFIDL2L  7-WFIDEB3L  7-WFIDEL1L
+.         .     7-WFIDEL3L  7-WFIDEL4L  7-WFIDE22L  1-AGCONE1L  1-AGCORI1L
+.         .     1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C
+.         .     1-ANAASS1L  1-ANADEB1L  1-ANARAP1L  1-FIDDEB4L  1-FIDDEL6L
+.         .     1-RAPPTO3L  1-RAPPTO4L  1-RAPPTO7L  1-TABFID1L  1-USRPWR1L
+.         .     1-WFIDEB4L  3-TRA3730V
+TRA383    RPGLE 1-ANAFID3L  1-FIDDEL1L  1-REFIRA1L  1-TABFID1L
+--------------------------------------------------------------------------------
+    1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L
+    1-AGSOGG1C  1-ANAASS1L  1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-ANARAP1L
+    5-ANARAP2L  1-APPCED0F  5-APPRAP1L  5-DECRAP0F  1-FATCTC9L  1-FATTUR01
+    1-FATTUR06  7-FIDDEB3L  1-FIDDEB4L  7-FIDDEL1L  1-FIDDEL6L  7-FIDDE22L
+    3-LOGAAF1L  1-MST0011L  5-PARAM     3-RACSTA1L  1-RAPCON1L  7-RAPNDG1L
+    5-RAPPTO1L  1-RAPPTO3L  1-RAPPTO4L  1-RAPPTO7L  5-REFIRA1L  7-STFIDE2L
+    7-STFIDL2L  7-STFID22L  2-STORAP0F  3-STORPT0F  1-TABFID1L  3-TRA2100V
+    2-TRA3460P  3-TRA3730V  1-USRPWR1L  8-WFIDEB0F  7-WFIDEB3L  1-WFIDEB4L
+    8-WFIDEL0F  7-WFIDEL1L  7-WFIDEL3L  7-WFIDEL4L  8-WFIDE20F  7-WFIDE22L
+    5-WKANAR3L
+--------------------------------------------------------------------------------

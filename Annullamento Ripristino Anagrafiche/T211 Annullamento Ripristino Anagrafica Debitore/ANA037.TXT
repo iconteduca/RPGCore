@@ -1,0 +1,756 @@
+  Comando  . . . . . . . . . . . . :   CRTBNDRPG
+    Emesso da  . . . . . . . . . . :     LESENR
+  Programma  . . . . . . . . . . . :   ANA037
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   ANA037
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Annullamento/Ripristino Indirizzi Garanti
+  Ultima modifica. . . . . . . . . :   13/08/11  21:13:31
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 h decedit('0,') datedit(*YMD/) option(*nodebugio:*srcstmt)                                                110712     000100
+000200  **************************************************************************                               110712     000200
+000300  *                                                                                                        110712     000300
+000400  *  Programmatore..........: Luigi Ricci                                                                  110712     000400
+000500  *  Data creazione.........: 12/07/2011                                                                   110712     000500
+000600  *                                                                                                        110712     000600
+000700  *  Descrizione programma..: Annullamento/Ripristino Indirizzi garanti                                    110712     000700
+000800  *                                                                                                        110712     000800
+000900  **************************************************************************                               110712     000900
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Annullamento/Ripristino Indirizzi Garanti          *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *NONE                        *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001000 FAGCORI2L  IF   E           K DISK    rename(AGCORI1R:AGCORI2)                                            110712     001000
+001100 f                                     prefix(c2_)                                                         110712     001100
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  AGCORI2L         MODELL/AGCORI2L                             *
+        * Formato/i record . . . . . :  AGCORI2          AGCORI1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001200 FAGCORI3L  IF   E           K DISK                                                                        110712     001200
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  AGCORI3L         MODELL/AGCORI3L                             *
+        * Formato/i record . . . . . :  AGCORI1R         AGCORI1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001300 FGARIND1L  UF   E           K DISK                                                                        110712     001300
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  GARIND1L         MODELL/GARIND1L                             *
+        * Formato/i record . . . . . :  GARIND1R         GARIND1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001400 FGARIND2L  UF   E           K DISK    rename(GARIND1R:GARIND2)                                            110712     001400
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  GARIND2L         MODELL/GARIND2L                             *
+        * Formato/i record . . . . . :  GARIND2          GARIND1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001500 FGARRIC2L  IF   E           K DISK                                                                        110712     001500
+001600  **************************************************************************                               110712     001600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  GARRIC2L         MODELL/GARRIC2L                             *
+        * Formato/i record . . . . . :  GARRIC1R         GARRIC1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001700 D KPJBA         e ds                                                                                      110712     001700
+001800  **************************************************************************                               110712     001800
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  KPJBA                                                        *                     1
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     1
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000001=D KNMUS                         10A                                        Nome Utente                   -B-        1000001
+000002=D KTPRF                          3A                                        Tipo Utente                   -B-        1000002
+000003=D KNRAZ                          9S 0                                      Num. Azione                   -B-        1000003
+000004=D KTSIF                          3A                                        Tipo Sistema Informativo      -B-        1000004
+000005=D KNMTD                         10A                                        Nome Terminale                -B-        1000005
+000006=D KFLRC                          1A                                        Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D KNRVJ                          9S 0                                      Num. Azione Interrotta        -B-        1000007
+000008=D KMSMN                          7A                                        Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D KNRJO                          6A                                        Num. Lavoro                   -B-        1000009
+000010=D KSTJO                          1A                                        Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D KFLMS                          1A                                        Flag Messaggio Pendente       -X-        1000011
+000012=D KTMIN                          6S 0                                      Time Fine Azione              -A- HHMMSS
+000013=D KCDAZ                          4A                                        Cod. Azione                   -B-        1000013
+000014=D KTPAZ                          1A                                        Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D KCDRC                          1A                                        Cod. Ripartenza               -C- b 0123 5678
+000016=D KTPFN                          1A                                        Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D KQOTD                         10A                                        Nome OutQ Terminale           -B-        1000017
+000018=D KNMEB                         10A                                        Nome Lavoro                   -B-        1000018
+000019=D KNMSB                          3S 0                                      Num. Sbmjob Eseguiti          -B-        1000019
+000020=D KNRRB                          2A                                        Num. ReSbmjob Batch           -A-        1000020
+000021=D KNSIF                          9A                                        Nome Sistema Informativo      -B-        1000021
+000022=D KCDJD                          2A                                        Cod. JobD                     -A-        1000022
+000023=D KQIEB                          7A                                        Nome JobQ                     -B-        1000023
+000024=D KQOFR                         10A                                        Nome OutQ                     -B-        1000024
+000025=D KKEYF                          5S 0                                      Cod. RRN Azione               -B-        1000025
+000026=D KRCDS                          5S 0                                      Cod. RRN Sessione             -A-        1000026
+000027=D KEXCN                          1A                                        Flag Controllo JobD     Batch -X-        1000027
+000028=D KCOAZ                          4A                                        Cod. Azione             Batch -C-        1000028
+000029=D KFLAD                          1A                                        Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D KQOPR                         10A                                        Nome OutQ               Batch -C-        1000030
+000031=D KNMCP                          2A                                        Num. Copie Stampe       Batch -X-        1000031
+000032=D KJOST                          1A                                        Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D KSTEB                          1A                                        Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D KCOJB                          2A                                        Cod. JobD               Batch -C-        1000034
+000035=D KQEBI                          7A                                        Nome JobQ               Batch -C-        1000035
+000036=D KMDST                         10A                                        Nome Modulo Stampe      Batch -X-        1000036
+000037=D KFIER                         30A                                        Cod. LibFilMbr in Errore      -X-        1000037
+000038=D KCANC                          1A                                        Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D KGRAZ                          3A                                        Cod. Gruppo Azione            -C-        1000039
+000040=D KFSLG                          1A                                        Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D KTPWS                          1A                                        Tipo Terminale                -X- N=Nrm
+000042=D KDTJB                          6A                                        Data Lavoro             Batch -X-        1000042
+000043=D KJRNM                         10A                                        Nome Journal                  -X-        1000043
+000044=D KJRLB                         10A                                        Libr.Journal                  -X-        1000044
+000045=D KRITB                          1A                                        Flag Ritorno Batch            -C-        1000045
+000046=D KBUFF                          8A                                        Fllr                          -X-        1000046
+000047=D KPJBU                        256A                                        Dati Applicativo              -D-        1000047
+001900 D ANA037DS        ds                                                                                      110712     001900
+002000 d   wwopz                        1                                                                        110712     002000
+002100 d   wwcang                            like(gicang)                                                        110712     002100
+002200  **************************************************************************                               110712     002200
+002300 d wwfcoi          s              1                                                                        110712     002300
+002400 d wwcint          s                   like(cicint)                                                        110715     002400
+002500 d wwcinz          s                   like(cicinz)                                                        110715     002500
+002600  **************************************************************************                               110712     002600
+000001=IAGCORI2                                                                                                            2000001
+        *--------------------------------------------------------------------------------------------*                     2
+        * Formato record RPG . . . . :  AGCORI2                                                      *                     2
+        * Prefisso . . . . . . . . . :  C2_ : 0                                                      *                     2
+        * Formato esterno  . . . . . :  AGCORI1R : MODELL/AGCORI2L                                   *                     2
+        * Formato testo. . . . . . . :  COINTESTATARI                                                *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000002=I                             A    1    3  C2_CITREC                       Cde Tipo Rec File -CO2-                  2000002
+000003=I                             A    4    4  C2_CIFLAG                       Sts Record V/A               CMN         2000003
+000004=I                             A    5    5  C2_CILOCK                       Sts Blocco record            CMN         2000004
+000005=I                             P    6   10 0C2_CINAZN                       Nbr Azione Aggiornamento     CMN         2000005
+000006=I                             P   11   14 0C2_CIDINS                       Dte Inserimento              CMN         2000006
+000007=I                             P   15   18 0C2_CIDUPD                       Dte Aggiornamento            CMN         2000007
+000008=I                             P   19   22 0C2_CIHEXE                       Tme Ora Modifica             CMN         2000008
+000009=I                             A   23   32  C2_CIUSER                       Nar Profilo Utente           CMN         2000009
+000010=I                             A   33   40  C2_CICINZ                       Codice Cointestazione                    2000010
+000011=I                             A   41   48  C2_CICINT                       Codice Cointestatario                    2000011
+000012=I                             P   49   53 0C2_CIDTDC                       Data Decorrenza                          2000012
+000013=I                             P   54   58 0C2_CIDTTR                       Data Termine                             2000013
+000001=IAGCORI1R                                                                                                           3000001
+        *--------------------------------------------------------------------------------------------*                     3
+        * Formato record RPG . . . . :  AGCORI1R                                                     *                     3
+        * Formato esterno  . . . . . :  AGCORI1R : MODELL/AGCORI3L                                   *                     3
+        * Formato testo. . . . . . . :  COINTESTATARI                                                *                     3
+        *--------------------------------------------------------------------------------------------*                     3
+000002=I                             A    1    3  CITREC                          Cde Tipo Rec File -CO2-                  3000002
+000003=I                             A    4    4  CIFLAG                          Sts Record V/A               CMN         3000003
+000004=I                             A    5    5  CILOCK                          Sts Blocco record            CMN         3000004
+000005=I                             P    6   10 0CINAZN                          Nbr Azione Aggiornamento     CMN         3000005
+000006=I                             P   11   14 0CIDINS                          Dte Inserimento              CMN         3000006
+000007=I                             P   15   18 0CIDUPD                          Dte Aggiornamento            CMN         3000007
+000008=I                             P   19   22 0CIHEXE                          Tme Ora Modifica             CMN         3000008
+000009=I                             A   23   32  CIUSER                          Nar Profilo Utente           CMN         3000009
+000010=I                             A   33   40  CICINZ                          Codice Cointestazione                    3000010
+000011=I                             A   41   48  CICINT                          Codice Cointestatario                    3000011
+000012=I                             P   49   53 0CIDTDC                          Data Decorrenza                          3000012
+000013=I                             P   54   58 0CIDTTR                          Data Termine                             3000013
+000001=IGARIND1R                                                                                                           4000001
+        *--------------------------------------------------------------------------------------------*                     4
+        * Formato record RPG . . . . :  GARIND1R                                                     *                     4
+        * Formato esterno  . . . . . :  GARIND1R : MODELL/GARIND1L                                   *                     4
+        * Formato testo. . . . . . . :  INDIRIZZO DEI GARANTI                                        *                     4
+        *--------------------------------------------------------------------------------------------*                     4
+000002=I                             A    1    3  GITREC                          Cde Tipo record              CMN         4000002
+000003=I                             A    4    4  GIFLAG                          Sts Record V/A               CMN         4000003
+000004=I                             A    5   10  GINMUS                          Nar Profilo Utente           CMN         4000004
+000005=I                             S   11   18 0GIDINS                          Dte Inserimento              CMN         4000005
+000006=I                             S   19   26 0GIDUPD                          Dte Aggiornamento            CMN         4000006
+000007=I                             A   27   34  GICANG                          Codice Anagrafe Generale                 4000007
+000008=I                             A   35   64  GIIND                           Nar Indirizzo                AC          4000008
+000009=I                             A   65   89  GILOCA                          Nar Località                 AC          4000009
+000010=I                             A   90   94  GICAP                           Cde C.A.P.                   MST         4000010
+000011=I                             A   95   96  GIPROV                          Cde Provincia                MST         4000011
+000012=I                             A   97   97  GIINVI                          Sts Sped.Let/Riep. x Var.Cto PA          4000012
+000013=I                             A   98  100  GINAZ                           Cde Nazione                  MST         4000013
+000001=IGARIND2                                                                                                            5000001
+        *--------------------------------------------------------------------------------------------*                     5
+        * Formato record RPG . . . . :  GARIND2                                                      *                     5
+        * Formato esterno  . . . . . :  GARIND1R : MODELL/GARIND2L                                   *                     5
+        * Formato testo. . . . . . . :  INDIRIZZO DEI GARANTI                                        *                     5
+        *--------------------------------------------------------------------------------------------*                     5
+000002=I                             A    1    3  GITREC                          Cde Tipo record              CMN         5000002
+000003=I                             A    4    4  GIFLAG                          Sts Record V/A               CMN         5000003
+000004=I                             A    5   10  GINMUS                          Nar Profilo Utente           CMN         5000004
+000005=I                             S   11   18 0GIDINS                          Dte Inserimento              CMN         5000005
+000006=I                             S   19   26 0GIDUPD                          Dte Aggiornamento            CMN         5000006
+000007=I                             A   27   34  GICANG                          Codice Anagrafe Generale                 5000007
+000008=I                             A   35   64  GIIND                           Nar Indirizzo                AC          5000008
+000009=I                             A   65   89  GILOCA                          Nar Località                 AC          5000009
+000010=I                             A   90   94  GICAP                           Cde C.A.P.                   MST         5000010
+000011=I                             A   95   96  GIPROV                          Cde Provincia                MST         5000011
+000012=I                             A   97   97  GIINVI                          Sts Sped.Let/Riep. x Var.Cto PA          5000012
+000013=I                             A   98  100  GINAZ                           Cde Nazione                  MST         5000013
+000001=IGARRIC1R                                                                                                           6000001
+        *--------------------------------------------------------------------------------------------*                     6
+        * Formato record RPG . . . . :  GARRIC1R                                                     *                     6
+        * Formato esterno  . . . . . :  GARRIC1R : MODELL/GARRIC2L                                   *                     6
+        * Formato testo. . . . . . . :  ANAGRAFE PERSONA FISICA                                      *                     6
+        *--------------------------------------------------------------------------------------------*                     6
+000002=I                             A    1    3  GRTREC                          Cde Tipo Rec File -GR1-                  6000002
+000003=I                             A    4    4  GRFLAG                          Sts Record V/A               CMN         6000003
+000004=I                             A    5    5  GRLOCK                          Sts Blocco record            CMN         6000004
+000005=I                             P    6   10 0GRNAZN                          Nbr Azione Aggiornamento     CMN         6000005
+000006=I                             P   11   14 0GRDINS                          Dte Inserimento              CMN         6000006
+000007=I                             P   15   18 0GRDUPD                          Dte Aggiornamento            CMN         6000007
+000008=I                             P   19   22 0GRHEXE                          Tme Ora Modifica             CMN         6000008
+000009=I                             A   23   32  GRUSER                          Nar Profilo Utente           CMN         6000009
+000010=I                             P   33   37 0GRNRGA                          Nbr Garanzia                             6000010
+000011=I                             A   38   45  GRCANG                          Codice Anagrafe Generale                 6000011
+000012=I                             A   46   48  GRCDGA                          Cde Garanzia B/I                         6000012
+000013=I                             P   49   53 0GRDTRG                          Dte Rilascio Garanzia                    6000013
+000014=I                             P   54   58 0GRDTSG                          Dte Scadenza Garanzia                    6000014
+000015=I                             A   59   59  GRLVGA                          Sts Livello Garanzia                     6000015
+000016=I                             A   60   62  GRDIV                           Cde Divisa                   MST         6000016
+000017=I                             P   63   67 0GRVNMG                          Val. nominale garanzia                   6000017
+000018=I                             P   68   72 0GRVSTG                          Val. stimato garanzia                    6000018
+000019=I                             P   73   77 0GRLIMG                          Val. limite garanzia                     6000019
+000020=I                             A   78   78  GRSTGA                          Sts Stato Garanzia                       6000020
+000021=I                             P   79   83 0GRDAGR                          Dte Aggiorn. Stato Garan.                6000021
+000022=I                             A   84   84  GRTRGR                          Sts Tipo relazione garantiti             6000022
+000023=I                             A   85   85  GRESGR                          Ammissibilita GeneraleGaranzia           6000023
+000024=I                             A   86  125  GRNOT1                          Nar Note                     FE          6000024
+000025=I                             A  126  165  GRNOT2                          Nar Note                     FE          6000025
+000026=I                             A  166  166  GRINES                          Sts Interna/Esterna                      6000026
+000027=I                             P  167  171 0GRIMPL                          Imp. Garanzia in pool                    6000027
+000028=I                             A  172  172  GRDGTS                          Ammissibilita specifica Garanzia         6000028
+000029=I                             A  173  173  GRGSGP                          Grado Subordinazione Garanzia Personale
+000030=I                             P  174  181 0GRIMGA                          Importo Garanzia                         6000030
+000031=I                             P  182  189 0GRFVGA                          Fair Value Garanzia                      6000031
+000032=I                             P  190  197 0GRIMPO                          Imp. Garanzia in pool                    6000032
+000033=I                             P  198  204 0GRCDTI                          Codice Titolo                            6000033
+000034=I                             A  205  205  GRIMRI                          Impegno al Riacquisto                    6000034
+000035=I                             P  206  210 0GRDTRI                          Data Variazione                          6000035
+000036=I                             P  211  212 0GRPRES                          Priorità Escussione                      6000036
+000037=I                             A  213  213  GRDGIP                          Digit Cred. Ipotecario uso abitazione    6000037
+000038=I                             A  214  214  GRDGIM                          Digit Tipo Immobile                      6000038
+000039=I                             A  215  215  GRDIPI                          Digit Idoneità potenziale perGaranzia Integrativa
+000040=I                             A  216  216  GRGRST                          Garanzia Storicizzata                    6000040
+000041=I                             P  217  221 0GRSTOD                          Data storicizzazione                     6000041
+000042=I                             P  222  225 0GRSTOT                          Ora storicizzazione                      6000042
+000043=I                             P  226  230 0GRNGRF                          Num.gar. riferimento                     6000043
+000044=I                             P  231  238 0GRIGLG                          NON USATO                                6000044
+000045=I                             P  239  241 2GRPCPQ                          NON USATO                                6000045
+000046=I                             A  242  242  GRDGTE                          Ammissib. gar.reali per esposizioni scadute
+000047=I                             A  243  243  GREXCR                          Esclusione garanzia da CR                6000047
+002700 c                   select                                                                      B01       110712     002700
+002800 c                   when      wwopz = '1'                                                       X01       110712     002800
+002900 c                   exsr      Annulla                                                            01       110712     002900
+003000 c                   when      wwopz = '2'                                                       X01       110712     003000
+003100 c                   exsr      Riprist                                                            01       110712     003100
+003200 c                   endsl                                                                       E01       110712     003200
+003300 c*                                                                                                        110712     003300
+003400 c                   seton                                        LR----                                   110712     003400
+003500  **************************************************************************                               110712     003500
+003600  *  Annullamento indirizzi                                                                                110712     003600
+003700  **************************************************************************                               110712     003700
+003800 c     Annulla       begsr                                                                                 110712     003800
+003900 c*                                                                                                        110713     003900
+004000 c* Verifica se presenti garanzie per il garante                                                           110713     004000
+004100 c                   eval      wwcint = wwcang                                                             110715     004100
+004200 c                   eval      wwcinz = *blank                                                             110715     004200
+004300 c                   exsr      ChkCoi                                                                      110715     004300
+004400 c                   if        wwfcoi <> *blank                                                  B01       110715     004400
+004500 c                   leavesr                                                                      01       110715     004500
+004600 c                   endif                                                                       E01       110715     004600
+004700 c*                                                                                                        110712     004700
+004800 c* Annullamento                                                                                           110713     004800
+004900 c                   if        %subst(wwcang:1:1) <> 'C'                                         B01       110712     004900
+005000 c*                                                                                                        110712     005000
+005100 C     WWCANG        CHAIN     GARIND1R                                                           01       110712     005100
+005200 C                   IF        %FOUND                                                            B02       110712     005200
+005300 C                   MOVE      'A'           GIFLAG                                               02       110712     005300
+005400 C                   MOVEL     KNMUS         GINMUS                                               02       110712     005400
+005500 C                   MOVE      *DATE         GIDUPD                                               02       110712     005500
+005600 C                   UPDATE    GARIND1R                                                           02       110712     005600
+005700 C                   ENDIF                                                                       E02       110712     005700
+005800 c*                                                                                                        110712     005800
+005900 c                   else                                                                        X01       110712     005900
+006000 c* Cointestazione                                                                                         110712     006000
+006100 C     WWCANG        setll     AGCORI1R                                                           01       110712     006100
+006200 c                   do        *hival                                                            B02       110712     006200
+006300 C     WWCANG        reade     AGCORI1R                                                           02       110712     006300
+006400 c                   if        %eof                                                              B03       110712     006400
+006500 c                   leave                                                                        03       110712     006500
+006600 c                   endif                                                                       E03       110712     006600
+006700 c*                                                                                                        110712     006700
+006800 c*         Verifica tutte le cointestazioni del cointestatario                                            110712     006800
+006900 c                   eval      wwcint = cicint                                                    02       110715     006900
+007000 c                   eval      wwcinz = cicinz                                                    02       110715     007000
+007100 c                   exsr      ChkCoi                                                             02       110712     007100
+007200 c                   if        wwfcoi <> *blank                                                  B03       110712     007200
+007300 c                   iter                                                                         03       110712     007300
+007400 c                   endif                                                                       E03       110712     007400
+007500 c*                                                                                                        110712     007500
+007600 C     cicint        CHAIN     GARIND1R                                                           02       110712     007600
+007700 C                   IF        %FOUND                                                            B03       110712     007700
+007800 C                   MOVE      'A'           GIFLAG                                               03       110712     007800
+007900 C                   MOVEL     KNMUS         GINMUS                                               03       110712     007900
+008000 C                   MOVE      *DATE         GIDUPD                                               03       110712     008000
+008100 C                   UPDATE    GARIND1R                                                           03       110712     008100
+008200 C                   ENDIF                                                                       E03       110712     008200
+008300 c*                                                                                                        110712     008300
+008400 c                   enddo                                                                       E02       110712     008400
+008500 c*                                                                                                        110712     008500
+008600 c                   endif                                                                       E01       110712     008600
+008700 c*                                                                                                        110712     008700
+008800 c                   endsr                                                                                 110712     008800
+008900  **************************************************************************                               110712     008900
+009000  *  Verifica garanzie per tutte le cointestazioni del cointestatario                                      110712     009000
+009100  **************************************************************************                               110712     009100
+009200 c     ChkCoi        begsr                                                                                 110712     009200
+009300 c*                                                                                                        110712     009300
+009400 c                   clear                   wwfcoi                                                        110715     009400
+009500 c*                                                                                                        110715     009500
+009600 c* Garanzie (N/P/C)                                                                                       110715     009600
+009700 c     wwcint        setll     GARRIC1R                                                                    110715     009700
+009800 c                   do        *hival                                                            B01       110712     009800
+009900 c     wwcint        reade     GARRIC1R                                                           01       110715     009900
+010000 c                   if        %eof                                                              B02       110712     010000
+010100 c                   leave                                                                        02       110712     010100
+010200 c                   endif                                                                       E02       110712     010200
+010300 c                   if        grflag <> 'A'                                                     B02       110712     010300
+010400 c                   move      '1'           wwfcoi                                               02       110712     010400
+010500 c                   leavesr                                                                      02       110712     010500
+010600 c                   endif                                                                       E02       110712     010600
+010700 c                   enddo                                                                       E01       110712     010700
+010800 c*                                                                                                        110712     010800
+010900 c* Altre cointestazioni del cointestatario (N/P)                                                          110715     010900
+011000 c                   if        %subst(wwcint:1:1) <> 'C'                                         B01       110715     011000
+011100 c     wwcint        setll     AGCORI2                                                            01       110715     011100
+011200 c                   do        *hival                                                            B02       110712     011200
+011300 c     wwcint        reade     AGCORI2                                                            02       110715     011300
+011400 c                   if        %eof                                                              B03       110712     011400
+011500 c                   leave                                                                        03       110712     011500
+011600 c                   endif                                                                       E03       110712     011600
+011700 c                   if        c2_cicinz = wwcinz                                                B03       110715     011700
+011800 c                   iter                                                                         03       110712     011800
+011900 c                   endif                                                                       E03       110712     011900
+012000 c*                                                                                                        110712     012000
+012100 c     c2_cicinz     setll     GARRIC1R                                                           02       110712     012100
+012200 c                   do        *hival                                                            B03       110712     012200
+012300 c     c2_cicinz     reade     GARRIC1R                                                           03       110712     012300
+012400 c                   if        %eof                                                              B04       110712     012400
+012500 c                   leave                                                                        04       110712     012500
+012600 c                   endif                                                                       E04       110712     012600
+012700 c                   if        grflag <> 'A'                                                     B04       110712     012700
+012800 c                   move      '1'           wwfcoi                                               04       110712     012800
+012900 c                   leavesr                                                                      04       110712     012900
+013000 c                   endif                                                                       E04       110712     013000
+013100 c                   enddo                                                                       E03       110712     013100
+013200 c*                                                                                                        110712     013200
+013300 c                   enddo                                                                       E02       110712     013300
+013400 c*                                                                                                        110715     013400
+013500 c                   endif                                                                       E01       110715     013500
+013600 c*                                                                                                        110712     013600
+013700 c                   endsr                                                                                 110712     013700
+013800  **************************************************************************                               110712     013800
+013900  *  Ripristino indirizzi                                                                                  110712     013900
+014000  **************************************************************************                               110712     014000
+014100 c     Riprist       begsr                                                                                 110712     014100
+014200 c*                                                                                                        110712     014200
+014300 c                   if        %subst(wwcang:1:1) <> 'C'                                         B01       110712     014300
+014400 c*                                                                                                        110712     014400
+014500 C     WWCANG        CHAIN(n)  GARIND1R                                                           01       110712     014500
+014600 c                   if        not %found                                                        B02       110712     014600
+014700 C     WWCANG        CHAIN     GARIND2                                                            02       110712     014700
+014800 C                   IF        %FOUND                                                            B03       110712     014800
+014900 C                   MOVE      'V'           GIFLAG                                               03       110712     014900
+015000 C                   MOVEL     KNMUS         GINMUS                                               03       110712     015000
+015100 C                   MOVE      *DATE         GIDUPD                                               03       110712     015100
+015200 C                   UPDATE    GARIND2                                                            03       110712     015200
+015300 C                   ENDIF                                                                       E03       110712     015300
+015400 C                   ENDIF                                                                       E02       110712     015400
+015500 c*                                                                                                        110712     015500
+015600 c                   else                                                                        X01       110712     015600
+015700 c* Cointestazione                                                                                         110712     015700
+015800 C     WWCANG        setll     AGCORI1R                                                           01       110712     015800
+015900 c                   do        *hival                                                            B02       110712     015900
+016000 C     WWCANG        reade     AGCORI1R                                                           02       110712     016000
+016100 c                   if        %eof                                                              B03       110712     016100
+016200 c                   leave                                                                        03       110712     016200
+016300 c                   endif                                                                       E03       110712     016300
+016400 c*                                                                                                        110712     016400
+016500 C     cicint        CHAIN(n)  GARIND1R                                                           02       110712     016500
+016600 c                   if        not %found                                                        B03       110712     016600
+016700 C     cicint        CHAIN     GARIND2                                                            03       110712     016700
+016800 C                   IF        %FOUND                                                            B04       110712     016800
+016900 C                   MOVE      'V'           GIFLAG                                               04       110712     016900
+017000 C                   MOVEL     KNMUS         GINMUS                                               04       110712     017000
+017100 C                   MOVE      *DATE         GIDUPD                                               04       110712     017100
+017200 C                   UPDATE    GARIND2                                                            04       110712     017200
+017300 C                   ENDIF                                                                       E04       110712     017300
+017400 C                   ENDIF                                                                       E03       110712     017400
+017500 c*                                                                                                        110712     017500
+017600 c                   enddo                                                                       E02       110712     017600
+017700 c*                                                                                                        110712     017700
+017800 c                   endif                                                                       E01       110712     017800
+017900 c*                                                                                                        110712     017900
+018000 c                   endsr                                                                                 110712     018000
+018100  **************************************************************************                               110712     018100
+018200  *  Operazioni iniziali                                                                                   110712     018200
+018300  **************************************************************************                               110712     018300
+018400 c     *inzsr        begsr                                                                                 110712     018400
+018500 c*                                                                                                        110712     018500
+018600 c     *entry        plist                                                                                 110712     018600
+018700 c                   parm                    kpjba                                                         110712     018700
+018800 c                   movel     kpjbu         ANA037DS                                                      110712     018800
+018900 c*                                                                                                        110712     018900
+019000 c                   endsr                                                                                 110712     019000
+000001=OGARIND1R                                                                                                           7000001
+        *--------------------------------------------------------------------------------------------*                     7
+        * Formato record RPG . . . . :  GARIND1R                                                     *                     7
+        * Formato esterno  . . . . . :  GARIND1R : MODELL/GARIND1L                                   *                     7
+        * Formato testo. . . . . . . :  INDIRIZZO DEI GARANTI                                        *                     7
+        *--------------------------------------------------------------------------------------------*                     7
+000002=O                       GITREC               3A CHAR        3              Cde Tipo record              CMN         7000002
+000003=O                       GIFLAG               4A CHAR        1              Sts Record V/A               CMN         7000003
+000004=O                       GINMUS              10A CHAR        6              Nar Profilo Utente           CMN         7000004
+000005=O                       GIDINS              18S ZONE      8,0              Dte Inserimento              CMN         7000005
+000006=O                       GIDUPD              26S ZONE      8,0              Dte Aggiornamento            CMN         7000006
+000007=O                       GICANG              34A CHAR        8              Codice Anagrafe Generale                 7000007
+000008=O                       GIIND               64A CHAR       30              Nar Indirizzo                AC          7000008
+000009=O                       GILOCA              89A CHAR       25              Nar Località                 AC          7000009
+000010=O                       GICAP               94A CHAR        5              Cde C.A.P.                   MST         7000010
+000011=O                       GIPROV              96A CHAR        2              Cde Provincia                MST         7000011
+000012=O                       GIINVI              97A CHAR        1              Sts Sped.Let/Riep. x Var.Cto PA          7000012
+000013=O                       GINAZ              100A CHAR        3              Cde Nazione                  MST         7000013
+000001=OGARIND2                                                                                                            8000001
+        *--------------------------------------------------------------------------------------------*                     8
+        * Formato record RPG . . . . :  GARIND2                                                      *                     8
+        * Formato esterno  . . . . . :  GARIND1R : MODELL/GARIND2L                                   *                     8
+        * Formato testo. . . . . . . :  INDIRIZZO DEI GARANTI                                        *                     8
+        *--------------------------------------------------------------------------------------------*                     8
+000002=O                       GITREC               3A CHAR        3              Cde Tipo record              CMN         8000002
+000003=O                       GIFLAG               4A CHAR        1              Sts Record V/A               CMN         8000003
+000004=O                       GINMUS              10A CHAR        6              Nar Profilo Utente           CMN         8000004
+000005=O                       GIDINS              18S ZONE      8,0              Dte Inserimento              CMN         8000005
+000006=O                       GIDUPD              26S ZONE      8,0              Dte Aggiornamento            CMN         8000006
+000007=O                       GICANG              34A CHAR        8              Codice Anagrafe Generale                 8000007
+000008=O                       GIIND               64A CHAR       30              Nar Indirizzo                AC          8000008
+000009=O                       GILOCA              89A CHAR       25              Nar Località                 AC          8000009
+000010=O                       GICAP               94A CHAR        5              Cde C.A.P.                   MST         8000010
+000011=O                       GIPROV              96A CHAR        2              Cde Provincia                MST         8000011
+000012=O                       GIINVI              97A CHAR        1              Sts Sped.Let/Riep. x Var.Cto PA          8000012
+000013=O                       GINAZ              100A CHAR        3              Cde Nazione                  MST         8000013
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+          P o s i z i o n i   b u f f e r    d i   e m i s s i o n e
+Riga   Iniz. Fine  Campo o costante
+Numero Pos   Pos
+   7000002     1     3 GITREC
+   7000003     4     4 GIFLAG
+   7000004     5    10 GINMUS
+   7000005    11    18 GIDINS
+   7000006    19    26 GIDUPD
+   7000007    27    34 GICANG
+   7000008    35    64 GIIND
+   7000009    65    89 GILOCA
+   7000010    90    94 GICAP
+   7000011    95    96 GIPROV
+   7000012    97    97 GIINVI
+   7000013    98   100 GINAZ
+   8000002     1     3 GITREC
+   8000003     4     4 GIFLAG
+   8000004     5    10 GINMUS
+   8000005    11    18 GIDINS
+   8000006    19    26 GIDUPD
+   8000007    27    34 GICANG
+   8000008    35    64 GIIND
+   8000009    65    89 GILOCA
+   8000010    90    94 GICAP
+   8000011    95    96 GIPROV
+   8000012    97    97 GIINVI
+   8000013    98   100 GINAZ
+     * * * * *   F I N E   P O S I Z I O N E   B U F F E R   D I   E M I S I O N E    * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      1  AGCORI2L
+           AGCORI2 è il nome RPG del formato esterno AGCORI1R.
+                        CICINT                  CHAR        8
+      2  AGCORI3L
+           AGCORI1R
+                        CICINZ                  CHAR        8
+                        CICINT                  CHAR        8
+      3  GARIND1L
+           GARIND1R
+                        GICANG                  CHAR        8
+      4  GARIND2L
+           GARIND2 è il nome RPG del formato esterno GARIND1R.
+                        GICANG                  CHAR        8
+      5  GARRIC2L
+           GARRIC1R
+                        GRCANG                  CHAR        8
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         AGCORI2L          DISK                   001000D
+           AGCORI2                                001000     2000001      011100      011300
+         AGCORI3L          DISK                   001200D
+           AGCORI1R                               001200D    3000001      006100      006300
+                                                  015800      016000
+         GARIND1L          DISK                   001300D
+           GARIND1R                               001300D    4000001      005100      005600
+                                                  007600      008100      014500      016500
+                                                 7000001
+         GARIND2L          DISK                   001400D
+           GARIND2                                001400     5000001      014700      015200
+                                                  016700      017200     8000001
+         GARRIC2L          DISK                   001500D
+           GARRIC1R                               001500D    6000001      009700      009900
+                                                  012100      012300
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         *DATE             S(8,0)                 005500      008000      015100      017100
+         *ENTRY            PLIST                  018600D
+         *INZSR            BEGSR                  018400D
+         ANA037DS          DS(9)                  001900D     018800M
+         ANNULLA           BEGSR                  002900      003800D
+         CHKCOI            BEGSR                  004300      007100      009200D
+         CICINT            A(8)                   002400     3000011D     006900      007600
+                                                  016500      016700
+         CICINZ            A(8)                   002500     3000010D     007000
+*RNF7031 CIDINS            P(6,0)                3000006D
+*RNF7031 CIDTDC            P(8,0)                3000012D
+*RNF7031 CIDTTR            P(8,0)                3000013D
+*RNF7031 CIDUPD            P(6,0)                3000007D
+*RNF7031 CIFLAG            A(1)                  3000003D
+*RNF7031 CIHEXE            P(6,0)                3000008D
+*RNF7031 CILOCK            A(1)                  3000004D
+*RNF7031 CINAZN            P(9,0)                3000005D
+*RNF7031 CITREC            A(3)                  3000002D
+*RNF7031 CIUSER            A(10)                 3000009D
+*RNF7031 C2_CICINT         A(8)                  2000011D
+         C2_CICINZ         A(8)                  2000010D     011700      012100      012300
+*RNF7031 C2_CIDINS         P(6,0)                2000006D
+*RNF7031 C2_CIDTDC         P(8,0)                2000012D
+*RNF7031 C2_CIDTTR         P(8,0)                2000013D
+*RNF7031 C2_CIDUPD         P(6,0)                2000007D
+*RNF7031 C2_CIFLAG         A(1)                  2000003D
+*RNF7031 C2_CIHEXE         P(6,0)                2000008D
+*RNF7031 C2_CILOCK         A(1)                  2000004D
+*RNF7031 C2_CINAZN         P(9,0)                2000005D
+*RNF7031 C2_CITREC         A(3)                  2000002D
+*RNF7031 C2_CIUSER         A(10)                 2000009D
+         GICANG            A(8)                   002100     4000007M    5000007M    7000007
+                                                 8000007
+         GICAP             A(5)                  4000010M    5000010M    7000010     8000010
+         GIDINS            P(8,0)                4000005M    5000005M    7000005     8000005
+         GIDUPD            P(8,0)                4000006M    5000006M     005500M     008000M
+                                                  015100M     017100M    7000006     8000006
+         GIFLAG            A(1)                  4000003M    5000003M     005300M     007800M
+                                                  014900M     016900M    7000003     8000003
+         GIIND             A(30)                 4000008M    5000008M    7000008     8000008
+         GIINVI            A(1)                  4000012M    5000012M    7000012     8000012
+         GILOCA            A(25)                 4000009M    5000009M    7000009     8000009
+         GINAZ             A(3)                  4000013M    5000013M    7000013     8000013
+         GINMUS            A(6)                  4000004M    5000004M     005400M     007900M
+                                                  015000M     017000M    7000004     8000004
+         GIPROV            A(2)                  4000011M    5000011M    7000011     8000011
+         GITREC            A(3)                  4000002M    5000002M    7000002     8000002
+*RNF7031 GRCANG            A(8)                  6000011D
+*RNF7031 GRCDGA            A(3)                  6000012D
+*RNF7031 GRCDTI            P(12,0)               6000033D
+*RNF7031 GRDAGR            P(8,0)                6000021D
+*RNF7031 GRDGIM            A(1)                  6000038D
+*RNF7031 GRDGIP            A(1)                  6000037D
+*RNF7031 GRDGTE            A(1)                  6000046D
+*RNF7031 GRDGTS            A(1)                  6000028D
+*RNF7031 GRDINS            P(6,0)                6000006D
+*RNF7031 GRDIPI            A(1)                  6000039D
+*RNF7031 GRDIV             A(3)                  6000016D
+*RNF7031 GRDTRG            P(8,0)                6000013D
+*RNF7031 GRDTRI            P(8,0)                6000035D
+*RNF7031 GRDTSG            P(8,0)                6000014D
+*RNF7031 GRDUPD            P(6,0)                6000007D
+*RNF7031 GRESGR            A(1)                  6000023D
+*RNF7031 GREXCR            A(1)                  6000047D
+         GRFLAG            A(1)                  6000003D     010300      012700
+*RNF7031 GRFVGA            P(15,0)               6000031D
+*RNF7031 GRGRST            A(1)                  6000040D
+*RNF7031 GRGSGP            A(1)                  6000029D
+*RNF7031 GRHEXE            P(6,0)                6000008D
+*RNF7031 GRIGLG            P(15,0)               6000044D
+*RNF7031 GRIMGA            P(15,0)               6000030D
+*RNF7031 GRIMPL            P(9,0)                6000027D
+*RNF7031 GRIMPO            P(15,0)               6000032D
+*RNF7031 GRIMRI            A(1)                  6000034D
+*RNF7031 GRINES            A(1)                  6000026D
+*RNF7031 GRLIMG            P(9,0)                6000019D
+*RNF7031 GRLOCK            A(1)                  6000004D
+*RNF7031 GRLVGA            A(1)                  6000015D
+*RNF7031 GRNAZN            P(9,0)                6000005D
+*RNF7031 GRNGRF            P(9,0)                6000043D
+*RNF7031 GRNOT1            A(40)                 6000024D
+*RNF7031 GRNOT2            A(40)                 6000025D
+*RNF7031 GRNRGA            P(9,0)                6000010D
+*RNF7031 GRPCPQ            P(5,2)                6000045D
+*RNF7031 GRPRES            P(2,0)                6000036D
+*RNF7031 GRSTGA            A(1)                  6000020D
+*RNF7031 GRSTOD            P(8,0)                6000041D
+*RNF7031 GRSTOT            P(6,0)                6000042D
+*RNF7031 GRTREC            A(3)                  6000002D
+*RNF7031 GRTRGR            A(1)                  6000022D
+*RNF7031 GRUSER            A(10)                 6000009D
+*RNF7031 GRVNMG            P(9,0)                6000017D
+*RNF7031 GRVSTG            P(9,0)                6000018D
+*RNF7031 KBUFF             A(8)                  1000046D
+*RNF7031 KCANC             A(1)                  1000038D
+*RNF7031 KCDAZ             A(4)                  1000013D
+*RNF7031 KCDJD             A(2)                  1000022D
+*RNF7031 KCDRC             A(1)                  1000015D
+*RNF7031 KCOAZ             A(4)                  1000028D
+*RNF7031 KCOJB             A(2)                  1000034D
+*RNF7031 KDTJB             A(6)                  1000042D
+*RNF7031 KEXCN             A(1)                  1000027D
+*RNF7031 KFIER             A(30)                 1000037D
+*RNF7031 KFLAD             A(1)                  1000029D
+*RNF7031 KFLMS             A(1)                  1000011D
+*RNF7031 KFLRC             A(1)                  1000006D
+*RNF7031 KFSLG             A(1)                  1000040D
+*RNF7031 KGRAZ             A(3)                  1000039D
+*RNF7031 KJOST             A(1)                  1000032D
+*RNF7031 KJRLB             A(10)                 1000044D
+*RNF7031 KJRNM             A(10)                 1000043D
+*RNF7031 KKEYF             S(5,0)                1000025D
+*RNF7031 KMDST             A(10)                 1000036D
+*RNF7031 KMSMN             A(7)                  1000008D
+*RNF7031 KNMCP             A(2)                  1000031D
+*RNF7031 KNMEB             A(10)                 1000018D
+*RNF7031 KNMSB             S(3,0)                1000019D
+*RNF7031 KNMTD             A(10)                 1000005D
+         KNMUS             A(10)                 1000001D     005400      007900      015000
+                                                  017000
+*RNF7031 KNRAZ             S(9,0)                1000003D
+*RNF7031 KNRJO             A(6)                  1000009D
+*RNF7031 KNRRB             A(2)                  1000020D
+*RNF7031 KNRVJ             S(9,0)                1000007D
+*RNF7031 KNSIF             A(9)                  1000021D
+         KPJBA             DS(502)                001700D     018700M
+                           BASED(_QRNL_PRM+)
+         KPJBU             A(256)                1000047D     018800
+*RNF7031 KQEBI             A(7)                  1000035D
+*RNF7031 KQIEB             A(7)                  1000023D
+*RNF7031 KQOFR             A(10)                 1000024D
+*RNF7031 KQOPR             A(10)                 1000030D
+*RNF7031 KQOTD             A(10)                 1000017D
+*RNF7031 KRCDS             S(5,0)                1000026D
+*RNF7031 KRITB             A(1)                  1000045D
+*RNF7031 KSTEB             A(1)                  1000033D
+*RNF7031 KSTJO             A(1)                  1000010D
+*RNF7031 KTMIN             S(6,0)                1000012D
+*RNF7031 KTPAZ             A(1)                  1000014D
+*RNF7031 KTPFN             A(1)                  1000016D
+*RNF7031 KTPRF             A(3)                  1000002D
+*RNF7031 KTPWS             A(1)                  1000041D
+*RNF7031 KTSIF             A(3)                  1000004D
+         RIPRIST           BEGSR                  003100      014100D
+         WWCANG            A(8)                   002100D     004100      004900      005100
+                                                  006100      006300      014300      014500
+                                                  014700      015800      016000
+         WWCINT            A(8)                   002400D     004100M     006900M     009700
+                                                  009900      011000      011100      011300
+         WWCINZ            A(8)                   002500D     004200M     007000M     011700
+         WWFCOI            A(1)                   002300D     004400      007200      009400M
+                                                  010400M     012800M
+         WWOPZ             A(1)                   002000D     002800      003000
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         LR                                       003400D
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00    111 Il nome o l'indicatore non sono referenziati.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :      111
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :      111
+  Totali origine
+    Record . . . . . . . . . . . . :      362
+    Specifiche  . . . . . . . . . . :      305
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :       57
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma ANA037 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 23/10/17 alle 17:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

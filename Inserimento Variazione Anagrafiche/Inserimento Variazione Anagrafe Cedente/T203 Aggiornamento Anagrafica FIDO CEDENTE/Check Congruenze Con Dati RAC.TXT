@@ -1,0 +1,59 @@
+Check Congruenze Con Dati RAC
+
+£FoundREFIRA = *Off
+£FndRac = *Off
+For £Giro = 1 To 2                                                           Per 2 volte con indice £Giro
+  If £Giro = 1 Or Not £FoundREFIRA
+    RRPRFD = V04PRFD
+    If £Giro = 1
+      RRCODF = V04CODF
+    Else
+      RRCODF = *Blank
+    EndIf
+    SetLL REFIRA2L con RRPRFD RRCODF
+    DoU %EoF(REFIRA2L)
+      ReadE REFIRA2L con RRPRFD RRCODF
+      If Not %EoF(REFIRA2L)                                                  Per ogni record
+        £FoundREFIRA = *On
+        RTCED = RRCED
+        RTDEB = RRDEB
+        SetLL RAPPTO1L con RTCED RTDEB
+        DoU %EoF(RAPPTO1L)
+          ReadE RAPPTO1L con RTCED RTDEB
+          If Not %EoF(RAPPTO1L)                                              Per ogni record
+            £FndRac = *On
+            £PCCO = RTPCCO                                                   Pct Copertura
+            If V04PCCP <> £PCCO And V04PCCP <> 0
+              ExSr ErrorAdd con 'SCI0026'                                    Perc. copertura diversa tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04CASS <> RTCASS And V04CASS <> 0 And RTCASS <> 0            Cde Assicurazione
+              ExSr ErrorAdd con 'SCI0027'                                    Società Assicurazione diversa tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            £PCGZ = RTPCGZ                                                   Pct Garanzia
+            If V04PCGA <> £PCGZ And V04PCGA <> 0
+              ExSr ErrorAdd con 'SCI0025'                                    Perc. garanzia diversa tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04GGDC <> RTGGDC And V04GGDC <> 0 And RTGGDC <> 0            Nbr GG Ammessi doc/cess
+              ExSr ErrorAdd con 'SCI0028'                                    Gg. ammessi Doc./Cess. diversi tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04CPAG <> RTTPAG And V04CPAG <> *Blank And RTTPAG <> *Blank  Cde Tipo Pagamento
+              ExSr ErrorAdd con 'SCI0029'                                    Tipo pagamento diverso tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04MPAG <> RTMPAG And V04MPAG <> *Blank And RTMPAG <> *Blank  Cde Modo Pagamento (FM/DF
+              ExSr ErrorAdd con 'SCI0030'                                    Mod. pagamento diversa tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04GGDF <> RTGGDF And V04GGDF <> 0 And RTGGDF <> 0            Nbr GG Pag. Differimento
+              ExSr ErrorAdd con 'SCI0031'                                    Gg. decorrenza pagamento diversi tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04GGTO <> RTGGTO And V04GGTO <> 0 And RTGGTO <> 0            Nbr GG Tolleranza
+              ExSr ErrorAdd con 'SCI0032'                                    Giorni tolleranza diversi tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+            If V04TIAS <> RTTIAS And V04TIAS <> 0 And RTTIAS <> 0            Tipo Pto IAS
+              ExSr ErrorAdd con 'SCI0021'                                    Tipo PTO IAS diverso tra fido e RAC collegati all'anagrafica rapporto.
+            EndIf
+          EndIf
+        EndDo
+      EndIf
+    EndDo
+  EndIf
+EndFor

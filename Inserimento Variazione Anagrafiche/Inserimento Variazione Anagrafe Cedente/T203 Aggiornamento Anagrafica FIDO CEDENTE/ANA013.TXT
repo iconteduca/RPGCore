@@ -1,0 +1,1874 @@
+ **************************************************************************
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 04/05/2007
+ *
+ *  Descrizione programma..: Annullamento anagrafiche per cedente
+ **************************************************************************
+ * Output and Input/Output files
+fAGCONE1L  uf   e           k disk
+fAGCORI1L  uf   e           k disk
+fAGPERF1L  uf   e           k disk
+fAGRAPP1L  uf   e           k disk
+fAGRAPP2L  uf   e           k disk    rename(AGRAPP1R:AGRAPP2R)
+fAGSNPF1L  uf   e           k disk
+fANACED1L  uf   e           k disk
+fAUTINT1L  uf   e           k disk
+fANACON2L  uf   e           k disk
+fANADEB1L  uf   e           k disk
+fANARAP1L  uf   e           k disk                              prefix(AR_)
+fANARAP2L  uf   e           k disk    rename(ANARAP1R:ANARAP2R)
+fAPPDEB1L  uf   e           k disk                              prefix(AD_)
+fAPPRAP1L  uf   e           k disk
+fDECCED0F  uf   e           k disk
+fDECDEB0F  uf   e           k disk
+fDECRAP0F  uf   e           k disk
+fFIDDEB4L  uf   e           k disk    rename(FIDDEB1R:FIDDEB4R) prefix(FD_)
+fFIDDEL1L  if   e           k disk
+fFIDDEL7L  uf   e           k disk    rename(FIDDEL1R:FIDDEL7R)
+fFIDDEL8L  uf   e           k disk    rename(FIDDEL1R:FIDDEL8R)
+fGARPPQ1L  uf   e           k disk
+fGARREL3L  uf   e           k disk    rename(GARREL1R:GARREL3R)
+fGARREL4L  uf   e           k disk    rename(GARREL1R:GARREL4R)
+fGARREL5L  uf   e           k disk    rename(GARREL1R:GARREL5R)
+fGARRIC1L  uf   e           k disk
+fNDGIES1L  uf   e           k disk
+fRAPNDG1L  uf   e           k disk
+fRAPNDG2L  uf   e           k disk    rename(RAPNDG1R:RAPNDG2R)
+fRAPPTO1L  uf   e           k disk
+fREFIRA1L  uf   e           k disk
+fREFICO1L  uf   e           k disk
+fSTFIDE2L  uf a e           k disk
+fSTFID22L  uf a e           k disk
+fSTFIDL2L  uf a e           k disk
+fSTOAEA2L  uf   e           k disk    rename(STOAEA1R:STOAEA2R)
+fSTOAEA3L  uf   e           k disk    rename(STOAEA1R:STOAEA3R)
+fSTORPT0F  o    e             disk
+fWAICED1L  uf   e           k disk
+fWKANAR1L  uf   e           k disk                              prefix(WK_)
+fSTORAP0F  o    e             disk
+ * Input-only files
+fAGCORI2L  if   e           k disk    rename(AGCORI1R:AGCORI2R)
+fAGCSOC2L  if   e           k disk
+fANAFID7L  if   e           k disk                              prefix(AF_)
+fANAFID8L  if   e           k disk    rename(ANAFID1R:ANAFID8R) prefix(AF_)
+fANAFI34L  if   e           k disk
+fANARCL4L  if   e           k disk
+fBKPART2L  if   e           k disk    usropn
+fCONATT0F  if   e           k disk
+fFATCTC9L  if   e           k disk
+fFATTURQL  if   e           k disk
+fFattur06  if   e           k disk    rename(FATTUR1R:FATTUR6R)
+fFIDDEB3L  if   e           k disk                              prefix(FD_)
+fFIDDEL4L  if   e           k disk    rename(FIDDEL1R:FIDDEL4R)
+fFIDDE22L  if   e           k disk    rename(FIDDE21R:FIDDE22R)
+fGARRIC2L  if   e           k disk    rename(GARRIC1R:GARRIC2R)
+fGARREL1L  if   e           k disk
+fNOTGIO4L  if   e           k disk
+fPONDEB2L  if   e           k disk
+fPOOLOG1L  if   e           k disk
+fPOOLPS6L  if   e           k disk
+fSPEATT2L  if   e           k disk
+fECVKEY2L  if   e           k disk
+fAPPORI4L  if   e           k disk
+fPARAM     IF   E           K DISK    prefix(p_)
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+ * Variabili locali -------------------------------------------------------
+d £RAPPTO       e ds                  extname(RAPPTO0F)
+d £STORPT       e ds                  extname(STORPT0F)
+d £FIDDEB       e ds                  extname(FIDDEB0F) prefix(FD_)
+d  £FIDDEB1               1    267
+d  £FIDDEB2             268    287
+d £FIDDE2       e ds                  extname(FIDDE20F)
+d  £FIDDE21               1    115
+d  £FIDDE22             116    121
+d £FIDDEL       e ds                  extname(FIDDEL0F)
+d  £FIDDEL1               1     74
+d £STFIDE       e ds                  extname(STFIDE0F)
+d  £STFIDE1               1    267
+d  £STFIDE2             274    293
+d £STFID2       e ds                  extname(STFID20F)
+d  £STFID21               1    115
+d  £STFID22             122    127
+d £STFIDL       e ds                  extname(STFIDL0F)
+d  £STFIDL1               1     74
+d £GARRIC       e ds                  EXTNAME(GARRIC0F)
+d £ExGARRIC     e ds                  EXTNAME(GARRIC0F) Prefix(£Ex)
+d £GARREL       e ds                  EXTNAME(GARREL0F)
+d £ExGARREL     e ds                  EXTNAME(GARREL0F) Prefix(£Ex)
+d £CheckCed       s                   like(ACCED)
+d £CheckDeb       s                   like(ADDEB)
+d £CheckSog       s                   like(PFCANG)
+d KKCED           s                   like(ACCED)
+d KKDEB           s                   like(ADDEB)
+d KKNSIF          s                   like(AUNSIF)
+d £CheckFilesOk   s               n
+d £CheckCedOk     s               n
+d £CheckDebOk     s               n
+d £CheckRapOk     s               n
+d £CheckSogOk     s               n
+d £DataRevoca     s              8  0
+d £DataScadenza   s              8  0
+d £ExFLPRFD       s                   like(FLPRFD) inz
+d £Fidi           s                   like(F7PRFD) dim(9999) inz
+d £iFidi          s              6  0 inz
+d £F5DTCO         s                   like(F5DTCO) inz
+d £F5CAZE         s                   like(F5CAZE) inz
+d £i              s              6  0 inz
+d £LastNRac       s                   like(RTNRAC) inz
+d £OpenBKPART     s               n   inz
+d £ridefinizioni  ds
+d  PLCON1
+d  PLCON1n                       1  0 overlay(PLCON1:1)
+d  PLCON2
+d  PLCON2n                       1  0 overlay(PLCON2:1)
+d  PLCON3
+d  PLCON3n                       1  0 overlay(PLCON3:1)
+d £UpdateFido     s               n
+d £AnnulGarFid    s                   like(AF_FDPRFD)
+d £Gar            s                   like(GRNRGA) dim(9999) inz
+d £iGar           s              6  0 inz
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £DateError                    n
+d MIS           E DS
+ * Parametri -------------------------------------------------------------- ANA013 è chiamato da TRA151 in:
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)        V02Check Controllo dati video02
+d  $Entry_KCSOC                  6    overlay($Entry_KNSIF:1)                  Setup Abilitazione ad Annullare anagrafiche se revoca fido
+d $Entry_         ds                                                        con:
+d  $Entry_Op                     1                                          '1'
+ *                                    Tipo elaborazione:
+ *                                    1=Solo controllo se annullabili
+ *                                    2=Controllo ed annullamento
+d  $Entry_Ced                         like(AF_FDCODC)                       V02CODC
+d  $Entry_NrFid                       like(AF_FDPRFD)                       V02PRFD
+ *                                    Progressivo fido di partenza (Fac.)
+ *                                    Se ricevuto, non viene considerato
+ *                                    il fido indicato
+d  $Entry_DateR                  8  0
+ *                                    Data revoca
+d  $Entry_OkAnn                   n
+ *                                    Risultato elaborazione:
+ *                                    0=Cedente non annullabile
+ *                                    1=Cedente annullabile/annullato
+ *
+d ANA014_KPJBA  e ds                  extname(KPJBA) prefix(ANA014_)
+d ANA014_         ds
+d  ANA014_Deb                    8  0
+d  ANA014_Stat                   1
+d ANA028_KPJBA  e ds                  extname(KPJBA) prefix(ANA028_)
+d ANA028_         ds
+d  ANA028_Op                     1
+d  ANA028_NrGar                  9  0
+d RRA010_KPJBA  e ds                  extname(KPJBA) prefix(RRA010_)
+d RRA010_         ds
+d  RRA010_Ced                    5  0
+d TRA346_KPJBA  e ds                  extname(KPJBA) prefix(TRA346_)
+d TRA346_         ds
+d  TRA346_Ced                    5  0
+d  TRA346_Deb                    8  0
+d  TRA346_NRac                   4  0
+d  TRA346_Mode                   1
+d TCA373_KPJBA  e ds                  extname(KPJBA) prefix(TCA373_)
+d TCA373_         ds
+d  TCA373_Op                     1
+d  TCA373_Ced                    5  0
+d  TCA373_Deb                    8  0
+d  TCA373_ShowV                   n
+d  TCA373_NrFid                  5p 0
+d STD061_KPJBA  e ds                  extname(KPJBA) prefix(STD061_)
+d STD061_         ds
+d  STD061_Ced                    5  0
+d  STD061_Deb                    8  0
+d  STD061_Flag                   1
+d RRA022_KPJBA  e ds                  extname(KPJBA) prefix(RRA022_)
+d RRA022_         ds
+d  RRA022_NumGar          1      9  0
+d  RRA022_ParExe         10     10
+d RRA024_KPJBA  e ds                  extname(KPJBA) prefix(RRA024_)
+d RRA024_         ds
+d  RRA024_Sog             1     16
+d  RRA024_Rap            17     32
+d  RRA024_Far            33     33
+d ANA037_KPJBA  e ds                  extname(KPJBA) prefix(ANA037_)
+d ANA037_         ds
+d  ANA037_Opz                    1
+d  ANA037_Cang                   8
+d TRA003_KPJBA  e ds                  extname(KPJBA) prefix(TRA003_)
+d TRA003_         ds
+d  TRA003_Ced                    5  0
+d  TRA003_Deb                    8  0
+d  TRA003_Con1                   1
+d  TRA003_Con2                   1
+d  TRA003_Con3                   1
+d  TRA003_Found                  1
+ * --- Richiami ---
+ * Annullamneto PEFTAB
+d annPEF          pr                  extpgm('STF066')
+d   ppKPJBA                           like($Entry_KPJBA)
+d   ppPTFILE                          like(p_PTFILE)
+d   ppPTKIA1                          like(p_PTKIA1)
+d  p_PTFILE       s              8
+d  p_PTKIA1       s             30
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c     $Entry_Ced    chain(n)  ANACED1L                                      Legge, senza bloccare il record (n), AnaCed1L con Inp_Cedente
+c                   if            %found(ANACED1L)                          Se Trovato
+ * Controllo se possibile annullare l'anagrafica cedente (START)
+c                   exsr      CheckFiles                                       esegue
+ * Controllo se possibile annullare l'anagrafica cedente (END)
+ *
+ * Annullamento anagrafica cedente (START)
+c                   if            $Entry_Op = '2'                           Se Controllo ed Annullamento
+c                             and £CheckFilesOk                              e OK
+c                   exsr      UpdateFiles                                      esegue
+c                   endif
+ * Annullamento anagrafica cedente (END)
+c                   eval      $Entry_OkAnn = £CheckFilesOk                  Set RtnCode
+ *
+c                   endif
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   eval      *inlr = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+c                   eval      $Entry_OkAnn = *off
+ * Operazioni preliminari (END) -------------------------------------------
+ *
+ * Apertura file (START)---------------------------------------------------
+c                   open(e)   BKPART2L                                      BkPART2L: Archivio Partecipazioni per Segnalazioni di Vigilanza
+c                   if            %error                                    Non esiste nei DB delle Società non vigilate,
+c                   eval      £OpenBKPART = *off                            quindi il Pgm prova la Open e si segna se ha
+c                   else                                                    avuto esito negativo o positivo
+c                   eval      £OpenBKPART = *on
+c                   endif
+ * Apertura file (END) ----------------------------------------------------
+ *
+ * Operazioni varie (START) -----------------------------------------------
+c                   EVAL      KKNSIF = $Entry_KCSOC
+ *
+c                   clear                   £Gar
+c                   eval      £iGar = 0
+ * Operazioni varie (END) -------------------------------------------------
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Chiusura file (START)---------------------------------------------------
+c                   clear                   ANA028_
+c                   eval      ANA028_Op = 'X'
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028
+ * Chiusura file (END) ----------------------------------------------------
+ *
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval      $Entry_KPJBU = $Entry_
+ * Operazioni finali (END) ------------------------------------------------
+ *
+c                   endsr
+ **************************************************************************
+ *  Controllo se possibile annullare le anagrafiche
+c     CheckFiles    begsr
+ *
+c                   eval      £CheckFilesOk = *off
+c                   eval      £CheckCedOk = *off
+c                   eval      £CheckRapOk = *off
+ *
+c                   eval      £CheckCed = ACCED
+c                   exsr      CheckCed                                      Esegue Controllo Cedente
+ *
+c                   if            not £CheckCedOk                           Se non OK
+c                   leavesr                                                    Fine-SubRoutine
+c                   endif
+ *
+c                   eval      ARCED = ACCED
+c     ARCED         setll     ANARAP2L                                      Si posiziona con Cedente
+c                   dou           %eof(ANARAP2L)
+c     ARCED         reade(n)  ANARAP2L                                       e legge tutte se sue coppie
+c                   if            not %eof(ANARAP2L)                           per ogni Cedente/Debitore
+c                             and ARFLAG <> 'A'                                    non annullato
+ *
+c                   eval      £CheckCed = ARCED
+c                   eval      £CheckDeb = ARDEB
+c                   exsr      CheckRap                                             esegue
+ *
+c                   if            not £CheckRapOk                           Se non OK
+c                   leavesr                                                    Fine-SubRoutine
+c                   endif
+ *
+c                   endif
+c                   enddo
+ *
+c                   eval      £CheckFilesOk = *on
+ *
+c                   endsr
+ **************************************************************************
+ *  Controllo se possibile annullare il cedente £CheckCed
+c     CheckCed      begsr
+ *
+c                   eval      £CheckCedOk = *off
+ *
+c                   eval      SACED = £CheckCed
+c     SACED         setll     CONATT0F                                      Si posiziona su Saldi_Attuali del Cedente
+c                   dou           %eof(CONATT0F)
+c     SACED         reade     CONATT0F
+c                   if            not %eof(CONATT0F)                        se Trovato
+c                             and SAFLAG = 'V'                                 valido
+c                             and (    SASCAD <> 0                             e con Saldo_Cessioni
+c                                  or  SASIAD <> 0)                                o Saldo_Investment
+c                   leavesr                                                 << errore
+c                   endif
+c                   enddo
+ *
+c                   eval      FTCED = £CheckCed
+c     FTCED         setll     Fattur06
+c                   dou           %eof(Fattur06)
+c     FTCED         reade     Fattur06
+c                   if            not %eof(Fattur06)
+c                   leavesr                                                 << idem x Out-Standing
+c                   endif
+c                   enddo
+ *
+c                   eval      NCCED = £CheckCed
+c     NCCED         setll     NOTGIO4L
+c                   dou           %eof(NOTGIO4L)
+c     NCCED         reade     NOTGIO4L
+c                   if            not %eof(NOTGIO4L)
+c                             and NCC = 'C'                                    e movimento Da_Contabilizzare
+c                   leavesr                                                 << idem x Investment
+c                   endif
+c                   enddo
+ *
+c                   eval      AF_FDCODC = £CheckCed
+c     AF_FDCODC     setll     ANAFID8L
+c                   dou           %eof(ANAFID8L)
+c     AF_FDCODC     reade     ANAFID8L
+c                   if            not %eof(ANAFID8L)
+c                             and AF_FDFLAG <> 'A'
+c                             and (    AF_FDPRFD <> $Entry_NrFid            Nbr_Progressivo_Fido <> Inp
+c                                  or  $Entry_NrFid = 0)
+c                   eval      £DataRevoca = AF_FDDRVS * 1000000
+c                                         + AF_FDDRVA * 10000
+c                                         + AF_FDDRVM * 100
+c                                         + AF_FDDRVG
+c                   eval      £DataScadenza = AF_FDDSCS * 1000000
+c                                           + AF_FDDSCA * 10000
+c                                           + AF_FDDSCM * 100
+c                                           + AF_FDDSCG
+c                   if            (    £DataRevoca = 0
+c                                  or  £DataRevoca > *date)                 Data_Revoca futura
+c                             and (    £DataScadenza = 0
+c                                  or  £DataScadenza > *date)               Data_Scadenza futura
+c                   leavesr                                                 << idem x Fidi_Cedente
+c                   endif
+c                   endif
+c                   enddo
+ *
+c                   eval      F3CED = £CheckCed
+c     F3CED         setll     ANAFI34L
+c                   dou           %eof(ANAFI34L)
+c     F3CED         reade     ANAFI34L
+c                   if            not %eof(ANAFI34L)                        Partendo da Anagrafe_Fidi_Cedenti_Plurimi
+c                             and (    F3PRFD <> $Entry_NrFid
+c                                  or  $Entry_NrFid = 0)
+c                   eval      AF_FDPRFD = F3PRFD
+c     AF_FDPRFD     setll     ANAFID7L
+c                   dou           %eof(ANAFID7L)
+c     AF_FDPRFD     reade     ANAFID7L                                      e passando da Anagrafe_Fidi_Cedenti
+c                   if            not %eof(ANAFID7L)
+c                             and AF_FDFLAG <> 'A'
+c                             and (    AF_FDPRFD <> $Entry_NrFid
+c                                  or  $Entry_NrFid = 0)
+c                   eval      £DataRevoca = AF_FDDRVS * 1000000
+c                                         + AF_FDDRVA * 10000
+c                                         + AF_FDDRVM * 100
+c                                         + AF_FDDRVG
+c                   eval      £DataScadenza = AF_FDDSCS * 1000000
+c                                           + AF_FDDSCA * 10000
+c                                           + AF_FDDSCM * 100
+c                                           + AF_FDDSCG
+c                   if            (    £DataRevoca = 0
+c                                  or  £DataRevoca > *date)
+c                             and (    £DataScadenza = 0
+c                                  or  £DataScadenza > *date)
+c                   leavesr                                                 << idem x Fidi_Cedenti_Plurimi
+c                   endif
+c                   endif
+c                   enddo
+c                   endif
+c                   enddo
+ *
+c                   eval      PLCED = £CheckCed
+c     PLCED         setll     POOLOG1L
+c                   dou           %eof(POOLOG1L)
+c     PLCED         reade     POOLOG1L
+c                   if            not %eof(POOLOG1L)
+c                             and PLTIPO = 'C'                              Tipo Operaz. C/S <== Boh
+c                   eval      PSCCED = PLCED
+c                   eval      PSCON1 = PLCON1n
+c                   eval      PSCON2 = PLCON2n
+c                   eval      PSCON3 = PLCON3n
+c     Key_POOLPS    setll     POOLPS6L
+c     Key_POOLPS    reade     POOLPS6L                                      Partitario_Saldi_Op.in.Pool
+c                   if            not %eof(POOLPS6L)
+c                             and (    PSSDIN <> 0                          Saldo Investment
+c                                  or  PSSDOS <> 0)                         Saldo OutStanding
+c                   leavesr                                                 << idem x Log_Variazioni_Conti/Condizioni_Operazioni_in_Pool
+c                   endif
+c     Key_POOLOG    setgt     POOLOG1L
+c                   endif
+c                   enddo
+ *
+c     £CheckCed     setll     SPEATT2L
+c                   do        *hival
+c     £CheckCed     reade     SPEATT2L
+c                   if        %eof
+c                   leave
+c                   endif
+c                   leavesr                                                 << idem x Add. Spese Post.,Istr.,WEB,Not. in attesa di erog.
+c                   enddo
+ *  Verifica esistenza spese fine mese
+c     £CheckCed     setll     ECVKEY2L
+c                   do        *hival
+c     £CheckCed     reade     ECVKEY2L
+c                   if        %eof
+c                   leave
+c                   endif
+c                   leavesr                                                 << idem x Calcolo Interessi - Interessi mensili effettivi
+c                   enddo
+ *
+c                   eval      £CheckCedOk = *on                             OK
+ *
+c                   endsr
+ **************************************************************************
+ *  Controllo se possibile annullare il rapporto £CheckCed-£CheckDeb
+c     CheckRap      begsr
+ *
+c                   eval      £CheckRapOk = *off
+ *
+c                   if            ARSALD <> 0                               Se Rapporto_Ced/Deb con Saldo_Out-Standing
+c                   leavesr                                                 << errore
+c                   endif
+ * Verifica esistenza interessi maturity
+c                   eval      TRA003_KPJBA = $Entry_KPJBA
+c                   clear                   TRA003_
+c                   eval      TRA003_Ced  = £CheckCed
+c                   eval      TRA003_Deb  = £CheckDeb
+c                   eval      TRA003_kpjbu = TRA003_
+c                   call      'TRA003'                                      chiama TRA003 con Cedente, Debitore
+c                   parm                    TRA003_KPJBA
+c                   eval      TRA003_ = TRA003_kpjbu
+c                   if        TRA003_found = '1'                            Se foundato
+c                   leavesr                                                    << errore
+c                   endif
+ *
+c                   eval      £CheckRapOk = *on
+ *
+c                   endsr
+ **************************************************************************
+ *  Controllo se possibile annullare il debitore £CheckDeb
+c     CheckDeb      begsr
+ *
+c                   eval      £CheckDebOk = *off
+ *
+c                   eval      AR_ARDEB = £CheckDeb
+c     AR_ARDEB      setll     ANARAP1L
+c                   dou           %eof(ANARAP1L)
+c     AR_ARDEB      reade     ANARAP1L
+c                   if            not %eof(ANARAP1L)                        Se il Debitore
+c                             and AR_ARFLAG <> 'A'                             ha rapporti validi
+c                             and AR_ARCED <> ARCED                               con altri Cedenti
+c                   leavesr                                                 << errore
+c                   endif
+c                   enddo
+ *
+c                   eval      FTDEB = £CheckDeb
+c     FTDEB         setll     FATTURQL
+c                   dou           %eof(FATTURQL)
+c     FTDEB         reade     FATTURQL
+c                   if            not %eof(FATTURQL)                        Se il Debitore ha Out-Standing
+c                             and FTFPAR <> 'P'                                non Pareggiato
+c                   leavesr                                                 <<
+c                   endif
+c                   enddo
+ *
+c                   eval      PDDEB = £CheckDeb
+c     PDDEB         chain     PONDEB2L
+c                   if            %found(PONDEB2L)                          Se il Debitore ha Partitario_Oneri_Debitori_Maturity
+c                   leavesr                                                 <<
+c                   endif
+ *
+c                   clear                   ANA014_
+c                   eval      ANA014_Deb = £CheckDeb
+c                   eval      ANA014_KPJBA = $Entry_KPJBA
+c                   eval      ANA014_KPJBU = ANA014_
+c                   call      'ANA014'      PL_ANA014                       chiama ANA014 con Debitore
+c                   eval      ANA014_ = ANA014_KPJBU
+c                   if            ANA014_Stat = 'A'                         Se Ha almeno un fido reale
+c                             or  ANA014_Stat = 'B'                            Il suo NDG ha almeno un fido reale e l'NDG non ha altri debitori
+c                             or  ANA014_Stat = 'C'                            Il suo gruppo ha almeno un fido reale e il gruppo non ha altri debitori
+c                             or  ANA014_Stat = 'D'                            Il suo NDG ha almeno un fido reale e l'NDG ha altri debitori
+c                             or  ANA014_Stat = 'E'                            Il suo gruppo ha almeno un fido reale e il gruppo ha altri debitori
+c                   leavesr                                                 <<
+c                   endif
+ *
+c                   eval      £CheckDebOk = *on                             OK
+ *
+c                   endsr
+ **************************************************************************
+ *  Controllo se possibile annullare il soggetto £CheckSog
+c     CheckSog      begsr
+ *
+c                   eval      £CheckSogOk = *off
+ *
+c                   eval      CICINT = £CheckSog
+c     CICINT        chain     AGCORI2L
+c                   if         %found(AGCORI2L)                             Se è un Cointestatario
+c                   leavesr                                                 <<
+c                   endif
+ *
+c                   eval      CSCOMP = £CheckSog
+c     CSCOMP        chain     AGCSOC2L
+c                   if         %found(AGCSOC2L)                             Se ha Legami_Societari
+c                   leavesr                                                 <<
+c                   endif
+ *
+c                   eval      COCANG = £CheckSog
+c     COCANG        chain     APPORI4L
+c                   if         %found(APPORI4L)                             Se ha "Appendice_Riferimenti_Cedente_Originario"
+c                   leavesr                                                 <<
+c                   endif
+ *
+c                   eval      RPCANG = £CheckSog
+c     RPCANG        setll     AGRAPP1L                                      Legge i Rapporti Anagrafe_Generale/Factoring
+c                   dou           %eof(AGRAPP1L)                            fino a End-of-File
+c                             or  (    RPFLAG <> 'A'                           o fino a trovare un record non annullato
+c                                  and (    RPCDRF <> £CheckCed                    e diverso da Inp_Cedente
+c                                       or  RPTRFA <> 'C'))                                o che non è un Cedente
+c     RPCANG        reade(n)  AGRAPP1L
+c                   enddo
+c                   if            not %eof(AGRAPP1L)                        Se ci riesce
+c                   leavesr                                                    << errore, insomma, se il Soggetto ha altri rapporti in essere...
+c                   endif
+ *
+c                   eval      FD_FDDEB  = 0
+c                   eval      FD_FDCANG = £CheckSog                            .- per il Soggetto -.
+c                   eval      FD_FDGRUP = *blank                               ¦                   ¦
+c     Key_FIDDEB4   setll     FIDDEB4L                                         ¦                   ¦
+c                   dou           %eof(FIDDEB4L)                               ¦                   ¦
+c     Key_FIDDEB4   reade(n)  FIDDEB4L                                         ¦                   ¦
+c                   if            not %eof(FIDDEB4L)                        Se-'                   '- ci sono Fidi_Debitori
+c                             and FD_FDFLAG <> 'A'                                                       validi
+c                   eval      £DataRevoca = FD_FDDRVS * 1000000
+c                                         + FD_FDDRVA * 10000
+c                                         + FD_FDDRVM * 100
+c                                         + FD_FDDRVG
+c                   eval      £DataScadenza = FD_FDDSCS * 1000000
+c                                           + FD_FDDSCA * 10000
+c                                           + FD_FDDSCM * 100
+c                                           + FD_FDDSCG
+c                   if            (    £DataRevoca = 0                                                   e non revocati
+c                                  or  £DataRevoca > *date)
+c                             and (    £DataScadenza = 0                                                   o scaduti
+c                                  or  £DataScadenza > *date)
+c                   leavesr                                                 <<
+c                   endif
+c                   endif
+c                   enddo
+ *
+c                   eval      FLCANG = £CheckSog
+c     FLCANG        setll     FIDDEL4L
+c                   dou           %eof(FIDDEL4L)
+c     FLCANG        reade     FIDDEL4L
+c                   if            not %eof(FIDDEL4L)                        idem partendo dall'"Anagrafe Fidi Debitori - Limitazioni"
+c                   eval      FD_FDPRFD = FLPRFD
+c                   eval      FD_FDCODF = FLCODF
+c     Key_FIDDEB    chain     FIDDEB3L                                      e passando ai Fidi_Debitori
+c                   if            %found(FIDDEB3L)
+c                             and FD_FDFLAG <> 'A'
+c                   eval      £DataRevoca = FD_FDDRVS * 1000000
+c                                         + FD_FDDRVA * 10000
+c                                         + FD_FDDRVM * 100
+c                                         + FD_FDDRVG
+c                   eval      £DataScadenza = FD_FDDSCS * 1000000
+c                                           + FD_FDDSCA * 10000
+c                                           + FD_FDDSCM * 100
+c                                           + FD_FDDSCG
+c                   if            (    £DataRevoca = 0
+c                                  or  £DataRevoca > *date)
+c                             and (    £DataScadenza = 0
+c                                  or  £DataScadenza > *date)
+c                   leavesr                                                 <<
+c                   endif
+c                   endif
+c                   endif
+c                   enddo
+ *
+c                   if            £OpenBKPART                               Per le Società vigilate
+c                   eval      PACANG = £CheckSog
+c     PACANG        chain     BKPART2L
+c                   if         %found(BKPART2L)                             verifica l'Archivio_Partecipazioni
+c                   leavesr                                                 <<
+c                   endif
+c                   endif
+ *
+c     £CheckSog     setll     ANARCL4L                                      Legge Anagrafe_Registro_Reclami
+c                   dou           %eof(ANARCL4L)                                  fino a End-of-File
+c                             or  (    RCDTRC <= *date                                 o con Data_ricezione_reclamo <= *Oggi (???)
+c                                  and (    RCDTCS = 0                                   e con Data_chiusura_reclamo > *Oggi (???)
+c                                       or  RCDTCS > *date))
+c     £CheckSog     reade     ANARCL4L
+c                   enddo
+c                   if            not %eof(ANARCL4L)                        Se ci riesce (???)
+c                   leavesr                                                 << errore
+c                   endif
+ *
+c                   eval      £CheckSogOk = *on                             OK
+ *
+c                   endsr
+ **************************************************************************
+ *  Annullamento anagrafica cedente ed archivi collegati
+c     UpdateFiles   begsr
+ *
+c                   eval      £UpdateFido = *off
+c                   clear                   £Fidi
+c                   clear                   £iFidi
+ * Annullamento anagrafica cedente (START)
+c                   eval      ACCED = $Entry_Ced
+c     ACCED         chain     ANACED1L
+c                   if            %found(ANACED1L)                          Se RiTrova il Cedente
+c                   eval      ACFLAG = 'A'                                     A-nnullato
+c                   eval      ACNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      ACDUPD = *date                                   *Oggi <-- AAAAMMGG
+c                   eval      ACUUPD = $Entry_KNMUS                            *Utente
+c                   update    ANACED1R                                      <<
+c                   endif
+ * Annullamento autorizzazioni internet
+c                   eval      KKCED = ACCED
+c                   eval      KKDEB = 0
+c     Key_AUTINT    chain     AUTINT1L
+c                   if            %found(AUTINT1L)                          Se Trovato
+c                   eval      AUFLAG = 'A'                                     A-nnullato
+c                   eval      AUDUPD = udate                                   *Oggi <-- AAMMGG
+c                   update    AUTINT1R                                      <<
+ * Annullamento dati dipendenti dall'abilitazione internet
+c                   clear                   STD061_
+c                   eval      STD061_Ced = ACCED
+c                   eval      STD061_KPJBA = $Entry_KPJBA
+c                   eval      STD061_Flag ='A'
+c                   eval      STD061_KPJBU = STD061_
+c                   call      'STD061'      PL_STD061
+c                   endif
+ *
+c     ACCED         chain     DECCED0F
+c                   if            %found(DECCED0F)                          Se Trovato
+c                   eval      ACFLAG = 'A'                                     A-nnullato
+c                   eval      ACDTAN = *date                                   *Oggi
+c                   update    DECCED1R                                      <<
+c                   endif
+ * Annullamento anagrafica cedente (END)
+ * Annullamento archivio allineamento elettronico RID (START)
+c                   time                    $Time             6 0
+c     ACCED         setll     STOAEA2L
+c                   dou           %eof(STOAEA2L)
+c     ACCED         reade     STOAEA2L                                      Legge tutti i record a parità di Cendete
+c                   if            not %eof(STOAEA2L)                        Se Trovato
+c                             and SAFLAG <> 'A'                              e non annullato
+c                   eval      SAFLAG = 'A'                                     A-nnullato
+c                   eval      SANAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      SAUUPD = $Entry_KNMUS                            *Utente
+c                   eval      SADUPD = *date                                   *Oggi
+c                   eval      SATUPD = $Time                                *Ora
+c                   update    STOAEA2R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento archivio allineamento elettronico RID (END)
+ * Annullamento rapporti factoring cedente (START)
+c                   eval      RPTRFA = 'C'
+c                   eval      RPCDRF = ACCED
+c     Key_AGRAPP2   chain     AGRAPP2L
+c                   if            %found(AGRAPP2L)                          Se Trovato
+c                             and RPFLAG <> 'A'                              e valido
+c                   eval      RPFLAG = 'A'                                     A-nnullato
+c                   eval      RPNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RPDUPD = %rem(*date:1000000)                     *Oggi <-- AAMMGG, ma in modo estroso
+c                   time                    RPHEXE                             *Ora
+c                   eval      RPUSER = $Entry_KNMUS                            *Utente
+c                   update    AGRAPP2R                                      <<
+c                   endif
+ * Annullamento rapporti factoring cedente (END)
+ * Annullamento anagrafica conti (START)
+c                   eval      CCCED = ACCED
+c     CCCED         setll     ANACON2L
+c                   dou           %eof(ANACON2L)
+c     CCCED         reade     ANACON2L                                      Legge a parità di Cedente
+c                   if            not %eof(ANACON2L)                        Se Trovato
+c                   eval      CCDUPD = %rem(*date:1000000)                     *Oggi
+c                   eval      CCUUPD = $Entry_KNMUS                            *Utente
+c                   eval      CCFLAG = 'A'                                     A-nnullato
+c                   update    ANACON1R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento anagrafica conti (END)
+ * Annullamento relazione Fidi-Rapporti (START)
+c                   eval      RRCED = ACCED
+c     RRCED         setll     REFIRA1L
+c                   dou           %eof(REFIRA1L)
+c     RRCED         reade     REFIRA1L                                      Legge a parità di Cedente
+c                   if            not %eof(REFIRA1L)                        Se Trovato
+c                   eval      RRFLAG = 'A'                                     A-nnullato
+c                   eval      RRNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RRUSER = $Entry_KNMUS                            *Utente
+c                   eval      RRDUPD = *date                                   *Oggi
+c                   update    REFIRA1R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento relazione Fidi-Rapporti (END)
+ * Annullamento relazione Fidi-Conti (START)
+c                   eval      RCCED = ACCED
+c     RCCED         setll     REFICO1L
+c                   dou           %eof(REFICO1L)
+c     RCCED         reade     REFICO1L                                      Legge a parità di Cedente
+c                   if            not %eof(REFICO1L)                        Se Trovato
+c                   eval      RCFLAG = 'A'                                     A-nnullato
+c                   eval      RCNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RCUSER = $Entry_KNMUS                            *Utente
+c                   eval      RCDUPD = %rem(*date:1000000)                     *Oggi
+c                   update    REFICO1R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento relazione Fidi-Conti (END)
+ * Annullamento DECRAP (START)
+c                   eval      ARCED = ACCED
+c     ARCED         setll     DECRAP0F
+c                   dou           %eof(DECRAP0F)
+c     ARCED         reade     DECRAP0F                                      Legge a parità di Cedente
+c                   if            not %eof(DECRAP0F)                        Se Trovato
+c                             and ARFLAG <> 'A'                              e non annullato
+c                   eval      ARFLAG = 'A'                                     A-nnullato
+c                   eval      ARDTAN = *date                                   *Oggi
+c                   update    DECRAP1R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento DECRAP (END)
+ * Annullamento legami Garanzie-Cedente (START)
+c                   eval      GLCED = ACCED
+c     GLCED         setll     GARREL3L
+c                   dou           %eof(GARREL3L)
+c     GLCED         reade     GARREL3L                                      Legge a parità di Cedente
+c                   if            not %eof(GARREL3L)                        Se Trovato
+c                   eval      £ExGARREL = £GARREL                              Salva record
+c                   eval      GLFLAG = 'A'                                     A-nnullato
+c                   eval      GLNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GLDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GLHEXE                             *Ora
+c                   eval      GLUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARREL <> £ExGARREL                      Se record_letto <> record_salvato
+c                             and %lookup(GLNRGA:£Gar) <= 0                  e Nbr_Garanzia non è in schiera £Gar
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GLNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)                       Se c'è ancora spazio in £Gar
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GLNRGA                             e cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARREL3R                                      <<
+ * Annullamento garanzia se rimasta senza legami (START)
+c                   eval      GRCANG = *blank
+ *
+c     GLNRGA        setll     GARREL1L                                      Si posiziona
+c                   dou           %eof(GARREL1L)
+c                             or  GLFLAG <> 'A'
+c     GLNRGA        reade     GARREL1L                                      legge il primo record valido
+c                   enddo
+c                   if            %eof(GARREL1L)                            Se non Trovato
+c                   eval      GRNRGA = GLNRGA                               con il Nbr_Garanzia
+c     GRNRGA        chain     GARRIC1L                                      legge GarRic1L
+c                   if            %found(GARRIC1L)                          Se Trovato
+c                             and GRFLAG <> 'A'                              a non Annullato
+c                   eval      £ExGARRIC = £GARRIC                              salva il record
+c                   eval      GRFLAG = 'A'                                     A-nnullato
+c                   eval      GRNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GRDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GRHEXE                             *Ora
+c                   eval      GRUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARRIC <> £ExGARRIC                      Se record_letto <> record_salvato
+c                             and %lookup(GRNRGA:£Gar) <= 0                  e Nbr_Garanzia non è in schiera £Gar
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GRNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)                       Se c'è ancora spazio in £Gar
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GRNRGA                             e cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARRIC1R                                      <<
+ *
+c     GRNRGA        setll     GARPPQ1L                                      con Nbr_Garanzia
+c                   dou           %eof(GARPPQ1L)
+c     GRNRGA        reade     GARPPQ1L                                      legge Percentuale_Pro_Quota
+c                   if            not %eof(GARPPQ1L)                        Se Trovato
+c                             and PQFLAG <> 'A'                              a non Annullato
+c                   eval      PQFLAG = 'A'                                     A-nnullato
+c                   eval      PQNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      PQDUPD = *date                                   *Oggi
+c                   time                    PQTUPD                             *Ora
+c                   eval      PQUUPD = $Entry_KNMUS                            *Utente
+c                   update    GARPPQ1R                                      <<
+c                   endif
+c                   enddo
+ *
+c                   exsr      $AnnSogRapRUA                                 esegue
+c                   endif
+c                   endif
+ * Annullamento garanzia se rimasta senza legami (END)
+ * Annullamento AGRAPP se garante non più legato a garanzie (START)
+c                   if            GRCANG <> *blank                          Se NDG
+c     GRCANG        setll     GARRIC2L                                      si posiziona
+c                   dou           %eof(GARRIC2L)
+c                             or  GRFLAG <> 'A'
+c     GRCANG        reade     GARRIC2L                                      legge il primo valido
+c                   enddo
+c                   if            %eof(GARRIC2L)                            Se non ci riesce
+c                   eval      RPTRFA = 'G'
+c                   eval      RPCANG = GRCANG
+c     Key_AGRAPP    chain     AGRAPP1L                                      Legge rapporto per Garante
+c                   if            %found(AGRAPP1L)                          Se Trovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                   eval      RPFLAG = 'A'                                     A-nnullato
+c                   eval      RPNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RPDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    RPHEXE                             *Ora
+c                   eval      RPUSER = $Entry_KNMUS                            *Utente
+c                   update    AGRAPP1R                                      <<
+c                   EXSR      AGARIN                                        esegue
+c                   endif
+c                   endif
+c                   endif
+ * Annullamento AGRAPP se garante non più legato a garanzie (END)
+c                   endif
+c                   enddo
+ * Annullamento legami Garanzie-Cedente (END)
+ * Annullamento legami Garanzie-Fidi (START)
+c     ACCED         setll     ANAFID8L
+c                   dou           %eof(ANAFID8L)
+c     ACCED         reade     ANAFID8L                                      legge per Cedente
+c                   if            not %eof(ANAFID8L)                        Se Trovato
+c                   eval      £AnnulGarFid = AF_FDPRFD                      con Nbr_Progressivo_Fido
+c                   exsr      AnnulGarFid                                   esegue
+c                   endif
+c                   enddo
+ *
+c     ACCED         setll     ANAFI34L
+c                   dou           %eof(ANAFI34L)
+c     ACCED         reade     ANAFI34L                                      legge per Cedente
+c                   if            not %eof(ANAFI34L)                        Se Trovato
+c     F3PRFD        chain     ANAFID7L                                      legge AnaFid7L
+c                   if            %found(ANAFID7L)                          Se Trovato
+c                   eval      £AnnulGarFid = AF_FDPRFD                      con Nbr_Progressivo_Fido
+c                   exsr      AnnulGarFid                                   esegue
+c                   endif
+c                   endif
+c                   enddo
+ * Annullamento legami Garanzie-Fidi (END)
+ * Annullamento addebiti d'iniziativa (START)
+c                   eval      WCCED = ACCED
+c     WCCED         setll     WAICED1L
+c                   dou           %eof(WAICED1L)
+c     WCCED         reade     WAICED1L                                      legge per Cedente
+c                   if            not %eof(WAICED1L)                        Se Trovato
+c                             and WCFLAG <> 'A'                              e non annullato
+c                   eval      WCFLAG = 'A'                                     A-nnullato
+c                   eval      WCNMUS = $Entry_KNMUS                            *Utente
+c                   update    WAICED0R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento addebiti d'iniziativa (END)
+ * Annullamento limitazioni cedente su fidi debitore (START)
+c                   eval      £ExFLPRFD = *loval                            Inizializza
+c                   eval      FLCED = ACCED
+c     FLCED         setll     FIDDEL8L
+c                   dou           %eof(FIDDEL8L)
+c     FLCED         reade     FIDDEL8L                                      Legge per Cedente
+c                   if            not %eof(FIDDEL8L)                        Se Trovato
+c                             and FLFLAG <> 'A'                              e non annullato
+c                             and FLDEB = 0                                  e senza Cde_Debitore
+c                   eval      FLFLAG = 'A'                                     A-nnullato
+c                   eval      FLNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      FLUUPD = $Entry_KNMUS                            *Utente
+c                   eval      FLDUPD = *date                                   *Oggi
+c                   update    FIDDEL8R                                      <<
+c                   if            FLPRFD <> £ExFLPRFD                       Se FLPRFD_letto <> FLPRFD_inizializzato
+c                             and %lookup(FLPRFD:£Fidi:1:£iFidi) <= 0        e Nbr_Progressivo_Fido non è in £Fidi
+c                   eval      £iFidi = £iFidi + 1                              +1
+c                   eval      £Fidi(£iFidi) = FLPRFD                           e cataloga
+c                   endif
+c                   eval      £ExFLPRFD = FLPRFD                            Salva FLPRFD
+c                   endif
+c                   enddo
+ * Annullamento limitazioni cedente su fidi debitore (END)
+ * Annullamento interfaccia antiriciclaggio x cedente (START)
+c                   clear                   RRA010_
+c                   eval      RRA010_Ced = ACCED
+c                   eval      RRA010_KPJBA = $Entry_KPJBA
+c                   eval      RRA010_KPJBU = RRA010_
+c                   call      'RRA010'      PL_RRA010                       chiama RRA010
+ *
+c                   call      'STD131'                                      chiama STD131
+c                   parm                    $Entry_KPJBA
+c                   parm                    ££abil            1
+c                   if        ££abil = '1'                                  se utente abilitato
+c                   clear                   RRA024_
+c                   eval      RRA024_Sog = 'CED' + %editc(ACCED:'X')
+c                   eval      RRA024_Rap = 'CED' + %editc(ACCED:'X')
+c                   eval      RRA024_Far = 'A'
+c                   eval      RRA024_KPJBA = $Entry_KPJBA
+c                   eval      RRA024_KPJBU = RRA024_
+c                   call      'RRA024'      PL_RRA024                       chiama RRA024
+c                   endif
+ * Annullamento interfaccia antiriciclaggio x cedente (END)
+ * Annullamento anagrafica rapporti (START)
+c                   eval      ARCED = ACCED
+c     ARCED         setll     ANARAP2L
+c                   dou           %eof(ANARAP2L)
+c     ARCED         reade     ANARAP2L                                      legge per Cedente
+c                   if            not %eof(ANARAP2L)                        Se Trovato
+c                             and ARFLAG <> 'A'                              e non annullato
+ *
+c                   exsr      InzStoRap                                     esegue
+c                   eval      £UpdateFido = *on
+c                   eval      ARFLAG = 'A'                                     A-nnullato
+c                   eval      ARDUPD = *date                                   *Oggi
+c                   eval      ARUUPD = $Entry_KNMUS                            *Utente
+c                   eval      ARIFPD = 0                                       Val Fido PDO (/1000)
+c                   eval      ARIFPT = 0                                       Val Fido PTO (/1000)
+c                   update    ANARAP2R                                      <<
+c                   write     STORAP1R                                      <<
+ * Annullamento WKANAR (START)
+c                   eval      WK_RRDEB = ARDEB
+c                   eval      WK_RRCED = ARCED
+c     Key_WKANAR    chain     WKANAR1L                                      Legge con Debitore/Cedente
+c                   if            %found(WKANAR1L)                          Se Trovato
+c                   eval      FCFACT = WK_RRFACT                               Cde Cessionario
+c                   eval      FCCED = WK_RRCED                                 Cde Cedente
+c                   eval      FCDEB = WK_RRDEB                                 Cde Debitore
+c     Key_FATCTC    chain     FATCTC9L                                      Legge con
+c                   if            not %found(FATCTC9L)                      Se non Trovato FATCTC
+c                   delete    WKANAR1R                                      deleta WKANAR
+c                   endif
+c                   endif
+ * Annullamento WKANAR (END)
+ * Annullamento RAC (START)
+ *    In data 13/11/2013 è stato ripristinato l'annullamento del RAC (al    Imperdibile!!!
+ *    posto della revoca) per uniformarlo agli altri programmi di annul-
+ *    lamento dei rapporti.
+ *    Il programma TRA346 funziona comunque correttamente in quanto per
+ *    RAC annullato stampa la stessa lettera della revoca.
+ *    La modifica è stata discussa con Fabio e Antonella.
+c                   eval      £LastNRac = *loval
+c                   eval      RTCED = ARCED
+c                   eval      RTDEB = ARDEB
+c     Key_RAPPTO    setll     RAPPTO1L
+c                   dou           %eof(RAPPTO1L)
+c     Key_RAPPTO    reade     RAPPTO1L                                      Legge per Cedente/Debitore
+c                   if            not %eof(RAPPTO1L)                        Se Trovato
+c                             and RTFLAG <> 'A'                              e non annullato
+c                   eval      §§oper = '1'                                                 .-> con 1=Salva RAPPTO in STORPT
+c                   call      'TRA002'      PL_TRA002                       chiama TRA002 -'
+c                   eval      RTFLAG = 'A'                                     A-nnullato
+c                   eval      RTNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RTUUPD = $Entry_KNMUS                            *Utente
+c                   eval      RTDUPD = *date                                   *Oggi
+c                   update    RAPPTO1R                                      <<
+c                   eval      £UpdateFido = *on
+c                   eval      §§oper = '2'                                                 .-> con 2=Verifica variaz.
+c                   call      'TRA002'      PL_TRA002                       chiama TRA002 -'
+c                   if            §§vari = '1'                              Se 1=Variato
+c                   eval      RZ$AZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RZ$USI = $Entry_KNMUS                            *Utente
+c                   eval      RZ$DIN = *date                                   *Oggi
+c                   write     STORPT1R                                      Scrive StoRpt0F
+c                   endif
+ *
+c                   if            §§vari = '1'                              Se 1=Variato
+c                   if            RTTRAC = 'S'                                 Se Cde_Tipo_RAC_PTO
+c                   clear                   TRA346_
+c                   eval      TRA346_Ced  = RTCED
+c                   eval      TRA346_Deb  = RTDEB
+c                   eval      TRA346_NRac = RTNRAC
+c                   eval      TRA346_Mode = '2'
+c                   eval      TRA346_KPJBA = $Entry_KPJBA
+c                   eval      TRA346_KPJBU = TRA346_
+c                   call      'TRA346'      PL_TRA346                       chiama TRA346
+c                   else                                                       Se Cde_Tipo_RAC_PTO <> 'S'
+c                   eval      £LastNRac = RTNRAC                            salva Nbr_RAC_PTO
+c                   endif
+c                   endif
+ *
+c                   endif
+c                   enddo
+ *
+c                   if            £LastNRac <> *loval                       Se salvato Nbr_RAC_PTO
+c                   clear                   TRA346_
+c                   eval      TRA346_Ced  = ARCED
+c                   eval      TRA346_Deb  = ARDEB
+c                   eval      TRA346_NRac = £LastNRac
+c                   eval      TRA346_Mode = '2'
+c                   eval      TRA346_KPJBA = $Entry_KPJBA
+c                   eval      TRA346_KPJBU = TRA346_
+c                   call      'TRA346'      PL_TRA346                       chiama TRA346
+c                   endif
+ * Annullamento RAC (END)
+ * Annullamento appendice rapporto (START)
+c                   eval      PRDEB = ARDEB
+c                   eval      PRCED = ARCED
+c     Key_APPRAP    setll     APPRAP1L
+c                   dou           %eof(APPRAP1L)
+c     Key_APPRAP    reade     APPRAP1L                                      Legge AppRap1L per Debitore/Cedente
+c                   if            not %eof(APPRAP1L)                        S Trovato
+c                   eval      PRFLAG = 'A'                                     A-nnullato
+c                   eval      PRDUPD = %rem(*date:1000000)                     *Oggi
+c                   update    APPRAP1R                                      <<
+c                   endif
+c                   enddo
+ * Annullamento appendice rapporto (END)
+c                   eval      £CheckDebOk = *off
+c                   eval      £CheckDeb = ARDEB
+c                   exsr      CheckDeb                                      esegue
+c                   if            £CheckDebOk                               Se ...OK
+ * Annullamento anagrafica debitore (START)
+c                   eval      ADDEB = ARDEB
+c     ADDEB         chain     ANADEB1L                                      Legge Debitore
+c                   if            %found(ANADEB1L)                          Se Trovato
+c                   eval      ADFLAG = 'A'                                     A-nnullato
+c                   eval      ADNUMA = $Entry_KNRAZ                            [omissis]
+c                   eval      ADDUPD = *date                                   *Oggi
+c                   eval      ADUUPD = $Entry_KNMUS                            *Utente
+c                   update    ANADEB1R                                      <<
+c                   endif
+ *
+c                   eval      AD_PDDEB = ADDEB
+c     AD_PDDEB      chain     APPDEB1L                                      Legge AppDeb1L
+c                   if            %found(APPDEB1L)                          Se Trovato
+c                   eval      AD_PDFLAG = 'A'                                  A-nnullato
+c                   eval      AD_PDNAZN = $Entry_KNRAZ                         [omissis]
+c                   eval      AD_PDDUPD = %rem(*date:1000000)                  *Oggi
+c                   update    APPDEB1R                                      <<
+c                   endif
+ *
+c                   time                    $Time             6 0
+c     ADDEB         setll     STOAEA3L
+c                   dou           %eof(STOAEA3L)
+c     ADDEB         reade     STOAEA3L                                      Legge per Debitore
+c                   if            not %eof(STOAEA3L)                        Se Trovato
+c                             and SAFLAG <> 'A'                              e non annullato
+c                   eval      SAFLAG = 'A'                                     A-nnullato
+c                   eval      SANAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      SAUUPD = $Entry_KNMUS                            *Utente
+c                   eval      SADUPD = *date                                   *Oggi
+c                   eval      SATUPD = $Time                                   *Ora
+c                   update    STOAEA3R                                      <<
+c                   endif
+c                   enddo
+ *
+c     ADDEB         chain     DECDEB0F
+c                   if            %found(DECDEB0F)                          Se Trovato
+c                   eval      ADFLAG = 'A'                                     A-nnullato
+c                   eval      ADDTAN = *date                                   *Oggi
+c                   update    DECDEB1R                                      <<
+c                   endif
+ * Annullamento anagrafica debitore (END)
+ * Annullamento rapporti factoring debitore (START)
+c                   eval      RPTRFA = 'D'
+c                   eval      RPCDRF = ADDEB
+c     Key_AGRAPP2   chain     AGRAPP2L                                      Cerca Rapporti Debitore
+c                   if            %found(AGRAPP2L)                          Se Trovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                   eval      RPFLAG = 'A'                                     A-nnullato
+c                   eval      RPNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RPDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    RPHEXE                             *Ora
+c                   eval      RPUSER = $Entry_KNMUS                            *Utente
+c                   update    AGRAPP2R                                      <<
+c                   endif
+ * Annullamento rapporti factoring debitore (END)
+ * Annullamento legami Garanzie-Debitore (START)
+c                   eval      GLDEB = ADDEB
+c     GLDEB         setll     GARREL4L
+c                   dou           %eof(GARREL4L)
+c     GLDEB         reade     GARREL4L                                      legge per Debitore
+c                   if            not %eof(GARREL4L)                        Se Trovato
+c                   eval      £ExGARREL = £GARREL                           Salva
+c                   eval      GLFLAG = 'A'                                     A-nnullato
+c                   eval      GLNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GLDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GLHEXE                             *Ora
+c                   eval      GLUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARREL <> £ExGARREL                      Se Record_letto <> Record_salvato
+c                             and %lookup(GLNRGA:£Gar) <= 0                  e Nbr_Garanzia non è in schiera £Gar
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GLNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)                       Se Nbr_Garanzia non è in £Gar
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GLNRGA                             e cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARREL4R
+ * Annullamento garanzia se rimasta senza legami (START)
+c                   eval      GRCANG = *blank
+ *
+c     GLNRGA        setll     GARREL1L
+c                   dou           %eof(GARREL1L)
+c                             or  GLFLAG <> 'A'
+c     GLNRGA        reade     GARREL1L                                      cerca il primo valido
+c                   enddo
+c                   if            %eof(GARREL1L)                            Se non Trovato
+c                   eval      GRNRGA = GLNRGA
+c     GRNRGA        chain     GARRIC1L                                      Legge GarRic1L
+c                   if            %found(GARRIC1L)                          Se Trovato
+c                             and GRFLAG <> 'A'                              e non annullato
+c                   eval      £ExGARRIC = £GARRIC                           salva
+c                   eval      GRFLAG = 'A'                                     A-nnullato
+c                   eval      GRNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GRDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GRHEXE                             *Ora
+c                   eval      GRUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARRIC <> £ExGARRIC                      Se record_letto <> record_salvato
+c                             and %lookup(GRNRGA:£Gar) <= 0                  e Nbr_Garanzia non è in schiera £Gar
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GRNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)                       Se Nbr_Garanzia non è in £Gar
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GRNRGA                             e cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARRIC1R                                      <<
+ *
+c     GRNRGA        setll     GARPPQ1L
+c                   dou           %eof(GARPPQ1L)
+c     GRNRGA        reade     GARPPQ1L                                      legge tutto GarPpq con Nbr_Garanzia
+c                   if            not %eof(GARPPQ1L)                        Se Trovato
+c                             and PQFLAG <> 'A'                              e non annullato
+c                   eval      PQFLAG = 'A'                                     A-nnullato
+c                   eval      PQNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      PQDUPD = *date                                   *Oggi
+c                   time                    PQTUPD                             *Ora
+c                   eval      PQUUPD = $Entry_KNMUS                            *Utente
+c                   update    GARPPQ1R                                      <<
+c                   endif
+c                   enddo
+ *
+c                   exsr      $AnnSogRapRUA                                 esegue
+c                   endif
+c                   endif
+ * Annullamento garanzia se rimasta senza legami (END)
+ * Annullamento AGRAPP se garante non più legato a garanzie (START)
+c                   if            GRCANG <> *blank                          Se NDG di GarRic1L
+c     GRCANG        setll     GARRIC2L
+c                   dou           %eof(GARRIC2L)
+c                             or  GRFLAG <> 'A'
+c     GRCANG        reade     GARRIC2L                                      cerca il primo valido
+c                   enddo
+c                   if            %eof(GARRIC2L)                            Se non trovato
+c                   eval      RPCANG = GRCANG
+c                   eval      RPTRFA = 'G'
+c     Key_AGRAPP    chain     AGRAPP1L                                      legga Rapporti per Garante
+c                   if            %found(AGRAPP1L)                          Se Trovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                   eval      RPFLAG = 'A'                                     A-nnullato
+c                   eval      RPNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RPDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    RPHEXE                             *Ora
+c                   eval      RPUSER = $Entry_KNMUS                            *Utente
+c                   update    AGRAPP1R                                      <<
+c                   EXSR      AGARIN                                        esegue
+c                   endif
+c                   endif
+c                   endif
+ * Annullamento AGRAPP se garante non più legato a garanzie (END)
+c                   endif
+c                   enddo
+ * Annullamento legami Garanzie-Debitore (END)
+ * Annullamento limitazioni debitore su fidi debitore (START)
+c                   eval      £ExFLPRFD = *loval                            Inizializza
+c                   eval      FLDEB = ADDEB
+c     FLDEB         setll     FIDDEL7L
+c                   dou           %eof(FIDDEL7L)
+c     FLDEB         reade     FIDDEL7L                                      Legge per Debitore
+c                   if            not %eof(FIDDEL7L)                        Se Trovato
+c                             and FLFLAG <> 'A'                              e non annullato
+c                             and FLCED = 0                                  e non c'è Cedente
+c                   eval      FLFLAG = 'A'                                     A-nnullato
+c                   eval      FLNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      FLUUPD = $Entry_KNMUS                            *Utente
+c                   eval      FLDUPD = *date                                   *Oggi
+c                   update    FIDDEL7R                                      <<
+c                   if            FLPRFD <> £ExFLPRFD                       Se FLPRFD_letto <> FLPRFD_inizializzato
+c                             and %lookup(FLPRFD:£Fidi:1:£iFidi) <= 0        e non in schiera
+c                   eval      £iFidi = £iFidi + 1                              +1
+c                   eval      £Fidi(£iFidi) = FLPRFD                           e cataloga
+c                   endif
+c                   eval      £ExFLPRFD = FLPRFD                            salva
+c                   endif
+c                   enddo
+ * Annullamento limitazioni debitore su fidi debitore (END)
+ * Annullamento fidi debitore (START)
+c                   eval      FD_FDDEB  = ADDEB
+c                   eval      FD_FDCANG = *blank
+c                   eval      FD_FDGRUP = *blank
+c     Key_FIDDEB4   setll     FIDDEB4L
+c                   dou           %eof(FIDDEB4L)
+c     Key_FIDDEB4   reade     FIDDEB4L                                      Legge tutto FidDeb per Debitoe
+c                   if            not %eof(FIDDEB4L)                        Se Trovato
+c                             and FD_FDFLAG <> 'A'                           e non annullato
+c                             and FD_FDSTAT <> 'R'                           e Cde_Stato_del_Fido <> 'R'
+ *
+c                   eval      FD_FDNAZN = $Entry_KNRAZ                         [omissis]
+c                   eval      FD_FDUUPD = $Entry_KNMUS                         *Utente
+c                   eval      FD_FDDUPD = %rem(*date:1000000)                  *Oggi
+c                   eval      FD_FDSTAT = 'R'                                  Revoca
+c                   eval      £SystemDate = *date
+c                   eval      FD_FDDRVS = £SDSs                                Dte Revoca Fido = *Oggi
+c                   eval      FD_FDDRVA = £SDAa
+c                   eval      FD_FDDRVM = £SDMm
+c                   eval      FD_FDDRVG = £SDGg
+c                   eval      FD_FDDTVS = *date                                Dte Variazione stato fido
+c                   update    FIDDEB4R                                      <<
+ * Aggiornamento storico fidi debitore (START)
+c                   clear                   STFIDE1R
+c                   eval      £STFIDE1 = £FIDDEB1                           Valorizza, a blocchi,
+c                   eval      £STFIDE2 = £FIDDEB2                           StFiDe da FidDeb
+c                   eval      F5DTCO = *date                                   + *Oggi
+c                   eval      F5CAZE = 'Z'                                     e "Z"
+c                   write     STFIDE1R                                      <<
+ * Aggiornamento storico fidi debitore (END)
+c                   endif
+c                   enddo
+ * Annullamento fidi debitore (END)
+ * Annullamento interfaccia antiriciclaggio x debitore (START)
+c                   clear                   RRA024_
+c                   eval      RRA024_Sog = 'DEB' + %editc(ADDEB:'X')
+c                   eval      RRA024_Rap = 'DEB' + %editc(ADDEB:'X')
+c                   eval      RRA024_Far = 'A'
+c                   eval      RRA024_KPJBA = $Entry_KPJBA
+c                   eval      RRA024_KPJBU = RRA024_
+c                   call      'RRA024'      PL_RRA024                       chiama RRA024
+ * Annullamento interfaccia antiriciclaggio x debitore (END)
+c                   endif
+ * Aggiornamento fido debitore (START)
+c                   if            £UpdateFido
+c                   clear                   TCA373_
+c                   eval      TCA373_Op = '1'
+c                   eval      TCA373_Ced = ARCED
+c                   eval      TCA373_Deb = ARDEB
+c                   eval      TCA373_ShowV = *on
+c                   eval      TCA373_KPJBA = $Entry_KPJBA
+c                   eval      TCA373_KPJBU = TCA373_
+c                   call      'TCA373'      PL_TCA373                       chiama TCA373
+c                   endif
+ * Aggiornamento fido debitore (END)
+c                   endif
+c                   enddo
+ * Annullamento anagrafica rapporti (END)
+c                   eval      £CheckSogOk = *off
+c                   eval      RPTRFA = 'C'
+c                   eval      RPCDRF = ACCED
+c     Key_AGRAPP2   chain(n)  AGRAPP2L                                      legge Rapporti per cedente
+c                   if            %found(AGRAPP2L)                          Se Trovato
+c                   eval      £CheckSog = RPCANG
+c                   eval      £CheckCed = ACCED
+c                   exsr      CheckSog                                      esegue
+c                   endif
+c                   if            £CheckSogOk                               Se OK
+c                   if            MISSAB <> 'S'                             Se Società_Abilitata_MIS
+ * Annullamento anagrafe generale (START)
+c                   select
+ *
+c                   when          %subst(£CheckSog:1:1) = 'P'               Se Persona_Fisica
+c                   eval      PFCANG = £CheckSog
+c     PFCANG        chain     AGPERF1L
+c                   if            %found(AGPERF1L)                          Se Trovato
+c                             and PFFLAG <> 'A'                              e non annullato
+c                   eval      PFFLAG = 'A'                                     A-nnullato
+c                   eval      PFNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      PFDUPD = *date                                   *Oggi
+c                   time                    PFHEXE                             *Ora
+c                   eval      PFUSER = $Entry_KNMUS                            *Utente
+c                   update    AGPERF1R                                      <<
+ *   Annullamneto PEFTAB
+c                   eval      p_PTFILE = 'AGPERF0F'
+c                   eval      p_PTKIA1 = PFCANG
+c                   callp     annPEF($Entry_KPJBA:p_PTFILE:p_PTKIA1)        chiama AnnPef
+c                   endif
+ *
+c                   when          %subst(£CheckSog:1:1) = 'N'               Se Società
+c                   eval      IMCANG = £CheckSog
+c     IMCANG        chain     AGSNPF1L
+c                   if            %found(AGSNPF1L)                          Se Trovato
+c                             and IMFLAG <> 'A'                              e non annullato
+c                   eval      IMFLAG = 'A'                                     A-nnullato
+c                   eval      IMNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      IMDUPD = *date                                   *Oggi
+c                   time                    IMHEXE                             *Ora
+c                   eval      IMUSER = $Entry_KNMUS                            *Utente
+c                   update    AGSNPF1R                                      <<
+ *   Annullamneto PEFTAB
+c                   eval      p_PTFILE = 'AGSNPF0F'
+c                   eval      p_PTKIA1 = IMCANG
+c                   callp     annPEF($Entry_KPJBA:p_PTFILE:p_PTKIA1)        chiama AnnPef
+c                   endif
+ *
+c                   when          %subst(£CheckSog:1:1) = 'C'               Se Cointestazione
+c                   eval      CECANG = £CheckSog
+c     CECANG        chain     AGCONE1L
+c                   if            %found(AGCONE1L)                          Se Trovato
+c                             and CEFLAG <> 'A'                              e non annullato
+c                   eval      CEFLAG = 'A'                                     A-nnullato
+c                   eval      CENAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      CEDUPD = *date                                   *Oggi
+c                   time                    CEHEXE                             *Ora
+c                   eval      CEUSER = $Entry_KNMUS                            *Utente
+c                   update    AGCONE1R                                      <<
+c                   endif
+c                   eval      CICINZ = £CheckSog
+c     CICINZ        setll     AGCORI1L
+c                   dou           %eof(AGCORI1L)
+c     CICINZ        reade     AGCORI1L                                      Legge Contestatari
+c                   if            not %eof(AGCORI1L)                        Se Trovato
+c                   eval      CIFLAG = 'A'                                     A-nnullato
+c                   eval      CINAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      CIDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    CIHEXE                             *Ora
+c                   eval      CIUSER = $Entry_KNMUS                            *Utente
+c                   update    AGCORI1R                                      <<
+c                   endif
+c                   enddo
+ *
+c                   endsl
+ *
+c                   eval      NINDG = £CheckSog
+c     NINDG         chain     NDGIES1L                                      NDG_da_Includere/Escludere_Attività_Deteriorate
+c                   if            %found(NDGIES1L)                          Se Trovato
+c                             and NIFLAG <> 'A'                              e non annullato
+c                   eval      NIFLAG = 'A'                                     A-nnullato
+c                   eval      NINAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      NIUUPD = $Entry_KNMUS                            *Utente
+c                   eval      NIDUPD = *date                                   *Oggi
+c                   update    NDGIES1R                                      <<
+c                   endif
+ *
+c                   endif
+ * Annullamento rapporti NDG Cedente-Debitore
+c                   exsr      AnnulRAPNDG                                   esegue
+ * Annullamento anagrafe generale (END)
+c                   endif
+ *
+c                   for       £i = 1 to £iFidi                              Per ogni Fido della schiera
+c                   exsr      UpdateSTFIDL                                  esegue
+c                   endfor
+ *
+c                   endsr
+ **************************************************************************
+ *  Aggiornamento Storico limitazione fidi
+c     UpdateSTFIDL  begsr
+ *
+ * Eliminazione dati precedenti da storico (START) ------------------------
+c                   eval      £F5DTCO = 0
+c                   eval      £F5CAZE = *blank
+c     £Fidi(£i)     setgt     STFIDE2L                                      Si posiziona oltre (SET-Greather-Than)
+c     £Fidi(£i)     readpe    STFIDE2L                                       e legge a ritroso (READ-Previous-Equal) l'ultimo record con Nbr_Progressivo_Fido
+c                   if            not %eof(STFIDE2L)                        Se Trovato
+c                   eval      F5FLAG = 'A'                                     A-nnullato
+c                   eval      F5NAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      F5DUPD = %rem(*date:1000000)                     *Oggi
+c                   eval      F5UUPD = $Entry_KNMUS                            *Utente
+c                   update    STFIDE1R                                      <<
+c                   eval      £F5DTCO = F5DTCO                              salva Data Competenza
+c                   eval      £F5CAZE = F5CAZE                                  e Causale Azione eseguita
+c                   dou           %eof(STFIDE2L)
+c     Key_STFIDE    readpe    STFIDE2L                                      e legge anche gli altri
+c                   if            not %eof(STFIDE2L)                        Se Trovati
+c                   eval      F5FLAG = 'A'                                     A-nnullato
+c                   eval      F5NAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      F5DUPD = %rem(*date:1000000)                     *Oggi
+c                   eval      F5UUPD = $Entry_KNMUS                            *Utente
+c                   update    STFIDE1R                                      <<
+c                   endif
+c                   enddo
+c                   endif
+ *
+c     Key_STFIDE    setgt     STFID22L                                      Con Nbr_Progressivo_Fido e Data_Competenza e Causale_Azione_eseguita
+c                   dou           %eof(STFID22L)
+c     Key_STFIDE    readpe    STFID22L                                      legge tutte le F6PROG(Nbr_Progressivo_Riga_Descrizione)
+c                   if            not %eof(STFID22L)                        Se Trovate
+c                   eval      F6FLAG = 'A'                                     A-nnullato
+c                   eval      F6NAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      F6DUPD = %rem(*date:1000000)                     *Oggi
+c                   eval      F6UUPD = $Entry_KNMUS                            *Utente
+c                   update    STFID21R                                      <<
+c                   endif
+c                   enddo
+ *
+c     Key_STFIDE    setgt     STFIDL2L                                      Con la stessa chiave
+c                   dou           %eof(STFIDL2L)
+c     Key_STFIDE    readpe    STFIDL2L                                      legge sempre a ritroso anche lo Storico_Anagrafe_Fidi_Debitori_Limitazioni
+c                   if            not %eof(STFIDL2L)                        Se Trovato
+c                   eval      F7FLAG = 'A'                                     A-nnullato
+c                   eval      F7NAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      F7DUPD = *date                                   *Oggi
+c                   eval      F7UUPD = $Entry_KNMUS                            *Utente
+c                   update    STFIDL1R                                      <<
+c                   endif
+c                   enddo
+ * Eliminazione dati precedenti da storico (END) --------------------------
+ * Storicizzazione fidi debitore (START) ----------------------------------
+c     £Fidi(£i)     setll     FIDDEB3L
+c                   dou           %eof(FIDDEB3L)
+c     £Fidi(£i)     reade     FIDDEB3L                                      Legge tutto FidDeb con £Fidi
+c                   if            not %eof(FIDDEB3L)                        Se Trovato
+c                   clear                   STFIDE1R
+c                   eval      £STFIDE1 = £FIDDEB1                           Valorizza, a blocchi,
+c                   eval      £STFIDE2 = £FIDDEB2                           StFiDe da FidDeb
+c                   eval      F5DTCO = £F5DTCO                                 + Data_Competenza
+c                   eval      F5CAZE = £F5CAZE                                 e Causale_Azione_eseguita
+c                   write     STFIDE1R                                      <<
+c                   endif
+c                   enddo
+ *
+c     £Fidi(£i)     setll     FIDDE22L                                      idem per FidDe2
+c                   dou           %eof(FIDDE22L)
+c     £Fidi(£i)     reade     FIDDE22L
+c                   if            not %eof(FIDDE22L)
+c                   clear                   STFID21R
+c                   eval      £STFID21 = £FIDDE21
+c                   eval      £STFID22 = £FIDDE22
+c                   eval      F6DTCO = £F5DTCO
+c                   eval      F6CAZE = £F5CAZE
+c                   write     STFID21R
+c                   endif
+c                   enddo
+ *
+c     £Fidi(£i)     setll     FIDDEL1L                                      idem per FidDeL
+c                   dou           %eof(FIDDEL1L)
+c     £Fidi(£i)     reade     FIDDEL1L
+c                   if            not %eof(FIDDEL1L)
+c                   clear                   STFIDL1R
+c                   eval      £STFIDL1 = £FIDDEL1
+c                   eval      F7DTCO = £F5DTCO
+c                   eval      F7CAZE = £F5CAZE
+c                   write     STFIDL1R
+c                   endif
+c                   enddo
+ * Storicizzazione fidi debitore (START) ----------------------------------
+ *
+c                   endsr
+ **************************************************************************
+ *  Annullamento rapporti NDG Cedente-Debitore
+c     AnnulRAPNDG   begsr
+ * Eliminazione record RAPNDG per NDG Cedente (START)
+c                   eval      RNNDGC = £CheckSog
+c     RNNDGC        setll     RAPNDG1L
+c                   dou           %eof(RAPNDG1L)
+c     RNNDGC        reade     RAPNDG1L                                      Legge per Cedente
+c                   if            not %eof(RAPNDG1L)                        Se Trovato
+c                             and RNFLAG <> 'A'                              e non annullato
+c                   eval      RNFLAG = 'A'                                     A-nnullato
+c                   eval      RNNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RNUUPD = $Entry_KNMUS                            *Utente
+c                   eval      RNDUPD = *date                                   *Oggi
+c                   time                    RNTUPD                             *Ora
+c                   update    RAPNDG1R                                      <<
+c                   endif
+c                   enddo
+ * Eliminazione record RAPNDG per NDG Cedente (END)
+ * Eliminazione record RAPNDG per NDG Debitore (START)
+c                   eval      RNNDGD = £CheckSog
+c     RNNDGD        setll     RAPNDG2L
+c                   dou           %eof(RAPNDG2L)
+c     RNNDGD        reade     RAPNDG2L                                      Legge per Debitore
+c                   if            not %eof(RAPNDG2L)                        Se Trovato
+c                             and RNFLAG <> 'A'                              e non annullato
+c                   eval      RNFLAG = 'A'                                     A-nnullato
+c                   eval      RNNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RNUUPD = $Entry_KNMUS                            *Utente
+c                   eval      RNDUPD = *date                                   *Oggi
+c                   time                    RNTUPD                             *Ora
+c                   update    RAPNDG2R                                      <<
+c                   endif
+c                   enddo
+ * Eliminazione record RAPNDG per NDG Debitore (END)
+ *
+c                   endsr
+ **************************************************************************
+ *  Annullamento legami Garanzie-Fido
+c     AnnulGarFid   begsr
+ *
+c                   eval      GLPRFD = £AnnulGarFid
+c     GLPRFD        setll     GARREL5L
+c                   dou           %eof(GARREL5L)
+c     GLPRFD        reade     GARREL5L                                      Legge per Nbr_Progressivo_Fido
+c                   if            not %eof(GARREL5L)                        Se Trovato
+c                   eval      £ExGARREL = £GARREL                           salva
+c                   eval      GLFLAG = 'A'                                     A-nnullato
+c                   eval      GLNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GLDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GLHEXE                             *Ora
+c                   eval      GLUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARREL <> £ExGARREL                      Se Reord_Letto <> Record_salvato
+c                             and %lookup(GLNRGA:£Gar) <= 0                  e nuovo Nbr_Garanzia
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GLNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GLNRGA                             cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARREL5R                                      <<
+ * Annullamento garanzia se rimasta senza legami (START)
+c                   eval      GRCANG = *blank
+ *
+c     GLNRGA        setll     GARREL1L
+c                   dou           %eof(GARREL1L)
+c                             or  GLFLAG <> 'A'
+c     GLNRGA        reade     GARREL1L                                      legge il primo valido
+c                   enddo
+c                   if            %eof(GARREL1L)                            Se non trovato
+c                   eval      GRNRGA = GLNRGA
+c     GRNRGA        chain     GARRIC1L                                      va su GarRic
+c                   if            %found(GARRIC1L)                          Se Trovato
+c                             and GRFLAG <> 'A'                              e non annullato
+c                   eval      £ExGARRIC = £GARRIC                           salva
+c                   eval      GRFLAG = 'A'                                     A-nnullato
+c                   eval      GRNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      GRDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    GRHEXE                             *Ora
+c                   eval      GRUSER = $Entry_KNMUS                            *Utente
+ * Aggiornamento storico garanzia (START)
+c                   if            £GARRIC <> £ExGARRIC                      Se GaeRic_letto <> GaeRic_salvato
+c                             and %lookup(GRNRGA:£Gar) <= 0                  e nuovo Nbr_Garanzia
+c                   clear                   ANA028_
+c                   eval      ANA028_NrGar = GRNRGA
+c                   eval      ANA028_KPJBA = $Entry_KPJBA
+c                   eval      ANA028_KPJBU = ANA028_
+c                   call      'ANA028'      PL_ANA028                       chiama ANA028
+c                   if            £iGar < %elem(£Gar)
+c                   eval      £iGar = £iGar + 1                                +1
+c                   eval      £Gar(£iGar) = GRNRGA                             cataloga
+c                   endif
+c                   endif
+ * Aggiornamento storico garanzia (END)
+c                   update    GARRIC1R                                      <<
+ *
+c     GRNRGA        setll     GARPPQ1L
+c                   dou           %eof(GARPPQ1L)
+c     GRNRGA        reade     GARPPQ1L                                      legge per Nbr_Garanzia
+c                   if            not %eof(GARPPQ1L)                        Se Trovato
+c                             and PQFLAG <> 'A'                              e non annullato
+c                   eval      PQFLAG = 'A'                                     A-nnullato
+c                   eval      PQNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      PQDUPD = *date                                   *Oggi
+c                   time                    PQTUPD                             *Ora
+c                   eval      PQUUPD = $Entry_KNMUS                            *Utente
+c                   update    GARPPQ1R                                      <<
+c                   endif
+c                   enddo
+ *
+c                   exsr      $AnnSogRapRUA                                 esegue
+c                   endif
+c                   endif
+ * Annullamento garanzia se rimasta senza legami (END)
+ * Annullamento AGRAPP se garante non più legato a garanzie (START)
+c                   if            GRCANG <> *blank                          Se NDG
+c     GRCANG        setll     GARRIC2L
+c                   dou           %eof(GARRIC2L)
+c                             or  GRFLAG <> 'A'
+c     GRCANG        reade     GARRIC2L                                      legge il primo valido
+c                   enddo
+c                   if            %eof(GARRIC2L)                            Se non Trovato
+c                   eval      RPCANG = GRCANG
+c                   eval      RPTRFA = 'G'
+c     Key_AGRAPP    chain     AGRAPP1L                                      legge Rapporti per Garante
+c                   if            %found(AGRAPP1L)                          Se Trovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                   eval      RPFLAG = 'A'                                     A-nnullato
+c                   eval      RPNAZN = $Entry_KNRAZ                            [omissis]
+c                   eval      RPDUPD = %rem(*date:1000000)                     *Oggi
+c                   time                    RPHEXE                             *Ora
+c                   eval      RPUSER = $Entry_KNMUS                            *Utente
+c                   update    AGRAPP1R                                      <<
+c                   EXSR      AGARIN
+c                   endif
+c                   endif
+c                   endif
+ * Annullamento AGRAPP se garante non più legato a garanzie (END)
+c                   endif
+c                   enddo
+ *
+c                   endsr
+ **************************************************************************
+ *  Annullamento eventuali soggetti e rapporti legati alla garanzia
+c     $AnnSogRapRUA begsr
+ *
+c                   MOVEL     GRNRGA        RRA022_NumGar
+c                   eval      RRA022_KPJBA = $Entry_KPJBA
+c                   eval      RRA022_KPJBU = RRA022_
+c                   call      'RRA022'      PL_RRA022                       chiama RRA022
+ *
+c                   endsr
+ **************************************************************************
+ *  Impostazione campi STORAP
+c     InzStoRap     begsr
+ *
+c                   CLEAR                   STORAP1R                        pulisce formato record
+c                   EVAL      SRFLAG = ARFLAG                               e valorizza campo per campo da AnaRap
+c                   EVAL      SRDINS = *DATE                                   *Oggi
+c                   IF        ARDUPD <> 0                                   Se Data_Ultimo_Aggiornamento
+c                   EVAL      SRDUPD = ARDUPD
+c                   ELSE
+c                   EVAL      SRDUPD = ARDINS
+c                   ENDIF
+c                   EVAL      SRCED  = ARCED
+c                   EVAL      SRDEB  = ARDEB
+c                   EVAL      SRLIR1 = ARLIR1
+c                   EVAL      SRLIR2 = ARLIR2
+c                   EVAL      SRTRIC = ARTRIC
+c                   EVAL      SRNF1C = ARNF1C
+c                   EVAL      SRDF1C = ARDF1C
+c                   EVAL      SRTNOT = ARTNOT
+c                   EVAL      SRTRCC = ARTRCC
+c                   EVAL      SRCDIV = ARCDIV
+c                   EVAL      SRIFPD = ARIFPD
+c                   EVAL      SRDFD2 = ARDFD2
+c                   EVAL      SRMODS = ARMODS
+c                   EVAL      SRMODP = ARMODP
+c                   EVAL      SRGGRI = ARGGRI
+c                   EVAL      SRFAAI = ARFAAI
+c                   EVAL      SRNGAI = ARNGAI
+c                   EVAL      SREMSC = AREMSC
+c                   EVAL      SREMSD = AREMSD
+c                   EVAL      SRSPSD = ARSPSD
+c                   EVAL      SRSPW1 = ARSPW1
+c                   EVAL      SRSPW2 = ARSPW2
+c                   EVAL      SRDMDS = ARDMDS
+c                   EVAL      SRDMDA = ARDMDA
+c                   EVAL      SRDMDM = ARDMDM
+c                   EVAL      SRDMDG = ARDMDG
+c                   EVAL      SRGVAL = ARGVAL
+c                   EVAL      SRGSIC = ARGSIC
+c                   EVAL      SRGGDL = ARGGDL
+c                   EVAL      SRGINT = ARGINT
+c                   EVAL      SRGGMT = ARGGMT
+c                   EVAL      SRMGVA = ARMGVA
+c                   EVAL      SRFTFV = ARFTFV
+c                   EVAL      SRFAIN = ARFAIN
+c                   EVAL      SRSPDM = ARSPDM
+c                   EVAL      SRDIVD = ARDIVD
+c                   EVAL      SRDIVI = ARDIVI
+c                   EVAL      SRRCMS = ARRCMS
+c                   EVAL      SRRCMA = ARRCMA
+c                   EVAL      SRRCMM = ARRCMM
+c                   EVAL      SRRCMG = ARRCMG
+c                   EVAL      SRUINS = $entry_KNMUS                            *Utente
+c                   IF        ARUUPD <> *BLANKS                             Se Utente_Ultimo_Aggiornamento
+c                   EVAL      SRUUPD = ARUUPD
+c                   ELSE
+c                   EVAL      SRUUPD = ARUINS
+c                   ENDIF
+c                   EVAL      SRELIM = ARELIM
+c                   EVAL      SRIFPT = ARIFPT
+c                   EVAL      SRDFT2 = ARDFT2
+c                   EVAL      SRDACE = ARDACE
+c                   EVAL      SRCFCT = ARCFCT
+c                   EVAL      SRCTRF = ARCTRF
+c                   EVAL      SRSISQ = ARSISQ
+c                   EVAL      SRSIGG = ARSIGG
+c                   EVAL      SRSIA1 = ARSIA1
+c                   EVAL      SRSIA2 = ARSIA2
+c                   EVAL      SRSIA3 = ARSIA3
+c                   EVAL      SRSIGA = ARSIGA
+c                   EVAL      SRSISD = ARSISD
+c                   EVAL      SRSISA = ARSISA
+c                   EVAL      SRSINS = ARSINS
+c                   EVAL      SRRMTY = ARRMTY
+c                   EVAL      SRGMTY = ARGMTY
+c                   EVAL      SRDECA = ARDECA
+c                   EVAL      SRPRE  = ARPRE
+c                   EVAL      SRDDEC = ARDDEC
+c                   EVAL      SRDREV = ARDREV
+c                   EVAL      SRGGDS = ARGGDS
+c                   EVAL      SRGGST = ARGGST
+c                   EVAL      SRGGMA = ARGGMA
+c                   EVAL      SRPDSO = ARPDSO
+c                   EVAL      SRMDSO = ARMDSO
+c                   EVAL      SRTASM = ARTASM
+c                   EVAL      SRCINM = ARCINM
+c                   EVAL      SRSPRM = ARSPRM
+c                   EVAL      SRINDM = ARINDM
+c                   EVAL      SRPIDM = ARPIDM
+c                   EVAL      SRWRK1 = ARWRK1
+c                   EVAL      SRCNVD = ARCNVD
+c                   EVAL      SRWRK0 = ARWRK0
+c                   EVAL      SRWRK2 = ARWRK2
+c                   EVAL      SRWRK4 = ARWRK4
+c                   EVAL      SRWRK3 = ARWRK3
+c                   EVAL      SRWRK5 = ARWRK5
+ *
+c                   endsr
+ *****************************************************************
+ *  ANNULLAMENTO INDIRIZZI GARANTI
+c     AGARIN        BEGSR
+ *
+c                   eval      ANA037_KPJBA = $entry_KPJBA
+c                   eval      ANA037_Opz = '1'
+c                   eval      ANA037_Cang = rpcang
+c                   eval      ANA037_kpjbu = ANA037_
+c                   call      'ANA037'                                      chiama ANA037
+c                   parm                    ANA037_KPJBA
+ *
+c                   ENDSR
+ *****************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_ANA014     plist
+c                   parm                    ANA014_KPJBA
+c     PL_ANA028     plist
+c                   parm                    ANA028_KPJBA
+c     PL_RRA010     plist
+c                   parm                    RRA010_KPJBA
+c     PL_RRA022     plist
+c                   parm                    RRA022_KPJBA
+c     PL_RRA024     plist
+c                   parm                    RRA024_KPJBA
+c     PL_TRA346     plist
+c                   parm                    TRA346_KPJBA
+c     PL_TCA373     plist
+c                   parm                    TCA373_KPJBA
+c     PL_STD061     plist
+c                   parm                    STD061_KPJBA
+c     PL_TRA002     plist
+c                   parm                    £RAPPTO
+c                   parm                    £STORPT
+c                   parm                    §§oper            1
+c                   parm                    §§vari            1
+ * Definizione chiavi -----------------------------------------------------
+c     Key_AGRAPP    klist
+c                   kfld                    RPCANG
+c                   kfld                    RPTRFA
+c     Key_AGRAPP2   klist
+c                   kfld                    RPTRFA
+c                   kfld                    RPCDRF
+c     Key_ANAFID    klist
+c                   kfld                    AF_FDPRFD
+c                   kfld                    AF_FDCODF
+c     Key_APPRAP    klist
+c                   kfld                    PRDEB
+c                   kfld                    PRCED
+c     Key_FATCTC    klist
+c                   kfld                    FCFACT
+c                   kfld                    FCCED
+c                   kfld                    FCDEB
+c     Key_FIDDEB    klist
+c                   kfld                    FD_FDPRFD
+c                   kfld                    FD_FDCODF
+c     Key_FIDDEB4   klist
+c                   kfld                    FD_FDDEB
+c                   kfld                    FD_FDCANG
+c                   kfld                    FD_FDGRUP
+c     Key_POOLOG    klist
+c                   kfld                    PLCED
+c                   kfld                    PLCON1
+c                   kfld                    PLCON2
+c                   kfld                    PLCON3
+c     Key_POOLPS    klist
+c                   kfld                    PSCCED
+c                   kfld                    PSCON1
+c                   kfld                    PSCON2
+c                   kfld                    PSCON3
+c     Key_RAPPTO    klist
+c                   kfld                    RTCED
+c                   kfld                    RTDEB
+c     Key_STFIDE    klist
+c                   kfld                    F5PRFD
+c                   kfld                    F5DTCO
+c                   kfld                    F5CAZE
+c     Key_WKANAR    klist
+c                   kfld                    WK_RRDEB
+c                   kfld                    WK_RRCED
+c     Key_AUTINT    klist
+c                   kfld                    KKNSIF
+c                   kfld                    KKCED
+c                   kfld                    KKDEB
+c     PAKEY         KLIST
+c                   KFLD                    P_PAKEYA
+c                   KFLD                    P_PAKEYB
+ * Dati MIS
+c                   eval      p_pakeya = 'MIS'
+c                   eval      p_pakeyb = *all'0'
+c                   move      1             p_pakeyb
+c     pakey         chain     PARAM                                         Legge PARAM/MIS/000000001
+c                   if        %found                                        per trovare
+c                   eval      MIS = p_padesc                                MISSAB Società Abilitata
+c                   else
+c                   clear                   MIS
+c                   endif
+ *
+c                   endsr

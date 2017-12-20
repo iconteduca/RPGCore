@@ -1,0 +1,1999 @@
+ Compilatore . . . . . . . . . . :   IBM RPG/400
+ Opzioni comando:
+   Programma  . . . . . . . . . . . :   QTEMP/RRA022
+   File origine . . . . . . . . . . :   SRCFAC/QRPGSRC
+   Membro origine . . . . . . . . . :   RRA022
+   opzioni elenco origine . . . . . :   *SOURCE     *XREF       *GEN        *NODUMP     *NOSECLVL   *NOSRCDBG   *NOLSTDBG
+   Opzioni generazione  . . . . . . :   *NOLIST     *NOXREF     *NOATR      *NODUMP     *NOOPTIMIZE
+   Rientro elenco origine . .     . :   *NONE
+   Opz. tipo conversione  . . .   . :   *NONE
+   Sequ. ordin. . . . . . . . .   . :   *HEX
+   Id Lingua . . . . .            . :   *JOBRUN
+   Indicatore SAA. . . . .        . :   *NOFLAG
+   Livello gravità generazione. . . :   9
+   File stampa. . . . . . . .     . :   *LIBL/QSYSPRT
+   Sostituzione programma . . . . . :   *NO
+   Release di destinazione . .    . :   *CURRENT
+   Profilo utente . . . . . . .   . :   *USER
+   Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+   Testo. . . . . . . . . . . . . . :   *SRCMBRTXT
+   Traccia delle fasi . . . . . . . :   *NO
+   Dump testo intermedio . . . .  . :   *NONE
+   Dump dinamico. . . . . . . . . . :   *NONE
+   Lista del codice . . . . . . . . :   *NONE
+   Ignorare errore dati decimali. . :   *NO
+   Cons. valori null  . . . . . . . :   *NO
+ Origine programma effettiva:
+   Membro . . . . . . . . . . . . . :   RRA022
+   File . . . . . . . . . . . . . . :   QRPGSRC
+   Libreria . . . . . . . . . . . . :   SRCFAC
+modifica RXT0014  . . . . . . . . . . : 10/10/16  14:21:09
+   Descrizione  . . . . . . . . . . :   RUA - Interfaccia Gestione Garanzie con R.U.A.
+ NUMERO                                                                           USO    NUM   ULTIMO     PAGINA ID
+ SEQUENZA  *...1....+....2....+....3....+....4....+....5....+....6....+....7...*  IND    DO    AGGIORN.   RIGA   PROGRAMMA
+                            L i s t a   O r i g i n e
+      100  H**   EDP190S1    CALGIU      10/10/2016  11:56:14                                  10/10/16
+      200  H**   EDP150S1    EMMAND      26/07/2016  14:43:16                                  26/07/16   AE157
+      300  H**   EDP380S2    DARDIG      08/03/2012  10:40:43                                  08/03/12   ddg1  S
+      400  H******************************************************************                 03/08/07         S
+      500  H*    TOGLIERE LA SPECIFICA CHE NON INTERESSA.                    *                 03/08/07
+      600  H*            /J      GIORNO - MESE - ANNO                        *                 03/08/07
+      700  H*           Y J      ANNO - MESE - GIORNO                        *                 03/08/07
+      800  H******************************************************************                 03/08/07
+      900  H            Y/J                                                                    31/10/07
+     1000  H******************************************************************                 03/08/07
+     1100  H*                                                                *                 03/08/07
+     1200  H*    SSSSSSS   IIIIIII   SSSSSSS        PPPPPPP     AAAAAAA      *                 03/08/07
+     1300  H*   SS           III    SS              PP    PP   AA     AA     *                 03/08/07
+     1400  H*   SS            I     SS              PP     PP  AA     AA     *                 03/08/07
+     1500  H*    SSSSSSS      I      SSSSSSS        PPPPPPPP   AAAAAAAAA     *                 03/08/07
+     1600  H*          SS     I            SS       PP         AA     AA     *                 03/08/07
+     1700  H*          SS    III           SS  ..   PP         AA     AA ..  *                 03/08/07
+     1800  H*    SSSSSSS   IIIIIII   SSSSSSS   ..   PP         AA     AA ..  *                 03/08/07
+     1900  H*                                                                *                 03/08/07
+     2000  H*   SISTEMI PARABANCARI S.P.A.       SISTEMI PARABANCARI S.P.A.  *                 03/08/07
+     2100  H*   (C) Copyright 2007. Vietata la riproduzione anche in parte.  *                 03/08/07
+     2200  H*                                                                *                 03/08/07
+     2300  H******************************************************************                 03/08/07
+     2400  H*                                                                                  03/08/07
+     2500  H******************************************************************                 03/08/07
+     2600  H*                                                                *                 03/08/07
+     2700  H*  SISTEMA ...........: R.U.A.                                   *                 03/08/07
+     2800  H*  SOTTOSISTEMA ......: REGISTRO UNICO ANTIRICICLAGGIO           *                 03/08/07
+     2900  H*                                                                *                 03/08/07
+     3000  H*  PROGRAMMATORE .....: S. STRADA                                *                 03/08/07
+     3100  H*  PRIMA COMPILAZ. ...: 03/08/2007                               *                 03/08/07
+     3200  H*                                                                *                 03/08/07
+     3300  H*  DESCRIZIONE .......: INTERFACCIA GESTIONE GARANZIE            *                 03/08/07
+     3400  H*                       PER ANTIRICICLAGGIO                      *                 03/08/07
+     3500  H*                                                                *                 03/08/07
+     3600  H*  Il programma è stato creato sullo stile delle già esistenti   *                 03/08/07
+     3700  H*  interfacce per cedenti, debitori e prestiti personali.        *                 03/08/07
+     3800  H*                                                                *                 03/08/07
+     3900  H*  Il parametro D22EXE deve essere impostato dai pgm chiamanti   *                 20/05/08
+     4000  H*  con uno dei seguenti valori:                                  *                 31/10/07
+     4100  H*      ' ' = esecuzione interattiva annullamento rapporti        *                 31/10/07
+     4200  H*            (anche in caso di altri valori <> '1')              *                 31/10/07
+     4300  H*      '1' = esecuzione silente annullamento rapporti            *                 31/10/07
+     4400  H*                                                                *                 04/06/09
+     4500  H*  Il parametro D22EXE viene reso impostato ad 'A' nel caso in   *                 04/06/09
+     4600  H*  cui sia stato eseguito l'annullamento sul rapporto passato    *                 04/06/09
+     4700  H*  in input.                                                     *                 04/06/09
+     4800  H*                                                                *                 25/05/09   SS01
+     4900  H* Richiama sempre e comunque l'anagrafe RUA del soggetto.        *                 25/05/09   SS01
+     5000  H*                                                                *                 30/11/10   SS02
+     5100  H* Chiude anche eventuali titolari e dichiaranti.                 *                 30/11/10   SS02
+     5200  H*                                                                *                 31/10/07         S
+     5300  F******************************************************************                 03/08/07
+     5400  F*              F I L E                                           *                 03/08/07
+     5500  F******************************************************************                 03/08/07
+     5600  FGARRIC1LIF  E           K        DISK                                              03/08/07
+            FORMATO(I) RECORD: FILE GARRIC1L LIBRERIA MODELL.
+                       FORMATO ESTERNO GARRIC1R NOME RPG GARRIC1R.
+     5700  FGARIND1LIF  E           K        DISK                                              23/10/07
+            FORMATO(I) RECORD: FILE GARIND1L LIBRERIA MODELL.
+                       FORMATO ESTERNO GARIND1R NOME RPG GARIND1R.
+     5800  FACABXX1LIF  E           K        DISK                                              03/08/07
+     5900  F***ANSOG01LIF  E           K        DISK                                           25/05/09   SS01
+            FORMATO(I) RECORD: FILE ACABXX1L LIBRERIA WKLIBR.
+                       FORMATO ESTERNO §ADREAP NOME RPG §ADREAP.
+     6000  FANDEL02LUF  E           K        DISK                                              28/01/09         S
+            FORMATO(I) RECORD: FILE ANDEL02L LIBRERIA MODELL.
+                       FORMATO ESTERNO RANDEL NOME RPG RANDEL.
+     6100  FANTIT02LUF  E           K        DISK                                              30/11/10   SS02
+            FORMATO(I) RECORD: FILE ANTIT02L LIBRERIA MODELL.
+                       FORMATO ESTERNO RANTIT NOME RPG RANTIT.
+     6200  FANDIC02LUF  E           K        DISK                                              30/11/10   SS02
+            FORMATO(I) RECORD: FILE ANDIC02L LIBRERIA MODELL.
+                       FORMATO ESTERNO RANDIC NOME RPG RANDIC.
+     6300  FANRAP01LUF  E           K        DISK                                              31/10/07         S
+            FORMATO(I) RECORD: FILE ANRAP01L LIBRERIA MODELL.
+                       FORMATO ESTERNO RANRAP NOME RPG RANRAP.
+     6400  FAGPERF1LIF  E           K        DISK                                              03/08/07
+            FORMATO(I) RECORD: FILE AGPERF1L LIBRERIA MODELL.
+                       FORMATO ESTERNO AGPERF1R NOME RPG AGPERF1R.
+     6500  FAGSNPF1LIF  E           K        DISK                                              06/08/07
+            FORMATO(I) RECORD: FILE AGSNPF1L LIBRERIA MODELL.
+                       FORMATO ESTERNO AGSNPF1R NOME RPG AGSNPF1R.
+     6600  FAGCORI1LIF  E           K        DISK                                              06/08/07
+            FORMATO(I) RECORD: FILE AGCORI1L LIBRERIA MODELL.
+                       FORMATO ESTERNO AGCORI1R NOME RPG AGCORI1R.
+     6700  FMST0011LIF  E           K        DISK                                              06/08/07
+     6800  E******************************************************************                 03/08/07
+     6900  E*              T A B E L L E   E   S C H I E R E                 *                 03/08/07
+     7000  E******************************************************************                 03/08/07
+            FORMATO(I) RECORD: FILE MST0011L LIBRERIA WKLIBR.
+                       FORMATO ESTERNO MST0011R NOME RPG MST0011R.
+     7100  E                    SOG         5 16                                               10/08/07
+     7200  I******************************************************************                 03/08/07
+     7300  I*              D S   E S T E R N E                               *                 03/08/07
+     7400  I******************************************************************                 03/08/07
+  A000000   INPUT  CAMPI PER RECORD GARRIC1R FILE GARRIC1L FORMATO GARRIC1R.
+  A000000         ANAGRAFE PERSONA FISICA
+  A000001                                           1   3 GRTREC                Cde Tipo Rec File -GR1-
+  A000002                                           4   4 GRFLAG                Sts Record V/A               CMN
+  A000003                                           5   5 GRLOCK                Sts Blocco record            CMN
+  A000004                                       P   6  100GRNAZN                Nbr Azione Aggiornamento     CMN
+  A000005                                       P  11  140GRDINS                Dte Inserimento              CMN
+  A000006                                       P  15  180GRDUPD                Dte Aggiornamento            CMN
+  A000007                                       P  19  220GRHEXE                Tme Ora Modifica             CMN
+  A000008                                          23  32 GRUSER                Nar Profilo Utente           CMN
+  A000009                                       P  33  370GRNRGA                Nbr Garanzia
+  A000010                                          38  45 GRCANG                Codice Anagrafe Generale
+  A000011                                          46  48 GRCDGA                Cde Garanzia B/I
+  A000012                                       P  49  530GRDTRG                Dte Rilascio Garanzia
+  A000013                                       P  54  580GRDTSG                Dte Scadenza Garanzia
+  A000014                                          59  59 GRLVGA                Sts Livello Garanzia
+  A000015                                          60  62 GRDIV                 Cde Divisa                   MST
+  A000016                                       P  63  670GRVNMG                Val. nominale garanzia
+  A000017                                       P  68  720GRVSTG                Val. stimato garanzia
+  A000018                                       P  73  770GRLIMG                Val. limite garanzia
+  A000019                                          78  78 GRSTGA                Sts Stato Garanzia
+  A000020                                       P  79  830GRDAGR                Dte Aggiorn. Stato Garan.
+  A000021                                          84  84 GRTRGR                Sts Tipo relazione garantiti
+  A000022                                          85  85 GRESGR                Ammissibilita GeneraleGaranzia
+  A000023                                          86 125 GRNOT1                Nar Note                     FE
+  A000024                                         126 165 GRNOT2                Nar Note                     FE
+  A000025                                         166 166 GRINES                Sts Interna/Esterna
+  A000026                                       P 167 1710GRIMPL                Imp. Garanzia in pool
+  A000027                                         172 172 GRDGTS                Ammissibilita specifica Garanzia
+  A000028                                         173 173 GRGSGP                Grado Subordinazione Garanzia Personale
+  A000029                                       P 174 1810GRIMGA                Importo Garanzia
+  A000030                                       P 182 1890GRFVGA                Fair Value Garanzia
+  A000031                                       P 190 1970GRIMPO                Imp. Garanzia in pool
+  A000032                                       P 198 2040GRCDTI                Codice Titolo
+  A000033                                         205 205 GRIMRI                Impegno al Riacquisto
+  A000034                                       P 206 2100GRDTRI                Data Variazione
+  A000035                                       P 211 2120GRPRES                Priorità Escussione
+  A000036                                         213 213 GRDGIP                Digit Cred. Ipotecario uso abitazione
+  A000037                                         214 214 GRDGIM                Digit Tipo Immobile
+  A000038                                         215 215 GRDIPI                Digit Idoneità potenziale perGaranzia Integrativa
+  A000039                                         216 216 GRGRST                Garanzia Storicizzata
+  A000040                                       P 217 2210GRSTOD                Data storicizzazione
+  A000041                                       P 222 2250GRSTOT                Ora storicizzazione
+  A000042                                       P 226 2300GRNGRF                Num.gar. riferimento
+  A000043                                       P 231 2380GRIGLG                NON USATO
+  A000044                                       P 239 2412GRPCPQ                NON USATO
+  A000045                                         242 242 GRDGTE                Ammissib. gar.reali per esposizioni scadute
+  A000046                                         243 243 GREXCR                Esclusione garanzia da CR
+  B000000   INPUT  CAMPI PER RECORD GARIND1R FILE GARIND1L FORMATO GARIND1R.
+  B000000         INDIRIZZO DEI GARANTI
+  B000001                                           1   3 GITREC                Cde Tipo record              CMN
+  B000002                                           4   4 GIFLAG                Sts Record V/A               CMN
+  B000003                                           5  10 GINMUS                Nar Profilo Utente           CMN
+  B000004                                          11  180GIDINS                Dte Inserimento              CMN
+  B000005                                          19  260GIDUPD                Dte Aggiornamento            CMN
+  B000006                                          27  34 GICANG                Codice Anagrafe Generale
+  B000007                                          35  64 GIIND                 Nar Indirizzo                AC
+  B000008                                          65  89 GILOCA                Nar Località                 AC
+  B000009                                          90  94 GICAP                 Cde C.A.P.                   MST
+  B000010                                          95  96 GIPROV                Cde Provincia                MST
+  B000011                                          97  97 GIINVI                Sts Sped.Let/Riep. x Var.Cto PA
+  B000012                                          98 100 GINAZ                 Cde Nazione                  MST
+  C000000   INPUT  CAMPI PER RECORD §ADREAP FILE ACABXX1L FORMATO §ADREAP.
+  C000000         C.A.B.
+  C000001                                           1   6 ADACCD                Codice CAB
+  C000002                                           7   8 ADCPRO                Cde Provincia                MST
+  C000003                                           9  38 ADADCD                Denominazione CAB
+  C000004                                          39  39 ADABST                Stato informazione
+  D000000   INPUT  CAMPI PER RECORD RANDEL FILE ANDEL02L FORMATO RANDEL.
+  D000000         Anagrafica delegati
+  D000001                                           1  16 ADKDEL                Codice Delegato
+  D000002                                          17  32 ADKRAP                Codice Rapporto
+  D000003                                          33  33 ADLEGA                Legame con Rapporto
+  D000004                                          34  34 ADFCAP                Flag Apertura Registrata
+  D000005                                          35  420ADDTAP                Data Apertura Delega
+  D000006                                          43  43 ADFDCD                Flag Delega Chiusa
+  D000007                                          44  510ADDTCD                Data Chiusura Delega
+  D000008                                          52  52 ADFDCR                Flag Chiusura Registrata
+  D000009                                          53  600ADDTCR                Data Chiusura Registrata
+  D000010                                          61  76 ADDOLD                Cod Deleg.
+  D000011                                          77  92 ADROLD                Cod Rapp.
+  D000012                                          93 102 ADUTIM                ID Utente Inserimento
+  D000013                                         103 1100ADDTIM                Data Inserimento
+  D000014                                         111 1160ADHHIM                Ora Inserimento
+  D000015                                         117 126 ADUTVA                ID Utente Ultima Var.
+  D000016                                         127 1340ADDTVA                Data Ultima Var.
+  D000017                                         135 1400ADHHVA                Ora Ultima Var.
+  D000018                                         141 142 ADTRAT                T.RAPP. PER AN.TRIBUT.
+  D000019                                         143 157 ADPRFI                NOME FILE INVIO
+  D000020                                         158 182 ADPRRE                NUMERO RECORD INVIO
+  D000021                                         183 184 ADRIIN                FLAG AVANZAMENTO
+  D000022                                         185 1930ADNUM1                PROGRESSIVO ANAGRAFICA
+  D000023                                         194 243 ADKCOD                CODICE RAPPORTO ANAGRAFE TRIBUTARIA
+  E000000   INPUT  CAMPI PER RECORD RANTIT FILE ANTIT02L FORMATO RANTIT.
+  E000001                                           1  16 ATITEF                COD.TITOLARE EFFETTIVO
+  E000002                                          17  32 ATKINT                CODICE INTESTATARIO
+  E000003                                          33  33 ATFCAP                FLAG APERTURA
+  E000004                                          34  410ATDTAP                DATA APERTURA LEGAME
+  E000005                                          42  42 ATFDCD                FLAG CHIUSURA
+  E000006                                          43  500ATDTCD                DATA CHIUSURA LEGAME
+  E000007                                          51  51 ATFDCR                FLAG CHIUSURA REGISTRATA
+  E000008                                          52  590ATDTCR                DATA CHIUSURA REGISTRATA
+  E000009                                          60  69 ATUTIM                ID UTENTE INSERIMENTO
+  E000010                                          70  770ATDTIM                DATA INSERIMENTO
+  E000011                                          78  830ATHHIM                ORA INSERIMENTO
+  E000012                                          84  93 ATUTVA                ID UTENTE ULTIMO UPDATE
+  E000013                                          94 1010ATDTVA                DATA ULTIMO UPDATE
+  E000014                                         102 1070ATHHVA                ORA ULTIMO UPDATE
+  F000000   INPUT  CAMPI PER RECORD RANDIC FILE ANDIC02L FORMATO RANDIC.
+  F000001                                           1  16 ANITEF                CODICE DICHIARANTE
+  F000002                                          17  32 ANKINT                CODICE INTESTATARIO
+  F000003                                          33  33 ANFCAP                FLAG APERTURA
+  F000004                                          34  410ANDTAP                DATA APERTURA LEGAME
+  F000005                                          42  42 ANFDCD                FLAG CHIUSURA
+  F000006                                          43  500ANDTCD                DATA CHIUSURA LEGAME
+  F000007                                          51  51 ANFDCR                FLAG CHIUSURA REGISTRATA
+  F000008                                          52  590ANDTCR                DATA CHIUSURA REGISTRATA
+  F000009                                          60  69 ANUTIM                ID UTENTE INSERIMENTO
+  F000010                                          70  770ANDTIM                DATA INSERIMENTO
+  F000011                                          78  830ANHHIM                ORA INSERIMENTO
+  F000012                                          84  93 ANUTVA                ID UTENTE ULTIMO UPDATE
+  F000013                                          94 1010ANDTVA                DATA ULTIMO UPDATE
+  F000014                                         102 1070ANHHVA                ORA ULTIMO UPDATE
+  G000000   INPUT  CAMPI PER RECORD RANRAP FILE ANRAP01L FORMATO RANRAP.
+  G000000         Anagrafica rapporti
+  G000001                                           1  16 ARKRAP                Codice Rapporto
+  G000002                                          17  32 ARKINT                Codice Intestatario
+  G000003                                          33  48 ARKCO1                Cod. 1 Cointestatario
+  G000004                                          49  64 ARKCO2                Cod. 2 Cointestatario
+  G000005                                          65  80 ARKCO3                Cod. 3 Cointestatario
+  G000006                                          81  96 ARKCO4                Cod. 4 Cointestatario
+  G000007                                          97  97 ARRBLK                Stato Rapporto B/I
+  G000008                                          98  98 ARTRAP                Tipo Rapporto
+  G000009                                          99 104 ARCABD                CAB Dipendenza
+  G000010                                         105 107 ARKDIV                Codice Divisa
+  G000011                                         108 108 ARFCAP                Flag Apertura Registrata
+  G000012                                         109 1160ARDTAP                Data Apertura RAPPORTO
+  G000013                                         117 117 ARFCCC                Flag Conto Chiuso
+  G000014                                         118 1250ARDTCC                Data Chiusura Conto
+  G000015                                         126 126 ARFCCH                Flag Chiusura Registrata
+  G000016                                         127 1340ARDTCH                Data Chiusura Registrata
+  G000017                                         135 150 ARROLD                Cod Rapp.
+  G000018                                         151 166 ARIOLD                Cod Intest.
+  G000019                                         167 182 AR1OLD                Cod. 1 Cointest.
+  G000020                                         183 198 AR2OLD                Cod. 2 Cointest.
+  G000021                                         199 214 AR3OLD                Cod. 3 Cointest.
+  G000022                                         215 230 AR4OLD                Cod. 4 Cointestatario
+  G000023                                         231 240 ARUTIM                ID Utente Inserimento
+  G000024                                         241 2480ARDTIM                Data Inserimento
+  G000025                                         249 2540ARHHIM                Ora Inserimento
+  G000026                                         255 264 ARUTVA                ID Utente Ultima Var.
+  G000027                                         265 2720ARDTVA                Data Ultima Var.
+  G000028                                         273 2780ARHHVA                Ora Ultima Var.
+  G000029                                         279 280 ARTRAT                T.RAPP. PER AN.TRIBUT.
+  G000030                                         281 295 ARPRFI                NOME FILE INVIO
+  G000031                                         296 320 ARPRRE                NUMERO RECORD INVIO
+  G000032                                         321 335 ARPRF1                NOME FILE INVIO
+  G000033                                         336 360 ARPRR1                NUMERO RECORD INVIO
+  G000034                                         361 375 ARPRF2                NOME FILE INVIO
+  G000035                                         376 400 ARPRR2                NUMERO RECORD INVIO
+  G000036                                         401 415 ARPRF3                NOME FILE INVIO
+  G000037                                         416 440 ARPRR3                NUMERO RECORD INVIO
+  G000038                                         441 455 ARPRF4                NOME FILE INVIO
+  G000039                                         456 480 ARPRR4                NUMERO RECORD INVIO
+  G000040                                         481 482 ARRIIN                FLAG A/C INTESTATAR
+  G000041                                         483 484 ARRIC1                FLAG A/C COINT. 1
+  G000042                                         485 486 ARRIC2                FLAG A/C COINT. 2
+  G000043                                         487 488 ARRIC3                FLAG A/C COINT. 3
+  G000044                                         489 490 ARRIC4                FLAG A/C COINT. 4
+  G000045                                         491 514 ARDR99                RAPPORTO TIPO 99
+  G000046                                         515 544 ARDESC                DESCRIZIONE RAPPORTO
+  G000047                                         545 5530ARNUM1                PROGRESSIVO ANAGRAFICA
+  G000048                                         554 5620ARNUM2                PROGRESSIVO ANAGRAFICA
+  G000049                                         563 5710ARNUM3                PROGRESSIVO ANAGRAFICA
+  G000050                                         572 5800ARNUM4                PROGRESSIVO ANAGRAFICA
+  G000051                                         581 5890ARNUM5                PROGRESSIVO ANAGRAFICA
+  G000052                                         590 639 ARKCOD                CODICE RAPPORTO ANAGRAFE TRIBUTARIA
+  H000000   INPUT  CAMPI PER RECORD AGPERF1R FILE AGPERF1L FORMATO AGPERF1R.
+  H000000         ANAGRAFE PERSONA FISICA
+  H000001                                           1   3 PFTREC                Cde Tipo Rec File -PF1-
+  H000002                                           4   4 PFFLAG                Sts Record V/A               CMN
+  H000003                                           5   5 PFLOCK                Sts Blocco record            CMN
+  H000004                                       P   6  100PFNAZN                Nbr Azione Aggiornamento     CMN
+  H000005                                       P  11  150PFDINS                Data Inserimento
+  H000006                                       P  16  200PFDUPD                Data Aggiornamento
+  H000007                                       P  21  240PFHEXE                Tme Ora Modifica             CMN
+  H000008                                          25  34 PFUSER                Nar Profilo Utente           CMN
+  H000009                                          35  42 PFCANG                Codice Anagrafe Generale
+  H000010                                          43  58 PFFISC                Cde Fiscale                  AC
+  H000011                                          59  88 PFCOGN                Cognome
+  H000012                                          89 118 PFNOME                Nome
+  H000013                                         119 124 PFCABN                CAB Luogo nascita
+  H000014                                         125 127 PFNZNS                Nazione di nascita
+  H000015                                         128 128 PFSESS                Sesso
+  H000016                                         129 1360PFDTNS                Data di nascita
+  H000017                                         137 142 PFCABD                CAB Domicilio
+  H000018                                         143 145 PFNAZD                Nazione domicilio
+  H000019                                         146 146 PFRESD                Residente
+  H000020                                         147 150 PFGRP                 Cde Gruppo Attività EconomicaMST
+  H000021                                         151 154 PFSGRP                Cde Sottogruppo Attiv. Econ. MST
+  H000022                                         155 158 PFFGRD                Cde Forma Giuridica          MST
+  H000023                                         159 160 PFSGRD                Situazione giuridica
+  H000024                                         161 161 PFERED                Eredità
+  H000025                                         162 162 PFCFDC                Cod. Fiscale docum.
+  H000026                                       P 163 1680PFCCBK                Codice Censito Bankitalia
+  H000027                                       P 169 1700PFCHBK                Carattere controllo Bankitalia
+  H000028                                         171 178 PFGRUP                Gruppo appartenenza
+  H000029                                         179 179 PFFSOF                Sts Sofferenza (S/N)
+  H000030                                         180 180 PFIMGR                Sts appartenenza al gruppo   AC
+  H000031                                       P 181 1850PFDSGE                Data ultimo scarico GESCR
+  H000032                                         186 186 PFCPIN                Sts richiesta CPIN
+  H000033                                         187 195 PFBNEL                Cde El. Banco Nap.
+  H000034                                         196 198 PFCDIS                Cde Canale Distr.
+  H000035                                         199 203 PFCRAE                Cde Rating Esterno
+  H000036                                         204 206 PFCRAI                Cde Rating Interno
+  H000037                                         207 207 PFFSOC                Sts Socio
+  H000038                                       P 208 2102PFPQUO                Pct Quota Partecipazione
+  H000039                                       P 211 2130PFFTAN                Dte Anno Fatturato
+  H000040                                       P 214 2212PFFTAV                Val Fatturato Annuo
+  H000041                                         222 222 PFRETL                Retail
+  H000042                                         223 223 PFCLCM                Clientela comune
+  H000043                                         224 226 PFECAI                Codice ECAI
+  H000044                                         227 227 PFATSZ                Cde Sezione Ateco
+  H000045                                         228 229 PFATDV                Cde Divisione Ateco
+  H000046                                         230 230 PFATGR                Cde Gruppo Ateco
+  H000047                                         231 231 PFATCL                Cde Classe Ateco
+  H000048                                         232 232 PFATCA                Cde Categoria Ateco
+  H000049                                         233 233 PFATSC                Cde Sottocategoria Ateco
+  H000050                                         234 234 PFCNTZ                Cde Contenzioso              MST
+  H000051                                       P 235 2422PFFTCO                Fatturato consolidato
+  H000052                                       P 243 2502PFTOAT                Totale Attivo
+  H000053                                       P 251 2582PFTOAC                Totale Attivo consolidato
+  H000054                                         259 260 PFSTBI                Cod. Struttura di Bilancio
+  H000055                                         261 276 PFNGGO                Cod. NDG di governo
+  H000056                                         277 376 PFPEC                 Indirizzo PEC
+  H000057                                         377 476 PFPUMA                Acronimo PUMA
+  H000058                                         477 478 PFGPRR                Codice profilo rischio GPR
+  H000059                                       P 479 4830PFGPRD                Data profilo rischio GPR
+  H000060                                         484 484 PFPMI                 Piccole e medie imprese
+  H000061                                         485 485 PFPMIS                PMI con fattore sostegno
+  H000062                                         486 486 PFFORB                Forbearance
+  H000063                                       P 487 4900PFNDIP                Numero dipendenti
+  H000064                                       P 491 4930PFFTAC                Anno fatturato consolidato
+  H000065                                         494 495 PFSTBC                Cod.strutt. bilancio consol.
+  H000066                                         496 502 PFNICC                Num Iscrizione CCIAA
+  H000067                                       P 503 5070PFDTIR                Data Iscriz. Registro Impr.
+  H000068                                         508 509 PFPROV                Prov. Iscriz. Registro Impr.
+  H000069                                         510 5200PFPIVA                Partita Iva
+  H000070                                         521 540 PFVAT                 Codice VAT
+  H000071                                         541 541 PFSPLI                Split Payment
+  H000072                                         542 542 PFWK01                Byte Work 1
+  H000073                                         543 543 PFWK02                Byte Work 2
+  H000074                                         544 544 PFWK03                Byte Work 3
+  H000075                                         545 545 PFWK04                Byte Work 4
+  H000076                                         546 546 PFWK05                Byte Work 5
+  H000077                                         547 547 PFWK06                Byte Work 6
+  H000078                                         548 548 PFWK07                Byte Work 7
+  H000079                                         549 549 PFWK08                Byte Work 8
+  H000080                                         550 550 PFWK09                Byte Work 9
+  H000081                                         551 551 PFWK10                Byte Work 10
+  H000082                                         552 5590PFDTW1                Campo Work 1
+  H000083                                         560 5670PFDTW2                Campo Work 2
+  I000000   INPUT  CAMPI PER RECORD AGSNPF1R FILE AGSNPF1L FORMATO AGSNPF1R.
+  I000000         ANAGRAFE SOGGETTI NON PERSONA FISICA
+  I000001                                           1   3 IMTREC                Cde Tipo Rec File -SNP-
+  I000002                                           4   4 IMFLAG                Sts Record V/A               CMN
+  I000003                                           5   5 IMLOCK                Sts Blocco record            CMN
+  I000004                                       P   6  100IMNAZN                Nbr Azione Aggiornamento     CMN
+  I000005                                       P  11  150IMDINS                Data Inserimento
+  I000006                                       P  16  200IMDUPD                Data Aggiornamento
+  I000007                                       P  21  240IMHEXE                Tme Ora Modifica             CMN
+  I000008                                          25  34 IMUSER                Nar Profilo Utente           CMN
+  I000009                                          35  42 IMCANG                Codice Anagrafe Generale
+  I000010                                          43  58 IMFISC                Cde Fiscale                  AC
+  I000011                                          59  98 IMDEN1                Denominazione Impresa
+  I000012                                          99 138 IMDEN2                Denominazione Impresa
+  I000013                                         139 178 IMDEN3                Denominazione Impresa
+  I000014                                         179 218 IMDEN4                Denominazione Impresa
+  I000015                                         219 238 IMSIGI                Sigla Impresa
+  I000016                                         239 244 IMCABL                CAB Sede Legale
+  I000017                                         245 247 IMNAZL                Nazione Sede Legale
+  I000018                                         248 248 IMRESD                Residente
+  I000019                                         249 255 IMNICC                Num Iscrizione CCIAA
+  I000020                                         256 259 IMGRP                 Cde Gruppo Attività EconomicaMST
+  I000021                                         260 263 IMSGRP                Cde Sottogruppo Attiv. Econ. MST
+  I000022                                         264 267 IMFGRD                Cde Forma Giuridica          MST
+  I000023                                         268 269 IMSGRD                Situazione giuridica
+  I000024                                         270 272 IMNZCM                Nazione Casa Madre
+  I000025                                         273 277 IMCABI                Cde Banca A.B.I.             BI
+  I000026                                         278 278 IMCHCK                Carattere controllo ABI
+  I000027                                         279 289 IMCUIC                Codice UIC
+  I000028                                         290 290 IMCFDC                Cod. Fiscale docum.
+  I000029                                         291 291 IMCIAD                CCIAA documentata
+  I000030                                       P 292 2970IMCCBK                Codice Censito Bankitalia
+  I000031                                       P 298 2990IMCHBK                Carattere controllo Bankitalia
+  I000032                                         300 307 IMGRUP                Gruppo appartenenza
+  I000033                                       P 308 3100IMAIRI                Anno Iscrizione Registro Imprese
+  I000034                                         311 317 IMNIRI                Numero Iscrizione Registro Imprese
+  I000035                                         318 318 IMFSOF                Sts Sofferenza (S/N)
+  I000036                                         319 319 IMIMGR                Sts appartenenza al gruppo   AC
+  I000037                                         320 320 IMSSVP                Sts società soggetta vigilanza prudenziale
+  I000038                                       P 321 3250IMDSGE                Data ultimo scarico GESCR
+  I000039                                         326 326 IMCPIN                Sts richiesta CPIN
+  I000040                                         327 335 IMBNEL                Cde El Banco Napoli
+  I000041                                         336 340 IMCRAE                Cde Rating Esterno
+  I000042                                         341 343 IMCDIS                Cde Canale Distr.
+  I000043                                         344 346 IMCRAI                Cde Rating Interno
+  I000044                                         347 347 IMFSOC                Sts Socio
+  I000045                                       P 348 3502IMPQUO                Pct Quota Partecipazione
+  I000046                                       P 351 3530IMFTAN                Dte Anno Fatturato
+  I000047                                       P 354 3612IMFTAV                Val Fatturato Annuo
+  I000048                                         362 362 IMRGAC                Sts Ril. garanzie consortili (S/N)
+  I000049                                         363 363 IMRETL                Retail
+  I000050                                         364 364 IMCLCM                Clientela comune
+  I000051                                         365 367 IMECAI                Codice ECAI
+  I000052                                         368 368 IMATSZ                Cde Sezione Ateco
+  I000053                                         369 370 IMATDV                Cde Divisione Ateco
+  I000054                                         371 371 IMATGR                Cde Gruppo Ateco
+  I000055                                         372 372 IMATCL                Cde Classe Ateco
+  I000056                                         373 373 IMATCA                Cde Categoria Ateco
+  I000057                                         374 374 IMATSC                Cde Sottocategoria Ateco
+  I000058                                         375 375 IMCNTZ                Cde Contenzioso              MST
+  I000059                                         376 376 IMONLU                Esenzione Bollo Virtuale ONLUS
+  I000060                                       P 377 3810IMONLD                Data Richiesta Esenzione Bollo
+  I000061                                       P 382 3892IMFTCO                Fatturato consolidato
+  I000062                                       P 390 3972IMTOAT                Totale Attivo
+  I000063                                       P 398 4052IMTOAC                Totale Attivo consolidato
+  I000064                                         406 407 IMSTBI                Cod. Struttura di Bilancio
+  I000065                                         408 423 IMNGGO                Cod. NDG di governo
+  I000066                                         424 523 IMPEC                 Indirizzo PEC
+  I000067                                         524 623 IMPUMA                Acronimo PUMA
+  I000068                                         624 625 IMGPRR                Codice profilo rischio GPR
+  I000069                                       P 626 6300IMGPRD                Data profilo rischio GPR
+  I000070                                         631 631 IMPMI                 Piccole e medie imprese
+  I000071                                         632 632 IMPMIS                PMI con fattore sostegno
+  I000072                                         633 633 IMFORB                Forbearance
+  I000073                                         634 639 IMCDPA                Cod.Pubblica Amm.
+  I000074                                       P 640 6430IMNDIP                Numero dipendenti
+  I000075                                       P 644 6460IMFTAC                Anno fatturato consolidato
+  I000076                                         647 648 IMSTBC                Cod.strutt. bilancio consol.
+  I000077                                       P 649 6530IMDTIR                Data Iscriz. Registro Impr.
+  I000078                                         654 655 IMPROV                Prov. Iscriz. Registro Impr.
+  I000079                                         656 6660IMPIVA                Partita Iva
+  I000080                                         667 686 IMVAT                 Codice VAT
+  I000081                                         687 687 IMSPLI                Split Payment
+  I000082                                         688 688 IMWK01                Fattura elettronica
+  I000083                                         689 689 IMWK02                Byte Work 2
+  I000084                                         690 690 IMWK03                Byte Work 3
+  I000085                                         691 691 IMWK04                Byte Work 4
+  I000086                                         692 692 IMWK05                Byte Work 5
+  I000087                                         693 693 IMWK06                Byte Work 6
+  I000088                                         694 694 IMWK07                Byte Work 7
+  I000089                                         695 695 IMWK08                Byte Work 8
+  I000090                                         696 696 IMWK09                Byte Work 9
+  I000091                                         697 697 IMWK10                Byte Work 10
+  I000092                                         698 7050IMDTW1                Campo Work 1
+  I000093                                         706 7130IMDTW2                Campo Work 2
+  J000000   INPUT  CAMPI PER RECORD AGCORI1R FILE AGCORI1L FORMATO AGCORI1R.
+  J000000         COINTESTATARI
+  J000001                                           1   3 CITREC                Cde Tipo Rec File -CO2-
+  J000002                                           4   4 CIFLAG                Sts Record V/A               CMN
+  J000003                                           5   5 CILOCK                Sts Blocco record            CMN
+  J000004                                       P   6  100CINAZN                Nbr Azione Aggiornamento     CMN
+  J000005                                       P  11  140CIDINS                Dte Inserimento              CMN
+  J000006                                       P  15  180CIDUPD                Dte Aggiornamento            CMN
+  J000007                                       P  19  220CIHEXE                Tme Ora Modifica             CMN
+  J000008                                          23  32 CIUSER                Nar Profilo Utente           CMN
+  J000009                                          33  40 CICINZ                Codice Cointestazione
+  J000010                                          41  48 CICINT                Codice Cointestatario
+  J000011                                       P  49  530CIDTDC                Data Decorrenza
+  J000012                                       P  54  580CIDTTR                Data Termine
+  K000000   INPUT  CAMPI PER RECORD MST0011R FILE MST0011L FORMATO MST0011R.
+  K000000         Archivio Tabelle
+  K000001                                           1   1 MTFLAG                Stato Record
+  K000002                                           2   3 MTTREC                Codice File
+  K000003                                           4   6 MTKEYA                Campo Chiave A
+  K000004                                           7  15 MTKEYB                Campo Chiave B
+  K000005                                          16 128 MTDESC                Parametri Tabella
+     7500  IKPJBA     E DS                                                                     03/08/07
+  L000001                                           1  10 KNMUS                 Nome Utente                   -B-
+  L000002                                          11  13 KTPRF                 Tipo Utente                   -B-
+  L000003                                          14  220KNRAZ                 Num. Azione                   -B-
+  L000004                                          23  25 KTSIF                 Tipo Sistema Informativo      -B-
+  L000005                                          26  35 KNMTD                 Nome Terminale                -B-
+  L000006                                          36  36 KFLRC                 Flag Ripartenza               -B- b=Nrm R=Rip
+  L000007                                          37  450KNRVJ                 Num. Azione Interrotta        -B-
+  L000008                                          46  52 KMSMN                 Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+  L000009                                          53  58 KNRJO                 Num. Lavoro                   -B-
+  L000010                                          59  59 KSTJO                 Flag Stato Lavoro             -A- N=Nrm H=Hld
+  L000011                                          60  60 KFLMS                 Flag Messaggio Pendente       -X-
+  L000012                                          61  660KTMIN                 Time Fine Azione              -A- HHMMSS
+  L000013                                          67  70 KCDAZ                 Cod. Azione                   -B-
+  L000014                                          71  71 KTPAZ                 Tipo Azione                   -B- I/W=Int B/N=Bch
+  L000015                                          72  72 KCDRC                 Cod. Ripartenza               -C- b 0123 5678
+  L000016                                          73  73 KTPFN                 Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+  L000017                                          74  83 KQOTD                 Nome OutQ Terminale           -B-
+  L000018                                          84  93 KNMEB                 Nome Lavoro                   -B-
+  L000019                                          94  960KNMSB                 Num. Sbmjob Eseguiti          -B-
+  L000020                                          97  98 KNRRB                 Num. ReSbmjob Batch           -A-
+  L000021                                          99 107 KNSIF                 Nome Sistema Informativo      -B-
+  L000022                                         108 109 KCDJD                 Cod. JobD                     -A-
+  L000023                                         110 116 KQIEB                 Nome JobQ                     -B-
+  L000024                                         117 126 KQOFR                 Nome OutQ                     -B-
+  L000025                                         127 1310KKEYF                 Cod. RRN Azione               -B-
+  L000026                                         132 1360KRCDS                 Cod. RRN Sessione             -A-
+  L000027                                         137 137 KEXCN                 Flag Controllo JobD     Batch -X-
+  L000028                                         138 141 KCOAZ                 Cod. Azione             Batch -C-
+  L000029                                         142 142 KFLAD                 Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+  L000030                                         143 152 KQOPR                 Nome OutQ               Batch -C-
+  L000031                                         153 154 KNMCP                 Num. Copie Stampe       Batch -X-
+  L000032                                         155 155 KJOST                 Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+  L000033                                         156 156 KSTEB                 Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+  L000034                                         157 158 KCOJB                 Cod. JobD               Batch -C-
+  L000035                                         159 165 KQEBI                 Nome JobQ               Batch -C-
+  L000036                                         166 175 KMDST                 Nome Modulo Stampe      Batch -X-
+  L000037                                         176 205 KFIER                 Cod. LibFilMbr in Errore      -X-
+  L000038                                         206 206 KCANC                 Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+  L000039                                         207 209 KGRAZ                 Cod. Gruppo Azione            -C-
+  L000040                                         210 210 KFSLG                 Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+  L000041                                         211 211 KTPWS                 Tipo Terminale                -X- N=Nrm
+  L000042                                         212 217 KDTJB                 Data Lavoro             Batch -X-
+  L000043                                         218 227 KJRNM                 Nome Journal                  -X-
+  L000044                                         228 237 KJRLB                 Libr.Journal                  -X-
+  L000045                                         238 238 KRITB                 Flag Ritorno Batch            -C-
+  L000046                                         239 246 KBUFF                 Fllr                          -X-
+  L000047                                         247 502 KPJBU                 Dati Applicativo              -D-
+     7600  ISGL       E DS                                                                     07/08/07
+  M000001                                           1  30 SGLNAZ                DESCRIZIONE NAZIONE
+  M000002                                          31  32 SGLMER                Cde Mercato Geografico       MST
+  M000003                                          33  33 SGLRES                RESIDENZA
+  M000004                                          34  350SGLAAI                AREA ASSOGG. IVA
+  M000005                                          36  36 SGLZTP                ZONA TARIFFA POSTALE
+  M000006                                          37  37 SGIBAN                IBAN OBBLIGATORIO
+  M000007                                          38  38 SGLBGR                ZONA PER BILANCI E GRANDI RISCHI
+  M000008                                          39  41 SGLDIV                VALUTA
+  M000009                                          42  42 SGLFES                PRESENZA PROPRIA FILIALE ESTERA
+  M000010                                          43  43 SGLAPP                APPARTENENZA GRUPPO DEI  DIECI
+  M000011                                          44  46 SGLARE                AREA GEOGRAFICA PER      SEGNALAZIONE SU BASE
+  M000012                                          47  47 SGLUME                APPARTENENZA UME
+  M000013                                          48  48 SGLPNC                PAESE NON COOPERANTE
+  M000014                                          49  560SGLDID                DATA INIZIO DEFINIZIONE
+  M000015                                          57  640SGLDFD                DATA FINE DEFINIZIONE
+  M000016                                          65  65 SGLCTL                CAR. DI CONTROLLO NAZIONE
+  M000017                                          66  68 SGLISO                CODICE ISO NAZIONE
+  M000018                                          69  69 SGLSEP                APPARTENENZA SEPA
+  M000019                                          70  71 SGLIS2                COD.NAZIONE ISO 2
+  M000020                                          72  73 SGLPVA                PERFIX VAT
+  M000021                                          74  74 SGLTPV                TIPOLOGIA VAT A/N
+  M000022                                          75  750SGLMIN                VAT MINIMO
+  M000023                                          76  760SGLMAX                VAT MASSIMO
+  M000024                                          77 111 SGLFL2                FILLER
+     7700  ISGR       E DS                                                                     26/07/16   AE157
+  N000001                                           1  60 SGRDES                DESCRIZIONE
+  N000002                                          61  61 SGRTIP                TIPO SOTTOGRUPPO
+  N000003                                          62  64 SGRSET                Cde Settore Attività Econom. MST
+  N000004                                          65  67 SGRSST                Cde Sottosettore Attiv. Econ.MST
+  N000005                                          68  69 SGRCEE                CLASSIF. IV DIR.CEE
+  N000006                                          70  720SGRFPO                VBI Pct Fattore di pond.
+  N000007                                          73  74 SGRTCO                V.B. Cde Controparte
+  N000008                                          75  79 SGRVOC                V.B. Cde Voce
+  N000009                                          80  81 SGRSVO                V.B. Cde Sottovoce
+  N000010                                          82  82 SGRRES                RESIDENZA
+  N000011                                          83  83 SGRINU                Sts Inclusione usura
+  N000012                                          84  85 SGRPOR                CODICE PORTAFOGLIO METODO 1
+  N000013                                          86  86 SGRRTL                RETAIL
+  N000014                                          87  88 SGRPO2                CODICE PORTAFOGLIO METODO 2
+  N000015                                          89  89 SGRTPE                TIPO ENTE
+  N000016                                          90 113 SGRFIL                FILLER
+     7800  IDSA022    E DSRRA022DS                                                             20/05/08
+  O000001                                           1   90D22GAR                CODICE GARANZIA
+  O000002                                          10  10 D22EXE                FLAG ESECUZIONE SILENTE
+  O000003                                          11 113 D22FIL                FILLER
+     7900  IDSA024    E DSRRA024DS                                                             20/05/08
+     8000  I******************************************************************                 03/08/07
+     8100  I*              D S   I N T E R N E                               *                 03/08/07
+     8200  I******************************************************************                 03/08/07
+  P000001                                           1  16 D24SOG                CODICE SOGGETTO
+  P000002                                          17  32 D24RAP                CODICE RAPPORTO
+  P000003                                          33  33 D24FAR                A=ANNULLAMENTO, R=RIPRISTINO, C=CONTROLLO
+  P000004                                          34  34 D24ERR                E=SOGGETTO NON ANNULLABILE
+  P000005                                          35 113 D24FIL                FILLER
+     8300  IDSPARM      DS                                                                     03/08/07
+     8400  I                                        1   1 SCEDS                                03/08/07
+     8500  I                                        2  17 KODDS                                03/08/07
+     8600  I                                       18  47 LGRDS                                03/08/07
+     8700  I                                       48 117 CGNDS                                03/08/07
+     8800  I                                      118 1250DTNDS                                03/08/07
+     8900  I                                      126 155 LGNDS                                03/08/07
+     9000  I                                      156 157 PRNDS                                03/08/07
+     9100  I                                      158 192 VIADS                                03/08/07
+     9200  I                                      193 197 CAPDS                                03/08/07
+     9300  I                                      198 203 CCADS                                03/08/07
+     9400  I                                      204 204 SEXDS                                03/08/07
+     9500  I                                      205 220 CFSDS                                03/08/07
+     9600  I                                      221 223 PAEDS                                03/08/07
+     9700  I                                      224 226 STGDS                                03/08/07
+     9800  I                                      227 229 RAMDS                                03/08/07
+     9900  I                                      230 230 QUODS                                08/03/12   ddg1
+    10000  I                                      231 231 TITDS                                08/03/12   ddg1
+    10100  I                                      232 232 TSZDS                                24/03/12   ddg1
+    10200  I                                      233 234 TDVDS                                24/03/12   ddg1
+    10300  I                                      235 235 TGRDS                                24/03/12   ddg1
+    10400  I                                      236 236 TCLDS                                24/03/12   ddg1
+    10500  I                                      237 237 TCADS                                24/03/12   ddg1
+    10600  I                                      238 238 TSCDS                                24/03/12   ddg1
+    10700  IDSRAP       DS                                                                     06/08/07         S
+    10800  I                                        1  16 KPRAP                                06/08/07
+    10900  I                                       17  17 KPSCEL                               06/08/07
+    11000  I                                       18  33 KPCOI1                               06/08/07
+    11100  I                                       34  49 KPCOI2                               06/08/07
+    11200  I                                       50  65 KPCOI3                               06/08/07
+    11300  I                                       66  81 KPCOI4                               06/08/07
+    11400  I                                       82  97 KPCOI5                               06/08/07
+    11500  I                                       18  97 DSCOIN                               06/08/07
+    11600  IDSCONO      DS                                                                     06/08/07
+    11700  I                                        1  30 COGDS                                06/08/07
+    11800  I                                       31  60 NOMDS                                06/08/07
+    11900  I           IDS                                                                     06/08/07
+    12000  I                                        1  16 DSSOG                                06/08/07
+    12100  I                                        1   3 DSGAR                                06/08/07
+    12200  I                                        4  10 DSNDG                                06/08/07
+    12300  I                                       11  16 FILLER                               06/08/07
+    12400  C******************************************************************                 03/08/07
+    12500  C*              SEQUENZA PRINCIPALE                               *                 03/08/07
+    12600  C******************************************************************                 03/08/07
+    12700  C*                                                                                  03/08/07
+    12800  C                     EXSR SINIZI                                                   03/08/07
+    12900  C*                                                                                  03/08/07
+    13000  C                     EXSR SELABO                                                   03/08/07
+    13100  C*                                                                                  03/08/07
+    13200  C                     MOVELDSA022    KPJBU                                          04/06/09
+    13300  C*                                                                                  04/06/09
+    13400  C                     MOVE *ON       *INLR                                          03/08/07
+    13500  C*                                                                                  03/08/07
+    13600  C******************************************************************                 03/08/07
+    13700  C*              OPERAZIONI INIZIALI                               *                 03/08/07
+    13800  C******************************************************************                 03/08/07
+    13900  C           SINIZI    BEGSR                                                         03/08/07
+    14000  C*                                                                                  03/08/07
+    14100  C           *ENTRY    PLIST                                                         03/08/07
+    14200  C                     PARM           KPJBA                                          03/08/07
+    14300  C*                                                                                  03/08/07
+    14400  C                     EXSR SDEFIN                                                   03/08/07
+    14500  C*                                                                                  03/08/07
+    14600  C                     MOVELKPJBU     DSA022                                         31/10/07
+    14700  C*                                                                                  07/08/07
+    14800  C                     CLEARDSPARM                                                   03/08/07
+    14900  C                     CLEARDSCONO                                                   06/08/07
+    15000  C*                                                                                  03/08/07
+    15100  C           EINIZI    ENDSR                                                         03/08/07
+    15200  C******************************************************************                 03/08/07
+    15300  C*              ELABORAZIONE DATI                                 *                 03/08/07
+    15400  C******************************************************************                 03/08/07
+    15500  C           SELABO    BEGSR                                                         03/08/07
+    15600  C*                                                                                  03/08/07
+    15700  C* Aggancio e verifico lo stato della garanzia passata come parametro               03/08/07           .
+    15800  C           D22GAR    CHAINGARRIC1L             41                    1             20/05/08
+    15900  C           *IN41     IFEQ *OFF                                              B001   03/08/07
+    16000  C*                                                                                  03/08/07
+    16100  C* ... se risulta annullata allora, se il rapporto è ancora aperto,                 10/08/07
+    16200  C*     prima richiama silentemente l'annullamento dei soggetti e se                 10/08/07
+    16300  C*     possibile li annulla (al contrario degli altri pgm si è prefer               10/08/07           ito
+    16400  C*     inserire qui la gestione di questa fase in modo che fosse in u               10/08/07           n
+    16500  C*     solo programma anziché ricopiarla in tutti gli altri programmi               31/10/07           ) poi,
+    16600  C*     se D22EXE = '1' esegue silentemente la chiusura del rapporto                 20/05/08
+    16700  C*     altrimenti richiama la relativa anagrafica interattiva per la                31/10/07
+    16800  C*     chiusura del rapporto.                                                       31/10/07
+    16900  C*                                                                                  31/10/07
+    17000  C           GRFLAG    IFEQ 'A'                        Annullata              B002   09/08/07
+    17100  C*                                                                                  13/05/08
+    17200  C                     MOVEL*BLANKS   CODRAP 16                                002   20/05/08
+    17300  C                     MOVELGRNRGA    WKNRGA  9                                002   06/08/07
+    17400  C           'GAR'     CAT  WKNRGA:0  CODRAP                                   002   20/05/08
+    17500  C           CODRAP    CHAINANRAP01L             83                    1       002   20/05/08
+    17600  C           *IN83     IFEQ *OFF                                              B003   06/08/07
+    17700  C                     EXSR CLSDEL                                             003   27/01/09
+    17800  C                     EXSR CLSTIT                                             003   30/11/10   SS02
+    17900  C                     EXSR CLSDIC                                             003   30/11/10   SS02
+    18000  C                     EXSR CLSSOG                                             003   14/05/08         S
+    18100  C           ARFCCC    IFNE 'C'                                               B004   10/08/07
+    18200  C           D22EXE    IFEQ '1'                                               B005   20/05/08
+    18300  C                     MOVEL*DATE     ARDTCC                                   005   31/10/07
+    18400  C                     MOVEL'C'       ARFCCC                                   005   31/10/07
+    18500  C                     Z-ADD*DATE     ARDTCH                                   005   04/06/09
+    18600  C                     MOVEL'R'       ARFCCH                                   005   04/06/09
+    18700  C                     MOVELKNMUS     ARUTVA                                   005   31/10/07
+    18800  C                     MOVEL*DATE     ARDTVA                                   005   31/10/07
+    18900  C                     TIME           ARHHVA                                   005   31/10/07
+    19000  C                     UPDATRANRAP                                             005   31/10/07
+    19100  C                     MOVEL'A'       D22EXE                                   005   04/06/09
+    19200  C                     ELSE                                                   X005   31/10/07
+    19300  C                     UNLCKANRAP01L                                           005   31/10/07
+    19400  C                     MOVEL'3'       KPSCEL           Chiusura                005   09/08/07
+    19500  C                     EXSR ANRAP                                              005   09/08/07
+    19600  C                     ENDIF                                                  E005   31/10/07
+    19700  C                     ENDIF                                                  E004   06/08/07
+    19800  C                     ENDIF                                                  E003   06/08/07
+    19900  C*                                                                                  03/08/07
+    20000  C* ... altrimenti verifica se occorre richiamare                                    03/08/07
+    20100  C*     l'anagrafica RUA del soggetto e del rapporto per aprirli                     03/08/07
+    20200  C                     ELSE                                                   X002   03/08/07
+    20300  C*                                                                                  03/08/07
+    20400  C                     EXSR ANSOG                                              002   03/08/07
+    20500  C*                                                                                  06/08/07
+    20600  C                     MOVEL'1'       KPSCEL           Apertura                002   09/08/07
+    20700  C                     EXSR ANRAP                                              002   06/08/07
+    20800  C*                                                                                  03/08/07
+    20900  C                     ENDIF                                                  E002   03/08/07
+    21000  C*                                                                                  03/08/07
+    21100  C                     ENDIF                                                  E001   03/08/07
+    21200  C*                                                                                  03/08/07
+    21300  C           EELABO    ENDSR                                                         03/08/07
+    21400  C****************************************************************                   03/08/07
+    21500  C*  ANSOG  - DETERMINA QUALI SONO I GARANTI E SE NON ESISTONO                       03/08/07
+    21600  C*           ANCORA SU ANSOG RICHIAMA IL PGM D'IMMISSIONE                           03/08/07
+    21700  C*           PASSANDO TUTTI I PARAMETRI GIA' IMPOSTATI.                             03/08/07
+    21800  C****************************************************************                   03/08/07
+    21900  C           ANSOG     BEGSR                                                         03/08/07
+    22000  C*                                                                                  03/08/07
+    22100  C                     CLEARDSSOG                                                    03/08/07
+    22200  C                     MOVEL'GAR'     DSGAR                                          07/08/07
+    22300  C                     CLEARDSCOIN                                                   03/08/07
+    22400  C*                                                                                  03/08/07
+    22500  C                     MOVELGRCANG    TIPANA  1                                      03/08/07
+    22600  C                     MOVE GRCANG    KKCANG                                         05/11/07
+    22700  C*                                                                                  03/08/07
+    22800  C                     SELEC                                                  B001   03/08/07
+    22900  C*                                                                                  03/08/07
+    23000  C* AGSNPF0F                                                                         03/08/07
+    23100  C           TIPANA    WHEQ 'N'                                               X001   03/08/07
+    23200  C           GRCANG    CHAINAGSNPF1L             98                    1       001   03/08/07
+    23300  C  N98                MOVE IMCANG    DSNDG                                    001   03/08/07
+    23400  C  N98                EXSR WRTSOG                                             001   03/08/07
+    23500  C  N98                MOVE DSSOG     KPCOI1                                   001   07/08/07
+    23600  C*                                                                                  03/08/07
+    23700  C* AGPERF0F                                                                         03/08/07
+    23800  C           TIPANA    WHEQ 'P'                                               X001   03/08/07
+    23900  C           GRCANG    CHAINAGPERF1L             98                    1       001   03/08/07
+    24000  C  N98                MOVE PFCANG    DSNDG                                    001   03/08/07
+    24100  C  N98                EXSR WRTSOG                                             001   03/08/07
+    24200  C  N98                MOVE DSSOG     KPCOI1                                   001   07/08/07
+    24300  C*                                                                                  03/08/07
+    24400  C* AGCORI0F                                                                         03/08/07
+    24500  C           TIPANA    WHEQ 'C'                                               X001   03/08/07
+    24600  C                     SETOF                     98                    1       001   03/08/07
+    24700  C                     Z-ADD*ZEROS    NUMCOI  10                               001   03/08/07
+    24800  C*                                                                                  03/08/07
+    24900  C           GRCANG    SETLLAGCORI1L                                           001   03/08/07
+    25000  C           *IN98     DOWEQ*OFF                                              B002   03/08/07
+    25100  C           GRCANG    READEAGCORI1L                 98                    3   002   03/08/07
+    25200  C   98                LEAVE                                                   002   03/08/07
+    25300  C*                                                                                  03/08/07
+    25400  C                     ADD  1         NUMCOI                                   002   03/08/07
+    25500  C           NUMCOI    IFGT 5                                                 B003   03/08/07
+    25600  C                     LEAVE                                                   003   03/08/07
+    25700  C                     ENDIF                                                  E003   03/08/07
+    25800  C*                                                                                  03/08/07
+    25900  C                     MOVELCICINT    TIPANA                                   002   03/08/07
+    26000  C                     MOVELCICINT    KKCANG                                   002   07/08/07
+    26100  C                     EXSR SAVCOI                                             002   03/08/07
+    26200  C*                                                                                  03/08/07
+    26300  C                     SELEC                                                  B003   03/08/07
+    26400  C*                                                                                  03/08/07
+    26500  C* AGSNPF0F                                                                         03/08/07
+    26600  C           TIPANA    WHEQ 'N'                                               X003   03/08/07
+    26700  C           CICINT    CHAINAGSNPF1L             98                    1       003   03/08/07
+    26800  C  N98                MOVE IMCANG    DSNDG                                    003   03/08/07
+    26900  C  N98                EXSR WRTSOG                                             003   03/08/07
+    27000  C* AGPERF0F                                                                         03/08/07
+    27100  C           TIPANA    WHEQ 'P'                                               X003   03/08/07
+    27200  C           CICINT    CHAINAGPERF1L             98                    1       003   03/08/07
+    27300  C  N98                MOVE PFCANG    DSNDG                                    003   03/08/07
+    27400  C  N98                EXSR WRTSOG                                             003   03/08/07
+    27500  C*                                                                                  03/08/07
+    27600  C                     ENDSL                                                  E003   03/08/07
+    27700  C*                                                                                  03/08/07
+    27800  C                     ENDDO                                                  E002   03/08/07
+    27900  C*                                                                                  03/08/07
+    28000  C                     ENDSL                                                  E001   03/08/07
+    28100  C*                                                                                  03/08/07
+    28200  C                     ENDSR                                                         03/08/07
+    28300  C****************************************************************                   06/08/07
+    28400  C*  SAVCOI - SALVA CODICI COINTESTATARI                                             06/08/07
+    28500  C****************************************************************                   06/08/07
+    28600  C           SAVCOI    BEGSR                                                         06/08/07
+    28700  C*                                                                                  06/08/07
+    28800  C                     CLEARDSSOG                                                    07/08/07
+    28900  C                     MOVEL'GAR'     DSGAR                                          07/08/07
+    29000  C                     MOVE CICINT    DSNDG                                          07/08/07
+    29100  C*                                                                                  07/08/07
+    29200  C                     SELEC                                                  B001   06/08/07
+    29300  C*                                                                                  06/08/07
+    29400  C           NUMCOI    WHEQ 1                                                 X001   06/08/07
+    29500  C                     MOVELDSSOG     KPCOI1                                   001   07/08/07
+    29600  C*                                                                                  06/08/07
+    29700  C           NUMCOI    WHEQ 2                                                 X001   06/08/07
+    29800  C                     MOVELDSSOG     KPCOI2                                   001   07/08/07
+    29900  C*                                                                                  06/08/07
+    30000  C           NUMCOI    WHEQ 3                                                 X001   06/08/07
+    30100  C                     MOVELDSSOG     KPCOI3                                   001   07/08/07
+    30200  C*                                                                                  06/08/07
+    30300  C           NUMCOI    WHEQ 4                                                 X001   06/08/07
+    30400  C                     MOVELDSSOG     KPCOI4                                   001   07/08/07
+    30500  C*                                                                                  06/08/07
+    30600  C           NUMCOI    WHEQ 5                                                 X001   06/08/07
+    30700  C                     MOVELDSSOG     KPCOI5                                   001   07/08/07
+    30800  C*                                                                                  06/08/07
+    30900  C                     ENDSL                                                  E001   06/08/07
+    31000  C*                                                                                  06/08/07
+    31100  C                     ENDSR                                                         06/08/07
+    31200  C****************************************************************                   03/08/07
+    31300  C*  WRTSOG - RICHIAMA INTERATTIVO DI SCRITTURA                                      03/08/07
+    31400  C*           SOGGETTO SE NON PRESENTE IN ANSOG00F                                   03/08/07
+    31500  C****************************************************************                   03/08/07
+    31600  C           WRTSOG    BEGSR                                                         03/08/07
+    31700  C*                                                                                  03/08/07
+    31800  C****       DSSOG     CHAINANSOG01L             97                                  25/05/09   SS01
+    31900  C****       *IN97     IFEQ *ON                                                      25/05/09   SS01
+    32000  C****       *IN97     OREQ *OFF                                                     25/05/09   SS01
+    32100  C****       SOGBLK    ANDNE*BLANKS                                                  25/05/09   SS01
+    32200  C*                                                                                  06/08/07         S
+    32300  C                     CLEARKPJBU                                                    06/08/07
+    32400  C*                                                                                  06/08/07
+    32500  C                     MOVE '4'       SCEDS                                          07/08/07
+    32600  C                     MOVEL'GAR'     DSGAR                                          06/08/07
+    32700  C                     MOVELDSSOG     KODDS                                          06/08/07
+    32800  C*                                                                                  03/08/07
+    32900  C******               MOVEL'I'       SOGBLK                                         07/08/07
+    33000  C*                                                                                  03/08/07
+    33100  C           TIPANA    IFEQ 'N'                                               B001   03/08/07
+    33200  C           IMDEN1    CAT  IMDEN2:0  CGNDS                                    001   06/08/07
+    33300  C                     MOVE IMGRP     RAMDS                                    001   08/08/07
+    33400  C                     MOVE IMSGRP    STGDS                                    001   08/08/07
+    33500  C                     MOVEL'G'       SEXDS                                    001   06/08/07
+    33600  C                     MOVELIMNAZL    PAEDS                                    001   06/08/07
+    33700  C           IMNAZL    IFEQ '086'                                             B002   03/08/07
+    33800  C                     MOVELIMFISC    CFSDS                                    002   08/08/07
+    33900  C                     MOVELIMCABL    CCADS                                    002   06/08/07
+    34000  C                     MOVELIMCABL    XXCAB   6                                002   03/08/07
+    34100  C                     EXSR CNTCAB                                             002   03/08/07
+    34200  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    34300  C                     MOVELADADCD    LGRDS                                    003   06/08/07
+    34400  C******               MOVELADCPRO    PRRSOT                                         06/08/07
+    34500  C                     ENDIF                                                  E003   03/08/07
+    34600  C                     ELSE                                                   X002   03/08/07
+    34700  C                     MOVEL*BLANKS   CFSDS                                    002   06/08/07
+    34800  C******               MOVEL'EE'      PRRSOT                                         06/08/07
+    34900  C* DECODIFICA NAZIONE DA TABELLA "SGL"                                              03/08/07
+    35000  C                     CLEARSGL                                                002   03/08/07
+    35100  C                     MOVEL'SGL'     MTKEYA                                   002   03/08/07
+    35200  C                     MOVEL*ZEROS    MTKEYB                                   002   03/08/07
+    35300  C                     MOVE IMNAZL    MTKEYB                                   002   03/08/07
+    35400  C           MTKEY     CHAINMST0011L             80                    1       002   03/08/07
+    35500  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    35600  C                     MOVELMTDESC    SGL                                      003   03/08/07
+    35700  C                     MOVELSGLNAZ    LGRDS                                    003   06/08/07
+    35800  C                     ENDIF                                                  E003   03/08/07
+    35900  C                     ENDIF                                                  E002   03/08/07
+    36000  C                     MOVEL'SGR'     MTKEYA                                   001   26/07/16   AE157
+    36100  C                     MOVEL*ALL'0'   MTKEYB                                   001   26/07/16   AE157
+    36200  C                     MOVE IMSGRP    £SGRP   3                                001   10/10/16   AE157
+    36300  C                     MOVE £SGRP     MTKEYB                                   001   10/10/16   AE157
+    36400  C           MTKEY     CHAINMST0011L             80                    1       001   26/07/16   AE157
+    36500  C           *IN80     IFEQ *OFF                                              B002   26/07/16   AE157
+    36600  C                     MOVELMTDESC    SGR                                      002   26/07/16   AE157
+    36700  C                     ELSE                                                   X002   26/07/16   AE157
+    36800  C                     CLEARSGR                                                002   26/07/16   AE157
+    36900  C                     ENDIF                                                  E002   26/07/16   AE157
+    37000   * Codice Ateco                                                                     08/03/12   ddg1  S
+    37100  C           SGRTIP    IFEQ '1'                                               B002   26/07/16   AE157
+    37200  C                     MOVELIMATSZ    TSZDS                                    002   24/03/12   ddg1  S
+    37300  C                     MOVELIMATDV    TDVDS                                    002   24/03/12   ddg1
+    37400  C                     MOVELIMATGR    TGRDS                                    002   24/03/12   ddg1
+    37500  C                     MOVELIMATCL    TCLDS                                    002   24/03/12   ddg1
+    37600  C                     MOVELIMATCA    TCADS                                    002   24/03/12   ddg1
+    37700  C                     MOVELIMATSC    TSCDS                                    002   24/03/12   ddg1
+    37800  C                     ELSE                                                   X002   26/07/16   AE157
+    37900  C                     CLEARTSZDS                                              002   26/07/16   AE157
+    38000  C                     CLEARTDVDS                                              002   26/07/16   AE157
+    38100  C                     CLEARTGRDS                                              002   26/07/16   AE157
+    38200  C                     CLEARTCLDS                                              002   26/07/16   AE157
+    38300  C                     CLEARTCADS                                              002   26/07/16   AE157
+    38400  C                     CLEARTSCDS                                              002   26/07/16   AE157
+    38500  C                     ENDIF                                                  E002   26/07/16   AE157
+    38600  C                     ENDIF                                                  E001   03/08/07         S
+    38700   *                                                                                  08/03/12
+    38800  C*                                                                                  03/08/07
+    38900  C           TIPANA    IFEQ 'P'                                               B001   03/08/07
+    39000  C           PFCOGN    CAT  PFNOME:1  CGNDS                                    001   06/08/07
+    39100  C                     MOVELPFCOGN    COGDS                                    001   06/08/07
+    39200  C                     MOVELPFNOME    NOMDS                                    001   06/08/07
+    39300  C                     MOVE PFGRP     RAMDS                                    001   08/08/07
+    39400  C                     MOVE PFSGRP    STGDS                                    001   08/08/07
+    39500  C                     MOVELPFFISC    CFSDS                                    001   06/08/07
+    39600  C                     MOVELPFSESS    SEXDS                                    001   06/08/07
+    39700  C                     Z-ADDPFDTNS    DTNDS                                    001   06/08/07
+    39800  C                     MOVELPFNAZD    PAEDS                                    001   06/08/07
+    39900  C                     MOVEL'SGR'     MTKEYA                                   001   26/07/16   AE157
+    40000  C                     MOVEL*ALL'0'   MTKEYB                                   001   26/07/16   AE157
+    40100  C                     MOVE PFSGRP    £SGRP   3                                001   10/10/16   AE157
+    40200  C                     MOVE £SGRP     MTKEYB                                   001   10/10/16   AE157
+    40300  C           MTKEY     CHAINMST0011L             80                    1       001   26/07/16   AE157
+    40400  C           *IN80     IFEQ *OFF                                              B002   26/07/16   AE157
+    40500  C                     MOVELMTDESC    SGR                                      002   26/07/16   AE157
+    40600  C                     ELSE                                                   X002   26/07/16   AE157
+    40700  C                     CLEARSGR                                                002   26/07/16   AE157
+    40800  C                     ENDIF                                                  E002   26/07/16   AE157
+    40900   * Codice Ateco                                                                     08/03/12   ddg1  S
+    41000  C           SGRTIP    IFEQ '1'                                               B002   26/07/16   AE157
+    41100  C                     MOVELPFATSZ    TSZDS                                    002   24/03/12   ddg1  S
+    41200  C                     MOVELPFATDV    TDVDS                                    002   24/03/12   ddg1
+    41300  C                     MOVELPFATGR    TGRDS                                    002   24/03/12   ddg1
+    41400  C                     MOVELPFATCL    TCLDS                                    002   24/03/12   ddg1
+    41500  C                     MOVELPFATCA    TCADS                                    002   24/03/12   ddg1
+    41600  C                     MOVELPFATSC    TSCDS                                    002   24/03/12   ddg1
+    41700  C                     ELSE                                                   X002   26/07/16   AE157
+    41800  C                     CLEARTSZDS                                              002   26/07/16   AE157
+    41900  C                     CLEARTDVDS                                              002   26/07/16   AE157
+    42000  C                     CLEARTGRDS                                              002   26/07/16   AE157
+    42100  C                     CLEARTCLDS                                              002   26/07/16   AE157
+    42200  C                     CLEARTCADS                                              002   26/07/16   AE157
+    42300  C                     CLEARTSCDS                                              002   26/07/16   AE157
+    42400  C                     ENDIF                                                  E002   26/07/16   AE157
+    42500  C*                                                                                  03/08/07         S
+    42600  C* DATI LUOGO E NAZIONE DI NASCITA                                                  03/08/07
+    42700  C           PFNZNS    IFEQ '086'                                             B002   03/08/07
+    42800  C                     MOVELPFCABN    XXCAB   6                                002   03/08/07
+    42900  C                     EXSR CNTCAB                                             002   03/08/07
+    43000  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    43100  C                     MOVELADADCD    LGNDS                                    003   06/08/07
+    43200  C                     MOVELADCPRO    PRNDS                                    003   06/08/07
+    43300  C                     ENDIF                                                  E003   03/08/07
+    43400  C                     ELSE                                                   X002   03/08/07
+    43500  C                     MOVEL'EE'      PRNDS                                    002   06/08/07
+    43600  C* DECODIFICA NAZIONE DA TABELLA "SGL"                                              03/08/07
+    43700  C                     CLEARSGL                                                002   03/08/07
+    43800  C                     MOVEL'SGL'     MTKEYA                                   002   03/08/07
+    43900  C                     MOVEL*ZEROS    MTKEYB                                   002   03/08/07
+    44000  C                     MOVE IMNAZL    MTKEYB                                   002   03/08/07
+    44100  C           MTKEY     CHAINMST0011L             80                    1       002   03/08/07
+    44200  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    44300  C                     MOVELMTDESC    SGL                                      003   03/08/07
+    44400  C                     MOVELSGLNAZ    LGNDS                                    003   06/08/07
+    44500  C                     ENDIF                                                  E003   03/08/07
+    44600  C                     ENDIF                                                  E002   03/08/07
+    44700  C* DATI LUOGO E NAZIONE DI RESIDENZA                                                03/08/07
+    44800  C           PFNAZD    IFEQ '086'                                             B002   03/08/07
+    44900  C                     MOVELPFCABD    CCADS                                    002   06/08/07
+    45000  C                     MOVELPFCABD    XXCAB   6                                002   03/08/07
+    45100  C                     EXSR CNTCAB                                             002   03/08/07
+    45200  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    45300  C                     MOVELADADCD    LGRDS                                    003   06/08/07
+    45400  C******               MOVELADCPRO    PRRSOT                                         06/08/07
+    45500  C                     ENDIF                                                  E003   03/08/07
+    45600  C                     ELSE                                                   X002   03/08/07
+    45700  C******               MOVEL'EE'      PRRSOT                                         06/08/07
+    45800  C* DECODIFICA NAZIONE DA TABELLA "SGL"                                              03/08/07
+    45900  C                     CLEARSGL                                                002   03/08/07
+    46000  C                     MOVEL'SGL'     MTKEYA                                   002   03/08/07
+    46100  C                     MOVEL*ZEROS    MTKEYB                                   002   03/08/07
+    46200  C                     MOVE IMNAZL    MTKEYB                                   002   03/08/07
+    46300  C           MTKEY     CHAINMST0011L             80                    1       002   03/08/07
+    46400  C           *IN80     IFEQ *OFF                                              B003   03/08/07
+    46500  C                     MOVELMTDESC    SGL                                      003   03/08/07
+    46600  C                     MOVELSGLNAZ    LGRDS                                    003   06/08/07
+    46700  C                     ENDIF                                                  E003   03/08/07
+    46800  C                     ENDIF                                                  E002   03/08/07
+    46900  C                     ENDIF                                                  E001   03/08/07
+    47000  C*                                                                                  23/10/07
+    47100  C* Reperimento dati anagrafici sulla residenza da GARIND                            23/10/07
+    47200  C           KKCANG    CHAINGARIND1L             73                    1             23/10/07
+    47300  C           *IN73     IFEQ *OFF                                              B001   23/10/07
+    47400  C                     MOVELGIIND     VIADS                                    001   23/10/07
+    47500  C                     MOVELGICAP     CAPDS                                    001   23/10/07
+    47600  C                     ENDIF                                                  E001   23/10/07
+    47700  C*                                                                                  03/08/07
+    47800  C                     MOVELDSPARM    KPJBU                                          06/08/07
+    47900  C                     SELEC                                                  B001   06/08/07
+    48000  C           TIPANA    WHEQ 'P'                                               X001   06/08/07
+    48100  C                     CALL 'RRA004'                                           001   06/08/07
+    48200  C                     PARM           KPJBA                                    001   06/08/07
+    48300  C                     PARM           DSCONO                                   001   06/08/07
+    48400  C           TIPANA    WHEQ 'N'                                               X001   06/08/07
+    48500  C                     CALL 'RRA002'                                           001   06/08/07
+    48600  C                     PARM           KPJBA                                    001   06/08/07
+    48700  C                     ENDSL                                                  E001   06/08/07
+    48800  C*                                                                                  03/08/07
+    48900  C****                 ENDIF                                                         25/05/09   SS01
+    49000  C*                                                                                  03/08/07         S
+    49100  C                     ENDSR                                                         03/08/07
+    49200  C******************************************************************                 06/08/07
+    49300  C* ANRAP - RICHIAMO RUA GESTIONE RAPPORTI                         *                 06/08/07
+    49400  C******************************************************************                 06/08/07
+    49500  C           ANRAP     BEGSR                                                         06/08/07
+    49600  C*                                                                                  06/08/07
+    49700  C                     MOVE *BLANKS   KPJBU                                          06/08/07
+    49800  C                     MOVELGRNRGA    WKNRGA  9                                      07/08/07
+    49900  C           'GAR'     CAT  WKNRGA:0  KPRAP                                          06/08/07
+    50000  C                     MOVELDSRAP     KPJBU                                          06/08/07
+    50100  C                     CALL 'RRA018'                                                 07/08/07
+    50200  C                     PARM           KPJBA                                          06/08/07
+    50300  C*                                                                                  06/08/07
+    50400  C                     ENDSR                                                         06/08/07
+    50500  C****************************************************************                   27/01/09
+    50600  C*  CLSDEL - CHIUDE SILENTEMENTE I DELEGATI SE ESISTONO                             27/01/09
+    50700  C****************************************************************                   27/01/09
+    50800  C           CLSDEL    BEGSR                                                         27/01/09
+    50900  C*                                                                                  27/01/09
+    51000  C           CODRAP    SETLLANDEL02L                                                 28/01/09
+    51100  C                     DO   *HIVAL                                            B001   28/01/09
+    51200  C           CODRAP    READEANDEL02L                 73                    3   001   28/01/09
+    51300  C           *IN73     IFEQ *ON                                               B002   28/01/09
+    51400  C                     LEAVE                                                   002   28/01/09
+    51500  C                     ENDIF                                                  E002   28/01/09
+    51600  C                     MOVELKNMUS     ADUTVA                                   001   28/01/09
+    51700  C                     Z-ADD*DATE     ADDTVA                                   001   28/01/09
+    51800  C                     TIME           ADHHVA                                   001   28/01/09
+    51900  C                     MOVE 'C'       ADFDCD                                   001   28/01/09
+    52000  C                     Z-ADD*DATE     ADDTCD                                   001   28/01/09
+    52100  C                     MOVE 'R'       ADFDCR                                   001   02/12/10
+    52200  C                     Z-ADD*DATE     ADDTCR                                   001   08/05/09
+    52300  C                     UPDATRANDEL                                             001   28/01/09
+    52400  C*                                                                                  29/01/09
+    52500  C* Richiamo pgm chiusura soggetto delegato.                                         29/01/09
+    52600  C* Il programma richiamato verifica se può chiudere o no!                           29/01/09
+    52700  C                     MOVELKPJBU     SVJBU            Save KPJBU              001   29/01/09
+    52800  C                     CLEARKPJBU                                              001   29/01/09
+    52900  C                     CLEARDSA024                                             001   29/01/09
+    53000  C                     MOVELADKDEL    D24SOG           Soggetto                001   29/01/09
+    53100  C*****                MOVELADKRAP    D24RAP           Rapporto NON PA               29/01/09           SSARE!
+    53200  C                     MOVEL'A'       D24FAR           ANNULLAMENTO            001   29/01/09
+    53300  C                     MOVELDSA024    KPJBU                                    001   29/01/09
+    53400  C                     CALL 'RRA024'                                           001   29/01/09
+    53500  C                     PARM           KPJBA                                    001   29/01/09
+    53600  C                     MOVELSVJBU     KPJBU            Ripr.KPJBU              001   29/01/09
+    53700  C*                                                                                  29/01/09
+    53800  C                     ENDDO                                                  E001   29/01/09
+    53900  C*                                                                                  27/01/09
+    54000  C                     ENDSR                                                         27/01/09
+    54100  C****************************************************************                   30/11/10   SS02
+    54200  C*  CLSTIT - CHIUDE SILENTEMENTE I TITOLARI SE ESISTONO                             30/11/10   SS02
+    54300  C****************************************************************                   30/11/10   SS02
+    54400  C           CLSTIT    BEGSR                                                         30/11/10   SS02
+    54500  C*                                                                                  30/11/10   SS02
+    54600  C                     SETOF                     73                    1             30/11/10   SS02
+    54700  C           ARKINT    SETLLANTIT02L                                                 30/11/10   SS02
+    54800  C           *IN73     DOWEQ*OFF                                              B001   30/11/10   SS02
+    54900  C           ARKINT    READEANTIT02L                 73                    3   001   02/12/10   SS02
+    55000  C   73                LEAVE                                                   001   30/11/10   SS02
+    55100  C           ATFDCD    IFEQ 'C'                                               B002   30/11/10   SS02
+    55200  C                     ITER                                                    002   30/11/10   SS02
+    55300  C                     ENDIF                                                  E002   30/11/10   SS02
+    55400  C                     MOVELKNMUS     ATUTVA                                   001   02/12/10   SS02
+    55500  C                     MOVEL*DATE     ATDTVA                                   001   02/12/10   SS02
+    55600  C                     TIME           ATHHVA                                   001   02/12/10   SS02
+    55700  C                     MOVE 'C'       ATFDCD                                   001   02/12/10   SS02
+    55800  C                     MOVEL*DATE     ATDTCD                                   001   30/11/10   SS02
+    55900  C                     MOVE 'R'       ATFDCR                                   001   02/12/10   SS02
+    56000  C                     Z-ADD*DATE     ATDTCR                                   001   02/12/10   SS02
+    56100  C                     UPDATRANTIT                                             001   30/11/10   SS02
+    56200  C* Richiamo pgm chiusura soggetto titolare.                                         30/11/10   SS02
+    56300  C* Il programma richiamato verifica se può chiudere o no!                           30/11/10   SS02
+    56400  C                     MOVELKPJBU     SVJBU                                    001   30/11/10   SS02
+    56500  C                     CLEARKPJBU                                              001   30/11/10   SS02
+    56600  C                     CLEARDSA024                                             001   30/11/10   SS02
+    56700  C                     MOVELATITEF    D24SOG                                   001   30/11/10   SS02
+    56800  C                     MOVEL'A'       D24FAR                                   001   30/11/10   SS02
+    56900  C                     MOVELDSA024    KPJBU                                    001   30/11/10   SS02
+    57000  C                     CALL 'RRA024'                                           001   30/11/10   SS02
+    57100  C                     PARM           KPJBA                                    001   30/11/10   SS02
+    57200  C                     MOVELSVJBU     KPJBU                                    001   30/11/10   SS02
+    57300  C                     ENDDO                                                  E001   30/11/10   SS02
+    57400  C*                                                                                  30/11/10   SS02
+    57500  C                     ENDSR                                                         30/11/10   SS02
+    57600  C****************************************************************                   30/11/10   SS02
+    57700  C*  CLSDIC - CHIUDE SILENTEMENTE I DICHIARANTI SE ESISTONO                          30/11/10   SS02
+    57800  C****************************************************************                   30/11/10   SS02
+    57900  C           CLSDIC    BEGSR                                                         30/11/10   SS02
+    58000  C*                                                                                  30/11/10   SS02
+    58100  C                     SETOF                     73                    1             30/11/10   SS02
+    58200  C           ARKINT    SETLLANDIC02L                                                 30/11/10   SS02
+    58300  C           *IN73     DOWEQ*OFF                                              B001   30/11/10   SS02
+    58400  C           ARKINT    READEANDIC02L                 73                    3   001   30/11/10   SS02
+    58500  C   73                LEAVE                                                   001   30/11/10   SS02
+    58600  C           ANFDCD    IFEQ 'C'                                               B002   30/11/10   SS02
+    58700  C                     ITER                                                    002   30/11/10   SS02
+    58800  C                     ENDIF                                                  E002   30/11/10   SS02
+    58900  C                     MOVELKNMUS     ANUTVA                                   001   02/12/10   SS02
+    59000  C                     MOVEL*DATE     ANDTVA                                   001   02/12/10   SS02
+    59100  C                     TIME           ANHHVA                                   001   02/12/10   SS02
+    59200  C                     MOVE 'C'       ANFDCD                                   001   30/11/10   SS02
+    59300  C                     MOVEL*DATE     ANDTCD                                   001   02/12/10   SS02
+    59400  C                     MOVE 'R'       ANFDCR                                   001   02/12/10   SS02
+    59500  C                     Z-ADD*DATE     ANDTCR                                   001   02/12/10   SS02
+    59600  C                     UPDATRANDIC                                             001   30/11/10   SS02
+    59700  C* Richiamo pgm chiusura soggetto dichiarante.                                      30/11/10   SS02
+    59800  C* Il programma richiamato verifica se può chiudere o no!                           30/11/10   SS02
+    59900  C                     MOVELKPJBU     SVJBU                                    001   30/11/10   SS02
+    60000  C                     CLEARKPJBU                                              001   30/11/10   SS02
+    60100  C                     CLEARDSA024                                             001   30/11/10   SS02
+    60200  C                     MOVELANITEF    D24SOG                                   001   30/11/10   SS02
+    60300  C                     MOVEL'A'       D24FAR                                   001   30/11/10   SS02
+    60400  C                     MOVELDSA024    KPJBU                                    001   30/11/10   SS02
+    60500  C                     CALL 'RRA024'                                           001   30/11/10   SS02
+    60600  C                     PARM           KPJBA                                    001   30/11/10   SS02
+    60700  C                     MOVELSVJBU     KPJBU                                    001   30/11/10   SS02
+    60800  C                     ENDDO                                                  E001   30/11/10   SS02
+    60900  C*                                                                                  30/11/10   SS02
+    61000  C                     ENDSR                                                         30/11/10   SS02
+    61100  C****************************************************************                   10/08/07         S
+    61200  C*  CLSSOG - CHIUDE SILENTEMENTE I SOGGETTI SE POSSIBILE                            10/08/07
+    61300  C****************************************************************                   10/08/07
+    61400  C           CLSSOG    BEGSR                                                         10/08/07
+    61500  C*                                                                                  10/08/07
+    61600  C                     MOVELKPJBU     SVJBU            Save KPJBU                    20/05/08
+    61700  C                     CLEARKPJBU                                                    20/05/08
+    61800  C                     CLEARDSA024                                                   20/05/08
+    61900  C                     MOVEL*BLANKS   CODSOG 16                                      20/05/08
+    62000  C                     MOVE GRCANG    WKCANG  7                                      20/05/08
+    62100  C           'GAR'     CAT  WKCANG:0  CODSOG                                         20/05/08
+    62200  C                     MOVELCODSOG    D24SOG           Soggetto                      20/05/08
+    62300  C                     MOVELCODRAP    D24RAP           Rapporto                      20/05/08
+    62400  C                     MOVEL'A'       D24FAR           ANNULLAMENTO                  20/05/08
+    62500  C                     MOVELDSA024    KPJBU                                          20/05/08
+    62600  C                     CALL 'RRA024'                                                 20/05/08
+    62700  C                     PARM           KPJBA                                          20/05/08
+    62800  C                     MOVELSVJBU     KPJBU            Ripr.KPJBU                    20/05/08
+    62900  C*                                                                                  10/08/07
+    63000  C                     ENDSR                                                         10/08/07
+    63100  C******************************************************************                 06/08/07
+    63200  C* CNTCAB - CONTROLLA CODICI CAB DEI COMUNI                       *                 06/08/07
+    63300  C******************************************************************                 06/08/07
+    63400  C           CNTCAB    BEGSR                                                         06/08/07
+    63500  C*                                                                                  06/08/07
+    63600  C           XXCAB     CHAINACABXX1L             80                    1             06/08/07
+    63700  C*                                                                                  06/08/07
+    63800  C                     ENDSR                                                         06/08/07
+    63900  C******************************************************************                 03/08/07
+    64000  C*              DEFINIZIONE CAMPI E CHIAVI                        *                 03/08/07
+    64100  C******************************************************************                 03/08/07
+    64200  C           SDEFIN    BEGSR                                                         03/08/07
+    64300  C*                                                                                  03/08/07
+    64400  C           *LIKE     DEFN GRCANG    KKCANG                                         10/08/07
+    64500  C           *LIKE     DEFN ARKRAP    SVKRAP                                         10/08/07
+    64600  C           *LIKE     DEFN KPJBU     SVJBU                                          20/05/08
+    64700  C           *LIKE     DEFN *INLR     FLCLSO                                         10/08/07
+    64800  C*                                                                                  03/08/07
+    64900  C           MTKEY     KLIST                                                         06/08/07
+    65000  C                     KFLD           MTKEYA                                         06/08/07
+    65100  C                     KFLD           MTKEYB                                         06/08/07
+    65200  C*                                                                                  06/08/07
+    65300  C           EDEFIN    ENDSR                                                         03/08/07
+    65400  C******************************************************************                 03/08/07
+  Q000000   OUTPUT CAMPI PER RECORD RANDEL FILE ANDEL02L FORMATO RANDEL.
+  Q000000         Anagrafica delegati
+  Q000001                            ADKDEL    16  CHAR   16                    Codice Delegato
+  Q000002                            ADKRAP    32  CHAR   16                    Codice Rapporto
+  Q000003                            ADLEGA    33  CHAR    1                    Legame con Rapporto
+  Q000004                            ADFCAP    34  CHAR    1                    Flag Apertura Registrata
+  Q000005                            ADDTAP    42  ZONE  8,0                    Data Apertura Delega
+  Q000006                            ADFDCD    43  CHAR    1                    Flag Delega Chiusa
+  Q000007                            ADDTCD    51  ZONE  8,0                    Data Chiusura Delega
+  Q000008                            ADFDCR    52  CHAR    1                    Flag Chiusura Registrata
+  Q000009                            ADDTCR    60  ZONE  8,0                    Data Chiusura Registrata
+  Q000010                            ADDOLD    76  CHAR   16                    Cod Deleg.
+  Q000011                            ADROLD    92  CHAR   16                    Cod Rapp.
+  Q000012                            ADUTIM   102  CHAR   10                    ID Utente Inserimento
+  Q000013                            ADDTIM   110  ZONE  8,0                    Data Inserimento
+  Q000014                            ADHHIM   116  ZONE  6,0                    Ora Inserimento
+  Q000015                            ADUTVA   126  CHAR   10                    ID Utente Ultima Var.
+  Q000016                            ADDTVA   134  ZONE  8,0                    Data Ultima Var.
+  Q000017                            ADHHVA   140  ZONE  6,0                    Ora Ultima Var.
+  Q000018                            ADTRAT   142  CHAR    2                    T.RAPP. PER AN.TRIBUT.
+  Q000019                            ADPRFI   157  CHAR   15                    NOME FILE INVIO
+  Q000020                            ADPRRE   182  CHAR   25                    NUMERO RECORD INVIO
+  Q000021                            ADRIIN   184  CHAR    2                    FLAG AVANZAMENTO
+  Q000022                            ADNUM1   193  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  Q000023                            ADKCOD   243  CHAR   50                    CODICE RAPPORTO ANAGRAFE TRIBUTARIA
+  R000000   OUTPUT CAMPI PER RECORD RANTIT FILE ANTIT02L FORMATO RANTIT.
+  R000001                            ATITEF    16  CHAR   16                    COD.TITOLARE EFFETTIVO
+  R000002                            ATKINT    32  CHAR   16                    CODICE INTESTATARIO
+  R000003                            ATFCAP    33  CHAR    1                    FLAG APERTURA
+  R000004                            ATDTAP    41  ZONE  8,0                    DATA APERTURA LEGAME
+  R000005                            ATFDCD    42  CHAR    1                    FLAG CHIUSURA
+  R000006                            ATDTCD    50  ZONE  8,0                    DATA CHIUSURA LEGAME
+  R000007                            ATFDCR    51  CHAR    1                    FLAG CHIUSURA REGISTRATA
+  R000008                            ATDTCR    59  ZONE  8,0                    DATA CHIUSURA REGISTRATA
+  R000009                            ATUTIM    69  CHAR   10                    ID UTENTE INSERIMENTO
+  R000010                            ATDTIM    77  ZONE  8,0                    DATA INSERIMENTO
+  R000011                            ATHHIM    83  ZONE  6,0                    ORA INSERIMENTO
+  R000012                            ATUTVA    93  CHAR   10                    ID UTENTE ULTIMO UPDATE
+  R000013                            ATDTVA   101  ZONE  8,0                    DATA ULTIMO UPDATE
+  R000014                            ATHHVA   107  ZONE  6,0                    ORA ULTIMO UPDATE
+  S000000   OUTPUT CAMPI PER RECORD RANDIC FILE ANDIC02L FORMATO RANDIC.
+  S000001                            ANITEF    16  CHAR   16                    CODICE DICHIARANTE
+  S000002                            ANKINT    32  CHAR   16                    CODICE INTESTATARIO
+  S000003                            ANFCAP    33  CHAR    1                    FLAG APERTURA
+  S000004                            ANDTAP    41  ZONE  8,0                    DATA APERTURA LEGAME
+  S000005                            ANFDCD    42  CHAR    1                    FLAG CHIUSURA
+  S000006                            ANDTCD    50  ZONE  8,0                    DATA CHIUSURA LEGAME
+  S000007                            ANFDCR    51  CHAR    1                    FLAG CHIUSURA REGISTRATA
+  S000008                            ANDTCR    59  ZONE  8,0                    DATA CHIUSURA REGISTRATA
+  S000009                            ANUTIM    69  CHAR   10                    ID UTENTE INSERIMENTO
+  S000010                            ANDTIM    77  ZONE  8,0                    DATA INSERIMENTO
+  S000011                            ANHHIM    83  ZONE  6,0                    ORA INSERIMENTO
+  S000012                            ANUTVA    93  CHAR   10                    ID UTENTE ULTIMO UPDATE
+  S000013                            ANDTVA   101  ZONE  8,0                    DATA ULTIMO UPDATE
+  S000014                            ANHHVA   107  ZONE  6,0                    ORA ULTIMO UPDATE
+  T000000   OUTPUT CAMPI PER RECORD RANRAP FILE ANRAP01L FORMATO RANRAP.
+  T000000         Anagrafica rapporti
+  T000001                            ARKRAP    16  CHAR   16                    Codice Rapporto
+  T000002                            ARKINT    32  CHAR   16                    Codice Intestatario
+  T000003                            ARKCO1    48  CHAR   16                    Cod. 1 Cointestatario
+  T000004                            ARKCO2    64  CHAR   16                    Cod. 2 Cointestatario
+  T000005                            ARKCO3    80  CHAR   16                    Cod. 3 Cointestatario
+  T000006                            ARKCO4    96  CHAR   16                    Cod. 4 Cointestatario
+  T000007                            ARRBLK    97  CHAR    1                    Stato Rapporto B/I
+  T000008                            ARTRAP    98  CHAR    1                    Tipo Rapporto
+  T000009                            ARCABD   104  CHAR    6                    CAB Dipendenza
+  T000010                            ARKDIV   107  CHAR    3                    Codice Divisa
+  T000011                            ARFCAP   108  CHAR    1                    Flag Apertura Registrata
+  T000012                            ARDTAP   116  ZONE  8,0                    Data Apertura RAPPORTO
+  T000013                            ARFCCC   117  CHAR    1                    Flag Conto Chiuso
+  T000014                            ARDTCC   125  ZONE  8,0                    Data Chiusura Conto
+  T000015                            ARFCCH   126  CHAR    1                    Flag Chiusura Registrata
+  T000016                            ARDTCH   134  ZONE  8,0                    Data Chiusura Registrata
+  T000017                            ARROLD   150  CHAR   16                    Cod Rapp.
+  T000018                            ARIOLD   166  CHAR   16                    Cod Intest.
+  T000019                            AR1OLD   182  CHAR   16                    Cod. 1 Cointest.
+  T000020                            AR2OLD   198  CHAR   16                    Cod. 2 Cointest.
+  T000021                            AR3OLD   214  CHAR   16                    Cod. 3 Cointest.
+  T000022                            AR4OLD   230  CHAR   16                    Cod. 4 Cointestatario
+  T000023                            ARUTIM   240  CHAR   10                    ID Utente Inserimento
+  T000024                            ARDTIM   248  ZONE  8,0                    Data Inserimento
+  T000025                            ARHHIM   254  ZONE  6,0                    Ora Inserimento
+  T000026                            ARUTVA   264  CHAR   10                    ID Utente Ultima Var.
+  T000027                            ARDTVA   272  ZONE  8,0                    Data Ultima Var.
+  T000028                            ARHHVA   278  ZONE  6,0                    Ora Ultima Var.
+  T000029                            ARTRAT   280  CHAR    2                    T.RAPP. PER AN.TRIBUT.
+  T000030                            ARPRFI   295  CHAR   15                    NOME FILE INVIO
+  T000031                            ARPRRE   320  CHAR   25                    NUMERO RECORD INVIO
+  T000032                            ARPRF1   335  CHAR   15                    NOME FILE INVIO
+  T000033                            ARPRR1   360  CHAR   25                    NUMERO RECORD INVIO
+  T000034                            ARPRF2   375  CHAR   15                    NOME FILE INVIO
+  T000035                            ARPRR2   400  CHAR   25                    NUMERO RECORD INVIO
+  T000036                            ARPRF3   415  CHAR   15                    NOME FILE INVIO
+  T000037                            ARPRR3   440  CHAR   25                    NUMERO RECORD INVIO
+  T000038                            ARPRF4   455  CHAR   15                    NOME FILE INVIO
+  T000039                            ARPRR4   480  CHAR   25                    NUMERO RECORD INVIO
+  T000040                            ARRIIN   482  CHAR    2                    FLAG A/C INTESTATAR
+  T000041                            ARRIC1   484  CHAR    2                    FLAG A/C COINT. 1
+  T000042                            ARRIC2   486  CHAR    2                    FLAG A/C COINT. 2
+  T000043                            ARRIC3   488  CHAR    2                    FLAG A/C COINT. 3
+  T000044                            ARRIC4   490  CHAR    2                    FLAG A/C COINT. 4
+  T000045                            ARDR99   514  CHAR   24                    RAPPORTO TIPO 99
+  T000046                            ARDESC   544  CHAR   30                    DESCRIZIONE RAPPORTO
+  T000047                            ARNUM1   553  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  T000048                            ARNUM2   562  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  T000049                            ARNUM3   571  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  T000050                            ARNUM4   580  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  T000051                            ARNUM5   589  ZONE  9,0                    PROGRESSIVO ANAGRAFICA
+  T000052                            ARKCOD   639  CHAR   50                    CODICE RAPPORTO ANAGRAFE TRIBUTARIA
+           * * * * *    F I N E   O R I G I N E    * * * * *
+       M e s s a g g i   d i a g n o s t i c i   a d d i z i o n a l i
+* 7226     11900   STRUTTURA DATI  HA INIZIALIZ. DEI CAMPI SECONDARI SOVRAPPOSTE.
+                I n f o r m a z i o n i  C a m p i  C h i a v e
+                       FISICO      LOGICO
+        FILE/REC       CAMPO       CAMPO       ATTRIBUTI
+    01  GARRIC1L
+             GARRIC1R
+                       GRNRGA                  PACK  9,0  SIGNED
+    02  GARIND1L
+             GARIND1R
+                       GICANG                  CHAR    8
+    03  ACABXX1L
+             §ADREAP
+                       ADACCD                  CHAR    6
+    04  ANDEL02L
+             RANDEL
+                       ADKRAP                  CHAR   16
+                       ADKDEL                  CHAR   16
+    05  ANTIT02L
+             RANTIT
+                       ATKINT                  CHAR   16
+    06  ANDIC02L
+             RANDIC
+                       ANKINT                  CHAR   16
+    07  ANRAP01L
+             RANRAP
+                       ARKRAP                  CHAR   16
+    08  AGPERF1L
+             AGPERF1R
+                       PFCANG                  CHAR    8
+    09  AGSNPF1L
+             AGSNPF1R
+                       IMCANG                  CHAR    8
+    10  AGCORI1L
+             AGCORI1R
+                       CICINZ                  CHAR    8
+                       CICINT                  CHAR    8
+    11  MST0011L
+             MST0011R
+                       MTKEYA                  CHAR    3
+                       MTKEYB                  CHAR    9
+                     R i f e r i m e n t i   I n c r o c i a t i
+ Riferimenti file e record:
+        FILE/REC    UNITA/REC   RIFERIMENTI (D=DEFINITO)
+    03  ACABXX1L    DISK           5800D   63600
+          §ADREAP                  5800D C000000
+    10  AGCORI1L    DISK           6600D   24900    25100
+          AGCORI1R                 6600D J000000
+    08  AGPERF1L    DISK           6400D   23900    27200
+          AGPERF1R                 6400D H000000
+    09  AGSNPF1L    DISK           6500D   23200    26700
+          AGSNPF1R                 6500D I000000
+    04  ANDEL02L    DISK           6000D   51000    51200
+          RANDEL                   6000D D000000    52300  Q000000
+    06  ANDIC02L    DISK           6200D   58200    58400
+          RANDIC                   6200D F000000    59600  S000000
+    07  ANRAP01L    DISK           6300D   17500    19300
+          RANRAP                   6300D G000000    19000  T000000
+    05  ANTIT02L    DISK           6100D   54700    54900
+          RANTIT                   6100D E000000    56100  R000000
+    02  GARIND1L    DISK           5700D   47200
+          GARIND1R                 5700D B000000
+    01  GARRIC1L    DISK           5600D   15800
+          GARRIC1R                 5600D A000000
+    11  MST0011L    DISK           6700D   35400    36400    40300    44100
+                                  46300
+          MST0011R                 6700D K000000
+ Riferimenti campi:
+        CAMPO       ATTR    RIFERIMENTI (M=MODIFICATO D=DEFINITO)
+        *DATE       P(8,0)    18300    18500    18800    51700    52000
+                              52200    55500    55800    56000    59000
+                              59300    59500
+        *ENTRY      PLIST     14100D
+        *INLR       A(1)      13400M   64700
+        *IN41       A(1)      15900
+        *IN73       A(1)      47300    51300    54800    58300
+        *IN80       A(1)      34200    35500    36500    40400    43000
+                              44200    45200    46400
+        *IN83       A(1)      17600
+        *IN98       A(1)      25000
+        *LIKE                 64400    64500    64600    64700
+        £SGRP       A(3)      36200D   36300    40100D   40200
+* 7031  ADABST      A(1)    C000004D
+* 7031  ADACCD      A(6)    C000001D
+        ADADCD      A(30)   C000003D   34300    43100    45300
+        ADCPRO      A(2)    C000002D   43200
+        ADDOLD      A(16)   D000010D Q000010D
+        ADDTAP      P(8,0)  D000005D Q000005D
+        ADDTCD      P(8,0)  D000007D   52000M Q000007D
+        ADDTCR      P(8,0)  D000009D   52200M Q000009D
+        ADDTIM      P(8,0)  D000013D Q000013D
+        ADDTVA      P(8,0)  D000016D   51700M Q000016D
+        ADFCAP      A(1)    D000004D Q000004D
+        ADFDCD      A(1)    D000006D   51900M Q000006D
+        ADFDCR      A(1)    D000008D   52100M Q000008D
+        ADHHIM      P(6,0)  D000014D Q000014D
+        ADHHVA      P(6,0)  D000017D   51800M Q000017D
+        ADKCOD      A(50)   D000023D Q000023D
+        ADKDEL      A(16)   D000001D   53000  Q000001D
+        ADKRAP      A(16)   D000002D Q000002D
+        ADLEGA      A(1)    D000003D Q000003D
+        ADNUM1      P(9,0)  D000022D Q000022D
+        ADPRFI      A(15)   D000019D Q000019D
+        ADPRRE      A(25)   D000020D Q000020D
+        ADRIIN      A(2)    D000021D Q000021D
+        ADROLD      A(16)   D000011D Q000011D
+        ADTRAT      A(2)    D000018D Q000018D
+        ADUTIM      A(10)   D000012D Q000012D
+        ADUTVA      A(10)   D000015D   51600M Q000015D
+        ANDTAP      P(8,0)  F000004D S000004D
+        ANDTCD      P(8,0)  F000006D   59300M S000006D
+        ANDTCR      P(8,0)  F000008D   59500M S000008D
+        ANDTIM      P(8,0)  F000010D S000010D
+        ANDTVA      P(8,0)  F000013D   59000M S000013D
+        ANFCAP      A(1)    F000003D S000003D
+        ANFDCD      A(1)    F000005D   58600    59200M S000005D
+        ANFDCR      A(1)    F000007D   59400M S000007D
+        ANHHIM      P(6,0)  F000011D S000011D
+        ANHHVA      P(6,0)  F000014D   59100M S000014D
+        ANITEF      A(16)   F000001D   60200  S000001D
+        ANKINT      A(16)   F000002D S000002D
+        ANRAP       BEGSR     19500    20700    49500D
+        ANSOG       BEGSR     20400    21900D
+        ANUTIM      A(10)   F000009D S000009D
+        ANUTVA      A(10)   F000012D   58900M S000012D
+        ARCABD      A(6)    G000009D T000009D
+        ARDESC      A(30)   G000046D T000046D
+        ARDR99      A(24)   G000045D T000045D
+        ARDTAP      P(8,0)  G000012D T000012D
+        ARDTCC      P(8,0)  G000014D   18300M T000014D
+        ARDTCH      P(8,0)  G000016D   18500M T000016D
+        ARDTIM      P(8,0)  G000024D T000024D
+        ARDTVA      P(8,0)  G000027D   18800M T000027D
+        ARFCAP      A(1)    G000011D T000011D
+        ARFCCC      A(1)    G000013D   18100    18400M T000013D
+        ARFCCH      A(1)    G000015D   18600M T000015D
+        ARHHIM      P(6,0)  G000025D T000025D
+        ARHHVA      P(6,0)  G000028D   18900M T000028D
+        ARIOLD      A(16)   G000018D T000018D
+        ARKCOD      A(50)   G000052D T000052D
+        ARKCO1      A(16)   G000003D T000003D
+        ARKCO2      A(16)   G000004D T000004D
+        ARKCO3      A(16)   G000005D T000005D
+        ARKCO4      A(16)   G000006D T000006D
+        ARKDIV      A(3)    G000010D T000010D
+        ARKINT      A(16)   G000002D   54700    54900    58200    58400
+                            T000002D
+        ARKRAP      A(16)   G000001D   64500  T000001D
+        ARNUM1      P(9,0)  G000047D T000047D
+        ARNUM2      P(9,0)  G000048D T000048D
+        ARNUM3      P(9,0)  G000049D T000049D
+        ARNUM4      P(9,0)  G000050D T000050D
+        ARNUM5      P(9,0)  G000051D T000051D
+        ARPRFI      A(15)   G000030D T000030D
+        ARPRF1      A(15)   G000032D T000032D
+        ARPRF2      A(15)   G000034D T000034D
+        ARPRF3      A(15)   G000036D T000036D
+        ARPRF4      A(15)   G000038D T000038D
+        ARPRRE      A(25)   G000031D T000031D
+        ARPRR1      A(25)   G000033D T000033D
+        ARPRR2      A(25)   G000035D T000035D
+        ARPRR3      A(25)   G000037D T000037D
+        ARPRR4      A(25)   G000039D T000039D
+        ARRBLK      A(1)    G000007D T000007D
+        ARRIC1      A(2)    G000041D T000041D
+        ARRIC2      A(2)    G000042D T000042D
+        ARRIC3      A(2)    G000043D T000043D
+        ARRIC4      A(2)    G000044D T000044D
+        ARRIIN      A(2)    G000040D T000040D
+        ARROLD      A(16)   G000017D T000017D
+        ARTRAP      A(1)    G000008D T000008D
+        ARTRAT      A(2)    G000029D T000029D
+        ARUTIM      A(10)   G000023D T000023D
+        ARUTVA      A(10)   G000026D   18700M T000026D
+        AR1OLD      A(16)   G000019D T000019D
+        AR2OLD      A(16)   G000020D T000020D
+        AR3OLD      A(16)   G000021D T000021D
+        AR4OLD      A(16)   G000022D T000022D
+        ATDTAP      P(8,0)  E000004D R000004D
+        ATDTCD      P(8,0)  E000006D   55800M R000006D
+        ATDTCR      P(8,0)  E000008D   56000M R000008D
+        ATDTIM      P(8,0)  E000010D R000010D
+        ATDTVA      P(8,0)  E000013D   55500M R000013D
+        ATFCAP      A(1)    E000003D R000003D
+        ATFDCD      A(1)    E000005D   55100    55700M R000005D
+        ATFDCR      A(1)    E000007D   55900M R000007D
+        ATHHIM      P(6,0)  E000011D R000011D
+        ATHHVA      P(6,0)  E000014D   55600M R000014D
+        ATITEF      A(16)   E000001D   56700  R000001D
+        ATKINT      A(16)   E000002D R000002D
+        ATUTIM      A(10)   E000009D R000009D
+        ATUTVA      A(10)   E000012D   55400M R000012D
+        CAPDS       A(5)       9200D   47500M
+        CCADS       A(6)       9300D   33900M   44900M
+        CFSDS       A(16)      9500D   33800M   34700M   39500M
+        CGNDS       A(70)      8700D   33200M   39000M
+        CICINT      A(8)    J000010D   25900    26000    26700    27200
+                              29000
+* 7031  CICINZ      A(8)    J000009D
+* 7031  CIDINS      P(6,0)  J000005D
+* 7031  CIDTDC      P(8,0)  J000011D
+* 7031  CIDTTR      P(8,0)  J000012D
+* 7031  CIDUPD      P(6,0)  J000006D
+* 7031  CIFLAG      A(1)    J000002D
+* 7031  CIHEXE      P(6,0)  J000007D
+* 7031  CILOCK      A(1)    J000003D
+* 7031  CINAZN      P(9,0)  J000004D
+* 7031  CITREC      A(3)    J000001D
+* 7031  CIUSER      A(10)   J000008D
+        CLSDEL      BEGSR     17700    50800D
+        CLSDIC      BEGSR     17900    57900D
+        CLSSOG      BEGSR     18000    61400D
+        CLSTIT      BEGSR     17800    54400D
+        CNTCAB      BEGSR     34100    42900    45100    63400D
+        CODRAP      A(16)     17200D   17400M   17500    51000    51200
+                              62300
+        CODSOG      A(16)     61900D   62100M   62200
+        COGDS       A(30)     11700D   39100M
+        DSA022      DS(113)    7800D   13200    14600M
+                    EXTNAME  RRA022DS
+        DSA024      DS(113)    7900D   52900M   53300    56600M   56900
+                              60100M   60400    61800M   62500
+                    EXTNAME  RRA024DS
+        DSCOIN      A(80)     11500D   22300M
+        DSCONO      DS(60)    11600D   14900M   48300
+        DSGAR       A(3)      12100D   22200M   28900M   32600M
+        DSNDG       A(7)      12200D   23300M   24000M   26800M   27300M
+                              29000M
+        DSPARM      DS(238)    8300D   14800M   47800
+        DSRAP       DS(97)    10700D   50000
+        DSSOG       A(16)     12000D   22100M   23500    24200    28800M
+                              29500    29800    30100    30400    30700
+                              32700
+        DTNDS       Z(8,0)     8800D   39700M
+        D22EXE      A(1)    O000002D   18200    19100M
+* 7031  D22FIL      A(103)  O000003D
+        D22GAR      Z(9,0)  O000001D   15800
+* 7031  D24ERR      A(1)    P000004D
+        D24FAR      A(1)    P000003D   53200M   56800M   60300M   62400M
+* 7031  D24FIL      A(79)   P000005D
+        D24RAP      A(16)   P000002D   62300M
+        D24SOG      A(16)   P000001D   53000M   56700M   60200M   62200M
+        EDEFIN      ENDSR     65300D
+        EELABO      ENDSR     21300D
+        EINIZI      ENDSR     15100D
+* 7031  FILLER      A(6)      12300D
+        FLCLSO      A(1)      64700D
+* 7031  GICANG      A(8)    B000006D
+        GICAP       A(5)    B000009D   47500
+* 7031  GIDINS      P(8,0)  B000004D
+* 7031  GIDUPD      P(8,0)  B000005D
+* 7031  GIFLAG      A(1)    B000002D
+        GIIND       A(30)   B000007D   47400
+* 7031  GIINVI      A(1)    B000011D
+* 7031  GILOCA      A(25)   B000008D
+* 7031  GINAZ       A(3)    B000012D
+* 7031  GINMUS      A(6)    B000003D
+* 7031  GIPROV      A(2)    B000010D
+* 7031  GITREC      A(3)    B000001D
+        GRCANG      A(8)    A000010D   22500    22600    23200    23900
+                              24900    25100    62000    64400
+* 7031  GRCDGA      A(3)    A000011D
+* 7031  GRCDTI      P(12,0) A000032D
+* 7031  GRDAGR      P(8,0)  A000020D
+* 7031  GRDGIM      A(1)    A000037D
+* 7031  GRDGIP      A(1)    A000036D
+* 7031  GRDGTE      A(1)    A000045D
+* 7031  GRDGTS      A(1)    A000027D
+* 7031  GRDINS      P(6,0)  A000005D
+* 7031  GRDIPI      A(1)    A000038D
+* 7031  GRDIV       A(3)    A000015D
+* 7031  GRDTRG      P(8,0)  A000012D
+* 7031  GRDTRI      P(8,0)  A000034D
+* 7031  GRDTSG      P(8,0)  A000013D
+* 7031  GRDUPD      P(6,0)  A000006D
+* 7031  GRESGR      A(1)    A000022D
+* 7031  GREXCR      A(1)    A000046D
+        GRFLAG      A(1)    A000002D   17000
+* 7031  GRFVGA      P(15,0) A000030D
+* 7031  GRGRST      A(1)    A000039D
+* 7031  GRGSGP      A(1)    A000028D
+* 7031  GRHEXE      P(6,0)  A000007D
+* 7031  GRIGLG      P(15,0) A000043D
+* 7031  GRIMGA      P(15,0) A000029D
+* 7031  GRIMPL      P(9,0)  A000026D
+* 7031  GRIMPO      P(15,0) A000031D
+* 7031  GRIMRI      A(1)    A000033D
+* 7031  GRINES      A(1)    A000025D
+* 7031  GRLIMG      P(9,0)  A000018D
+* 7031  GRLOCK      A(1)    A000003D
+* 7031  GRLVGA      A(1)    A000014D
+* 7031  GRNAZN      P(9,0)  A000004D
+* 7031  GRNGRF      P(9,0)  A000042D
+* 7031  GRNOT1      A(40)   A000023D
+* 7031  GRNOT2      A(40)   A000024D
+        GRNRGA      P(9,0)  A000009D   17300    49800
+* 7031  GRPCPQ      P(5,2)  A000044D
+* 7031  GRPRES      P(2,0)  A000035D
+* 7031  GRSTGA      A(1)    A000019D
+* 7031  GRSTOD      P(8,0)  A000040D
+* 7031  GRSTOT      P(6,0)  A000041D
+* 7031  GRTREC      A(3)    A000001D
+* 7031  GRTRGR      A(1)    A000021D
+* 7031  GRUSER      A(10)   A000008D
+* 7031  GRVNMG      P(9,0)  A000016D
+* 7031  GRVSTG      P(9,0)  A000017D
+* 7031  IMAIRI      P(4,0)  I000033D
+        IMATCA      A(1)    I000056D   37600
+        IMATCL      A(1)    I000055D   37500
+        IMATDV      A(2)    I000053D   37300
+        IMATGR      A(1)    I000054D   37400
+        IMATSC      A(1)    I000057D   37700
+        IMATSZ      A(1)    I000052D   37200
+* 7031  IMBNEL      A(9)    I000040D
+* 7031  IMCABI      A(5)    I000025D
+        IMCABL      A(6)    I000016D   33900    34000
+        IMCANG      A(8)    I000009D   23300    26800
+* 7031  IMCCBK      P(11,0) I000030D
+* 7031  IMCDIS      A(3)    I000042D
+* 7031  IMCDPA      A(6)    I000073D
+* 7031  IMCFDC      A(1)    I000028D
+* 7031  IMCHBK      P(2,0)  I000031D
+* 7031  IMCHCK      A(1)    I000026D
+* 7031  IMCIAD      A(1)    I000029D
+* 7031  IMCLCM      A(1)    I000050D
+* 7031  IMCNTZ      A(1)    I000058D
+* 7031  IMCPIN      A(1)    I000039D
+* 7031  IMCRAE      A(5)    I000041D
+* 7031  IMCRAI      A(3)    I000043D
+* 7031  IMCUIC      A(11)   I000027D
+        IMDEN1      A(40)   I000011D   33200
+        IMDEN2      A(40)   I000012D   33200
+* 7031  IMDEN3      A(40)   I000013D
+* 7031  IMDEN4      A(40)   I000014D
+* 7031  IMDINS      P(8,0)  I000005D
+* 7031  IMDSGE      P(8,0)  I000038D
+* 7031  IMDTIR      P(8,0)  I000077D
+* 7031  IMDTW1      P(8,0)  I000092D
+* 7031  IMDTW2      P(8,0)  I000093D
+* 7031  IMDUPD      P(8,0)  I000006D
+* 7031  IMECAI      A(3)    I000051D
+* 7031  IMFGRD      A(4)    I000022D
+        IMFISC      A(16)   I000010D   33800
+* 7031  IMFLAG      A(1)    I000002D
+* 7031  IMFORB      A(1)    I000072D
+* 7031  IMFSOC      A(1)    I000044D
+* 7031  IMFSOF      A(1)    I000035D
+* 7031  IMFTAC      P(4,0)  I000075D
+* 7031  IMFTAN      P(4,0)  I000046D
+* 7031  IMFTAV      P(15,2) I000047D
+* 7031  IMFTCO      P(15,2) I000061D
+* 7031  IMGPRD      P(8,0)  I000069D
+* 7031  IMGPRR      A(2)    I000068D
+        IMGRP       A(4)    I000020D   33300
+* 7031  IMGRUP      A(8)    I000032D
+* 7031  IMHEXE      P(6,0)  I000007D
+* 7031  IMIMGR      A(1)    I000036D
+* 7031  IMLOCK      A(1)    I000003D
+        IMNAZL      A(3)    I000017D   33600    33700    35300    44000
+                              46200
+* 7031  IMNAZN      P(9,0)  I000004D
+* 7031  IMNDIP      P(7,0)  I000074D
+* 7031  IMNGGO      A(16)   I000065D
+* 7031  IMNICC      A(7)    I000019D
+* 7031  IMNIRI      A(7)    I000034D
+* 7031  IMNZCM      A(3)    I000024D
+* 7031  IMONLD      P(8,0)  I000060D
+* 7031  IMONLU      A(1)    I000059D
+* 7031  IMPEC       A(100)  I000066D
+* 7031  IMPIVA      P(11,0) I000079D
+* 7031  IMPMI       A(1)    I000070D
+* 7031  IMPMIS      A(1)    I000071D
+* 7031  IMPQUO      P(5,2)  I000045D
+* 7031  IMPROV      A(2)    I000078D
+* 7031  IMPUMA      A(100)  I000067D
+* 7031  IMRESD      A(1)    I000018D
+* 7031  IMRETL      A(1)    I000049D
+* 7031  IMRGAC      A(1)    I000048D
+* 7031  IMSGRD      A(2)    I000023D
+        IMSGRP      A(4)    I000021D   33400    36200
+* 7031  IMSIGI      A(20)   I000015D
+* 7031  IMSPLI      A(1)    I000081D
+* 7031  IMSSVP      A(1)    I000037D
+* 7031  IMSTBC      A(2)    I000076D
+* 7031  IMSTBI      A(2)    I000064D
+* 7031  IMTOAC      P(15,2) I000063D
+* 7031  IMTOAT      P(15,2) I000062D
+* 7031  IMTREC      A(3)    I000001D
+* 7031  IMUSER      A(10)   I000008D
+* 7031  IMVAT       A(20)   I000080D
+* 7031  IMWK01      A(1)    I000082D
+* 7031  IMWK02      A(1)    I000083D
+* 7031  IMWK03      A(1)    I000084D
+* 7031  IMWK04      A(1)    I000085D
+* 7031  IMWK05      A(1)    I000086D
+* 7031  IMWK06      A(1)    I000087D
+* 7031  IMWK07      A(1)    I000088D
+* 7031  IMWK08      A(1)    I000089D
+* 7031  IMWK09      A(1)    I000090D
+* 7031  IMWK10      A(1)    I000091D
+* 7031  KBUFF       A(8)    L000046D
+* 7031  KCANC       A(1)    L000038D
+* 7031  KCDAZ       A(4)    L000013D
+* 7031  KCDJD       A(2)    L000022D
+* 7031  KCDRC       A(1)    L000015D
+* 7031  KCOAZ       A(4)    L000028D
+* 7031  KCOJB       A(2)    L000034D
+* 7031  KDTJB       A(6)    L000042D
+* 7031  KEXCN       A(1)    L000027D
+* 7031  KFIER       A(30)   L000037D
+* 7031  KFLAD       A(1)    L000029D
+* 7031  KFLMS       A(1)    L000011D
+* 7031  KFLRC       A(1)    L000006D
+* 7031  KFSLG       A(1)    L000040D
+* 7031  KGRAZ       A(3)    L000039D
+* 7031  KJOST       A(1)    L000032D
+* 7031  KJRLB       A(10)   L000044D
+* 7031  KJRNM       A(10)   L000043D
+        KKCANG      A(8)      22600M   26000M   47200    64400D
+* 7031  KKEYF       Z(5,0)  L000025D
+* 7031  KMDST       A(10)   L000036D
+* 7031  KMSMN       A(7)    L000008D
+* 7031  KNMCP       A(2)    L000031D
+* 7031  KNMEB       A(10)   L000018D
+* 7031  KNMSB       Z(3,0)  L000019D
+* 7031  KNMTD       A(10)   L000005D
+        KNMUS       A(10)   L000001D   18700    51600    55400    58900
+* 7031  KNRAZ       Z(9,0)  L000003D
+* 7031  KNRJO       A(6)    L000009D
+* 7031  KNRRB       A(2)    L000020D
+* 7031  KNRVJ       Z(9,0)  L000007D
+* 7031  KNSIF       A(9)    L000021D
+        KODDS       A(16)      8500D   32700M
+        KPCOI1      A(16)     11000D   23500M   24200M   29500M
+        KPCOI2      A(16)     11100D   29800M
+        KPCOI3      A(16)     11200D   30100M
+        KPCOI4      A(16)     11300D   30400M
+        KPCOI5      A(16)     11400D   30700M
+        KPJBA       DS(502)    7500D   14200    48200    48600    50200
+                              53500    57100    60600    62700
+        KPJBU       A(256)  L000047D   13200M   14600    32300M   47800M
+                              49700M   50000M   52700    52800M   53300M
+                              53600M   56400    56500M   56900M   57200M
+                              59900    60000M   60400M   60700M   61600
+                              61700M   62500M   62800M   64600
+        KPRAP       A(16)     10800D   49900M
+        KPSCEL      A(1)      10900D   19400M   20600M
+* 7031  KQEBI       A(7)    L000035D
+* 7031  KQIEB       A(7)    L000023D
+* 7031  KQOFR       A(10)   L000024D
+* 7031  KQOPR       A(10)   L000030D
+* 7031  KQOTD       A(10)   L000017D
+* 7031  KRCDS       Z(5,0)  L000026D
+* 7031  KRITB       A(1)    L000045D
+* 7031  KSTEB       A(1)    L000033D
+* 7031  KSTJO       A(1)    L000010D
+* 7031  KTMIN       Z(6,0)  L000012D
+* 7031  KTPAZ       A(1)    L000014D
+* 7031  KTPFN       A(1)    L000016D
+* 7031  KTPRF       A(3)    L000002D
+* 7031  KTPWS       A(1)    L000041D
+* 7031  KTSIF       A(3)    L000004D
+        LGNDS       A(30)      8900D   43100M   44400M
+        LGRDS       A(30)      8600D   34300M   35700M   45300M   46600M
+        MTDESC      A(113)  K000005D   35600    36600    40500    44300
+                              46500
+* 7031  MTFLAG      A(1)    K000001D
+        MTKEY       KLIST     35400    36400    40300    44100    46300
+                              64900D
+        MTKEYA      A(3)    K000003D   35100M   36000M   39900M   43800M
+                              46000M   65000
+        MTKEYB      A(9)    K000004D   35200M   35300M   36100M   36300M
+                              40000M   40200M   43900M   44000M   46100M
+                              46200M   65100
+* 7031  MTTREC      A(2)    K000002D
+        NOMDS       A(30)     11800D   39200M
+        NUMCOI      P(1,0)    24700D   25400M   25500    29400    29700
+                              30000    30300    30600
+        PAEDS       A(3)       9600D   33600M   39800M
+        PFATCA      A(1)    H000048D   41500
+        PFATCL      A(1)    H000047D   41400
+        PFATDV      A(2)    H000045D   41200
+        PFATGR      A(1)    H000046D   41300
+        PFATSC      A(1)    H000049D   41600
+        PFATSZ      A(1)    H000044D   41100
+* 7031  PFBNEL      A(9)    H000033D
+        PFCABD      A(6)    H000017D   44900    45000
+        PFCABN      A(6)    H000013D   42800
+        PFCANG      A(8)    H000009D   24000    27300
+* 7031  PFCCBK      P(11,0) H000026D
+* 7031  PFCDIS      A(3)    H000034D
+* 7031  PFCFDC      A(1)    H000025D
+* 7031  PFCHBK      P(2,0)  H000027D
+* 7031  PFCLCM      A(1)    H000042D
+* 7031  PFCNTZ      A(1)    H000050D
+        PFCOGN      A(30)   H000011D   39000    39100
+* 7031  PFCPIN      A(1)    H000032D
+* 7031  PFCRAE      A(5)    H000035D
+* 7031  PFCRAI      A(3)    H000036D
+* 7031  PFDINS      P(8,0)  H000005D
+* 7031  PFDSGE      P(8,0)  H000031D
+* 7031  PFDTIR      P(8,0)  H000067D
+        PFDTNS      P(8,0)  H000016D   39700
+* 7031  PFDTW1      P(8,0)  H000082D
+* 7031  PFDTW2      P(8,0)  H000083D
+* 7031  PFDUPD      P(8,0)  H000006D
+* 7031  PFECAI      A(3)    H000043D
+* 7031  PFERED      A(1)    H000024D
+* 7031  PFFGRD      A(4)    H000022D
+        PFFISC      A(16)   H000010D   39500
+* 7031  PFFLAG      A(1)    H000002D
+* 7031  PFFORB      A(1)    H000062D
+* 7031  PFFSOC      A(1)    H000037D
+* 7031  PFFSOF      A(1)    H000029D
+* 7031  PFFTAC      P(4,0)  H000064D
+* 7031  PFFTAN      P(4,0)  H000039D
+* 7031  PFFTAV      P(15,2) H000040D
+* 7031  PFFTCO      P(15,2) H000051D
+* 7031  PFGPRD      P(8,0)  H000059D
+* 7031  PFGPRR      A(2)    H000058D
+        PFGRP       A(4)    H000020D   39300
+* 7031  PFGRUP      A(8)    H000028D
+* 7031  PFHEXE      P(6,0)  H000007D
+* 7031  PFIMGR      A(1)    H000030D
+* 7031  PFLOCK      A(1)    H000003D
+        PFNAZD      A(3)    H000018D   39800    44800
+* 7031  PFNAZN      P(9,0)  H000004D
+* 7031  PFNDIP      P(7,0)  H000063D
+* 7031  PFNGGO      A(16)   H000055D
+* 7031  PFNICC      A(7)    H000066D
+        PFNOME      A(30)   H000012D   39000    39200
+        PFNZNS      A(3)    H000014D   42700
+* 7031  PFPEC       A(100)  H000056D
+* 7031  PFPIVA      P(11,0) H000069D
+* 7031  PFPMI       A(1)    H000060D
+* 7031  PFPMIS      A(1)    H000061D
+* 7031  PFPQUO      P(5,2)  H000038D
+* 7031  PFPROV      A(2)    H000068D
+* 7031  PFPUMA      A(100)  H000057D
+* 7031  PFRESD      A(1)    H000019D
+* 7031  PFRETL      A(1)    H000041D
+        PFSESS      A(1)    H000015D   39600
+* 7031  PFSGRD      A(2)    H000023D
+        PFSGRP      A(4)    H000021D   39400    40100
+* 7031  PFSPLI      A(1)    H000071D
+* 7031  PFSTBC      A(2)    H000065D
+* 7031  PFSTBI      A(2)    H000054D
+* 7031  PFTOAC      P(15,2) H000053D
+* 7031  PFTOAT      P(15,2) H000052D
+* 7031  PFTREC      A(3)    H000001D
+* 7031  PFUSER      A(10)   H000008D
+* 7031  PFVAT       A(20)   H000070D
+* 7031  PFWK01      A(1)    H000072D
+* 7031  PFWK02      A(1)    H000073D
+* 7031  PFWK03      A(1)    H000074D
+* 7031  PFWK04      A(1)    H000075D
+* 7031  PFWK05      A(1)    H000076D
+* 7031  PFWK06      A(1)    H000077D
+* 7031  PFWK07      A(1)    H000078D
+* 7031  PFWK08      A(1)    H000079D
+* 7031  PFWK09      A(1)    H000080D
+* 7031  PFWK10      A(1)    H000081D
+        PRNDS       A(2)       9000D   43200M   43500M
+* 7031  QUODS       A(1)       9900D
+        RAMDS       A(3)       9800D   33300M   39300M
+        SAVCOI      BEGSR     26100    28600D
+        SCEDS       A(1)       8400D   32500M
+        SDEFIN      BEGSR     14400    64200D
+        SELABO      BEGSR     13000    15500D
+        SEXDS       A(1)       9400D   33500M   39600M
+* 7031  SGIBAN      A(1)    M000006D
+        SGL         DS(111)    7600D   35000M   35600M   43700M   44300M
+                              45900M   46500M
+* 7031  SGLAAI      Z(2,0)  M000004D
+* 7031  SGLAPP      A(1)    M000010D
+* 7031  SGLARE      A(3)    M000011D
+* 7031  SGLBGR      A(1)    M000007D
+* 7031  SGLCTL      A(1)    M000016D
+* 7031  SGLDFD      Z(8,0)  M000015D
+* 7031  SGLDID      Z(8,0)  M000014D
+* 7031  SGLDIV      A(3)    M000008D
+* 7031  SGLFES      A(1)    M000009D
+* 7031  SGLFL2      A(35)   M000024D
+* 7031  SGLISO      A(3)    M000017D
+* 7031  SGLIS2      A(2)    M000019D
+* 7031  SGLMAX      Z(1,0)  M000023D
+* 7031  SGLMER      A(2)    M000002D
+* 7031  SGLMIN      Z(1,0)  M000022D
+        SGLNAZ      A(30)   M000001D   35700    44400    46600
+* 7031  SGLPNC      A(1)    M000013D
+* 7031  SGLPVA      A(2)    M000020D
+* 7031  SGLRES      A(1)    M000003D
+* 7031  SGLSEP      A(1)    M000018D
+* 7031  SGLTPV      A(1)    M000021D
+* 7031  SGLUME      A(1)    M000012D
+* 7031  SGLZTP      A(1)    M000005D
+        SGR         DS(113)    7700D   36600M   36800M   40500M   40700M
+* 7031  SGRCEE      A(2)    N000005D
+* 7031  SGRDES      A(60)   N000001D
+* 7031  SGRFIL      A(24)   N000016D
+* 7031  SGRFPO      Z(3,0)  N000006D
+* 7031  SGRINU      A(1)    N000011D
+* 7031  SGRPOR      A(2)    N000012D
+* 7031  SGRPO2      A(2)    N000014D
+* 7031  SGRRES      A(1)    N000010D
+* 7031  SGRRTL      A(1)    N000013D
+* 7031  SGRSET      A(3)    N000003D
+* 7031  SGRSST      A(3)    N000004D
+* 7031  SGRSVO      A(2)    N000009D
+* 7031  SGRTCO      A(2)    N000007D
+        SGRTIP      A(1)    N000002D   37100    41000
+* 7031  SGRTPE      A(1)    N000015D
+* 7031  SGRVOC      A(5)    N000008D
+        SINIZI      BEGSR     12800    13900D
+* 7031  SOG(5)      A(16)      7100D
+        STGDS       A(3)       9700D   33400M   39400M
+        SVJBU       A(256)    52700M   53600    56400M   57200    59900M
+                              60700    61600M   62800    64600D
+        SVKRAP      A(16)     64500D
+        TCADS       A(1)      10500D   37600M   38300M   41500M   42200M
+        TCLDS       A(1)      10400D   37500M   38200M   41400M   42100M
+        TDVDS       A(2)      10200D   37300M   38000M   41200M   41900M
+        TGRDS       A(1)      10300D   37400M   38100M   41300M   42000M
+        TIPANA      A(1)      22500D   23100    23800    24500    25900M
+                              26600    27100    33100    38900    48000
+                              48400
+* 7031  TITDS       A(1)      10000D
+        TSCDS       A(1)      10600D   37700M   38400M   41600M   42300M
+        TSZDS       A(1)      10100D   37200M   37900M   41100M   41800M
+        VIADS       A(35)      9100D   47400M
+        WKCANG      A(7)      62000D   62100
+        WKNRGA      A(9)      17300D   17400    49800D   49900
+        WRTSOG      BEGSR     23400    24100    26900    27400    31600D
+        XXCAB       A(6)      34000D   42800D   45000D   63600
+        *ALL        LITERAL   36100    40000
+        *BLANKS     LITERAL   17200    34700    49700    61900
+        *HIVAL      LITERAL   51100
+        *OFF        LITERAL   15900    17600    25000    34200    35500
+                              36500    40400    43000    44200    45200
+                              46400    47300    54800    58300
+        *ON         LITERAL   13400    51300
+        *ZEROS      LITERAL   24700    35200    43900    46100
+        'A'         LITERAL   17000    19100    53200    56800    60300
+                              62400
+        'C'         LITERAL   18100    18400    24500    51900    55100
+                              55700    58600    59200
+        'EE'        LITERAL   43500
+        'G'         LITERAL   33500
+        'GAR'       LITERAL   17400    22200    28900    32600    49900
+                              62100
+        'N'         LITERAL   23100    26600    33100    48400
+        'P'         LITERAL   23800    27100    38900    48000
+        'R'         LITERAL   18600    52100    55900    59400
+        'RRA002'    LITERAL   48500
+        'RRA004'    LITERAL   48100
+        'RRA018'    LITERAL   50100
+        'RRA024'    LITERAL   53400    57000    60500    62600
+        'SGL'       LITERAL   35100    43800    46000
+        'SGR'       LITERAL   36000    39900
+        '086'       LITERAL   33700    42700    44800
+        '1'         LITERAL   18200    20600    37100    41000
+        '3'         LITERAL   19400
+        '4'         LITERAL   32500
+        0           LITERAL   17400    33200    36100    40000    49900
+                              62100
+        1           LITERAL   25400    29400    39000
+        2           LITERAL   29700
+        3           LITERAL   30000
+        4           LITERAL   30300
+        5           LITERAL   25500    30600
+ Riferimenti indicatori:
+        INDICATORE RIFERIMENTI (M=MODIFICATO D=DEFINITO)
+        *IN          15900    17600    25000    34200    35500    36500
+                     40400    43000    44200    45200    46400    47300
+                     51300    54800    58300
+        LR           13400M   64700
+        41           15800M   15900
+        73           47200M   47300    51200M   51300    54600M   54800
+                     54900M   55000    58100M   58300    58400M   58500
+        80           34200    35400M   35500    36400M   36500    40300M
+                     40400    43000    44100M   44200    45200    46300M
+                     46400    63600M
+        83           17500M   17600
+        98           23200M   23300    23400    23500    23900M   24000
+                     24100    24200    24600M   25000    25100M   25200
+                     26700M   26800    26900    27200M   27300    27400
+      * * *  F I N E  R I F E R I M E N T I  I N C R O C I A T I  * * *
+                     R i e p i l o g o    M e s s a g g i
+* QRG7031 Gravità:  00   Numero:  302
+          Messaggio . . . :   Nessun riferimento al nome o all'indicatore.
+* QRG7226 Gravità:  00   Numero:    1
+          Messaggio . . . :   La struttura dati ha inizializzazioni di
+            sottocampi in sovrapposizione.
+      * * * * * F I N E   R I E P I L O G O   M E S S A G G I * * * * *
+                       R i e p i l o g o    F i n a l e
+ Conteggio messaggi:  (per numero di gravità)
+            TOTALE   00     10     20     30     40     50
+            303     303      0      0      0      0      0
+ Totali del programma origine:
+    Record  . . . . . . . . . . :   654
+    Specifiche  . . . . . . :   433
+    Record tabelle . . . . . . . :   0
+    Commenti  . . . . . . . . . :   221
+ E' stato richiamato il PRM.
+ Il programma RRA022 posto nella libreria QTEMP. 00 è il livello di gravità massimo. Creato il 30/10/17 alle 10:38:13.
+          * * * * *   F I N E  C O M P I L A Z I O N E    * * * * *

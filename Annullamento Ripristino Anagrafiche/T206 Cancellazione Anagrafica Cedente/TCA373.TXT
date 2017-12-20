@@ -1,0 +1,160 @@
+ Programma . . . . . . . . . . . . . . . . . . :   TCA373
+   Libreria . . . . . . . . . . . . . . . .    :     QTEMP
+ File origine  . . . . . . . . . . . . . . . . :   QCLSRC
+   Libreria . . . . . . . . . . . . . . . .    :     SRCFAC
+ Nome membro origine . . . . . . . . . . . . . :   TCA373   01/04/08 12:27:42
+ Opzioni stampa origine  . . . . . . . . . . . :   *SOURCE  *XREF  *GEN  *NOSECLVL  *NOSRCDBG  *NOLSTDBG
+ Opzioni di generazione del programma  . . . . :   *NOLIST  *NOXREF  *NOPATCH
+ Profilo utente  . . . . . . . . . . . . . . . :   *USER
+ Registrazione programma . . . . . . . . . . . :   *JOB
+ Comando RTVCLSRC consentito . . . . . . . . . :   *YES
+ Sostituzione programma . . . . . . . . . .  . :   *NO
+ Release di destinazione . . . . . . . . . . . :   V6R1M0
+ Autorizzazione . . . . . . . . . . . . . .  . :   *LIBCRTAUT
+ Sequenza di ordin.  . . . . . . . . . . . . . :   *HEX
+ Identificativo lingua . . . . . . . . . . . . :   *JOBRUN
+ Testo  . . . . . . . . . . . . . . . . .    . :   Agg. automatico fidi debitore
+ Compilatore . . . . . . . . . . . . . . . . . :   IBM Control Language Compiler
+                                      Origine linguaggio di controllo
+ NUMSEQ  *...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8 ...+... 9 ...+.  DATA
+    100- /** AE033  EDP150S2    EMMAND      01/04/2008  10:20:37                      **/                 01/04/08
+    200- /** AE033  EDP150S2    EMMAND      22/02/2008  10:11:29                      **/                 28/02/08
+    300- /** AE028  EDP150S1    EMMAND      09/01/2008  12:05:28                      **/                 09/01/08
+    400- /** AE028  EDP150S2    EMMAND      17/10/2007  16:22:23                      **/                 17/10/07
+    500- /**        EDP150S1    EMMAND      25/09/2007  15:58:46                      **/                 25/09/07
+    600- /******************************************************************************/                 10/05/06
+    700- /* AE028   AGG. AUTOMATICO FIDI DEBITORE                                      */                 05/06/07
+    800- /******************************************************************************/                 10/05/06
+    900-                                                                                                  10/05/06
+   1000-              PGM        PARM(&KPJBA)
+   1100-                                                                                                  10/05/06
+   1200- /* ---------------------------------------------------------------------------*/                 10/05/06
+   1300-                                                                                                  10/05/06
+   1400-              DCL        VAR(&KPJBA)    TYPE(*CHAR) LEN(502)                                      21/08/07
+   1500-              DCL        VAR(&PACKPRFD) TYPE(*CHAR) LEN(3)                                        21/08/07
+   1600-              DCL        VAR(&SAVEKPJBA) TYPE(*CHAR) LEN(502)                                     25/09/07
+   1700-                                                                                                  19/04/07
+   1800- /* ---------------------------------------------------------------------------*/                 19/04/07
+   1900-                                                                                                  28/05/07
+   2000-                                                                                                  21/08/07
+   2100-                                                                                                  22/02/08
+   2200- /* Controllo se possibile aggiornamento automatico (START) */                                    28/05/07
+   2300-                                                                                                  28/05/07
+   2400-              CHGVAR     VAR(%SST(&KPJBA 247 1)) VALUE('1')                                       28/05/07
+   2500-           /* ----------------------------------------- */                                        28/05/07
+   2600-              CALL       PGM(*LIBL/TRA373) PARM(&KPJBA)                                           28/05/07
+   2700-           /* ----------------------------------------- */                                        28/05/07
+   2800-                                                                                                  28/05/07
+   2900- /* Controllo se possibile aggiornamento automatico (END) */                                      28/05/07
+   3000-                                                                                                  17/10/07
+   3100-                                                                                                  17/10/07
+   3200-                                                                                                  22/02/08
+   3300-              IF         COND(%SST(&KPJBA 247 1) *EQ 'E') THEN(GOTO ENDOFPGM)                     17/10/07
+   3400-                                                                                                  28/05/07
+   3500-                                                                                                  22/02/08
+   3600-                                                                                                  17/10/07
+   3700- /* Aggiornamento vecchia versione fido (START) */                                                17/10/07
+   3800-                                                                                                  11/05/06
+   3900- UNO:                                                                                             14/08/07
+   4000-              CHKOBJ     OBJ(QTEMP/WFIDEB0F) OBJTYPE(*FILE)                                       14/08/07
+   4100-              MONMSG     MSGID(CPF9801) EXEC(DO)                                                  14/08/07
+   4200-              KCDO       OBJ(WFIDEB0F) OBJTYPE(*PF)                                               13/07/06
+   4300-              GOTO       CMDLBL(DUE)                                                              14/08/07
+   4400-              ENDDO                                                                               14/08/07
+   4500-              CLRPFM     FILE(QTEMP/WFIDEB0F)                                                     14/08/07
+   4600- DUE:                                                                                             14/08/07
+   4700-              CHKOBJ     OBJ(QTEMP/WFIDE20F) OBJTYPE(*FILE)                                       14/08/07
+   4800-              MONMSG     MSGID(CPF9801) EXEC(DO)                                                  14/08/07
+   4900-              KCDO       OBJ(WFIDE20F) OBJTYPE(*PF)                                               13/07/06
+   5000-              GOTO       CMDLBL(TRE)                                                              14/08/07
+   5100-              ENDDO                                                                               14/08/07
+   5200-              CLRPFM     FILE(QTEMP/WFIDE20F)                                                     14/08/07
+   5300- TRE:                                                                                             14/08/07
+   5400-              CHKOBJ     OBJ(QTEMP/WFIDEL0F) OBJTYPE(*FILE)                                       14/08/07
+   5500-              MONMSG     MSGID(CPF9801) EXEC(DO)                                                  14/08/07
+   5600-              KCDO       OBJ(WFIDEL0F) OBJTYPE(*PF)                                               14/08/07
+   5700-              GOTO       CMDLBL(QUATTRO)                                                          14/08/07
+   5800-              ENDDO                                                                               14/08/07
+   5900-              CLRPFM     FILE(QTEMP/WFIDEL0F)                                                     14/08/07
+   6000- QUATTRO:                                                                                         14/08/07
+   6100-                                                                                                  20/04/07
+   6200-              CHGVAR     VAR(%SST(&KPJBA 247 1)) VALUE('2')                                       28/05/07
+   6300-           /* ----------------------------------------- */                                        19/04/07
+   6400-              CALL       PGM(*LIBL/TRA373) PARM(&KPJBA)                                           19/04/07
+   6500-           /* ----------------------------------------- */                                        19/04/07
+   6600-                                                                                                  22/02/08
+   6700- /* AE033     DLTF       FILE(QTEMP/WFIDEB*)                                   */                 01/04/08
+   6800- /* AE033     DLTF       FILE(QTEMP/WFIDE2*)                                   */                 01/04/08
+   6900- /* AE033     DLTF       FILE(QTEMP/WFIDEL*)                                   */                 01/04/08
+   7000- /* AE033 */  CLRPFM     FILE(QTEMP/WFIDEB0F)                                                     01/04/08
+   7100- /* AE033 */  CLRPFM     FILE(QTEMP/WFIDE20F)                                                     01/04/08
+   7200- /* AE033 */  CLRPFM     FILE(QTEMP/WFIDEL0F)                                                     01/04/08
+   7300-                                                                                                  22/02/08
+   7400- /* AE033     IF         COND(%SST(&KPJBA 247 1) *EQ '2') THEN(GOTO UNO)       */                 01/04/08
+   7500- /* AE033 */  IF         COND(%SST(&KPJBA 247 1) *EQ '2') THEN(GOTO QUATTRO)                      01/04/08
+   7600-                                                                                                  20/04/07
+   7700- /* Aggiornamento vecchia versione fido (END) */                                                  20/04/07
+   7800-                                                                                                  17/10/07
+   7900-                                                                                                  22/02/08
+   8000-                                                                                                  17/10/07
+   8100- /* AE028 */  IF         COND(%SST(&KPJBA 247 1) *NE 'E') THEN(DO)                                22/02/08
+   8200- /* AE028 */                                                                                      22/02/08
+   8300- /* AE033     IF         COND(%SST(&KPJBA 261 1) *EQ '1') THEN(DO)             */                 22/02/08
+   8400-                                                                                                  11/07/07
+   8500-                                                                                                  22/02/08
+   8600-                                                                                                  22/02/08
+   8700- /* Richiamo programma interattivo di gestione fido debitore (START) */                           31/05/07
+   8800-                                                                                                  31/05/07
+   8900- /* AE033     CHGVAR     VAR(&PACKPRFD) VALUE(%SST(&KPJBA 262 3))              */                 22/02/08
+   9000-                                                                                                  20/08/07
+   9100- /* AE033     IF         COND(&PACKPRFD *NE '   ') THEN(DO)                    */                 22/02/08
+   9200- /* AE033     CHGVAR     VAR(&SAVEKPJBA) VALUE(&KPJBA)                         */                 22/02/08
+   9300- /* AE033     CHGVAR     VAR(%SST(&KPJBA 247 256)) VALUE(' ')                  */                 22/02/08
+   9400- /* AE033     CHGVAR     VAR(%SST(&KPJBA 247 1)) VALUE('2')                    */                 22/02/08
+   9500- /* AE033     CHGVAR     VAR(%SST(&KPJBA 252 3)) VALUE(&PACKPRFD)              */                 22/02/08
+   9600-           /* ----------------------------------------- */                                        31/05/07
+   9700- /* AE033     CALL       PGM(*LIBL/TCA351) PARM(&KPJBA)                        */                 22/02/08
+   9800-           /* ----------------------------------------- */                                        31/05/07
+   9900- /* AE033     CHGVAR     VAR(&KPJBA) VALUE(&SAVEKPJBA)                         */                 22/02/08
+  10000- /* AE033     ENDDO                                                            */                 22/02/08
+  10100-                                                                                                  31/05/07
+  10200- /* Richiamo programma interattivo di gestione fido debitore (END) */                             31/05/07
+  10300-                                                                                                  11/07/07
+  10400-                                                                                                  22/02/08
+  10500-                                                                                                  22/02/08
+  10600- /* AE033     ENDDO                                                            */                 22/02/08
+  10700- /* AE028 */                                                                                      22/02/08
+  10800- /* AE028 */  ENDDO                                                                               22/02/08
+  10900-                                                                                                  22/02/08
+  11000-                                                                                                  22/02/08
+  11100-                                                                                                  15/05/06
+  11200- /* ---------------------------------------------------------------------------*/                 11/05/06
+  11300-
+  11400-  ENDOFPGM:                                                                                       21/08/07
+  11500-              ENDPGM                                                                              21/08/07
+                               * * * * * *  F I N E   O R I G I N E  * * * * * *
+                                          Riferimenti incrociati
+ Variabili dichiarate
+ Proprietar.                 Definito    Oggetto         Lunghezza   Riferimenti
+ &KPJBA                        1400      *CHAR             502          1000   2400   2600   3300   6200   6400   7500   8100
+ &PACKPRFD                     1500      *CHAR               3
+* CPD0726 10  La variabile &PACKPRFD è dichiarata ma non vi si fa riferimento.
+ &SAVEKPJBA                    1600      *CHAR             502
+* CPD0726 10  La variabile &SAVEKPJBA è dichiarata ma non vi si fa riferimento.
+ Identificativi definiti
+ Identific.       Definito    Riferimenti
+ DUE                4600        4300
+ ENDOFPGM          11400        3300
+ QUATTRO            6000        5700   7500
+ TRE                5300        5000
+ UNO                3900
+                     * * *  F I N E   R I F E R I M E N T I   I N C R O C I A T I  * * *
+                                         Riepilogo messaggi
+               Gravità
+ Totale        0-9  10-19  20-29  30-39  40-49  50-59  60-69  70-79  80-89  90-99
+      2          0      2      0      0      0      0      0      0      0      0
+ Programma TCA373 creato nella libreria QTEMP sul 13/10/17 al 11:51:54.
+ Programma TCA373 creato in libreria QTEMP. Gravità massima errori è 10.
+                                 * * * *   F I N E   R I E P I L O G O   M E S S A G G I   * * * *
+                                 * * * * *   F I N E   C O M P I L A Z I O N E   * * * * * *
+

@@ -1,0 +1,204 @@
+Azn.T201                      Aggiornamento Anagrafica CEDENTE
+--------------------------------------------------------------------------------
+TRA010                        Gestione Anagrafe Cedenti
+. ANA001                      Gestione Anagrafe generale
+. . ANA005                    Ricerca Persona Fisica x cognome
+. . . ANA008                  Ricerca Persona Fisica x codice discendente
+. . ANA006                    Ricerca Soggetto non Persona Fisica x Denominaz.
+. . . ANA009                  Ricerca Soggetto non Persona Fisica x Codice Disc.
+. . ANA007                    Ricerca Cointestazione x riferimento
+. . . ANA010                  Ricerca Cointestazione x codice discendente
+. . ANA015                    Stampa lettera CR: Segnalazione a sofferenza
+. . . BRQ107                  Calcolo saldo partitario oneri debitori
+. . . UTISOC                  Verifica aree abilitate alla società
+. . ANA019                    Determinazione Piccola o Media Impresa
+. . ANA105                    Window selezione status ANAGEN
+. . ANA125                    Inquiry Ateco 2007
+. . BRF002                    BAE - Anagr.Banche      - Inquiry
+. . RRA006                    RUA - Ricerca Soggetti
+. . . RRA004                  RUA - Ana. Soggetti "Persona Fisica"
+. . . . ANA125                Inquiry Ateco 2007
+. . . . BCT800                Controllo validità CAP/Località
+. . . . . BRT820              Inquiry CAP/Prov/comuni   (EPCMNI) Batch
+. . . . . BRT810              Inquiry CAP/Prov/comuni   (EPCMNI) Interattivo
+. . . . BRT227                Scelta codici Tabelle con interrogazione
+. . . . RRA008                RUA - Ricerca codice C.A.B.
+. . . . TRA120                Interrogazione Tabelle file MST001
+. . . . TRA122                Interrogazione Tabelle file MST001 per descrizione
+. . . . TRA125                Interrogazione tabelle su param.
+. . . RRA042                  RPGLE: Duplicazione SOGxxx in TITxxx/DICxxx
+. . . . RRA006                RUA - Ricerca Soggetti
+. . RRA008                    RUA - Ricerca codice C.A.B.
+. . SRL009                    Ricerca Agenzie
+. . SRL011                    Ricerca Agenzia-Rating
+. . TRA120                    Interrogazione Tabelle file MST001
+. . TRA122                    Interrogazione Tabelle file MST001 per descrizione
+. . TRA140                    Interrogazione Tabelle file PARAM
+. . XBLANK                    Routine Allineamento caratteri alfa e compatta
+. ANA004                      Interrogazione Canali Distributivi
+. ANA005                      Ricerca Persona Fisica x cognome
+. ANA006                      Ricerca Soggetto non Persona Fisica x Denominaz.
+. ANA007                      Ricerca Cointestazione x riferimento
+. BCT800                      Controllo validità CAP/Località
+. BRO310                      Gestione anagrafica cedente
+. . ANA045                    Ricerca Gruppo x Denominazione
+. . . ANA046                  Ricerca Gruppo x Codice Discendente
+. BRT631                      Ricerca Anagrafica Presentatori
+. MDSCI1                      Gestione errori T.P.: invio messaggio a coda PGM
+. MDSCI3                      Gestione errori T.P.: acquisizione desrizione SCI.
+. RRA008                      RUA - Ricerca codice C.A.B.
+. RRA010                      RUA - Interfaccia Gestione Cedenti con R.U.A.
+. . RRA004                    RUA - Ana. Soggetti "Persona Fisica"
+. . RRA002                    RUA - Ana. Soggetti "Persona Giuridica"
+. . . ANA125                  Inquiry Ateco 2007
+. . . BCT800                  Controllo validità CAP/Località
+. . . RRA008                  RUA - Ricerca codice C.A.B.
+. . . TRA120                  Interrogazione Tabelle file MST001
+. . . TRA122                  Interrogazione Tabelle file MST001 per descrizione
+. . . TRA125                  Interrogazione tabelle su param.
+. . RRA012                    RUA - Gestione Rapporti
+. . . RRA015                  RUA - Ricerca codice C.A.B. dipendenza (ADIPEN0F)
+. . . TRA120                  Interrogazione Tabelle file MST001
+. . . RRA006                  RUA - Ricerca Soggetti
+. . . RRA014                  RUA - Gestione Titolari Effettivi
+. . . . RRA006                RUA - Ricerca Soggetti
+. . . . RRA024                RUA - Annullamento / Ripristino Soggetto
+. . . RRA016                  RUA - Gestione Dichiaranti
+. . . . RRA006                RUA - Ricerca Soggetti
+. . . . RRA024                RUA - Annullamento / Ripristino Soggetto
+. . . RRA013                  RUA - Gestione Delegati
+. . . . AMT013R               * MV * tabella 'LEGAME DEL SOGGETTO'
+. . . . . AMP000R             Stampa tabelle
+. . . . RRA006                RUA - Ricerca Soggetti
+. . . . RRA024                RUA - Annullamento / Ripristino Soggetto
+. . . . *VARIABLE
+. . . RRA024                  RUA - Annullamento / Ripristino Soggetto
+. TCA362                      Pulizia del file WKFIDO0F
+. . TRA362                    Reperimento N°Fidi Progressivi da cedenti
+. . . TRA361                  Controllo N°Progressivi Fidi bloccati + stampa
+. TRA120                      Interrogazione Tabelle file MST001
+. TRA121                      Interrogazione Tabelle file MST001 - eccezioni
+. TRA130                      Interrogazione Anagrafe Factors
+. TRA140                      Interrogazione Tabelle file PARAM
+. WIN012                      Selezione Documenti mancanti
+. WIN013                      Finestra di Conferma
+. WIN016                      Richiesta autorizzazioni WEB
+--------------------------------------------------------------------------------
+AMP000R   RPG   1-TBDAM01L  2-AMP000P
+AMT013R   RPG   3-AMT013D   6-TBDAM01L
+ANA001    RPGLE 7-ANA0010V  7-AGPERF1L  7-AGSNPF1L  7-AGCONE1L  7-AGCORI1L
+.         .     1-ACABXX1L  1-BAEABI1L  5-PARAM     1-MST0011L  7-AGRAPP1L
+.         .     5-ANACED1L  5-ANADEB1L  5-PANCLI0F  5-ANSOG01L  1-AGPERF3L
+.         .     1-AGSNPF3L  1-AGCORI2L  7-AGSOFF2L  1-FORGIU1L  5-ANAASS1L
+.         .     7-ANA0190F  7-RELNDG1L  1-RELNDG2L  1-ARCLEG1L  1-TABATD0F
+.         .     1-TABATC1L  1-TABATC3L  7-VARCED0F  7-VARCLI0F  1-USRPWR1L
+.         .     1-FACTOR0F
+ANA004    RPGLE 7-ANA0040V  1-MST0011L
+ANA005    RPGLE 1-AGPERF2L  7-ANA0050V
+ANA006    RPGLE 1-AGSNPF2L  7-ANA0060V
+ANA007    RPGLE 1-AGCONE2L  7-ANA0070V
+ANA008    RPGLE 1-AGPERF1L  7-ANA0080V
+ANA009    RPGLE 1-AGSNPF1L  7-ANA0090V
+ANA010    RPGLE 1-AGCONE1L  7-ANA0100V
+ANA015    RPGLE 1-AGCORI1L  1-AGCSOC1L  1-AGCSOI1L  1-AGPERF1L  1-AGRAPP1L
+.         .     1-AGSNPF1L  1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-ANAFID4L
+.         .     1-ANAFI34L  1-APPCED0F  1-DEBIND0F  1-GARIND1L  1-GARRIC1L
+.         .     1-GARREL3L  1-GARREL4L  1-GARREL5L  1-GARRELDL  1-MST0011L
+.         .     1-PANCLI1L  1-PARAM     2-ANA0150P
+ANA019    RPGLE 5-ANA0190F  1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGSNPF1L
+.         .     1-AGSOGG1C  1-MST0011L  1-PARAM     1-PMILIM1L  1-SC2SCO2L
+ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+ANA105    RPG   3-ANA1050V
+ANA125    RPG   3-ANA1250V  1-TABATC1L
+BCT800    CLP
+BRF002    RPGLE 1-BAEABI1L  1-BAEABI2L  7-BRF0020V
+BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+.         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+BRQ107    RPGLE 1-PONDEBBL  1-PARAM
+BRT227    RPG   1-MST0011L  3-BRT2270V
+BRT631    RPG   3-BRT6310V  1-PARAM     1-ANAPRE1L  1-ANAPRE2L
+BRT810    RPG   3-BRT8100V
+BRT820    RPG   1-COMUNI1L
+MDSCI1    CLP
+MDSCI3    CLP
+RRA002    RPGLE 3-RRA0020V  1-MST0011L  1-ACABXX1L  1-ACABXX3L  1-COMUNI1L
+.         .     7-ANSOG01L  1-DECCED0F  1-DECDEB0F  1-DECCLI0F  2-LOGSOG0F
+.         .     1-TABATC1L  1-PARAM
+RRA004    RPGLE 3-RRA0040V  1-MST0011L  1-ACABXX1L  1-ACABXX3L  1-CATAST1L
+.         .     1-CATAST2L  1-COMUNI1L  7-ANSOG01L  1-ANSOG03L  1-PARAM
+.         .     7-RELSOG3L  1-RELSOG2L  1-TABATC1L  1-DECCED0F  1-DECDEB0F
+.         .     1-DECCLI0F  2-LOGSOG0F
+RRA006    RPG   3-RRA0060V  1-ANSOG01L
+RRA008    RPG   3-RRA0080V  1-ACABXX1L  1-ACABXX2L  1-ACABXX3L
+RRA010    RPG   1-ANACED1L  1-AGRAPP2L  1-ACABXX1L  1-AGCORI1L  1-ANSOG03L
+.         .     1-ANSOG01L  1-AGPERF1L  1-AGSNPF1L  1-ANRAP01L
+RRA012    RPG   d-INV01DTA  3-RRA0120V  1-ANSOG01L  1-ANDEL02L  4-ANDEL03L
+.         .     1-ANTIT02L  1-ANDIC02L  1-ADIPEN2L  1-PARAM     1-MST0011L
+.         .     6-ANRAP01L  1-ANACED1L  1-ANADEB1L  1-PANCLI1L  1-TBDAM01L
+RRA013    RPGLE d-INV01DTA  3-RRA0130V  1-ANRAP01L  1-ANSOG01L  7-ANDEL01L
+.         .     1-TBDAM01L  1-TBTAM01L  3-ANESE01L
+RRA014    RPGLE d-INV01DTA  3-RRA0140V  1-ANSOG01L  7-ANTIT01L
+RRA015    RPG   3-RRA0150V  1-ADIPEN1L
+RRA016    RPGLE d-INV01DTA  3-RRA0160V  1-ANSOG01L  7-ANDIC01L
+RRA024    RPGLE 5-ANSOG01L  1-ANRAP01L  1-ANRAP02L  1-ANRAP03L  1-ANRAP04L
+.         .     1-ANRAP05L  1-ANRAP06L  1-ANDEL01L  1-PARAM     5-RELSOG3L
+.         .     1-ANDIC04L  1-ANTIT04L
+RRA042    RPGLE 3-RRA0420V  7-ANSOG01L  1-MST0011L
+SRL009    RPGLE 7-SRL0090V  1-MST0011L
+SRL011    RPGLE 7-SRL0110V  1-MST0011L  1-ARCLEG1L
+TCA362    CLP   8-WKFIDO0F
+TRA010    RPGLE 3-TRA0100V  7-ANACED1L  7-DECCED0F  1-ACABXX1L  5-PARAM
+.         .     1-MST0011L  1-AGPERF1L  1-AGSNPF1L  1-AGCONE1L  1-AGCORI1L
+.         .     1-ANSOG01L  1-ANRAP01L  7-VARCED0F  3-AGRAPP1L  1-AGRAPP2L
+.         .     1-ANAPRE1L  7-RELCUI1L  1-RELCUI2L  1-COMUNI1L  1-DOCMAN1L
+.         .     1-USRPWR1L  2-DDSCED0F  1-AUTINT1L  1-ANARAP3L  1-ANCONV2L
+.         .     1-WKANAR3L  1-FCITAB1L  5-GARIND1L  1-GARRIC1L  1-GARREL3L
+.         .     5-ANARAP0F  2-CEDAPP0F  7-APPCE11L  5-UBICOS3L
+TRA120    RPG   3-TRA1200V  1-MST0011L
+TRA121    RPG   3-TRA1200V  1-MST0011L
+TRA122    RPG   3-TRA1200V  1-MST0013L  1-MST0011L
+TRA125    RPG   3-TRA1250V  1-PARAM
+TRA130    RPG   3-TRA1300V  1-ANAFAC1L
+TRA140    RPG   3-TRA1400V  1-PARAM
+TRA361    RPG   3-WKFIDO0F  4-STOFID3L  4-ANAFID3L  1-ANAFID8L  1-ANAFID7L
+.         .     1-ANAFI34L  1-ANAFI31L  1-DOCMAN1L  1-DOCREG1L  1-ANACED1L
+.         .     1-TABFID1L  1-GARRIC2L  1-GARRIC1L  1-GARREL5L  1-GARREL3L
+.         .     1-GARREL4L  1-AGRAPP1L  1-AGRAPP2L
+TRA362    RPG   1-ANACED1L  1-ANAFID4L  1-ANAFI33L  1-ANAFID3L  1-WKFIDO0F
+.         .     2-TRA3620P
+UTISOC    RPG   1-MST0011L  1-PARAM
+WIN012    RPGLE 1-DOCMAN1L  7-WIN0120V
+WIN013    RPGLE 3-WIN0130V
+WIN016    RPGLE 3-WIN0160V  7-AUTINT1L  1-ANARAP1L  1-APPDEB1L  1-ANACED1L
+.         .     1-ANADEB1L
+XBLANK    CBL
+--------------------------------------------------------------------------------
+    1-ACABXX1L  1-ACABXX2L  1-ACABXX3L  1-ADIPEN1L  1-ADIPEN2L  7-AGCONE1L
+    1-AGCONE2L  7-AGCORI1L  1-AGCORI2L  1-AGCSOC1L  1-AGCSOI1L  1-AGGRUP1L
+    1-AGGRUP2L  7-AGPERF1L  1-AGPERF2L  1-AGPERF3L  7-AGRAPP1L  1-AGRAPP2L
+    7-AGSNPF1L  1-AGSNPF2L  1-AGSNPF3L  7-AGSOFF2L  1-AGSOGG1C  2-AMP000P
+    3-AMT013D   5-ANAASS1L  7-ANACED1L  1-ANACED2L  1-ANACED4L  5-ANADEB1L
+    1-ANAFAC1L  5-ANAFID3L  1-ANAFID4L  1-ANAFID7L  1-ANAFID8L  1-ANAFI31L
+    1-ANAFI33L  1-ANAFI34L  1-ANAPRE1L  1-ANAPRE2L  5-ANARAP0F  1-ANARAP1L
+    1-ANARAP3L  7-ANA0010V  7-ANA0040V  7-ANA0050V  7-ANA0060V  7-ANA0070V
+    7-ANA0080V  7-ANA0090V  7-ANA0100V  2-ANA0150P  7-ANA0190F  7-ANA0450V
+    7-ANA0460V  3-ANA1050V  3-ANA1250V  1-ANCONV2L  7-ANDEL01L  1-ANDEL02L
+    4-ANDEL03L  7-ANDIC01L  1-ANDIC02L  1-ANDIC04L  3-ANESE01L  7-ANRAP01L
+    1-ANRAP02L  1-ANRAP03L  1-ANRAP04L  1-ANRAP05L  1-ANRAP06L  7-ANSOG01L
+    1-ANSOG03L  7-ANTIT01L  1-ANTIT02L  1-ANTIT04L  1-APPCED0F  7-APPCE11L
+    1-APPDEB1L  1-ARCLEG1L  7-AUTINT1L  1-BAEABI1L  1-BAEABI2L  7-BRF0020V
+    3-BRO3100V  3-BRT2270V  3-BRT6310V  3-BRT8100V  1-CATAST1L  1-CATAST2L
+    2-CEDAPP0F  1-COMUNI1L  2-DDSCED0F  1-DEBIND0F  7-DECCED0F  1-DECCLI0F
+    1-DECDEB0F  1-DOCMAN1L  1-DOCREG1L  1-FACTOR0F  1-FCITAB1L  1-FORGIU1L
+    5-GARIND1L  1-GARRELDL  1-GARREL3L  1-GARREL4L  1-GARREL5L  1-GARRIC1L
+    1-GARRIC2L  d-INV01DTA  2-LOGSOG0F  1-MST0011L  1-MST0013L  5-PANCLI0F
+    1-PANCLI1L  5-PARAM     1-PMILIM1L  1-PONDEBBL  7-RELCUI1L  1-RELCUI2L
+    7-RELNDG1L  1-RELNDG2L  1-RELSOG2L  7-RELSOG3L  3-RRA0020V  3-RRA0040V
+    3-RRA0060V  3-RRA0080V  3-RRA0120V  3-RRA0130V  3-RRA0140V  3-RRA0150V
+    3-RRA0160V  3-RRA0420V  1-SC2SCO2L  7-SRL0090V  7-SRL0110V  4-STOFID3L
+    1-TABATC1L  1-TABATC3L  1-TABATD0F  1-TABFID1L  7-TBDAM01L  1-TBTAM01L
+    3-TRA0100V  3-TRA1200V  3-TRA1250V  3-TRA1300V  3-TRA1400V  2-TRA3620P
+    5-UBICOS3L  1-USRPWR1L  7-VARCED0F  7-VARCLI0F  7-WIN0120V  3-WIN0130V
+    3-WIN0160V  1-WKANAR3L  B-WKFIDO0F
+--------------------------------------------------------------------------------

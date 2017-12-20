@@ -1,0 +1,352 @@
+  Comando  . . . . . . . . . . . . :   CRTBNDRPG
+    Emesso da  . . . . . . . . . . :     LESENR
+  Programma  . . . . . . . . . . . :   TRA002
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   TRA002
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Salvataggio RAPPTO0F in STORPT0F e controllo var.
+  Ultima modifica. . . . . . . . . :   30/05/17  11:54:36
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 H**   EDP130S1    BORANT      30/05/2017  11:52:41                                                        170530     000100
+     2 h decedit('0,') datedit(*YMD.) option(*nodebugio:*srcstmt)                                                120416     000200
+000300 h fixnbr(*zoned:*inputpacked)                                                                             120416     000300
+000400  **************************************************************************                               120416     000400
+000500  *                                                                                                        120416     000500
+000600  *  Programmatore..........: Luigi Ricci                                                                  120416     000600
+000700  *  Data creazione.........: 16/04/2012                                                                   120416     000700
+000800  *                                                                                                        120416     000800
+000900  *  Descrizione programma..: Salvataggio RAPPTO0F in STORPT0F e controllo                                 120416     000900
+001000  *                           variazione.                                                                  120416     001000
+001100  *                                                                                                        120416     001100
+001200  **************************************************************************                               120416     001200
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Salvataggio RAPPTO0F in STORPT0F e controllo var.  *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *ZONED      *INPUTPACKED     *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001300 D §RAPPTO       e ds                  extname(RAPPTO0F)                                                   120416     001300
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  §RAPPTO                                                      *                     1
+        * Formato esterno  . . . . . :  RAPPTO1R : MODELL/RAPPTO0F                                   *                     1
+        * Formato testo. . . . . . . :  ANAGRAFE RAPPORTI                                            *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000001=D RTFLAG                         1A                                        Sts Record V/A               CMN         1000001
+000002=D RTNAZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         1000002
+000003=D RTUINS                         6A                                        Utente di Inserimento                    1000003
+000004=D RTDINS                         8P 0                                      Dte Inserimento                          1000004
+000005=D RTUUPD                         6A                                        Utente di Aggiornamento                  1000005
+000006=D RTDUPD                         8P 0                                      Dte Aggiornamento                        1000006
+000007=D RTCED                          5S 0                                      Cde Cedente                  AC          1000007
+000008=D RTDEB                          8S 0                                      Cde Debitore                 AD          1000008
+000009=D RTNRAC                         4S 0                                      Nbr RAC PTO                  RP          1000009
+000010=D RTTRAC                         1A                                        Cde Tipo RAC PTO             RP          1000010
+000011=D RTTROT                         1A                                        Cde Rotatività Mty           RP          1000011
+000012=D RTDDEC                         8S 0                                      Dte Decorrenza RAC PTO       RT          1000012
+000013=D RTDRIL                         8S 0                                      Dte Rilascio RAC PTO         RT          1000013
+000014=D RTCDIV                         3A                                        Cde Divisa                   MST         1000014
+000015=D RTIRAC                        14P 2                                      Val R.A.C. PTO               RT          1000015
+000016=D RTPBLO                         1A                                        Sts Blocco Plafond pto Aut   RT          1000016
+000017=D RTIMUT                        14P 2                                      Val RAC Utilizzato           RT          1000017
+000018=D RTIMAS                        14P 2                                      Val RAC Assicurato           RT          1000018
+000019=D RTPCCO                         5P 2                                      Pct Copertura                            1000019
+000020=D RTMTER                         1A                                        Cde Modo Termine RAC         RP          1000020
+000021=D RTDSCA                         8S 0                                      Dte Scadenza RAC PTO         RT          1000021
+000022=D RTDREV                         8S 0                                      Dte Revoca RAC PTO           RT          1000022
+000023=D RTPCGZ                         5P 2                                      Pct Garanzia                             1000023
+000024=D RTGGDC                         3S 0                                      Nbr GG Ammessi doc/cess      RP          1000024
+000025=D RTTPAG                         1A                                        Cde Tipo Pagamento           MST         1000025
+000026=D RTMPAG                         2A                                        Cde Modo Pagamento (FM/DF)   RP          1000026
+000027=D RTGGDF                         3S 0                                      Nbr GG Pag. Differimento     RP          1000027
+000028=D RTGGTO                         3S 0                                      Nbr GG Tolleranza            RP          1000028
+000029=D RTIRBK                        14P 2                                      Val RAC PTO BKI              RT          1000029
+000030=D RTNOTE                        50A                                        Nar Note                     RT          1000030
+000031=D RTCASS                         5S 0                                      Cde Assicurazione                        1000031
+000032=D RTTIAS                         3S 0                                      Tipo Pto IAS                             1000032
+000033=D RTGDCD                         1A                                        Modal. applicazione gg doc-ces           1000033
+000034=D RTLATI                         2A                                        Codice concessione LMA                   1000034
+000035=D RTDRIA                         8S 0                                      Dte Competenza per assicurazione         1000035
+001400 d  §RAPPTO1               1      1                                                                        120416     001400
+001500 d  §RAPPTOX               2     28                                                                        120416     001500
+001600 d  §RAPPTO2              29    203                                                                        120416     001600
+001700 d*                                                                                                        120416     001700
+001800 D §STORPT       e ds                  extname(STORPT0F)                                                   120416     001800
+        *--------------------------------------------------------------------------------------------*                     2
+        * Struttura dati . . . . . . :  §STORPT                                                      *                     2
+        * Formato esterno  . . . . . :  STORPT1R : MODELL/STORPT0F                                   *                     2
+        * Formato testo. . . . . . . :  STOrico anagrafe RaPporTi                                    *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000001=D RZ$AZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         2000001
+000002=D RZ$USI                         6A                                        Utente di Inserimento                    2000002
+000003=D RZ$DIN                         8P 0                                      Dte Inserimento                          2000003
+000004=D RZFLAG                         1A                                        Sts Record V/A               CMN         2000004
+000005=D RZNAZN                         9P 0                                      Nbr Azione Aggiornamento     CMN         2000005
+000006=D RZUINS                         6A                                        Utente di Inserimento                    2000006
+000007=D RZDINS                         8P 0                                      Dte Inserimento                          2000007
+000008=D RZUUPD                         6A                                        Utente di Aggiornamento                  2000008
+000009=D RZDUPD                         8P 0                                      Dte Aggiornamento                        2000009
+000010=D RZCED                          5S 0                                      Cde Cedente                  AC          2000010
+000011=D RZDEB                          8S 0                                      Cde Debitore                 AD          2000011
+000012=D RZNRAC                         4S 0                                      Nbr RAC PTO                  RP          2000012
+000013=D RZTRAC                         1A                                        Cde Tipo RAC PTO             RP          2000013
+000014=D RZTROT                         1A                                        Cde Rotatività Mty           RP          2000014
+000015=D RZDDEC                         8S 0                                      Dte Decorrenza RAC PTO       RT          2000015
+000016=D RZDRIL                         8S 0                                      Dte Rilascio RAC PTO         RT          2000016
+000017=D RZCDIV                         3A                                        Cde Divisa                   MST         2000017
+000018=D RZIRAC                        14P 2                                      Val R.A.C. PTO               RT          2000018
+000019=D RZPBLO                         1A                                        Sts Blocco Plafond pto Aut   RT          2000019
+000020=D RZIMUT                        14P 2                                      Val RAC Utilizzato           RT          2000020
+000021=D RZIMAS                        14P 2                                      Val RAC Assicurato           RT          2000021
+000022=D RZPCCO                         5P 2                                      Pct Copertura                            2000022
+000023=D RZMTER                         1A                                        Cde Modo Termine RAC         RP          2000023
+000024=D RZDSCA                         8S 0                                      Dte Scadenza RAC PTO         RT          2000024
+000025=D RZDREV                         8S 0                                      Dte Revoca RAC PTO           RT          2000025
+000026=D RZPCGZ                         5P 2                                      Pct Garanzia                             2000026
+000027=D RZGGDC                         3S 0                                      Nbr GG Ammessi doc/cess      RP          2000027
+000028=D RZTPAG                         1A                                        Cde Tipo Pagamento           MST         2000028
+000029=D RZMPAG                         2A                                        Cde Modo Pagamento (FM/DF)   RP          2000029
+000030=D RZGGDF                         3S 0                                      Nbr GG Pag. Differimento     RP          2000030
+000031=D RZGGTO                         3S 0                                      Nbr GG Tolleranza            RP          2000031
+000032=D RZIRBK                        14P 2                                      Val RAC PTO BKI              RT          2000032
+000033=D RZNOTE                        50A                                        Nar Note                     RT          2000033
+000034=D RZCASS                         5S 0                                      CDE ASSICURAZIONE                        2000034
+000035=D RZTIAS                         3S 0                                      TIPO PTO IAS                             2000035
+000036=D RZGDCD                         1A                                        Modal. applicazione gg doc-ces           2000036
+000037=D RZLATI                         2A                                        Codice concessione LMA                   2000037
+000038=D RZDRIA                         8S 0                                      Dte Competenza per assicurazione         2000038
+001900 d  §STORPT1              17     17                                                                        120416     001900
+002000 d  §STORPTX              18     44                                                                        120416     002000
+002100 d  §STORPT2              45    219                                                                        120416     002100
+002200  **************************************************************************                               120416     002200
+002300 d §opera          s              1                                                                        120416     002300
+002400 d §varia          s              1                                                                        120416     002400
+002500  **************************************************************************                               120416     002500
+002600 c*                                                                                                        120416     002600
+002700 c                   select                                                                      B01       120416     002700
+002800 c* Salva RAPPTO in STORPT                                                                                 120416     002800
+002900 c                   when      §opera = '1'                                                      X01       120416     002900
+003000 c                   clear                   §STORPT                                              01       120416     003000
+003100 c                   movel     §rappto1      §storpt1                                             01       120416     003100
+003200 c                   movel     §rapptox      §storptx                                             01       120416     003200
+003300 c                   movel     §rappto2      §storpt2                                             01       120416     003300
+003400 c* Verifica se i dati sono stati variati                                                                  120416     003400
+003500 c                   when      §opera = '2'                                                      X01       120416     003500
+003600 c                   move      '0'           §varia                                               01       120416     003600
+003700 c                   if        §rappto1 <> §storpt1 or                                           B02       120416     003700
+003800 c                             §rappto2 <> §storpt2                                              B02       120416     003800
+003900 c                   move      '1'           §varia                                               02       120416     003900
+004000 c                   endif                                                                       E02       120416     004000
+004100 c* Ripristina STORPT in RAPPTO                                                                            120417     004100
+004200 c                   when      §opera = '3'                                                      X01       120417     004200
+004300 c******             clear                   §STORPT       direi di no!                              AB    170530     004300
+004400 c                   movel     §storpt1      §rappto1                                             01       120417     004400
+004500 c                   movel     §storptx      §rapptox                                             01       120417     004500
+004600 c                   movel     §storpt2      §rappto2                                             01       120417     004600
+004700 c                   endsl                                                                       E01       120416     004700
+004800 c*                                                                                                        120416     004800
+004900 C                   seton                                        LR----                                   120416     004900
+005000  **************************************************************************                               120416     005000
+005100  * Operazioni iniziali                                                                                    120416     005100
+005200  **************************************************************************                               120416     005200
+005300 C     *inzsr        begsr                                                                                 120416     005300
+005400 c*                                                                                                        120416     005400
+005500 c     *entry        plist                                                                                 120416     005500
+005600 c                   parm                    §RAPPTO                                                       120416     005600
+005700 c                   parm                    §STORPT                                                       120416     005700
+005800 c                   parm                    §opera                         1=Salva                        120416     005800
+005900 c*                                                                           RAPPTO in STORPT             120416     005900
+006000 c*                                                                         2=Verifica variaz.             120416     006000
+006100 c*                                                                         3=Ripristina                   120417     006100
+006200 c*                                                                           STORPT in RAPPTO             120417     006200
+006300 c                   parm                    §varia                         Ritorna:                       120416     006300
+006400 c*                                                                         0=Non variato                  120416     006400
+006500 c*                                                                         1=Variato                      120416     006500
+006600 c*                                                                                                        120416     006600
+006700 c                   endsr                                                                                 120416     006700
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         Non ci sono riferimenti nell'origine.
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         *ENTRY            PLIST                  005500D
+         *INZSR            BEGSR                  005300D
+         §OPERA            A(1)                   002300D     002900      003500      004200
+                           BASED(_QRNL_PRM+)      005800M
+         §RAPPTO           DS(203)                001300D     005600M
+                           BASED(_QRNL_PRM+)
+         §RAPPTOX          A(27)                  001500D     003200      004500M
+         §RAPPTO1          A(1)                   001400D     003100      003700      004400M
+         §RAPPTO2          A(175)                 001600D     003300      003800      004600M
+         §STORPT           DS(219)                001800D     003000M     005700M
+                           BASED(_QRNL_PRM+)
+         §STORPTX          A(27)                  002000D     003200M     004500
+         §STORPT1          A(1)                   001900D     003100M     003700      004400
+         §STORPT2          A(175)                 002100D     003300M     003800      004600
+         §VARIA            A(1)                   002400D     003600M     003900M     006300M
+                           BASED(_QRNL_PRM+)
+*RNF7031 RTCASS            S(5,0)                1000031D
+*RNF7031 RTCDIV            A(3)                  1000014D
+*RNF7031 RTCED             S(5,0)                1000007D
+*RNF7031 RTDDEC            S(8,0)                1000012D
+*RNF7031 RTDEB             S(8,0)                1000008D
+*RNF7031 RTDINS            P(8,0)                1000004D
+*RNF7031 RTDREV            S(8,0)                1000022D
+*RNF7031 RTDRIA            S(8,0)                1000035D
+*RNF7031 RTDRIL            S(8,0)                1000013D
+*RNF7031 RTDSCA            S(8,0)                1000021D
+*RNF7031 RTDUPD            P(8,0)                1000006D
+*RNF7031 RTFLAG            A(1)                  1000001D
+*RNF7031 RTGDCD            A(1)                  1000033D
+*RNF7031 RTGGDC            S(3,0)                1000024D
+*RNF7031 RTGGDF            S(3,0)                1000027D
+*RNF7031 RTGGTO            S(3,0)                1000028D
+*RNF7031 RTIMAS            P(14,2)               1000018D
+*RNF7031 RTIMUT            P(14,2)               1000017D
+*RNF7031 RTIRAC            P(14,2)               1000015D
+*RNF7031 RTIRBK            P(14,2)               1000029D
+*RNF7031 RTLATI            A(2)                  1000034D
+*RNF7031 RTMPAG            A(2)                  1000026D
+*RNF7031 RTMTER            A(1)                  1000020D
+*RNF7031 RTNAZN            P(9,0)                1000002D
+*RNF7031 RTNOTE            A(50)                 1000030D
+*RNF7031 RTNRAC            S(4,0)                1000009D
+*RNF7031 RTPBLO            A(1)                  1000016D
+*RNF7031 RTPCCO            P(5,2)                1000019D
+*RNF7031 RTPCGZ            P(5,2)                1000023D
+*RNF7031 RTTIAS            S(3,0)                1000032D
+*RNF7031 RTTPAG            A(1)                  1000025D
+*RNF7031 RTTRAC            A(1)                  1000010D
+*RNF7031 RTTROT            A(1)                  1000011D
+*RNF7031 RTUINS            A(6)                  1000003D
+*RNF7031 RTUUPD            A(6)                  1000005D
+*RNF7031 RZ$AZN            P(9,0)                2000001D
+*RNF7031 RZ$DIN            P(8,0)                2000003D
+*RNF7031 RZ$USI            A(6)                  2000002D
+*RNF7031 RZCASS            S(5,0)                2000034D
+*RNF7031 RZCDIV            A(3)                  2000017D
+*RNF7031 RZCED             S(5,0)                2000010D
+*RNF7031 RZDDEC            S(8,0)                2000015D
+*RNF7031 RZDEB             S(8,0)                2000011D
+*RNF7031 RZDINS            P(8,0)                2000007D
+*RNF7031 RZDREV            S(8,0)                2000025D
+*RNF7031 RZDRIA            S(8,0)                2000038D
+*RNF7031 RZDRIL            S(8,0)                2000016D
+*RNF7031 RZDSCA            S(8,0)                2000024D
+*RNF7031 RZDUPD            P(8,0)                2000009D
+*RNF7031 RZFLAG            A(1)                  2000004D
+*RNF7031 RZGDCD            A(1)                  2000036D
+*RNF7031 RZGGDC            S(3,0)                2000027D
+*RNF7031 RZGGDF            S(3,0)                2000030D
+*RNF7031 RZGGTO            S(3,0)                2000031D
+*RNF7031 RZIMAS            P(14,2)               2000021D
+*RNF7031 RZIMUT            P(14,2)               2000020D
+*RNF7031 RZIRAC            P(14,2)               2000018D
+*RNF7031 RZIRBK            P(14,2)               2000032D
+*RNF7031 RZLATI            A(2)                  2000037D
+*RNF7031 RZMPAG            A(2)                  2000029D
+*RNF7031 RZMTER            A(1)                  2000023D
+*RNF7031 RZNAZN            P(9,0)                2000005D
+*RNF7031 RZNOTE            A(50)                 2000033D
+*RNF7031 RZNRAC            S(4,0)                2000012D
+*RNF7031 RZPBLO            A(1)                  2000019D
+*RNF7031 RZPCCO            P(5,2)                2000022D
+*RNF7031 RZPCGZ            P(5,2)                2000026D
+*RNF7031 RZTIAS            S(3,0)                2000035D
+*RNF7031 RZTPAG            A(1)                  2000028D
+*RNF7031 RZTRAC            A(1)                  2000013D
+*RNF7031 RZTROT            A(1)                  2000014D
+*RNF7031 RZUINS            A(6)                  2000006D
+*RNF7031 RZUUPD            A(6)                  2000008D
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         LR                                       004900D
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00     73 Il nome o l'indicatore non sono referenziati.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :       73
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :       73
+  Totali origine
+    Record . . . . . . . . . . . . :      140
+    Specifiche  . . . . . . . . . . :      110
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :       30
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma TRA002 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 30/10/17 alle 10:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

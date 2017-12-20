@@ -1,0 +1,1340 @@
+ **************************************************************************
+ *  AREA ..............: FACTORING
+ *  DESCRIZIONE .......: Collegamento Clausole di Mitigazione/Fido
+ *
+ *  PROGRAMMATORE .....: LUIGI RICCI
+ *  PRIMA COMPILAZIONE : 15/06/2012
+ **************************************************************************
+fANACED1L  IF   E           K DISK
+fANAFID3L  UF   E           K DISK
+fANAFI31L  IF   E           K DISK
+fCEDCLA1L  IF   E           K DISK
+fCLAFID2L  UF a E           K DISK
+fCLAFID3L  IF   E           K DISK    rename(CLAFID1R:CLAFID3)
+fCLAMIT1L  IF   E           K DISK
+fMST0011L  IF   E           K DISK
+fPARAM     IF   E           K DISK
+fPTOIAS2L  uf   e           k disk
+fRAPPTO1L  if   e           k disk
+fREFIRA2L  if   e           k disk
+fTABFID1L  IF   E           K DISK
+fTRA4110V  CF   E             WORKSTN
+f                                     SFILE(UVSFL2:UVNRR2)
+f                                     sfile(V03S:UV3NRR)
+f                                     sfile(V05S:UV5NRR)
+ **************************************************************************
+d CDE             S             60    DIM(30)
+d CID             S              7    DIM(30)
+d CLAM            s                   dim(999) like(cmclam)
+d CLAM0           s                   dim(999) like(cmclam)
+d DIV           E DS
+d KPJBA         E DS
+d IAS           E DS
+d TIA           E DS
+d BRO310_KPJBA  e ds                  extname(KPJBA) prefix(BRO310_)
+d BRO310_         ds
+d  BRO310_xxxxx                 10
+d  BRO310_DRCed                 10    overlay(BRO310_xxxxx:1)
+d  BRO310_CdCed                  5s 0 overlay(BRO310_xxxxx:1)
+d TRA152_KPJBA  e ds                  extname(KPJBA) prefix(TRA152_)
+d TRA152_         ds
+d  TRA152_xxxxx                  5                                          TRA411 è chiamato da TRA151 in
+d  TRA152_CdCed                  5s 0 overlay(TRA152_xxxxx:1)                  V04Check_4 Controllo dati Video04, Screen 4
+d  TRA152_PrFid                  5s 0 overlay(TRA152_xxxxx:1)                     Gestione clausole di mitigazione
+d  TRA152_CodF                   4                                                   ColClaus Gestione collegamento clausole di mitigazione
+d $Entry_         ds                                                        con
+d  $Entry_PrFid                  5s 0                                           V04PRFD
+d  $Entry_CodF                   4                                              V04CODF
+d  $Entry_Inqu                   1
+d  $Entry_Tias                   3  0                                           V04TIAS
+d  $Entry_FChg                   1
+d  $Entry_FPug                   1                                              V04FPUG
+d  $Entry_Ggpg                   5  0                                           V04GGPG
+d TRA412_KPJBA  e ds                  extname(KPJBA) prefix(TRA412_)
+d TRA412_         ds
+d  TRA412_PrFid                  5s 0
+d  TRA412_CodF                   4
+d  TRA412_Clam                   3s 0
+d  TRA412_Flag                   1
+d TRA413_KPJBA  e ds                  extname(KPJBA) prefix(TRA413_)
+d TRA413_         ds
+d  TRA413_Ced                    5s 0
+d  TRA413_Clam                   3s 0
+d  TRA413_Opz                    1
+d TRA414_KPJBA  e ds                  extname(KPJBA) prefix(TRA414_)
+d TRA414_         ds
+d  TRA414_PrFid                  5s 0
+d  TRA414_CodF                   4
+d  TRA414_Tias                   3s 0
+d  TRA414_Ced                    5  0
+d  TRA414_Deb                    8  0
+d  TRA414_Fpug                   1
+d TRA415_KPJBA  e ds                  extname(KPJBA) prefix(TRA415_)
+d TRA415_         ds
+d  TRA415_PrFid                  5s 0
+d  TRA415_CodF                   4
+d  TRA415_Tias                   3s 0
+d  TRA415_Updr                   1
+d  TRA415_Forz                   1
+d TRA436_KPJBA  e ds                  extname(KPJBA) prefix(TRA436_)
+d TRA436_         ds
+d  TRA436_Ced                    5s 0
+d  TRA436_Opz                    1
+d TRA440_KPJBA  e ds                  extname(KPJBA) prefix(TRA440_)
+d TRA440_         ds
+d  TRA440_Prfd                   5s 0
+d  TRA440_caze                   1
+d TRA447_KPJBA  e ds                  extname(KPJBA) prefix(TRA447_)
+d TRA447_         ds
+d  TRA447_Prfd                   5s 0
+d  TRA447_Codf                   4
+d TRA448_KPJBA  e ds                  extname(KPJBA) prefix(TRA448_)
+d TRA448_         ds
+d  TRA448_Ced                    5s 0
+d  TRA448_Opz                    1
+d £ANAFID       e ds                  extname(ANAFID0F)
+d wscntc          s              2  0
+d wscnts          s              5  0
+d wsdat6          s              6  0
+d wsdrev          s              8  0
+d wsdsca          s              8  0
+d wsfchg          s              1
+d wsflkf          s              1
+d wsfRac          s              1
+d wsgiro          s              1  0
+d wssgld          s              3
+d wsnrr           s                   like(uvnrr2)
+d WSRKS2          s                   like(uvnrr2)
+d WSRKS3          s                   like(uv3nrr)
+d WSRKS5          s                   like(uv5nrr)
+d wstpcm          s              1  0
+d wx              s              3  0
+d wx0             s              3  0
+d wy              s              3  0
+ **************************************************************************
+ * F L U S S O     P R I N C I P A L E
+ **************************************************************************
+c                   EXSR      HOUSEK
+ * SE SOCIETA' ABILITATA
+c                   if        iasapt = 'S'
+ *
+c                   DO        *HIVAL
+c                   SELECT
+c     WSFUNC        WHENEQ    'P'
+c                   EXSR      PREPAP
+c     WSFUNC        WHENEQ    'V'
+c                   EXSR      VISUAL
+c                   EXSR      ROUTES
+c     WSFUNC        WHENEQ    'C'
+c                   EXSR      CONTRL
+c     WSFUNC        WHENEQ    'E'
+c                   EXSR      EXECUT
+c                   ENDSL
+c                   ENDDO
+ *
+c                   else
+c                   eval      kmsmn = 'SYS1962'
+c                   endif
+ *
+c                   SETON                                        LR
+ **************************************************************************
+ *        PREPAP -  PREPARAZIONE MAPPE
+c     PREPAP        BEGSR
+ * Spegnimento indicatori errore generale, forzatura e conferma
+c                   SETOFF                                       979998
+c                   movea     wszero        *in(30)
+ *
+c     WSNMAP        CASEQ     1             SPREP1
+c     WSNMAP        CASEQ     2             SPREP2
+c     WSNMAP        CASEQ     3             SPREP3
+c     WSNMAP        CASEQ     4             SPREP4
+c     WSNMAP        CASEQ     5             SPREP5
+c                   ENDCS
+ *
+c                   MOVEA     *BLANKS       CDE
+c                   MOVEA     *BLANKS       CID
+c                   Z-ADD     0             X1
+ *
+c                   MOVEL     'V'           WSFUNC
+ * Se chiamato da altro pgm passa alla seconda videata
+c                   if            wsnmap = 1
+c                             and (    $Entry_PrFid <> 0
+c                                  or  $Entry_codf <> *blank)
+c                             and (    *in99 = *off
+c                                  or  *in99 = *on
+c                                  and *in97 = *on)
+c                   MOVEL     'E'           WSFUNC
+c                   endif
+ * Si è deciso di non emettere la windows per confermare l'aggiornamento
+ * dei RAC collegati
+c                   if        wsnmap = 4
+c                   MOVEL     'E'           WSFUNC
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ *        VISUAL - VISUALIZZAZIONE
+c     VISUAL        BEGSR
+ *
+c                   if        WSNMAP <> 3 and
+c                             WSNMAP <> 4 and
+c                             WSNMAP <> 5
+c  N99              WRITE     UVMAPPA9
+c   99              WRITE     UVSCTL99
+c                   endif
+ *
+c                   SETOFF                                       99
+ *
+c                   SELECT
+c     WSNMAP        WHENEQ    1
+c                   EXFMT     UVMAPPA1
+c     WSNMAP        WHENEQ    2
+c                   WRITE     UVMAPPA2
+c                   EXFMT     UVSCTL2
+c     WSNMAP        WHENEQ    3
+c                   write     V03T
+c                   write     V03C
+c                   write     V03P
+c                   read      V03T
+c                   read      V03P
+c     WSNMAP        WHENEQ    4
+c                   EXFMT     UVWINDO4
+c     WSNMAP        WHENEQ    5
+c                   write     V05T
+c                   write     V05C
+c                   write     V05P
+c                   read      V05T
+c                   read      V05P
+c                   ENDSL
+ *
+c                   MOVEL     'C'           WSFUNC
+ *
+c                   ENDSR
+ **************************************************************************
+ *        ROUTES - TASTI
+c     ROUTES        BEGSR
+ * Fine lavoro
+c     *INKA         IFEQ      *ON
+c   92              exsr      UnLockFid
+c                   SETON                                        LR
+c   LR              RETURN
+c                   END
+ * Mappa precedente
+c     *INKB         IFEQ      *ON
+c                   SETOFF                                       9798
+c                   MOVEL     'P'           WSFUNC
+c                   if        wsnmap = 4
+c                             or wsnmap = 5
+c                   z-add     2             wsnmap
+c                   else
+c                   SUB       1             WSNMAP
+c                   endif
+c                   if        wsnmap = 1
+c   92              exsr      UnLockFid
+c                   endif
+c                   exsr      ChkExit
+c                   ENDIF
+ * Conferma scelta
+c     *INKC         IFEQ      *ON
+c     *INKK         OREQ      *ON
+c                   EXSR      CONTRL
+c                   SETOFF                                       98
+ *    *in99 indicatore generale di errore
+c     *IN99         IFEQ      '0'
+c     *IN97         OREQ      *on
+c     *INKK         ANDEQ     *on
+c                   MOVEL     'E'           WSFUNC
+c                   ENDIF
+c                   ENDIF
+ * Ricerca
+c     *INKD         IFEQ      *ON
+c                   if        csrfld = 'UVPRFD'
+c                   exsr      RicFid
+c                   endif
+c                   ENDIF
+ * Aggiunta
+c     *INKF         IFEQ      *ON
+c                   EXSR      CONTRL
+c                   MOVEL     'P'           WSFUNC
+c                   ENDIF
+ * Storico
+c     *INKH         IFEQ      *ON
+c                   MOVEL     'P'           WSFUNC
+c                   Z-add     3             WSNMAP
+c                   ENDIF
+ * Storico gg pug
+c     *INKI         IFEQ      *ON
+c                   eval      TRA447_KPJBA = KPJBA
+c                   clear                   TRA447_
+c                   eval      TRA447_prfd = uvprfd
+c                   eval      TRA447_codf = uvcodf
+c                   eval      TRA447_kpjbu = TRA447_
+c                   call      'TRA447'
+c                   parm                    TRA447_KPJBA
+c                   MOVEL     'V'           WSFUNC
+c                   ENDIF
+ * Altri cedenti
+c     *INKJ         IFEQ      *ON
+c                   MOVEL     'P'           WSFUNC
+c                   Z-add     5             WSNMAP
+c                   ENDIF
+ *
+c                   ENDSR
+ **************************************************************************
+ *        CONTRL - CONTROLLA LE VIDEATE
+c     CONTRL        BEGSR
+ * Spegnimento indicatori
+c                   SETOFF                                       979899
+c                   movea     wszero        *in(30)
+c                   MOVEA     *BLANKS       CDE
+c                   MOVEA     *BLANKS       CID
+c                   Z-ADD     0             X1
+ *
+c     WSNMAP        CASEQ     1             CONTR1
+c     WSNMAP        CASEQ     2             CONTR2
+c     WSNMAP        CASEQ     3             CONTR3
+c                   ENDCS
+ * Errore= decodifica e visualizzazione messaggio con
+ * F03 disabilitato
+c     *IN99         IFEQ      *ON
+c                   EXSR      DECODE
+c                   SETOFF                                       98
+c                   ELSE
+c                   SETON                                        98
+c                   ENDIF
+ * Se Inquiry disattivo aggiornamenti seconda mappa
+c                   if            wsnmap = 2
+c                             and $Entry_Inqu = 'S'
+c                   setoff                                       9798
+c                   endif
+ *
+c                   MOVEL     'V'           WSFUNC
+ *
+c                   ENDSR
+ **************************************************************************
+ *        EXECUT - ESEGUE LA ELABORAZIONE DELLE VIDEATE
+c     EXECUT        BEGSR
+ *
+c                   SELECT
+c     WSNMAP        WHENEQ    1
+c                   EXSR      EXECT1
+c     WSNMAP        WHENEQ    2
+c                   EXSR      EXECT2
+c     WSNMAP        WHENEQ    3
+c                   EXSR      EXECT3
+c     WSNMAP        WHENEQ    4
+c                   EXSR      EXECT4
+c                   ENDSL
+ *
+c                   ENDSR
+ **************************************************************************
+ *        SPREP1 - PREPARAZIONE MAPPA 1
+c     SPREP1        BEGSR
+ *
+c                   SETOFF                                       9897
+ * Chiamato da altro programma
+c                   if            $Entry_PrFid <> 0
+c                             or  $Entry_CodF  <> *blank
+c                   eval      uvprfd = $Entry_PrFid
+c                   eval      uvcodf = $Entry_CodF
+c                   exsr      CONTRL
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ *        SPREP2 - PREPARAZIONE MAPPA 2
+c     SPREP2        BEGSR
+ *
+c                   SETOFF                                       9897
+ * Evidenzia se fido scaduto, inserimento disattivato
+c                   setoff                                       81
+c                   eval      wsdsca = fddscs * 1000000 +
+c                                      fddsca * 10000 +
+c                                      fddscm * 100 + fddscg
+c                   eval      wsdrev = fddrvs * 1000000 +
+c                                      fddrva * 10000 +
+c                                      fddrvm * 100 + fddrvg
+c                   if        wsdsca <> 0  and
+c                             wsdsca < *date or
+c                             wsdrev <> 0  and
+c                             wsdrev < *date
+c                   seton                                        81
+c                   endif
+ * Inquiry
+c                   eval      *in82 = ($Entry_Inqu = 'S')
+ * PTO IAS Forzato
+c                   eval      piprfd = uvprfd
+c                   eval      picodf = uvcodf
+c     kptoias       chain(n)  PTOIAS2L                                      [obsoleto]
+c                   if        not %found
+c                   clear                   piiasn
+c                   endif
+c                   eval      *in83 =     piiasn <> 0
+c                                     and piiasn = uvtias
+ * Inserimento
+c                   eval      *in01 = (uvprfd = 0)
+ * Verifica se fido già in uso da altro utente
+c                   if            *in81 = *off
+c                             and *in82 = *off
+c                             and *in92 = *off
+c                             and $Entry_CodF = *blank
+c                   exsr      LockFid
+c                   if        wsflkf = '1'
+c                   MOVE      'SYS0257'     WSMSID                          errore SYS0257
+c                   EXSR      REGERR
+c                   seton                                        31
+c                   exsr      decode
+c                   z-add     1             wsnmap
+c                   leavesr
+c                   endif
+c                   endif
+ * Reimposta ANAFID sporcato da allocazione
+c                   if        uvprfd <> 0
+c                   eval      FDPRFD = UVPRFD
+c                   eval      FDCODF = UVCODF
+c     kANAFID3      chain(n)  ANAFID3L
+c                   endif
+ * Dati testata
+c                   eval      uvced  = fdcodc
+c     uvced         chain     ANACED1R
+c                   if        %found
+c                   eval      uvrasc = acras
+c                   endif
+c                   eval      pakeya = 'TIA'
+c                   eval      pakeyb = *all'0'
+c                   move      uvtias        pakeyb
+c     pakey         chain     PARAM
+c                   if        %found
+c                   eval      TIA = padesc
+c                   else
+c                   clear                   TIA
+c                   endif
+c                   eval      uvtiasd = tiades
+c                   clear                   wssgld
+c                   if        accdiv <> *blank
+c                   eval      mtkeya = 'DIV'
+c                   eval      mtkeyb = *all'0'
+c                   move      accdiv        mtkeyb
+c     mtkey         chain     MST0011L
+c                   if        %found
+c                   eval      DIV = mtdesc
+c                   else
+c                   clear                   DIV
+c                   endif
+c                   eval      wssgld = divsgl
+c                   endif
+ * PULIZIA SUBFILE
+c                   SETON                                        1516
+c                   WRITE     UVSCTL2
+c                   SETOFF                                       15
+c                   Z-ADD     0             WSRKS2
+ * Caricamento subfile
+c                   for       wx = 1 to %elem(CLAM)
+c                   if        CLAM(wx) = 0
+c                   leave
+c                   endif
+ *
+c                   clear                   UVSFL2
+c                   eval      uv2cla = CLAM(wx)
+c     uv2cla        chain     CLAMIT1L
+c                   if        %found
+c                   eval      uv2des = cmdes1
+c                   exsr      RtvTpCM
+c                   eval      uv2tpc = wstpcm
+c                   exsr      RtvCnd
+c                   endif
+ *
+c                   ADD       1             WSRKS2
+c                   Z-ADD     WSRKS2        UVNRR2
+c                   WRITE     UVSFL2
+ *
+c                   endfor
+c                   seton                                        17
+ *
+c     WSRKS2        COMP      0                                      16
+c                   z-add     1             uvnrr2
+ *
+c                   ENDSR
+ **************************************************************************
+ *        SPREP3 - PREPARAZIONE MAPPA 3
+c     SPREP3        BEGSR
+ *
+c                   setoff                                       1011
+c                   seton                                        12
+c                   write     V03C
+c                   setoff                                       12
+c                   z-add     0             wsrks3
+ *
+c                   eval      FCPRFD = UVPRFD
+c                   eval      FCCODF = UVCODF
+c     kCLAFID2      setll     CLAFID3
+c                   do        *hival
+c     kCLAFID2      reade     CLAFID3                                       per ogni PRFD/CODF legge ClaFid
+c                   if        %eof
+c                   leave
+c                   endif
+c                   clear                   V03S
+c                   eval      uv3user = fcuins
+c                   z-add     fcdins        wsdat6
+c                   CALL      'STD003'
+c     uv3date       parm                    wsdat6
+c                   z-add     fcdupd        wsdat6
+c                   CALL      'STD003'
+c     uv3dupd       parm                    wsdat6
+c                   eval      uv3annul  = fcflag
+c                   eval      *in60 = (fcflag = 'A')
+c                   eval      uv3clam = fcclam
+c     fcclam        chain     CLAMIT1L
+c                   if        %found
+c                   eval      uv3des1 = cmdes1
+c                   endif
+c                   add       1             wsrks3
+c                   z-add     wsrks3        UV3NRR
+c                   write     V03S                                          <<
+c                   enddo
+ *
+c     wsrks3        comp      0                                  10
+c                   z-add     1             uv3srn
+c                   seton                                        11
+ *
+c                   ENDSR
+ **************************************************************************
+ *        SPREP4 - PREPARAZIONE MAPPA 4
+c     SPREP4        BEGSR
+ *
+c                   eval      uvfupr = 'S'
+ *
+c                   ENDSR
+ **************************************************************************
+ *        SPREP5 - PREPARAZIONE MAPPA 5
+c     SPREP5        BEGSR
+ *
+c                   setoff                                       1011
+c                   seton                                        12
+c                   write     V05C
+c                   setoff                                       12
+c                   z-add     0             wsrks5
+ *
+c     uvprfd        setll     ANAFI31L
+c                   do        *hival
+c     uvprfd        reade     ANAFI31L                                      per ogni PRFD legge AnaFi3
+c                   if        %eof
+c                   leave
+c                   endif
+c                   clear                   V05S
+c                   eval      uv5ced  = f3ced
+c     f3ced         chain     ANACED1L
+c                   if        %found
+c                   eval      uv5ras = acras
+c                   endif
+c                   add       1             wsrks5
+c                   z-add     wsrks5        UV5NRR
+c                   write     V05S                                          <<
+c                   enddo
+ *
+c     wsrks5        comp      0                                  10
+c                   z-add     1             uv5srn
+c                   seton                                        11
+ *
+c                   ENDSR
+ **************************************************************************
+ *        CONTR1 - CONTROLLI DELLA PRIMA VIDEATA
+c     CONTR1        BEGSR
+ *
+c                   clear                   £ANAFID
+c                   clear                   uvdes1
+c                   clear                   uvdes2
+c                   if        uvprfd <> 0
+c                             or uvcodf <> *blank
+c                   eval      FDPRFD = UVPRFD
+c                   eval      FDCODF = UVCODF
+c     kANAFID3      chain(n)  ANAFID3L                                      legge AnaFid con PRFD/CODF
+c                   if        not %found                                    Se non trovato
+c                   MOVE      'SYS0062'     WSMSID                             errore SYS0062
+c                   EXSR      REGERR
+c                   seton                                        3132
+c                   else
+c                   eval      uvdes1 = fddes1
+c                   eval      uvdes2 = fddes2
+c                   if            $Entry_CodF <> *blank
+c                             and $Entry_Inqu <> 'S'
+c                   eval      uvtias = $Entry_Tias
+c                   eval      uvfpug = $Entry_fpug
+c                   eval      uvggpg = $Entry_ggpg
+c                   else
+c                   eval      uvtias = fdtias
+c                   eval      uvfpug = fdfpug
+c                   eval      uvggpg = fdggpg
+c                   endif
+ *    deve essere PTO
+c     uvcodf        chain     TABFID                                        legge TabFid con CODF
+c                   if           not %found                                 Se non trovato
+c                             or tfmacr <> '1'                               o Mod._accoglimento_crediti <> '1'
+c                   MOVE      'SYS8394'     WSMSID                             errore SYS8394
+c                   EXSR      REGERR
+c                   seton                                        3132
+c                   endif
+ *    deve esistere RAC
+c                   exsr      ChkRAC
+c                   if        wsfrac = *on
+c                   MOVE      'SYS8395'     WSMSID                             errore SYS8395
+c                   EXSR      REGERR
+c                   seton                                        3132
+c                   endif
+c                   endif
+ *
+c                   else
+ *    Errore se non è chiamato da immissione fido
+c                   if        $Entry_CodF = *blank
+c                   MOVE      'SYS0062'     WSMSID                             errore SYS0062
+c                   EXSR      REGERR
+c                   seton                                        3132
+c                   endif
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ * CONTR2 CONTROLLI SECONDA MAPPA
+c     CONTR2        BEGSR
+ * Interrogazione storico condizioni
+c                   for       wsnrr  = 1 to wsrks2                          per ogni voce del SubFile
+c     wsnrr         chain     UVSFL2
+c                   setoff                                       31
+c                   if        uv2opz = 'C'                                  Se C=Storico condizioni
+c                   exsr      InqCnd                                           esegue
+c                   clear                   uv2opz
+c                   endif
+c                   if           *in81 = *on                                Se Fido_Scaduto
+c                             or *in82 = *on                                 o Inquiry
+c                   if           uv2opz = 'A'                                  Se A=Annulla
+c                   MOVE      'SYS0001'     WSMSID                                errore SYS0001
+c                   EXSR      REGERR
+c                   seton                                        31
+c                   endif
+c                   endif
+c                   update    UVSFL2
+c                   endfor
+ * Se interrogazione esce dai controlli
+c                   if        $Entry_Inqu = 'S'
+c                   leavesr                                                 --> leavesr -->
+c                   endif
+ * Ricarica la schiera senza annullati
+c                   clear                   CLAM
+c                   z-add     0             wx
+c                   for       wsnrr  = 1 to wsrks2
+c     wsnrr         chain     UVSFL2
+c                   if        uv2opz <> 'A'
+c                   add       1             wx
+c                   eval      CLAM(wx) = uv2cla
+c                   endif
+c                   endfor
+ * Aggiunta
+c                   if        *inKF = *on
+c                   exsr      AddCla
+c                   endif
+ * Inserire almeno una clausola
+c                   if        wx = 0                                        Se numero voci = 0
+c                   MOVE      'SYS8392'     WSMSID                             errore SYS8392
+c                   EXSR      REGERR
+c                   endif
+ * Verifica variazioni
+c                   eval      wsfchg = *off
+c                   if        wx <> wx0
+c                   eval      wsfchg = *on
+c                   else
+c                   for       wy = 1 to wx
+c                   if        CLAM(wy) <> CLAM0(wy)
+c                   eval      wsfchg = *on
+c                   leave
+c                   endif
+c                   endfor
+c                   endif
+c                   if        wsfchg = *off
+c                   MOVE      'SYS8300'     WSMSID                             errore SYS8300 99 Non ci sono variazioni rispetto ai dati precedenti
+c                   EXSR      REGERR
+c                   endif
+ * Ricalcolo PTO IAS
+c                   if            *in81 = *off                              Se Fido_Non_Scaduto
+c                             and wsfchg = *on                               e variate_clausole
+c                   eval      TRA414_KPJBA = KPJBA
+c                   clear                   TRA414_
+c                   eval      TRA414_PrFid = uvprfd
+c                   eval      TRA414_CodF  = uvcodf
+c                   eval      TRA414_Fpug  = uvfpug
+c                   eval      TRA414_kpjbu = TRA414_
+c                   call      'TRA414'                                      chiama TRA414
+c                   parm                    TRA414_KPJBA
+c                   parm                    CLAM
+c                   eval      TRA414_ = TRA414_kpjbu
+c                   eval      uvtias = TRA414_Tias                             valorizza
+c                   eval      pakeya = 'TIA'
+c                   eval      pakeyb = *all'0'
+c                   move      uvtias        pakeyb
+c     pakey         chain     PARAM
+c                   if        %found
+c                   eval      TIA = padesc
+c                   else
+c                   clear                   TIA
+c                   endif
+c                   eval      uvtiasd = tiades                                 e decodifica
+c                   endif
+ * Se variato PTO IAS richiesta forzatura
+c                   if        uvtias <> fdtias                              Se Tipo_Pto_IAS Video <> ANAFID
+c                             and fdtias <> 000
+c                   MOVE      'SYS8391'     WSMSID                             errore SYS8391
+c                   EXSR      REGERR
+c                   endif
+ * Evidenzia forzatura PTO IAS
+c                   eval      *in83 =     piiasn <> 0                       Se PTOIAS/New_Tipo_Pto_IAS <> 0
+c                                     and piiasn = uvtias                    e = Video/Tipo_PTO_IAS allora *In83 *On
+ *                                                                                                  altrimenti *Off
+c                   ENDSR
+ **************************************************************************
+ * CONTR3 CONTROLLI TERZA MAPPA
+c     CONTR3        BEGSR
+ *
+c                   ENDSR
+ **************************************************************************
+ * EXECT1 - ELABORA LA PRIMA VIDEATA
+c     EXECT1        BEGSR
+ *
+c                   Z-ADD     2             WSNMAP
+c                   MOVEL     'P'           WSFUNC
+ * Caricamento schiera clausole collegate
+c                   clear                   CLAM
+c                   z-add     0             wx
+c                   eval      FCPRFD = UVPRFD
+c                   eval      FCCODF = UVCODF
+c     kCLAFID2      setll     CLAFID2L
+c                   do        *hival
+c     kCLAFID2      reade(n)  CLAFID2L
+c                   if        %eof
+c                   leave
+c                   endif
+c                   add       1             wx
+c                   eval      CLAM(wx) = fcclam
+c                   enddo
+c                   eval      CLAM0 = CLAM
+c                   eval      wx0 = wx
+ *
+c                   ENDSR
+ **************************************************************************
+ * EXECT2 - ELABORA LA SECONDA VIDEATA
+c     EXECT2        BEGSR
+ *  Chiamata da menù
+c                   if            $Entry_Prfid = 0
+c                             and $Entry_CodF  = *blank
+c                   Z-ADD     4             WSNMAP
+c                   MOVEL     'P'           WSFUNC
+c                   else
+ *  Chiamata da gestione fido
+c                   eval      $Entry_FChg = wsfchg
+c                   eval      $Entry_Tias = uvtias
+c                   exsr      UpdCol
+c                   Z-ADD     1             WSNMAP
+c                   MOVEL     'P'           WSFUNC
+c   92              exsr      UnLockFid
+c                   exsr      ChkExit
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ * EXECT3 - ELABORA LA TERZA VIDEATA
+ *===============================================================**
+c     EXECT3        BEGSR
+ *
+c                   ENDSR
+ **************************************************************************
+ * EXECT4 - ELABORA LA QUARTA VIDEATA
+c     EXECT4        BEGSR
+ * Clausole collegate
+c                   exsr      UpdCol
+ * Anagrafica Fido
+c                   if            uvtias <> 0
+c                             and uvtias <> fdtias
+c                   eval      FDPRFD = UVPRFD
+c                   eval      FDCODF = UVCODF
+c     kANAFID3      chain     ANAFID3L                                      legge AnaFid
+c                   if        %found                                        Se trovato
+c                   eval      fdtias = uvtias                                  Tipo_Pto_IAS
+c                   eval      fddupd = %rem(*date:1000000)                     *Oggi
+c                   eval      fduupd = knmus                                   *Utente
+c                   update    ANAFID1R                                      <<
+c                   endif
+c                   exsr      UpdStoF                                       esegue
+c                   endif
+ * Elimina forzature
+c                   eval      piprfd = uvprfd
+c                   eval      picodf = uvcodf
+c     kptoias       setll     PTOIAS2L
+c                   do        *hival
+c     kptoias       reade     PTOIAS2L                                      legge PtoIas per PRFD/CODF
+c                   if        %eof
+c                   leave
+c                   endif                                                   Se trovato
+c                   eval      piflag = 'A'                                     A-nnullato
+c                   eval      pidupd = *date                                   *Oggi
+c                   eval      piuupd = knmus                                   *Utente
+c                   update    PTOIAS1R                                      <<
+c                   enddo
+ * Aggiornamento RAC collegati
+c                   if        uvfupr = 'S' and                              Se Aggiornare_i_RAC_legati_al_fido_PTO
+c                             uvtias <> 0                                    e Tipo_PTO_IAS
+c                   eval      TRA415_KPJBA = KPJBA
+c                   clear                   TRA415_
+c                   eval      TRA415_PrFid = uvprfd
+c                   eval      TRA415_CodF  = uvcodf
+c                   eval      TRA415_Tias  = uvtias
+c                   eval      TRA415_kpjbu = TRA415_
+c                   call      'TRA415'                                      chiama TRA415
+c                   parm                    TRA415_KPJBA
+c                   endif
+ *
+c                   Z-ADD     1             WSNMAP
+c                   MOVEL     'P'           WSFUNC
+c   92              exsr      UnLockFid
+ *
+c                   ENDSR
+ **************************************************************************
+ * Aggiorna storico fido
+c     UpdStoF       BEGSR
+ *
+c                   eval      TRA440_KPJBA = KPJBA
+c                   clear                   TRA440_
+c                   eval      TRA440_prfd = fdprfd
+c                   eval      TRA440_caze = 'E'
+c                   eval      TRA440_kpjbu = TRA440_
+c                   call      'TRA440'                                      chiama TRA440
+c                   parm                    TRA440_KPJBA
+ *
+c                   ENDSR
+ **************************************************************************
+ * Aggiorna collegamento clausole/fido
+c     UpdCol        BEGSR
+ * Elimina i record non piu presenti nella schiera
+c                   eval      FCPRFD = UVPRFD
+c                   eval      FCCODF = UVCODF
+c     kCLAFID2      setll     CLAFID2L
+c                   do        *hival
+c     kCLAFID2      reade     CLAFID2L                                      legge ClaFid per PRFD/CODF
+c                   if        %eof
+c                   leave
+c                   endif                                                   Se trovato
+c                   if        %lookup(fcclam:CLAM:1:wx) = 0                  e non più in CLAM
+c                   eval      FCFLAG = 'A'                                     A-nnullato
+c                   eval      FCDUPD = *date                                   *Oggi
+c                   eval      FCUUPD = knmus                                   *Utente
+c                   update    CLAFID1R                                      <<
+c                   endif
+c                   enddo
+ * Aggiunge i nuovi record
+c                   for       wy = 1 to wx                                  per ogni voce
+c                   eval      FCPRFD = UVPRFD
+c                   eval      FCCODF = UVCODF
+c                   eval      FCCLAM = CLAM(wy)                                           di CLAM
+c     kCLAFID2a     chain     CLAFID1R                                      legge ClaFid
+c                   if        not %found                                    Se non trovato
+c     *nokey        clear                   CLAFID1R                        Inizializza (non i campi chiave)
+c                   eval      FCTREC = 'FCL'                                valorizza
+c                   eval      FCFLAG = 'V'
+c                   eval      FCDINS = *date
+c                   eval      FCUINS = knmus
+c                   write     CLAFID1R                                      <<
+c                   endif
+c                   endfor
+c                   unlock    CLAFID2L
+ *
+c                   ENDSR
+ **************************************************************************
+ * Se chiamato da altro programma esce saltando la prima videata
+c     ChkExit       BEGSR
+ *
+c                   if            wsnmap = 1
+c                             and ($Entry_Prfid <> 0
+c                              or  $Entry_CodF  <> *blank)
+c                   eval      kpjbu = $Entry_
+c                   seton                                        LR
+c                   return
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ * Ricerca Fido
+c     RicFid        BEGSR
+ *
+c                   clear                   BRO310_
+c                   eval      BRO310_DRCed = *blank
+c                   eval      BRO310_KPJBA = KPJBA
+c                   eval      BRO310_KPJBU = BRO310_
+c                   call      'BRO310'                                      chiama BRO310
+c                   parm                    BRO310_KPJBA
+c                   eval      BRO310_ = BRO310_KPJBU
+c                   if        BRO310_CdCed <> 0
+c                   clear                   TRA152_
+c                   eval      TRA152_CdCed = BRO310_CdCed
+c                   eval      TRA152_KPJBA = KPJBA
+c                   eval      TRA152_KPJBU = TRA152_
+c                   call      'TRA152'                                      chiama TRA152
+c                   parm                    TRA152_KPJBA
+c                   eval      TRA152_ = TRA152_KPJBU
+c                   if            TRA152_xxxxx <> *blank
+c                   eval      UVPRFD = TRA152_PrFid
+c                   eval      UVCODF = TRA152_CodF
+c                   endif
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Aggiunta collegamento a clausola mitigazione
+c     AddCla        BEGSR
+ *
+c                   clear                   TRA412_
+c                   eval      TRA412_PrFid = uvprfd
+c                   eval      TRA412_Codf  = uvcodf
+c                   eval      TRA412_KPJBA = KPJBA
+c                   eval      TRA412_KPJBU = TRA412_
+c                   call      'TRA412'                                      chiama TRA412
+c                   parm                    TRA412_KPJBA
+c                   parm                    CLAM
+ *
+c                   eval      wx = %lookup(0:CLAM) - 1
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Controllo/Allocazione fido
+c     LockFid       BEGSR
+ *
+c                   clear                   wsflkf
+c     uvprfd        setll     ANAFID3L
+c                   do        *hival
+c     uvprfd        reade     ANAFID3L                                      legge AnaFid per PRFD
+c                   if        %eof
+c                   leave
+c                   endif
+c                   if        fdlock = '1'                                  Se trovato e bloccato
+c                   move      '1'           wsflkf                             se lo segna
+c                   unlock    ANAFID3L
+c                   leave
+c                   endif                                                   altrimenti
+c                   move      '1'           fdlock                             lo blocca
+c                   update    ANAFID1R                                      <<
+c                   seton                                        92            e se lo segna
+c                   enddo
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Disallocazione fido
+c     UnLockFid     BEGSR
+ *
+c     uvprfd        setll     ANAFID3L
+c                   do        *hival
+c     uvprfd        reade     ANAFID3L                                      legge AnaFid per PRFD
+c                   if        %eof
+c                   leave
+c                   endif
+c                   move      ' '           fdlock                             e sblocca i record
+c                   update    ANAFID1R                                      <<
+c                   enddo
+c                   setoff                                       92
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Verifica RAC collegati
+c     ChkRAC        BEGSR
+ *
+c                   eval      wsfRAC = *on
+c                   eval      rrprfd = uvprfd
+c                   for       wsgiro = 1 to 2                               Per 2 volte
+c                   if        wsgiro = 1                                    La prima volta
+c                   eval      rrcodf = uvcodf                                  usa Video/Cde_Fido
+c                   else                                                    la seconda
+c                   eval      rrcodf = *blank                                  *Blank
+c                   endif
+c     krefira       setll     REFIRA1R
+c                   do        *hival
+c     krefira       reade     REFIRA1R                                      legge tutto ReFiRa con PRFD/(codf)
+c                   if        %eof
+c                   leave
+c                   endif
+ *                                                                          Se trovato
+c     krappto       setll     RAPPTO1L
+c                   do        *hival
+c     krappto       reade     RAPPTO1L                                      legge RapPto con Cedente/Debitore
+c                   if        %eof
+c                   leave
+c                   endif                                                   Se trovato
+c                   eval      wsfRAC = *off                                    se lo segna
+c                   leavesr                                                  --> leavesr -->
+c                   enddo
+ *
+c                   enddo
+c                   endfor
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Determina il tipo clausola di mitigazione
+c     RtvTpCM       BEGSR
+ *                                                                          Normalizza
+c                   select
+c                   when      cmboma = 'S'
+c                   eval      wstpcm = 1                                    Bonus/malus
+c                   when      cmfraf = 'S'
+c                   eval      wstpcm = 2                                    Franchigia fissa
+c                   when      cmmaxi = 'S'
+c                   eval      wstpcm = 3                                    Max indennizz.
+c                   when      cmming = 'S'
+c                   eval      wstpcm = 4                                    Minimo garantito
+c                   when      cmrclc = 'S'
+c                   eval      wstpcm = 5                                    Ricalcolo commiss.
+c                   when      cmnocl = 'S'
+c                   eval      wstpcm = 6                                    No clausola
+c                   when      cmmini = 'S'
+c                   eval      wstpcm = 7                                    Minimo indennizz.
+c                   endsl
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Reperimento condizioni clausola
+c     RtvCnd        BEGSR
+ *
+c                   if           cmming = 'S'                               Se CLAMIT/Minimo_garantito_'S'
+c                             or cmfraf = 'S'                                o        Franchigia_fissa_'S'
+c                             or cmmaxi = 'S'                                o        Massimo_indennizzabile_'S'
+c                             or cmmini = 'S'                                o        Minimo_indennizzabile_'S'
+ *
+c                   eval      CLCED  = uvced
+c                   eval      CLCLAM = uv2cla
+c     kCEDCLA       setgt     CEDCLA1L
+c     kCEDCLA       readpe    CEDCLA1L                                      legge il più alto CedCla per Cde_Cedente e Clausola_di_Mitigazione_del_rischio
+c                   if        not %eof  and (CLDTSC >= *date or CLDTSC = 0) Se trovato e Data_Fine_Validità >= *Oggi
+ *                                                                                     o non impostata
+c                   select
+ *              Minimo garantito
+c                   when      cmming = 'S'                                  Per Minimo_garantito
+c                   eval      uv2cnd = 'Importo ' +                             Condizioni_in_vigore = CEDCLA/Importo_minimo_garantito
+c                                      %editc(climin:'1')
+c                                      + ' ' + wssgld
+ *              Franchigia fissa
+c                   when      cmfraf = 'S'                                  Per Franchigia_fissa
+c                   select
+c                   when      clfran <> 0                                   per importo Franchigia_fissa
+c                   eval      uv2cnd = 'Importo ' +                                                           Importo_Franchigia_fissa
+c                                      %editc(clfran:'1')
+c                                      + ' ' + wssgld
+c                   when      clffpe <> 0                                   per %_franchigia_fissa
+c                   eval      uv2cnd = %editc(clffpe:'1') + ' %'                                              %_franchigia_fissa
+c                   when      clffmo <> 0                                   per Moltiplicatore_franchigia_fissa
+c                   eval      uv2cnd = %editc(clffmo:'1') + ' volte'                                          Moltiplicatore_franchigia_fissa
+c                   endsl
+c                   if           clffpe <> 0                                Se %_franchigia_fissa
+c                             or clffmo <> 0                                 o Moltiplicatore_franchigia_fissa
+c                   select
+c                   when      clffim = 'C'                                  per Imponibile_franchigia_fissa C-ommissioni
+c                   eval      uv2cnd = %trim(uv2cnd) +
+c                                      ' Commissioni'                           aggiunge "Commissioni"
+c                   when      clffim = 'T'                                  per                             T-urnover
+c                   eval      uv2cnd = %trim(uv2cnd) +
+c                                      ' Turnover'                                        ...
+c                   when      clffim = 'G'
+c                   eval      uv2cnd = %trim(uv2cnd) +                      per                pagamenti_in_G-aranzia
+c                                      ' P.U.G.'                                          ...
+c                   endsl
+c                   endif
+ *              Max indennizzabile
+c                   when      cmmaxi = 'S'                                  Per Massimo_indennizzabile
+c                   select
+c                   when      climma <> 0                                   per Importo_massimo_indennizzabile
+c                   eval      uv2cnd = 'Importo ' +
+c                                      %editc(climma:'1')                       climma
+c                                      + ' ' + wssgld
+c                   when      climmp <> 0                                   per %_massimo_indennizzabile
+c                   eval      uv2cnd = %editc(climmp:'1') + ' %'                climmp
+c                   when      climmm <> 0                                   per Moltiplicatore_massimo_indennizzabile
+c                   eval      uv2cnd = %editc(climmm:'1') + ' volte'            climmm
+c                   endsl
+c                   if           climmp <> 0                                se %_massimo_indennizzabile
+c                             or climmm <> 0                                 o Moltiplicatore_massimo_indennizzabile
+c                   select
+c                   when      climmi = 'C'                                  per C-ommissioni
+c                   eval      uv2cnd = %trim(uv2cnd) +                          +++
+c                                      ' Commissioni'
+c                   when      climmi = 'T'                                  per T-urnover
+c                   eval      uv2cnd = %trim(uv2cnd) +                          +++
+c                                      ' Turnover'
+c                   when      climmi = 'G'                                  per pagamenti_in_G-aranzia
+c                   eval      uv2cnd = %trim(uv2cnd) +                          +++
+c                                      ' P.U.G.'
+c                   endsl
+c                   endif
+ *              Minimo indennizzabile
+c                   when      cmmini = 'S'                                  Per Minimo_indennizzabile
+c                   eval      uv2cnd = 'Importo ' +                             Importo_minimo_indennizzabile
+c                                      %editc(climni:'1')
+c                                      + ' ' + wssgld
+c                   endsl
+ *
+c                   endif
+ *
+c                   endif
+ *
+c                   ENDSR
+ **************************************************************************
+ *  Interrogazione condizioni clausole
+c     InqCnd        BEGSR
+ *
+c                   select
+c                   when         uv2tpc = 1                                 Per Bonus/malus
+c                   eval      TRA436_KPJBA = KPJBA
+c                   clear                   TRA436_
+c                   eval      TRA436_ced  = uvced
+c                   eval      TRA436_opz  = '4'
+c                   eval      TRA436_kpjbu = TRA436_
+c                   call      'TRA436'                                      chiama TRA436
+c                   parm                    TRA436_KPJBA
+c                   when         uv2tpc = 2                                 Per Franchigia_fissa
+c                             or uv2tpc = 3                                   o Max_indennizzabile
+c                             or uv2tpc = 4                                   o Minimo_garantito
+c                   eval      TRA413_KPJBA = KPJBA
+c                   clear                   TRA413_
+c                   eval      TRA413_ced  = uvced
+c                   eval      TRA413_clam = uv2cla
+c                   eval      TRA413_opz  = '4'
+c                   eval      TRA413_kpjbu = TRA413_
+c                   call      'TRA413'                                      chiama TRA413
+c                   parm                    TRA413_KPJBA
+c                   when         uv2tpc = 5                                 Per Ricalcolo_commissioni
+c                   eval      TRA448_KPJBA = KPJBA
+c                   clear                   TRA448_
+c                   eval      TRA448_ced  = uvced
+c                   eval      TRA448_opz  = '4'
+c                   eval      TRA448_kpjbu = TRA448_
+c                   call      'TRA448'                                      chiama TRA448
+c                   parm                    TRA448_KPJBA
+c                   endsl
+ *
+c                   ENDSR
+ **************************************************************************
+ *        DECODE - DECODIFICA GLI ERRORI
+c     DECODE        BEGSR
+ *
+c                   CALL      'DCER01'      PLIST2
+c     WSSLVL        COMP      60                                   97
+ *
+c                   ENDSR
+ **************************************************************************
+ *        REGERR - REGISTRA GLI ERRORI
+c     REGERR        BEGSR
+ *
+c     X1            IFLT      30
+c                   ADD       1             X1
+c                   MOVEL     WSMSID        CID(X1)
+c                   MOVEL     *BLANKS       WSMSID
+c                   MOVEL     WSCDER        CDE(X1)
+c                   MOVEL     *BLANKS       WSCDER
+c                   END
+c                   SETON                                        99
+ *
+c                   ENDSR
+ **************************************************************************
+ *        HOUSEK - HOUSEKEEPING
+c     HOUSEK        BEGSR
+ *
+c     *ENTRY        PLIST
+c                   PARM                    KPJBA
+c                   if        kpjbu <> *blank
+c                   eval      $Entry_ = kpjbu
+c                   clear                   $Entry_FChg
+c                   else
+c                   clear                   $Entry_
+c                   endif
+ * PLIST per decodifica messaggio
+c     PLIST2        PLIST
+c                   PARM                    KPJBA
+c                   PARM                    CID
+c                   PARM                    CDE
+c                   PARM                    WSSLVL
+ * Controllo data
+c     PL_STD012     PLIST
+c                   PARM                    SHDTIN            8
+c                   PARM                    SHDTOU            8
+c                   PARM                    SHFERD            1
+ * DEFINIZIONE CAMPI
+c                   MOVEL     '*       '    UVSFLQ
+c                   MOVEL     *ALL'0'       WSZERO           30
+c                   MOVEL     *BLANK        WSCDER           60
+c                   MOVEL     *BLANK        WSCDQS           50
+c                   MOVEL     *BLANK        WSMSID            7
+c                   MOVEL     *ZEROS        WSNEXT            1 0
+c                   MOVEL     *ZEROS        WSSLVL            2 0
+c                   MOVEL     *ZEROS        X1                2 0
+c                   Z-ADD     1             WSNMAP            1 0
+c                   MOVEL     'P'           WSFUNC            1
+c                   SETON                                        98
+c                   setoff                                       92
+ * DEFINIZIONE CHIAVI
+c     kANAFID3      klist
+c                   kfld                    FDPRFD
+c                   kfld                    FDCODF
+c     kCEDCLA       klist
+c                   kfld                    CLCED
+c                   kfld                    CLCLAM
+c     kCLAFID2      klist
+c                   kfld                    FCPRFD
+c                   kfld                    FCCODF
+c     kCLAFID2a     klist
+c                   kfld                    FCPRFD
+c                   kfld                    FCCODF
+c                   kfld                    FCCLAM
+c     mtkey         klist
+c                   kfld                    mtkeya
+c                   kfld                    mtkeyb
+c     pakey         klist
+c                   kfld                    pakeya
+c                   kfld                    pakeyb
+c     kptoias       klist
+c                   kfld                    piprfd
+c                   kfld                    picodf
+c     krappto       klist
+c                   kfld                    rrced
+c                   kfld                    rrdeb
+c     krefira       klist
+c                   kfld                    rrprfd
+c                   kfld                    rrcodf
+ * Dati IAS
+c                   eval      pakeya = 'IAS'
+c                   eval      pakeyb = *all'0'
+c                   move      1             pakeyb
+c     pakey         chain     PARAM
+c                   if        %found
+c                   eval      IAS = padesc
+c                   else
+c                   clear                   IAS
+c                   endif
+ *
+c                   ENDSR
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ TRA411/F1      COLLEGAMENTO CLAUSOLE DI MITIGAZIONE       OOOOOOOOO   DD/DD/DD
+                      DEL RISCHIO PTO E FIDO               UUUUUUUUUU  TT:TT:TT
+
+
+
+
+
+
+
+
+ Numero fido ...............:  99999
+
+ Codice fido ...............:  BBBB
+
+
+
+
+
+
+
+
+
+ F1 Ritorno menù    F3 Conferma    F4 Ricerca                  F11 Forzatura
+
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ TRA411/F2      COLLEGAMENTO CLAUSOLE DI MITIGAZIONE       OOOOOOOOO   DD/DD/DD
+                      DEL RISCHIO PTO E FIDO               UUUUUUUUUU  TT:TT:TT
+ Numero fido 66666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ Codice fido  OOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ Cedente     66666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ P.U.G. (S/N)    O Giorni termine 66666
+ Tipo PTO IAS  666 OOOOOOOOOOOOOOOOOOOOOOOOO    Forzato   Fido revocato/scaduto
+
+ Scelta: A=Annulla C=Storico condizioni
+ S  Clausola di mitigazione                       Condizioni in vigore
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+ B  666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+ F1 Ritorno menù  F2 Mappa prec. F3 Conferma  F6 Aggiunta  F8 Storico F11 Forza
+ F9 Storico gg PUG   F10 Altri fidi
+
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+
+
+
+ ..............................................................................
+ : Numero fido: 66666  Codice fido: OOOO                                      :
+ : Utente Dat.Ins. Dat.agg. | A Clausola di Mitigazione                       :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ : OOOOOO 66/66/66 66/66/66 | O 666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  :
+ :                                                                            :
+ :                                                                            :
+ : F2  Ritorno                                                                :
+ :                                                                            :
+ :............................................................................:
+
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+
+
+
+
+
+
+
+
+           .............................................................
+           :                                                           :
+           : Aggiornare i RAC legati al fido PTO : B (S/N) (In Essere) :
+           :                                                           :
+           :                                                           :
+           : F2 Precedente   F3 Conferma                               :
+           :                                                           :
+           :...........................................................:
+
+
+
+
+
+
+
+
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+
+
+
+
+
+                  ..............................................
+                  : Numero fido: 66666  Codice fido: OOOO      :
+                  : Cedente Ragione sociale                    :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  : 66666  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO :
+                  :                                            :
+                  :                                            :
+                  : F2  Ritorno                                :
+                  :                                            :
+                  :............................................:
+
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8

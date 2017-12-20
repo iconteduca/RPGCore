@@ -1,0 +1,1755 @@
+ TRA341/F1  ........ GESTIONE TESTO FIDO CEDENTE .......... SSSSSS...  GG/MM/AA  1
+            ................ Variazione ................... UUUUUU.... OO:MM:SS  2
+                                                                                 3
+ Fido Nr.: 01234                                Importo .......500.000,00 EUR..  4
+ Cod.fido: 2045                                                                  5
+           VERSAMENTI ANTICIPATI DI CREDITI CEDUTICI DA EROGARE AD AVVE          6
+           NUTO RICONOSCIMENTO ........................................          7
+ Cedente.: 01234.....  RAGIONE SOCIALE CEDENTE ...........                       8
+                                                                                 9
+                                                                                10
+ ...1    Fido.per.versamenti.anticipati,nella.percentuale.massima.del           11
+ ...2    <*BLK>......................................................           12
+ ...3    90%.........................................................           13
+ ...4    <*BLK>......................................................           14
+ ...5    ,di.crediti.esigibili.in....................................           15
+ ...6    <*BLK>......................................................           16
+ ...7    120.........................................................           17
+ ...8    <*BLK>......................................................           18
+ ...9    gg,.vantati.nei.............................................           19
+ ....    ............................................................  Segue... 20
+                                                                                21
+ Cmd04 Ins. Funzione Cmd09 Ins. Riga Cmd12 Anteprima Cmd21 Canc. Riga           22
+ Cmd01 Fine Cmd02 Ritorno       Cmd05 Vedi testo esterno   Cmd22 Testo standard 23
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....824
+
+
+
+ TRA341/F1  ........ GESTIONE TESTO FIDO CEDENTE .......... SSSSSS...  GG/MM/AA  1
+            ................ Variazione ................... UUUUUU.... OO:MM:SS  2
+                                                                                 3
+ Fido Nr.: 01234                                Importo .......500.000,00 EUR..  4
+ Cod.fido: 2045        .----------------- Ricerca Variabili ------------------.  5
+           VERSAMENTI  ¦ Descrizione..: ...................................   ¦  6
+           NUTO RICONO ¦                                                      ¦  7
+ Cedente.: 01234.....  ¦ X_A_Codice_____Descrizione_________________________  ¦  8
+                       ¦ .   <FDPL>     Fido plurimo                          ¦  9
+                       ¦ .   <LOFI>     Locazioni finanziarie                 ¦ 10
+ ...1    Fido.per.vers ¦ .   <MATU>     Operazioni maturity                   ¦ 11
+ ...2    <*BLK>....... ¦ .   <OPER>     Fido operante                         ¦ 12
+ ...3    90%.......... ¦ .   <PRO>      Progressivo univoco banca             ¦ 13
+ ...4    <*BLK>....... ¦ .   <SCON>     Sconto                                ¦ 14
+ ...5    ,di.crediti.e ¦ .   <STAT>     Stato fido                            ¦ 15
+ ...6    <*BLK>....... ¦ .   <TPFD>     Tipo fido                             ¦ 16
+ ...7    120.......... ¦ .   <CODC>     Cedente (Descrizione)                 ¦ 17
+ ...8    <*BLK>....... ¦ .   <RSRC>     Rag. sociale ridotta cedente          ¦ 18
+ ...9    gg,.vantati.n ¦                                             Segue... ¦ 19
+ ....    ............. ¦ ___________________________________________________  ¦ 20
+                       ¦ Cmd02 Ritorno Cmd07 Validi+Annul. Cmd08 Var.Comando  ¦ 21
+ Cmd04 Ins. Funzione C ¦                                                      ¦ 22
+ Cmd01 Fine Cmd02 Rito ¦                                                      ¦ 23
+....:....1....:....2.. '------------------------------------------------------' 24
+
+
+
+ TRA341/F1  ........ GESTIONE TESTO FIDO CEDENTE .......... SSSSSS...  GG/MM/AA  1
+            ................ Variazione ................... UUUUUU.... OO:MM:SS  2
+                                                                                 3
+ Fido Nr.: 01234                                Importo .......500.000,00 EUR..  4
+ Cod.fido: 2045                                                                  5
+           VERSAMENTI ANTICIPATI DI CREDITI CEDUTICI DA EROGARE AD AVVE          6
+         .------------------------ Testo esterno -------------------------.      7
+ Cedente ¦ *                                                              ¦      8
+         ¦  <*XX>                                                         ¦      9
+         ¦  <*XXXX>                                                       ¦     10
+ ...1    ¦  [XXXXXXX / XXXXXXX] - Xxxxxxxxxxxx xxxxxx xxxx 9999.          ¦     11
+ ...2    ¦                                                                ¦     12
+ ...3    ¦  XXXX XXX XXXXXXXXXX XXXXXXXXXX, XXXX X 9.999.999,99Ð (xx 9.9  ¦     13
+ ...4    ¦  99.999,99Ð) XXXXX XXXXXXXXXXX XXXXXXX XXX 99% XX XXXXXXX XXX  ¦     14
+ ...5    ¦  XXXXXX XXX 999/999XX. XXXX., XXXXXXX XXX XXXXXXXXX XX XXXXXX  ¦     15
+ ...6    ¦  XX XXXXXXXX XXXXXX X.X.X. (XX), XXXXXXXXXXXXX XX XXXXXXX, XX  ¦     16
+ ...7    ¦  XXXXXX X XXXXXXX XX XXXXXXXXXXX XXX XXXXXXX XXXXXXXX XX XXXX  ¦     17
+ ...8    ¦  XXXX XXXXXX X XXXXXXXXX XXX XXXXXXX, XX XXXXXXX XX XXXXXXXX   ¦     18
+ ...9    ¦                                                       Segue... ¦     19
+ ....    ¦  ____________________________________________________________  ¦ ... 20
+         ¦  Cmd01 Fine Cmd02 Ritorno                                      ¦     21
+ Cmd04 I ¦                                                                ¦     22
+ Cmd01 F '----------------------------------------------------------------' ard 23
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....824
+
+
+
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 27/04/2006                                     PgmTRA340 Gestione video testo fido (Pgm: TRA340)
+ *                                                                          con V01OP, '2', *None, V04CODF e V04PRFD
+ *  Descrizione programma..: Gestione testo fido (TABFID/ANAFI2/FIDDE2)
+ ************************************************************************** Sostanzialmente non fa controlli perché, per
+ * Output and Input/Output files                                            ogni riga aggiunta, o si inserisce del testo
+fANAFI22L  uf a e           k disk    usropn                                libero, o si inseriscono simboli predefiniti.
+fFIDDE22L  uf a e           k disk    usropn
+fTABFID2L  uf a e           k disk
+ * Input files
+fAGCONE1L  if   e           k disk    usropn
+fAGGRUP1L  if   e           k disk    usropn
+fAGPERF1L  if   e           k disk    usropn
+fAGSNPF1L  if   e           k disk    usropn
+fANACED1L  if   e           k disk    usropn
+fANADEB1L  if   e           k disk    usropn
+fANAFID3L  if   e           k disk    usropn
+fFIDDEB3L  if   e           k disk    usropn
+fMST0011L  if   e           k disk
+fVARFID1L  if   e           k disk
+ * Workstation and Printer files
+fTRA3400V  cf   e             workstn infds($INFDS)
+f                                     sfile(V01S:V01NRR)
+f                                     sfile(V02S:V02NRR)
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+d $INFDS          ds
+d  $FunctKey            369    369
+d  $1RecOfPag           378    379b 0
+d $FunctKeyList   ds
+d  $_Null                        1    inz(x'00')
+d  $_Enter                       1    inz(x'F1')
+d  $_Help                        1    inz(x'F3')
+d  $_RollDw                      1    inz(x'F4')
+d  $_RollUp                      1    inz(x'F5')
+d  $_Print                       1    inz(x'F6')
+d  $_BackSp                      1    inz(x'F8')
+d  $_Clear                       1    inz(x'FD')
+d  $_Cmd01                       1    inz(x'31')
+d  $_Cmd02                       1    inz(x'32')
+d  $_Cmd03                       1    inz(x'33')
+d  $_Cmd04                       1    inz(x'34')
+d  $_Cmd05                       1    inz(x'35')
+d  $_Cmd06                       1    inz(x'36')
+d  $_Cmd07                       1    inz(x'37')
+d  $_Cmd08                       1    inz(x'38')
+d  $_Cmd09                       1    inz(x'39')
+d  $_Cmd10                       1    inz(x'3A')
+d  $_Cmd11                       1    inz(x'3B')
+d  $_Cmd12                       1    inz(x'3C')
+d  $_Cmd13                       1    inz(x'B1')
+d  $_Cmd14                       1    inz(x'B2')
+d  $_Cmd15                       1    inz(x'B3')
+d  $_Cmd16                       1    inz(x'B4')
+d  $_Cmd17                       1    inz(x'B5')
+d  $_Cmd18                       1    inz(x'B6')
+d  $_Cmd19                       1    inz(x'B7')
+d  $_Cmd20                       1    inz(x'B8')
+d  $_Cmd21                       1    inz(x'B9')
+d  $_Cmd22                       1    inz(x'BA')
+d  $_Cmd23                       1    inz(x'BB')
+d  $_Cmd24                       1    inz(x'BC')
+ * Variabili locali -------------------------------------------------------
+d £TABFID       e ds                  extname(TABFID0F)
+d £TABFID0      e ds                  extname(TABFID0F) prefix(TF0_)
+d £TABFID1      e ds                  extname(TABFID0F) prefix(TF1_)
+d £VARFID       e ds                  extname(VARFID0F)
+d DIV           e ds
+ *
+d £LenV00TITLE    s              6  0 inz
+d £LenTitle       s              6  0 inz
+d £Titolo         s             78    inz
+d £PrimoGiro      s               n   inz
+d £VideoScreen    s              6    inz
+d £ExVideoScreen  s              6    inz
+d £ChangeFound    s               n   inz
+d £LastRecord     s                   like(V01NRR) inz
+d £NumRiga        s                   like(F2PROG) inz
+d £LunghezzaTeo   s              6  0 inz
+d £FoundVar       s               n   inz
+d £ReadFrom       s              6    inz
+d £VarBlank       s                   like(VFCDVA) inz
+ *
+d £VxxPlanned     s               n   inz
+d £VxxExecute     s             10    inz
+d £VxxOperation   s             10    inz
+d £VxxPrepare     s             20    inz
+d £VxxCheckMode   s             10    inz
+d £V01FunctKey    s                   like($FunctKey) inz
+d £V01MaxNRR      s                   like(V01NRR) inz
+d £V01SaveSRN     s                   like(V01SRN) inz
+d £V01SaveCRIG    s                   like(V01CRIG) inz
+d £V01SaveCCOL    s                   like(V01CCOL) inz
+d £V01Ind         s               n   dim(99) inz
+d £V01SaveInd     s               n   dim(99) inz
+d £V02FunctKey    s                   like($FunctKey) inz
+d £V02MaxNRR      s                   like(V02NRR) inz
+d £V02SaveSRN     s                   like(V02SRN) inz
+d £V02Ind         s               n   dim(99) inz
+d £V02SaveInd     s               n   dim(99) inz
+ *
+d £Refresh        s               n
+d £Error_         ds
+d  £Error                         n
+d  £Warning                       n
+d  £ErrorNRR                          like(V01NRR)
+d  £ErrorId                      7
+d  £ErrorData                   60
+d  £ErrId                             like(£ErrorId) dim(30)
+d  £ErrData                           like(£ErrorData) dim(30)
+d  £ErrIx                        2  0
+ *
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £DateError                    n
+ *
+d £Text           s             80    dim(10) ctdata perrcd(1)
+ * Parametri --------------------------------------------------------------
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)
+d $Entry_         ds
+d  $Entry_Op                     1
+ *                                    Tipo gestione:
+ *                                    1=Inserimento
+ *                                    2=Aggiornamento
+d  $Entry_From                   1
+ *                                    Provenienza:
+ *                                    1=Gestione testo fido std
+ *                                    2=Gestione testo fido cedenti
+ *                                    3=Gestione testo fido debitori
+d  $Entry_Exit                   1
+ *                                    Modo di uscita:
+ *                                    0=Fine
+ *                                    1=Mappa precedente
+ *                                    2=Mappa successiva
+d  $Entry_CdFid                       like(F2CODF)
+d  $Entry_NrFid                       like(F2PRFD)
+ *
+d TRA332_KPJBA  e ds                  extname(KPJBA) prefix(TRA332_)
+d TRA332_         ds
+d  TRA332_From                   1
+d  TRA332_CdVar                       like(VFCDVA)
+d  TRA332_TpVar                       like(VFTPVA)
+ *
+d TRA341_KPJBA  e ds                  extname(KPJBA) prefix(TRA341_)
+d TRA341_         ds
+d  TRA341_Op                     1
+d  TRA341_From                   1
+d  TRA341_Mode1                  1
+d  TRA341_Mode2                  1
+d  TRA341_Exit                   1
+d  TRA341_CdFid                       like(F2CODF)
+d  TRA341_NrFid                       like(F2PRFD)
+ *
+d TRA343_KPJBA  e ds                  extname(KPJBA) prefix(TRA343_)
+d TRA343_         ds
+d  TRA343_From                   1
+d  TRA343_Mode                   1
+d  TRA343_Op                     1
+d  TRA343_CdFid                       like(FDCODF)
+d  TRA343_NrFid                       like(FDPRFD)
+d  TRA343_Date1                  8  0
+d  TRA343_Date2                  8  0
+d  TRA343_CdVar                       like(VFCDVA)
+d  TRA343_VarPos                 6  0
+d  TRA343_Width                  3  0
+d  TRA343_VarVa                999
+d  TRA343_VarDs                       like(VFDSVA)
+d  TRA343_Rischi                11
+d  TRA343_CdCed                  5  0
+d  TRA343_CdDeb                  8  0
+ *
+d DCER01_         ds
+d  DCER01_KPJBA                       like($Entry_KPJBA)
+d  DCER01_ErrId                       like(£ErrId) dim(30)
+d  DCER01_ErrDa                       like(£ErrData) dim(30)
+d  DCER01_Level                  2p 0
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   eval      £V01SaveSRN = 0
+c                   eval      £V01SaveCRIG = 0
+c                   eval      £V01SaveCCOL = 0
+ *
+c                   dou           £VxxExecute = 'Exit'
+ *
+c                   select
+c                   when          £VxxExecute = 'Video01'
+c                   exsr      Video01
+c                   when          £VxxExecute = 'Video02'
+c                   exsr      Video02
+c                   endsl
+ *
+c                   enddo
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+c                   eval      *inlr = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+ * Operazioni preliminari (END) -------------------------------------------
+ *
+ * Apertura file (START)---------------------------------------------------
+c                   select
+c                   when          $Entry_From = '2'
+c                   open      ANAFID3L
+c                   open      ANAFI22L
+c                   open      ANACED1L
+c                   when          $Entry_From = '3'
+c                   open      FIDDEB3L
+c                   open      FIDDE22L
+c                   open      ANADEB1L
+c                   open      AGPERF1L
+c                   open      AGSNPF1L
+c                   open      AGCONE1L
+c                   open      AGGRUP1L
+c                   endsl
+ * Apertura file (END) ----------------------------------------------------
+ *
+ * Operazioni varie (START) -----------------------------------------------
+c                   movea     *all'0'       £V01Ind
+c                   movea     *all'0'       £V01SaveInd
+c                   movea     *all'0'       £V02Ind
+c                   movea     *all'0'       £V02SaveInd
+ *
+c                   eval      V$$PGMQ = '*'
+ *
+c                   if            $Entry_From <> '1'
+c                             and $Entry_From <> '2'
+c                             and $Entry_From <> '3'
+c                   eval      $Entry_Exit = '1'
+c                   goto      EndOfPgm
+c                   endif
+c                   if            $Entry_Op <> '1'
+c                             and $Entry_Op <> '2'
+c                   eval      $Entry_Exit = '1'
+c                   goto      EndOfPgm
+c                   endif
+ *
+c                   eval      TFCDF = $Entry_CdFid
+c                   eval      TFPRR = 1
+c     Key_TABFID    chain(n)  TABFID2L
+c                   if            not %found(TABFID2L)
+c                   goto      EndOfPgm
+c                   endif
+c                   eval      £TABFID1 = £TABFID
+c                   eval      TFCDF = $Entry_CdFid
+c                   eval      TFPRR = 0
+c     Key_TABFID    chain(n)  TABFID2L
+c                   if            not %found(TABFID2L)
+c                   goto      EndOfPgm
+c                   endif
+c                   eval      £TABFID0 = £TABFID
+c                   select
+c                   when          $Entry_From = '2'
+c                   eval      FDPRFD = $Entry_NrFid
+c                   eval      FDCODF = $Entry_CdFid
+c     Key_ANAFID    chain     ANAFID3L
+c                   if            not %found(ANAFID3L)
+c                   goto      EndOfPgm
+c                   endif
+c                   when          $Entry_From = '3'
+c                   eval      FDPRFD = $Entry_NrFid
+c                   eval      FDCODF = $Entry_CdFid
+c     Key_FIDDEB    chain     FIDDEB3L
+c                   if            not %found(FIDDEB3L)
+c                   goto      EndOfPgm
+c                   endif
+c                   endsl
+ *
+c     *loval        setll     VARFID1L
+c                   dou           %eof(VARFID1L)
+c                             or  VFTKVA = 'S'
+c                   read      VARFID1L
+c                   enddo
+c                   if            not %eof(VARFID1L)
+c                   eval      £VarBlank = VFCDVA
+c                   else
+c                   eval      £VarBlank = *blank
+c                   endif
+ *
+c                   select
+c                   when      TFFTYP = 'C'
+c                   eval      £Titolo = %trim(£Text(1)) + ' '
+c                             + %trim(£Text(4))
+c                   when      TFFTYP = 'D'
+c                   eval      £Titolo = %trim(£Text(1)) + ' '
+c                             + %trim(£Text(5))
+c                   endsl
+c                   clear                   V00
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Titolo)) + 4
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = ' ' + %trim(£Titolo) + ' '
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   if        $Entry_Op = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(2))) + 4
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = ' ' + %trim(£Text(2)) + ' '
+c                   else
+c                   eval      £LenTitle = %len(%trim(£Text(3))) + 4
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = ' ' + %trim(£Text(3)) + ' '
+c                   endif
+c                   eval      V00SINFO = $Entry_KNSIF
+c                   eval      V00USER = $Entry_KNMUS
+ * Operazioni varie (END) -------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Chiusura file (START)---------------------------------------------------
+c                   select
+c                   when          $Entry_From = '2'
+c                   close     ANAFID3L
+c                   close     ANAFI22L
+c                   close     ANACED1L
+c                   when          $Entry_From = '3'
+c                   close     FIDDEB3L
+c                   close     FIDDE22L
+c                   close     ANADEB1L
+c                   close     AGPERF1L
+c                   close     AGSNPF1L
+c                   close     AGCONE1L
+c                   close     AGGRUP1L
+c                   endsl
+ * Chiusura file (END) ----------------------------------------------------
+ *
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval          $Entry_KPJBU = $Entry_
+ * Operazioni finali (END) ------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Gestione video subfile R.A.C.
+c     Video01       begsr
+ *
+c                   movea     *in           £V01SaveInd
+c                   movea     £V01Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video01'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V01Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ *
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V01Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd02
+c                   eval      $Entry_Exit = '1'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd05
+c                   eval      £VxxExecute = 'Video02'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = '*blank'
+c                   when          £V01FunctKey = $_Cmd09
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd12
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd21
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd22
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ *
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V01Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V01FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V01FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Cmd09
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Cmd12
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Cmd21
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Cmd22
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ *
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V01Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = 'CS'
+c                   when          £V01FunctKey = $_Cmd09
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = 'CS'
+c                   when          £V01FunctKey = $_Cmd12
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V01FunctKey = $_Cmd21
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = 'CS'
+c                   when          £V01FunctKey = $_Cmd22
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = 'CS'
+c                   when          £V01FunctKey = $_Enter
+c                             and £ChangeFound
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = 'CS'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V01Ind
+c                   movea     £V01SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione video01
+c     V01Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V01FunctKey = $_Null
+ * Imposta dati di testata (START) ----------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('T':£VxxPrepare) >= 1
+ *
+c                   clear                   V01T
+ *
+c                   eval      V01CODF = $Entry_CdFid
+c                   select
+c                   when          $Entry_From = '1'
+c                   eval      V01DES1 = TF0_TFDSF
+c                   eval      V01DES2 = TF1_TFDSF
+c                   eval      *in20 = *off
+c                   when          $Entry_From = '2'
+c                   eval      V01NRFID = $Entry_NrFid
+c                   eval      V01DES1 = FDDES1
+c                   eval      V01DES2 = FDDES2
+c                   if            FDFDPL = 'S'
+c                   eval      V01TXCOD = 'Capofila:'
+c                   else
+c                   eval      V01TXCOD = 'Cedente :'
+c                   endif
+c                   eval      V01COD   = %editc(FDCODC:'X')
+c     FDCODC        chain     ANACED1L
+c                   if            %found(ANACED1L)
+c                   eval      V01RAS = ACRAS
+c                   endif
+c                   eval      V01IFDU = FDIFDU
+c                   eval      MTKEYA = 'DIV'
+c                   eval      MTKEYB = *all'0'
+c                   move      FDDIV         MTKEYB
+c     key_MST001    chain     MST0011L
+c                   if            %found(MST0011L)
+c                             and MTFLAG <> 'A'
+c                   eval      DIV = MTDESC
+c                   else
+c                   clear                   DIV
+c                   endif
+c                   eval      V01DSGL = DIVSGL
+c                   eval      *in20 = *on
+c                   when          $Entry_From = '3'
+c                   eval      V01NRFID = $Entry_NrFid
+c                   eval      V01DES1 = FDDES1
+c                   eval      V01DES2 = FDDES2
+c                   select
+c                   when          FDDEB <> 0
+c                   eval      V01TXCOD = 'Debitore:'
+c                   eval      V01COD   = %editw(FDDEB:'     0/  ')
+c     FDDEB         chain     ANADEB1L
+c                   if            %found(ANADEB1L)
+c                   eval      V01RAS = ADRAS
+c                   endif
+c                   when          FDCANG <> *blank
+c                   eval      V01TXCOD = 'Soggetto:'
+c                   eval      V01COD   = FDCANG
+c                   select
+c                   when          %subst(FDCANG:1:1) = 'P'
+c     FDCANG        chain     AGPERF1L
+c                   if            %found(AGPERF1L)
+c                   eval      V01RAS = %trim(PFCOGN) + ' ' + %trim(PFNOME)
+c                   endif
+c                   when          %subst(FDCANG:1:1) = 'N'
+c     FDCANG        chain     AGSNPF1L
+c                   if            %found(AGSNPF1L)
+c                   eval      V01RAS = IMDEN1 + IMDEN2
+c                   endif
+c                   when          %subst(FDCANG:1:1) = 'C'
+c     FDCANG        chain     AGCONE1L
+c                   if            %found(AGCONE1L)
+c                   eval      V01RAS = CERFCO
+c                   endif
+c                   endsl
+c                   when          FDGRUP <> *blank
+c                   eval      V01TXCOD = 'Gruppo .:'
+c                   eval      V01COD   = FDGRUP
+c     FDGRUP        chain     AGGRUP1L
+c                   if            %found(AGGRUP1L)
+c                   eval      V01RAS = GUDNGR
+c                   endif
+c                   endsl
+c                   eval      V01IFDU = FDIFDU
+c                   eval      MTKEYA = 'DIV'
+c                   eval      MTKEYB = *all'0'
+c                   move      FDDIV         MTKEYB
+c     key_MST001    chain     MST0011L
+c                   if            %found(MST0011L)
+c                             and MTFLAG <> 'A'
+c                   eval      DIV = MTDESC
+c                   else
+c                   clear                   DIV
+c                   endif
+c                   eval      V01DSGL = DIVSGL
+c                   eval      *in20 = *on
+c                   endsl
+ *
+c                   endif
+ * Imposta dati di testata (END) ------------------------------------------
+ *
+ * Carica subfile (START) -------------------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('C':£VxxPrepare) >= 1
+ *
+c                   clear                   V01C
+ *
+c                   eval      *in10 = *off
+c                   eval      *in12 = *on
+c                   write     V01C
+c                   eval      *in12 = *off
+c                   eval      V01NRR = 0
+c                   eval      £V01MaxNRR = 0
+c                   eval      V01SRV = 1
+ *
+c                   clear                   V02C
+ *
+c                   eval      *in15 = *off
+c                   eval      *in17 = *on
+c                   write     V02C
+c                   eval      *in17 = *off
+c                   eval      V02NRR = 0
+c                   eval      £V02MaxNRR = 0
+c                   eval      V02SRV = 1
+ *
+c                   select
+c                   when          $Entry_From = '1'
+c                   eval      £ReadFrom = 'TABFID'
+c                   when          $Entry_From = '2'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_ANAFI2    setll     ANAFI22L
+c                   dou           %eof(ANAFI22L)
+c                             or  F2TREC = 'AF2'
+c     Key_ANAFI2    reade     ANAFI22L
+c                   enddo
+c                   if            not %eof(ANAFI22L)
+c                   eval      £ReadFrom = 'ANAFI2'
+c                   else
+c                   eval      £ReadFrom = 'TABFID'
+c                   endif
+c                   when          $Entry_From = '3'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_FIDDE2    setll     FIDDE22L
+c                   dou           %eof(FIDDE22L)
+c                             or  F2TREC = 'FD2'
+c     Key_FIDDE2    reade     FIDDE22L
+c                   enddo
+c                   if            not %eof(FIDDE22L)
+c                   eval      £ReadFrom = 'FIDDE2'
+c                   else
+c                   eval      £ReadFrom = 'TABFID'
+c                   endif
+c                   endsl
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ *
+c                   select
+c                   when          £ReadFrom = 'TABFID'
+c                   eval      TFCDF = $Entry_CdFid
+c                   eval      TFPRR = 2
+c     Key_TABFID    setll     TABFID2L
+c                   when          £ReadFrom = 'ANAFI2'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_ANAFI2    setll     ANAFI22L
+c                   when          £ReadFrom = 'FIDDE2'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_FIDDE2    setll     FIDDE22L
+c                   endsl
+c                   dou           (    £ReadFrom = 'TABFID'
+c                                  and %eof(TABFID2L))
+c                             or  (    £ReadFrom = 'ANAFI2'
+c                                  and %eof(ANAFI22L))
+c                             or  (    £ReadFrom = 'FIDDE2'
+c                                  and %eof(FIDDE22L))
+c                   select
+c                   when          £ReadFrom = 'TABFID'
+c     TFCDF         reade     TABFID2L
+c                   when          £ReadFrom = 'ANAFI2'
+c     Key_ANAFI2    reade     ANAFI22L
+c                   when          £ReadFrom = 'FIDDE2'
+c     Key_FIDDE2    reade     FIDDE22L
+c                   endsl
+c                   if            (    £ReadFrom = 'TABFID'
+c                                  and not %eof(TABFID2L))
+c                             or  (    £ReadFrom = 'ANAFI2'
+c                                  and not %eof(ANAFI22L)
+c                                  and F2TREC = 'AF2')
+c                             or  (    £ReadFrom = 'FIDDE2'
+c                                  and not %eof(FIDDE22L)
+c                                  and F2TREC = 'FD2')
+ *
+c                   clear                   V01S
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+ *
+c                   select
+c                   when          £ReadFrom = 'TABFID'
+c                   if            TFVARB <> 'V'
+c                   eval      V01TEXT = TFDSF
+c                   else
+c                   eval      V01CDVA = TFDSF
+c                   endif
+c                   eval      V01VARB = TFVARB
+c                   when          £ReadFrom = 'ANAFI2'
+c                   if            F2VARB <> 'V'
+c                   eval      V01TEXT = F2DES
+c                   else
+c                   eval      V01CDVA = F2DES
+c                   endif
+c                   eval      V01VARB = F2VARB
+c                   when          £ReadFrom = 'FIDDE2'
+c                   if            F2VARB <> 'V'
+c                   eval      V01TEXT = F2DES
+c                   else
+c                   eval      V01CDVA = F2DES
+c                   endif
+c                   eval      V01VARB = F2VARB
+c                   endsl
+c                   if            V01VARB = 'V'
+c                   clear                   TRA343_
+c                   eval      TRA343_From = $Entry_From
+c                   eval      TRA343_Mode = '2'
+c                   eval      TRA343_CdFid = $Entry_CdFid
+c                   eval      TRA343_NrFid = $Entry_NrFid
+c                   eval      TRA343_Date1 = *date
+c                   eval      TRA343_Date2 = *date
+c                   eval      TRA343_CdVar = V01CDVA
+c                   eval      TRA343_KPJBA = $Entry_KPJBA
+c                   call      'TRA343'      PL_TRA343
+c                   if            TRA343_Op = *blank
+c                   eval      V01TEXT = TRA343_VarVa
+c                   else
+c                   eval      V01TEXT = TRA343_CdVar
+c                   endif
+c                   eval      V01DSVA = TRA343_VarDs
+c                   endif
+c                   eval      *IN22 = V01VARB = 'V'
+ *
+c                   write(e)  V01S
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   endif
+c                   enddo
+ *
+c                   if            $Entry_From = '2'
+c                             or  $Entry_From = '3'
+c                   select
+c                   when          $Entry_From = '2'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c                   eval      F2TREC = 'PEF'
+c     Key_ANAFI2a   setll     ANAFI22L
+c                   when          $Entry_From = '3'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c                   eval      F2TREC = 'PEF'
+c     Key_FIDDE2a   setll     FIDDE22L
+c                   endsl
+c                   dou           (    $Entry_From = '2'
+c                                  and %eof(ANAFI22L))
+c                             or  (    $Entry_From = '3'
+c                                  and %eof(FIDDE22L))
+c                   select
+c                   when          $Entry_From = '2'
+c     Key_ANAFI2a   reade     ANAFI22L
+c                   when          $Entry_From = '3'
+c     Key_FIDDE2a   reade     FIDDE22L
+c                   endsl
+c                   if            (    $Entry_From = '2'
+c                                  and not %eof(ANAFI22L))
+c                             or  (    $Entry_From = '3'
+c                                  and not %eof(FIDDE22L))
+ *
+c                   clear                   V02S
+ *
+c                   eval      V02NRR = £V02MaxNRR + 1
+ *
+c                   eval      V02TEXT = F2DES
+c                   eval      V02TREC = F2TREC
+c                   eval      V02VARB = F2VARB
+c                   eval      *in40 =     V02VARB = 'V'
+ *
+c                   write(e)  V02S
+c                   if            not %Error
+c                   eval      *in15 = *on
+c                   eval      £V02MaxNRR = V02NRR
+c                   endif
+ *
+c                   endif
+c                   enddo
+c                   endif
+ *
+c                   endif
+ * Carica subfile (END) ---------------------------------------------------
+ *
+ * Carica subfile con righe vuote (START) ---------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ *
+c                   do        99
+ *
+c                   clear                   V01S
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+ *
+c                   write(e)  V01S
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   enddo
+ *
+c                   endif
+ * Carica subfile con righe vuote (END) -----------------------------------
+ *
+ * Imposta dati di piede (START) ------------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('P':£VxxPrepare) >= 1
+ *
+c                   clear                   V01P
+ *
+c                   endif
+ * Imposta dati di piede (END) --------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V01check
+ *
+c                   eval      £VideoScreen = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione video01
+c     V01Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Setup indicatori e campi vari (START) ----------------------------------
+ *
+c                   eval      £ExVideoScreen = £VideoScreen
+c                   eval      £VideoScreen = 'V01'
+c                   eval      £PrimoGiro = £VideoScreen <> £ExVideoScreen
+ *
+c                   eval      *in01 =     $Entry_Op = '1'
+c                   eval      *in02 =     $Entry_Op = '2'
+c                   eval      *in09 =     not £Error
+c                                     and not £PrimoGiro
+c                   eval      *in30 =     £V02MaxNRR >= 1
+c                   eval      *in99 = £Error
+c                   eval      *in98 = £Warning
+c                   eval      *in10 =     V01NRR >= 1
+c                   eval      *in11 = *on
+c                   eval      $FunctKey = $_Null
+ *
+c                   eval      V01SRN = £V01SaveSRN
+c                   if            £Error
+c                   eval      V01SRN = £ErrorNRR
+c                   endif
+c                   if            V01SRN = 0
+c                             or  V01SRN > £V01MaxNRR
+c                   eval      V01SRN = 1
+c                   endif
+ *
+c                   eval      V01CRIG = £V01SaveCRIG
+c                   if            V01CRIG = 0
+c                   eval      V01CRIG = 6
+c                   endif
+c                   eval      V01CCOL = £V01SaveCCOL
+c                   if            V01CCOL = 0
+c                   eval      V01CCOL = 10
+c                   endif
+ * Setup indicatori e campi vari (END) ------------------------------------
+ *
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   write     V01T
+c                   write     V01C
+c                   write     V01P
+c                   read      V01C
+c                   read      V01P
+ * Visualizzazione videate (END) ------------------------------------------
+ *
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V01FunctKey = $FunctKey
+c                   eval      £ErrorNRR = 0
+c                   if            $1RecOfPag <> 0
+c                   eval      £V01SaveSRN = $1RecOfPag
+c                   endif
+c                   eval      £V01SaveCRIG = V01CRIG
+c                   eval      £V01SaveCCOL = V01CCOL
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati video01
+c     V01Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £ChangeFound = *off
+c                   eval      £LastRecord = 0
+ * Controllo dati inseriti (START) ----------------------------------------
+c                   if            £V01MaxNRR > 0
+c                   for       V01NRR = 1 to £V01MaxNRR
+c     V01NRR        chain     V01S
+ *
+c                   if            *in88
+c                   eval      £ChangeFound = *on
+c                   endif
+c                   if            V01TEXT <> *blank
+c                   eval      £LastRecord = V01NRR
+c                   endif
+c                   eval      *IN22 = V01VARB = 'V'
+ *
+c                   update    V01S
+ *
+c                   endfor
+c                   endif
+ *
+c                   if            V01SCRN > £LastRecord
+c                   eval      £LastRecord = V01SCRN
+c                   endif
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione video01
+c     V01Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   if            £V01MaxNRR >= 1
+ * Aggiornamento TABFID/ANAFI2/FIDDE2 (START) -----------------------------
+ *
+ * Eliminazione record precedenti (START)
+c                   select
+c                   when          $Entry_From = '1'
+c                   eval      TFCDF = $Entry_CdFid
+c                   eval      TFPRR = 2
+c     Key_TABFID    setll     TABFID2L
+c                   when          $Entry_From = '2'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_ANAFI2    setll     ANAFI22L
+c                   when          $Entry_From = '3'
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c     Key_FIDDE2    setll     FIDDE22L
+c                   endsl
+c                   dou           (    $Entry_From = '1'
+c                                  and %eof(TABFID2L))
+c                             or  (    $Entry_From = '2'
+c                                  and %eof(ANAFI22L))
+c                             or  (    $Entry_From = '3'
+c                                  and %eof(FIDDE22L))
+c                   select
+c                   when          $Entry_From = '1'
+c     TFCDF         reade     TABFID2L
+c                   when          $Entry_From = '2'
+c     Key_ANAFI2    reade     ANAFI22L
+c                   when          $Entry_From = '3'
+c     Key_FIDDE2    reade     FIDDE22L
+c                   endsl
+c                   if            (    $Entry_From = '1'
+c                                  and not %eof(TABFID2L))
+c                             or  (    $Entry_From = '2'
+c                                  and not %eof(ANAFI22L))
+c                             or  (    $Entry_From = '3'
+c                                  and not %eof(FIDDE22L))
+c                   select
+c                   when          $Entry_From = '1'
+c                   delete    TABFID2L
+c                   when          $Entry_From = '2'
+c                   delete    ANAFI22L
+c                   when          $Entry_From = '3'
+c                   delete    FIDDE22L
+c                   endsl
+c                   endif
+c                   enddo
+ * Eliminazione record precedenti (END)
+ *
+ * Scrittura nuovi record (START)
+c                   eval      £FoundVar = *off
+c                   eval      £NumRiga = 0
+ *
+c                   for       V01NRR = 1 to £LastRecord
+c     V01NRR        chain     V01S
+ *
+c                   if            V01VARB = 'V'
+c                             and V01NRR = V01SCRN
+c                             and V01CPOS > 1
+c                   eval      V01CPOS = 1
+c                   endif
+c                   if            V01VARB = 'V'
+c                   eval      £FoundVar = *on
+c                   endif
+ *
+c                   select
+ *
+c                   when          £V01FunctKey = $_Enter
+c                             or  £V01FunctKey = $_Cmd12
+c                             or  (    V01NRR <> V01SCRN
+c                                  and £V01FunctKey <> $_Cmd22)
+ * Aggiornamento normale (START)
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = V01TEXT
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   endif
+c                   eval      TFVARB = V01VARB
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = V01TEXT
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = V01TEXT
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     FIDDE21R
+c                   endsl
+ * Aggiornamento normale (END)
+c                   when          £V01FunctKey = $_Cmd04
+c                             and V01NRR = V01SCRN
+c                             and V01CFLD = 'V01TEXT'
+ * Inserimento variabile (START)
+c                   clear                   TRA332_
+c                   select
+c                   when          $Entry_From = '1'
+c                             and TF0_TFFTYP = 'C'
+c                   eval      TRA332_From = '2'
+c                   when          $Entry_From = '1'
+c                             and TF0_TFFTYP = 'D'
+c                   eval      TRA332_From = '3'
+c                   when          $Entry_From = '2'
+c                   eval      TRA332_From = $Entry_From
+c                   when          $Entry_From = '3'
+c                   eval      TRA332_From = $Entry_From
+c                   endsl
+c                   eval      TRA332_KPJBA = $Entry_KPJBA
+c                   eval      TRA332_KPJBU = TRA332_
+c                   call      'TRA332'      PL_TRA332
+c                   eval      TRA332_ = TRA332_KPJBU
+ *
+c                   if        TRA332_CdVar <> *blank
+ *
+c                   if            V01CPOS >= 2
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = %subst(V01TEXT:1:V01CPOS - 1)
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   endif
+c                   eval      TFVARB = V01VARB
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:1:V01CPOS - 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:1:V01CPOS - 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     FIDDE21R
+c                   endsl
+c                   endif
+ *
+c                   if            TRA332_TpVar <> '*'
+c                             and TRA332_TpVar <> 'E'
+c                             and £NumRiga > 0
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   eval      TFDSF = £VarBlank
+c                   eval      TFVARB = 'V'
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   eval      F2DES  = £VarBlank
+c                   eval      F2VARB = 'V'
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   eval      F2DES  = £VarBlank
+c                   eval      F2VARB = 'V'
+c                   write     FIDDE21R
+c                   endsl
+c                   endif
+ *
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   eval      TFDSF = TRA332_CdVar
+c                   eval      TFVARB = 'V'
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   eval      F2DES  = TRA332_CdVar
+c                   eval      F2VARB = 'V'
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   eval      F2DES  = TRA332_CdVar
+c                   eval      F2VARB = 'V'
+c                   write     FIDDE21R
+c                   endsl
+ *
+c                   if            TRA332_TpVar <> '*'
+c                             and TRA332_TpVar <> 'E'
+c                             and £NumRiga > 0
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   eval      TFDSF = £VarBlank
+c                   eval      TFVARB = 'V'
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   eval      F2DES  = £VarBlank
+c                   eval      F2VARB = 'V'
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   eval      F2DES  = £VarBlank
+c                   eval      F2VARB = 'V'
+c                   write     FIDDE21R
+c                   endsl
+c                   endif
+ *
+c                   if            (    V01VARB <> 'V'
+c                                  and %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                                                 - V01CPOS + 1) <> *blank)
+c                             or  V01VARB = 'V'
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   endif
+c                   eval      TFVARB = V01VARB
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     FIDDE21R
+c                   endsl
+c                   endif
+ *
+c                   else
+ *
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = V01TEXT
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   endif
+c                   eval      TFVARB = V01VARB
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = V01TEXT
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = V01TEXT
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     FIDDE21R
+c                   endsl
+ *
+c                   endif
+ * Inserimento variabile (END)
+c                   when          £V01FunctKey = $_Cmd09
+c                             and V01NRR = V01SCRN
+c                             and V01CFLD = 'V01TEXT'
+ * Inserimento nuova riga (START)
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01CPOS >= 2
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = %subst(V01TEXT:1:V01CPOS - 1)
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   eval      TFVARB = V01VARB
+c                   endif
+c                   endif
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01CPOS >= 2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:1:V01CPOS - 1)
+c                   eval      F2VARB = V01VARB
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   endif
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01CPOS >= 2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:1:V01CPOS - 1)
+c                   eval      F2VARB = V01VARB
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   endif
+c                   write     FIDDE21R
+c                   endsl
+ *
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '1'
+c                   clear                   TABFID
+c                   exsr      SetupComFld1
+c                   if            V01VARB <> 'V'
+c                   eval      TFDSF = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      TFDSF = V01CDVA
+c                   endif
+c                   eval      TFVARB = V01VARB
+c                   write     TABFID
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   if            V01VARB <> 'V'
+c                   eval      F2DES = %subst(V01TEXT:V01CPOS:%len(V01TEXT)
+c                             - V01CPOS + 1)
+c                   else
+c                   eval      F2DES = V01CDVA
+c                   endif
+c                   eval      F2VARB = V01VARB
+c                   write     FIDDE21R
+c                   endsl
+ * Inserimento nuova riga (END)
+c                   when          £V01FunctKey = $_Cmd21
+c                             and V01NRR = V01SCRN
+c                             and V01CFLD = 'V01TEXT'
+ * Cancellazione riga (START)
+ *                  Non serve far nulla
+ * Cancellazione riga (END)
+c                   when          £V01FunctKey = $_Cmd22
+ * Testo standard (alias: Cancellazione di tutte le righe) (START)
+ *                  Non serve far nulla
+ * Testo standard (alia: Cancellazione di tutte le righe) (END)
+c                   endsl
+ *
+c                   endfor
+ * Scrittura nuovi record (END)
+ *
+ * Scrittura vecchi record esterni non aggiornati (START)
+c                   for       V02NRR = 1 to £V02MaxNRR
+c     V02NRR        chain     V02S
+ *
+c                   eval      £NumRiga = £NumRiga + 1
+c                   select
+c                   when          $Entry_From = '2'
+c                   clear                   ANAFI21R
+c                   exsr      SetupComFld2
+c                   eval      F2TREC = V02TREC
+c                   eval      F2DES = V02TEXT
+c                   eval      F2VARB = V02VARB
+c                   write     ANAFI21R
+c                   when          $Entry_From = '3'
+c                   clear                   FIDDE21R
+c                   exsr      SetupComFld3
+c                   eval      F2TREC = V02TREC
+c                   eval      F2DES = V02TEXT
+c                   eval      F2VARB = V02VARB
+c                   write     FIDDE21R
+c                   endsl
+ *
+c                   endfor
+ * Scrittura vecchi record esterni non aggiornati (END)
+ *
+ * Aggiornamento TABFID/ANAFI2/FIDDE2 (END) -------------------------------
+ *
+ * Visualizzazione anteprima (START) --------------------------------------
+c                   if            £V01FunctKey = $_Cmd12
+ *
+c                   clear                   TRA341_
+c                   eval      TRA341_Op   = $Entry_Op
+c                   eval      TRA341_From = $Entry_From
+c                   if            £FoundVar
+c                   eval      TRA341_Mode1 = '2'
+c                   else
+c                   eval      TRA341_Mode1 = '1'
+c                   endif
+c                   eval      TRA341_Mode2 = '9'
+c                   eval      TRA341_CdFid = $Entry_CdFid
+c                   eval      TRA341_NrFid = $Entry_NrFid
+c                   eval      TRA341_KPJBA = $Entry_KPJBA
+c                   eval      TRA341_KPJBU = TRA341_
+ *                 --------------------------
+c                   call      'TRA341'      PL_TRA341
+ *                 --------------------------
+c                   eval      TRA341_ = TRA341_KPJBU
+c                   eval      £VxxPlanned = *on
+c                   select
+c                   when      TRA341_Exit = '0'
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when      TRA341_Exit = '1'
+c                   eval      £VxxOperation = 'Display'
+c                   when      TRA341_Exit = '2'
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+ *
+c                   endif
+ * Visualizzazione anteprima (END) ----------------------------------------
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Impostazioni campi comuni di TABFID
+c     SetupComFld1  begsr
+ *
+c                   eval      RTREC = 'TDF'
+c                   eval      RFLAG = 'V'
+c                   eval      RNAZN = $Entry_KNRAZ
+c                   eval      TFUUPD = $UserName
+c                   eval      TFDUPD = *date
+ *
+c                   eval      TFCDF = $Entry_CdFid
+c                   eval      TFPRR = £NumRiga + 1
+ *
+c                   endsr
+ **************************************************************************
+ *  Impostazioni campi comuni di ANAFI2
+c     SetupComFld2  begsr
+ *
+c                   eval      F2TREC = 'AF2'
+c                   eval      F2FLAG = 'V'
+c                   eval      F2NAZN = $Entry_KNRAZ
+c                   eval      £SystemDate = *Date
+c                   eval      F2DUPD = %rem(£SystemDate:1000000)
+c                   eval      F2UUPD = $Entry_KNMUS
+ *
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c                   eval      F2PROG = £NumRiga
+ *
+c                   eval      F2FIL =  FDFIL
+c                   eval      F2CODC = FDCODC
+ *
+c                   endsr
+ **************************************************************************
+ *  Impostazioni campi comuni di FIDDE2
+c     SetupComFld3  begsr
+ *
+c                   eval      F2TREC = 'FD2'
+c                   eval      F2FLAG = 'V'
+c                   eval      F2NAZN = $Entry_KNRAZ
+c                   eval      £SystemDate = *Date
+c                   eval      F2DUPD = %rem(£SystemDate:1000000)
+c                   eval      F2UUPD = $Entry_KNMUS
+ *
+c                   eval      F2PRFD = $Entry_NrFid
+c                   eval      F2CODF = $Entry_CdFid
+c                   eval      F2PROG = £NumRiga
+ *
+c                   eval      F2FIL =  FDFIL
+c                   eval      F2DEB =  FDDEB
+c                   eval      F2CANG = FDCANG
+c                   eval      F2GRUP = FDGRUP
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione testo esterno
+c     Video02       begsr
+ *
+c                   movea     *in           £V02SaveInd
+c                   movea     £V02Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video02'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V02Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ *
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V02Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V02FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V02FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Display'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V02Ind
+c                   movea     £V02SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione video02
+c     V02Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V02FunctKey = $_Null
+ *
+ *                  Dati già impostati in V01Prepare
+ *
+c                   eval      £VideoScreen = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video02
+c     V02Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      £ExVideoScreen = £VideoScreen
+c                   eval      £VideoScreen = 'V02'
+c                   eval      £PrimoGiro = £VideoScreen <> £ExVideoScreen
+ *
+c                   eval      *in01 =     $Entry_Op = '1'
+c                   eval      *in02 =     $Entry_Op = '2'
+c                   eval      *in09 =     not £Error
+c                                     and not £PrimoGiro
+c                   eval      *in99 = £Error
+c                   eval      *in98 = £Warning
+c                   eval      *in15 =     V02NRR >= 1
+c                   eval      *in16 = *on
+c                   eval      $FunctKey = $_Null
+ *
+c                   eval      V02SRN = £V02SaveSRN
+c                   if            £Error
+c                   eval      V02SRN = £ErrorNRR
+c                   endif
+c                   if            V02SRN = 0
+c                             or  V02SRN > £V02MaxNRR
+c                   eval      V02SRN = 1
+c                   endif
+ * Setup indicatori e campi vari (END) ------------------------------------
+ *
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V02T
+c                   write     V02C
+c                   write     V02P
+c                   read      V02C
+c                   read      V02P
+ * Visualizzazione videate (END) ------------------------------------------
+ *
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V02FunctKey = $FunctKey
+c                   eval      £ErrorNRR = 0
+c                   if            $1RecOfPag <> 0
+c                   eval      £V02SaveSRN = $1RecOfPag
+c                   endif
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Utility di aggiunta errori ad elenco
+c     ErrorAdd      begsr
+ *
+c                   if            £ErrIx < 30
+c                   eval      £ErrIx = £ErrIx + 1
+c                   eval      £ErrId(£ErrIx) = £ErrorId
+c                   eval      £ErrData(£ErrIx) = £ErrorData
+c                   endif
+c                   eval      £Error = *on
+ *
+c                   eval      £ErrorId = *blank
+c                   eval      £ErrorData = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di decodifica errori
+c     ErrorDecode   begsr
+ *
+c                   clear                   DCER01_
+c                   eval      DCER01_KPJBA = $Entry_KPJBA
+c                   movea     £ErrId        DCER01_ErrId
+c                   movea     £ErrData      DCER01_ErrDa
+ *
+c                   call      'DCER01'      PL_DCER01
+ *
+c                   eval      £Warning = DCER01_Level < 60
+ *
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_TRA332     plist
+c                   parm                    TRA332_KPJBA
+c     PL_TRA341     plist
+c                   parm                    TRA341_KPJBA
+c     PL_TRA343     plist
+c                   parm                    TRA343_KPJBA
+c                   parm                    TRA343_
+c     PL_DCER01     plist
+c                   parm                    DCER01_KPJBA
+c                   parm                    DCER01_ErrId
+c                   parm                    DCER01_ErrDa
+c                   parm                    DCER01_Level
+ * Definizione chiavi -----------------------------------------------------
+c     Key_ANAFID    klist
+c                   kfld                    FDPRFD
+c                   kfld                    FDCODF
+c     Key_ANAFI2    klist
+c                   kfld                    F2PRFD
+c                   kfld                    F2CODF
+c     Key_ANAFI2a   klist
+c                   kfld                    F2PRFD
+c                   kfld                    F2CODF
+c                   kfld                    F2TREC
+c     Key_FIDDEB    klist
+c                   kfld                    FDPRFD
+c                   kfld                    FDCODF
+c     Key_FIDDE2    klist
+c                   kfld                    F2PRFD
+c                   kfld                    F2CODF
+c     Key_FIDDE2a   klist
+c                   kfld                    F2PRFD
+c                   kfld                    F2CODF
+c                   kfld                    F2TREC
+c     Key_TABFID    klist
+c                   kfld                    TFCDF
+c                   kfld                    TFPRR
+c     Key_MST001    klist
+c                   kfld                    MTKEYA
+c                   kfld                    MTKEYB
+ *
+c                   endsr
+**   £Text
+GESTIONE TESTO FIDO
+Inserimento
+Variazione
+CEDENTE
+DEBITORE
+   .06.
+   .07.
+   .08.
+   .09.
+   .10.

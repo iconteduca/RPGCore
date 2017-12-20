@@ -1,0 +1,176 @@
+************************************************************************************
+*    TRA010/F1             GESTIONE ANAGRAFE CEDENTE       OOOOOOOOO   DD/DD/DD    *
+*                               Scelta funzione            OOOOOOOOOO  TT:TT:TT    *
+*                                                                                  *
+*                                                                                  *
+*        INSERIMENTO                                                               *
+*                                                                                  *
+*        Immettere X ------->   _        Anagrafe Generale (P/N/C)  _  ? _______   *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*        VARIAZIONE                                                                *
+*                                                                                  *
+*        Immettere X ------->   _        Codice Cedente   _____                    *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                        Ricerca per ridotta   __________                          *
+*                                                                                  *
+*                                                                                  *
+*                OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                *
+*  CMD1 Ritorno menù       CMD11 Forzatura errori                                  *
+*                                                                                  *
+*                                                                                  *
+************************************************************************************
+*  TRA010/F2                   GESTIONE ANAGRAFE CEDENTE    OOOOOOOOO    DD/DD/DD  *
+*                              OOOOOOOOOOO  Codice 66666    OOOOOOOOOO   TT:TT:TT  *
+*  Ragione Sociale .....   ___________________________________       RISOLTO       *
+*  Seguito Rag.Soc. ....   ___________________________________  Data Validità      *
+*  Indirizzo ...........   ______________________________       __________         *
+*  C.A.P. e Località ... ? _____ _________________________ OO  C.A.B.  ?  ______   *
+*  Codice Nazione ...... ? ___   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                    *
+*  Rag.Soc.Ridotta .....   __________           Appartenenza Gruppo  _             *
+*  Codice Fiscale ......   ________________     Partita I.V.A. ....  ___________   *
+*                                                                                  *
+*  Ramo Attività .......   OOOO  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO               *
+*  Forma Giuridica ..... ? ____  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO               *
+*  Regime I.V.A. ....... ? __    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                    *
+*  Filiale ............. ? _     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                    *
+*  Settore ............. ? _     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO               *
+*  Codice Evidenza ..... ? __    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO In Liquid. (S/ ) _ *
+*  Codice Contenzioso .... O     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO Sofferenza       _ *
+*  Codice Presentatore . ? _____ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO               *
+*  Codice Sottogruppo .. ? ___   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO     *
+*  Codice Gruppo ....... ? ___   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO     *
+*  Canale Distributivo.. ? ___   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO               *
+*              OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                  *
+*  CMD2 Scelta funzione       CMD11 Forzatura errori       CMD8 Decodifiche        *
+*                                                                                  *
+************************************************************************************
+*  TRA010/F3                GESTIONE ANAGRAFE CEDENTE       OOOOOOOOO    DD/DD/DD  *
+*                           OOOOOOOOOOO  Codice 66666       OOOOOOOOOO   TT:TT:TT  *
+*                                   RISOLTO                                        *
+*  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO      *
+*                                                                                  *
+*                                                                                  *
+*  FACTORING Data contratto .......    __________                                  *
+*            Data risoluzione .....    __________                                  *
+*                                                                                  *
+*  APPENDICI Sconto ...............    __________                                  *
+*            Export ...............    __________                                  *
+*            Anticipo straordinario    __________                                  *
+*            Maturity .............    __________                                  *
+*                                                                                  *
+*  GARANZIE  Garanzia 1 ...........  ? __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*            Garanzia 2 ...........  ? __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*            Garanzia 3 ...........  ? __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  FIDO      Comunicato al Cedente.... _ (S/N)                                     *
+*  Cod. CUI  ......................... __________                                  *
+*            Durc ..............(S/ ). _ Data Scadenza Durc ..... __________       *
+*              OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                  *
+*  CMD2 Funzioni     CMD8 Decodifiche     CMD5 Revisione   CMD11 Forzatura errori  *
+*                                                                                  *
+************************************************************************************
+*  TRA010/F5               GESTIONE ANAGRAFE CEDENTE        OOOOOOOOO   DD/DD/DD   *
+*                          OOOOOOOOOOO Codice  66666        OOOOOOOOOO  TT:TT:TT   *
+*                                  RISOLTO                                         *
+*                                                                                  *
+*  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       *
+*                                                                                  *
+*                        GESTIONE SPEDIZIONE CORRISPONDENZA                        *
+*                                                                                  *
+*  Weekly . . . . . . . . . . . . . . . . . .  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  Elenco crediti in essere . . . . . . . . .  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  E/C versamenti con fattura . . . . . . . .  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  Sollecito debitori-copia cedente . . . . .  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  Contabili  . . . . . . . . . . . . . . . .  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*  Foglio di sintesi variaz. tassi/condizioni  ?  _ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *
+*                                                                                  *
+*              OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                  *
+*                                                                                  *
+*  CMD2 Funzioni  CMD5 Revisione  CMD8 Decod.  CMD10 Spediz.su Web   CMD3 Conferma *
+*                                                                                  *
+************************************************************************************
+*  TRA010/F4               GESTIONE ANAGRAFE CEDENTE        OOOOOOOOO    DD/DD/DD  *
+*                          OOOOOOOOOOO Codice  66666        OOOOOOOOOO   TT:TT:TT  *
+*                                  RISOLTO                                         *
+*                                                                                  *
+*  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       *
+*                                                                                  *
+*                         GESTIONE DOCUMENTI MANCANTI                              *
+*                                       ?                                          *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  __ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  *
+*                    LA VARIAZIONE DEI DOCUMENTI MANCANTI                          *
+*                DETERMINER´ UNA DIVERSA OPERATIVIT´ DEI FIDI                      *
+*              OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                  *
+*  CMD2 Funzioni   CMD5  Revisione    CMD8  Decodifica    CMD11 Forzatura errori   *
+*                                                                                  *
+*                                                                                  *
+************************************************************************************
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*              OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+************************************************************************************
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                            ....................  *
+*                                                            : Conferma _ (S/N) :  *
+*                                                            ....................  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+************************************************************************************

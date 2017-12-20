@@ -1,0 +1,246 @@
+ Nome file . . . . . . . . . . . . . . . . . . . . . :   TRA1700V
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  QTEMP
+ Attributo file  . . . . . . . . . . . . . . . . . . :   Video
+ File origine contenente DDS  . . . . . . . . . . . . :  QDDSSRC
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  SRCFAC
+ Membro origine con DDS  . . . . . . . . . . . :         TRA1700V
+ Ultima modifica membro orig.  . . . . . . . . . . . . : 23/10/97  20:42:33
+ Opzioni elenco origine  . . . . . . . . . . . . . . :   *SOURCE    *LIST      *NOSECLVL  *NOEVENTF
+ Livello gravità generaz. DDS  . . . . . . . . . . . :   20
+ Indicaz. liv. di gravità DDS  . . . . . . . . . . . . : 00
+ Autorizzazione . . . . . . . . . . . . . . . . . . :    *LIBCRTAUT
+ Sostituz. file  . . . . . . . . . . . . . . . . . . . : *NO
+ Testo . . . . . . . . . . . . . . . . . . . . . . . :   Cancellazione Anagrafe FIDI
+ Compilatore  . . . . . . . . . . . . . . . . . . . . :  Processore descrizione dati IBM System i5
+                                      Origine descrizione dati
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+    100       A*%%TS  SD  19970926  094950  GRAAND      REL-V3R1M0  5763-PW1              26/09/97
+    200       A* SI011S1    GRAAND        18/09/97  10:56:01                              18/09/97
+    300       A* DLU119     BEROTT        24/01/94  15:43:43                              24/01/94
+    400       A* DLU121     MALSAB        19/05/92  10:59:29    FORZATURA = *NO           19/05/92
+    500       A*            11:31:47    AGVI99DP    REL-R05M00  5714-UT1
+    600       A*------------------------------------------------------------------------* 19/05/92
+    700       A*                                                                        * 19/05/92
+    800       A*  RIVISTO DA           -  SABINA MALANCHINI                             * 19/05/92
+    900       A*          IL           -  19/05/92                                      * 19/05/92
+   1000       A*                                                                        * 19/05/92
+   1100       A*  DESCRIZIONE          -  ANNULLO/RIATTIVAZIONE ANAGRAFE FIDI           * 19/05/92
+   1200       A*------------------------------------------------------------------------* 19/05/92
+   1300       A*%%EC                                                                      26/09/97
+   1400       A                                      DSPSIZ(24 80 *DS3)                   26/09/97
+   1500       A                                      REF(*LIBL/DCTFAC)                    26/09/97
+   1600       A                                      CHGINPDFT                            26/09/97
+   1700       A                                      MSGLOC(24)                           26/09/97
+   1800       A                                      PRINT(*LIBL/QSYSPRT)                 26/09/97
+   1900       A*------------------------------------------------------------------------* 18/09/97
+   2000       A*            11:31:47    AGVI99DP    REL-R05M00  5714-UT1
+   2100       A          R TRA1701R                                                       26/09/97
+   2200       A*%%TS  SD  19970926  094950  GRAAND      REL-V3R1M0  5763-PW1              26/09/97
+   2300       A                                      OVERLAY                              26/09/97
+   2400       A N50                                  ERASE(TRA170M1)                      26/09/97
+   2500       A N60                                  ERASE(TRA170S2)                      26/09/97
+   2600       A N60                                  CA01(01 'Fine lavoro')               26/09/97
+   2700       A                                      CA02(02 'Ripristino lavoro')         26/09/97
+   2800       A                                      CA03(03 'Annullo/ripristino anagraf- 26/09/97
+   2900       A                                      ica')                                26/09/97
+   3000       A            FORM1         14A  O  1  3                                     26/09/97
+   3100       A                                  1 26' CANCELLAZIONE ANAGRAFE FIDI '      26/09/97
+   3200       A                                      DSPATR(RI)                           26/09/97
+   3300       A                                      DSPATR(UL)                           26/09/97
+   3400       A                                  4  2'Numero Fido'                        26/09/97
+   3500       A                                  4 14'?'                                  26/09/97
+   3600       A                                      DSPATR(RI)                           26/09/97
+   3700       A            VPRFD          5A  B  4 16DSPATR(CS)                           26/09/97
+   3800       A                                      DSPATR(HI)                           26/09/97
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+   3900       A  42                                  DSPATR(RI)                           26/09/97
+   4000       A  42                                  DSPATR(PC)                           26/09/97
+   4100       A  60                                  DSPATR(PR)                           26/09/97
+   4200       A  60        DESTES        29   O  4 26                                     26/09/97
+   4300       A  60N15                           7  2'Cedente: '                          26/09/97
+   4400       A  60 15                           7  2'Capofila:'                          26/09/97
+*                                      CPD7865-******
+   4500       A  60        VACCED    R        O  7 14REFFLD(££CED)                        26/09/97
+   4600       A  60        VACRAS    R        O  7 20REFFLD(££RAS)                        26/09/97
+   4700       A  60        VACRA2    R        O  8 20REFFLD(££RAS)                        26/09/97
+   4800       A  60                             10  2'Codici Fido:'                       26/09/97
+   4900       A*------------------------------------------------------------------------* 18/09/97
+   5000       A          R TRA170S2                  SFL                                  18/09/97
+   5100       A            RSCODF    R        O 11 15REFFLD(££CODF)                       26/09/97
+   5200       A            RSDES1    R        O 11 20REFFLD(££DES)                        26/09/97
+   5300       A            RSDES2    R        O 12 20REFFLD(££DES)                        26/09/97
+   5400       A*------------------------------------------------------------------------* 18/09/97
+   5500       A          R TRA170C2                  SFLCTL(TRA170S2)                     18/09/97
+   5600       A                                      OVERLAY                              18/09/97
+   5700       A N10                                  SFLDSP                               18/09/97
+   5800       A N10                                  SFLEND                               18/09/97
+   5900       A                                      SFLDSPCTL                            18/09/97
+   6000       A  14                                  SFLCLR                               18/09/97
+   6100       A                                      SFLSIZ(9999)                         18/09/97
+   6200       A                                      SFLPAG(0005)                         26/09/97
+   6300       A*------------------------------------------------------------------------* 18/09/97
+   6400       A          R TRA1703R                                                       18/09/97
+   6500       A*%%TS  SD  19970918  112222  GRAAND      REL-V3R1M0  5763-PW1              18/09/97
+   6600       A                                      OVERLAY                              18/09/97
+   6700       A                                 22  2'ENTER'                              18/09/97
+   6800       A                                      DSPATR(RI)                           18/09/97
+   6900       A  60                                  DSPATR(UL)                           18/09/97
+   7000       A                                 22  8'Controllo funzione'                 18/09/97
+   7100       A N60                             22 32'CMD01'                              18/09/97
+   7200       A                                      DSPATR(RI)                           18/09/97
+   7300       A N60                             22 38'Fine lavoro'                        18/09/97
+   7400       A  60                             22 54'CMD03'                              18/09/97
+   7500       A                                      DSPATR(RI)                           18/09/97
+   7600       A  60                             22 60'Esegue aggiornamento'               18/09/97
+   7700       A  60                             23  2'CMD02'                              18/09/97
+   7800       A                                      DSPATR(RI)                           18/09/97
+   7900       A  60                             23  8'Ritorno richiesta funz. senza vari- 18/09/97
+   8000       A                                      azione'                              18/09/97
+   8100       A*------------------------------------------------------------------------* 18/09/97
+   8200       A          R TRA170M1                  SFL
+   8300       A                                      SFLMSGRCD(24)
+   8400       A            MSGKEY                    SFLMSGKEY
+   8500       A            PGMQ                      SFLPGMQ
+   8600       A*------------------------------------------------------------------------* 18/09/97
+   8700       A          R TRA170M2                  SFLCTL(TRA170M1)
+*                  CPD8111-**********
+   8800       A*            11:06:20    AGVI99DP    REL-R05M00  5714-UT1
+   8900       A                                      SFLSIZ(0010)
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+   9000       A                                      SFLPAG(0001)
+   9100       A                                      LOCK
+   9200       A                                      OVERLAY
+   9300       A  53                                  SFLDSP
+   9400       A  53                                  SFLDSPCTL
+   9500       A  53                                  SFLINZ
+   9600       A  53                                  SFLEND
+   9700       A            PGMQ                      SFLPGMQ
+                         * * * * *   F I N E  O R I G I N E   * * * * *
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+                 *DS3                                MSGLOC(24)
+   1400                                              DSPSIZ(24 80 *DS3) CHGINPDFT +
+   1800                                              PRINT(*LIBL/QSYSPRT)
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN15 0004   *IN42 0003   *IN50 0001   *IN60 0002
+               * Posizioni buffer immissione indicatore risposta:
+               *  *IN01 0001   *IN02 0002   *IN03 0003
+   2100                  R TRA1701R                  OVERLAY
+   2400         N50                                  ERASE(TRA170M1)
+   2500         N60                                  ERASE(TRA170S2)
+   2600         N60                                  CA01(01 'Fine lavoro')
+   2700                                              CA02(02 'Ripristino lavoro') +
+   2800                                              CA03(03 'Annullo/ripristino anagraf-
+   2800                                              ica')
+   3000                    FORM1         14A  O  1  3                                        14            5
+   3100                                          1 26' CANCELLAZIONE ANAGRAFE FIDI ' +       29
+   3200                                              DSPATR(RI) DSPATR(UL)
+   3400                                          4  2'Numero Fido'                           11
+   3500                                          4 14'?' DSPATR(RI)                           1
+   3700                    VPRFD          5A  B  4 16DSPATR(CS) DSPATR(HI)                    5           19       4
+   3900          42                                  DSPATR(RI)
+   4000          42                                  DSPATR(PC)
+   4100          60                                  DSPATR(PR)
+   4200          60        DESTES        29A  O  4 26                                        29           24
+   4300          60N15                           7  2'Cedente: '                              9
+   4400          60 15                           7  2'Capofila:'                              9
+   4500          60        VACCED         5S 0O  7 14                                         5           53
+ * Campo di riferim.  . . . . . . . . . . . :  ££CED
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   4500                                              TEXT('Cde Cedente                  -
+   4500                                              AC                   ')
+   4600          60        VACRAS        35A  O  7 20                                        35           58
+ * Campo di riferim.  . . . . . . . . . . . :  ££RAS
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   4600                                              TEXT('Nar Ragione Sociale          -
+   4600                                              AC                   ')
+   4700          60        VACRA2        35A  O  8 20                                        35           93
+ * Campo di riferim.  . . . . . . . . . . . :  ££RAS
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   4700                                              TEXT('Nar Ragione Sociale          -
+   4700                                              AC                   ')
+   4800          60                             10  2'Codici Fido:'                          12
+   5000                  R TRA170S2                  SFL
+   5100                    RSCODF         4A  O 11 15                                         4            1       1
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+ * Campo di riferim.  . . . . . . . . . . . :  ££CODF
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   5100                                              TEXT('Cde Fido                     -
+   5100                                              FD                   ')
+   5200                    RSDES1        60A  O 11 20                                        60            5       5
+ * Campo di riferim.  . . . . . . . . . . . :  ££DES
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   5200                                              TEXT('Nar Descrizione Fido         -
+   5200                                              FD                   ')
+   5300                    RSDES2        60A  O 12 20                                        60           65      65
+ * Campo di riferim.  . . . . . . . . . . . :  ££DES
+ *   Formato  . . . . . . . . . . . . . . . :  DCTFAC
+ *   File  . . . . . . . . . . . . . . . . :   DCTFAC
+ *   Libreria . . . . . . . . . . . . . . . :  TESLIB
+   5300                                              TEXT('Nar Descrizione Fido         -
+   5300                                              FD                   ')
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN10 0001   *IN14 0002
+   5500                  R TRA170C2
+                 *DS3                                SFLSIZ(9999) SFLPAG(005)
+   5500                                              SFLCTL(TRA170S2) OVERLAY
+   5700         N10                                  SFLDSP
+   5800         N10                                  SFLEND
+   5900                                              SFLDSPCTL
+   6000          14                                  SFLCLR
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN60 0001
+   6400                  R TRA1703R                  OVERLAY
+   6700                                         22  2'ENTER' DSPATR(RI)                       5
+   6900          60                                  DSPATR(UL)
+   7000                                         22  8'Controllo funzione'                    18
+   7100         N60                             22 32'CMD01' DSPATR(RI)                       5
+   7300         N60                             22 38'Fine lavoro'                           11
+   7400          60                             22 54'CMD03' DSPATR(RI)                       5
+   7600          60                             22 60'Esegue aggiornamento'                  20
+   7700          60                             23  2'CMD02' DSPATR(RI)                       5
+   7900          60                             23  8'Ritorno richiesta funz. senza vari-    40
+   7900                                              azione'
+   8200                  R TRA170M1
+                 *DS3                                SFLMSGRCD(24)
+   8200                                              SFL
+   8400                    MSGKEY                    SFLMSGKEY                                4            1       1
+   8500                    PGMQ                      SFLPGMQ                                 10            5       5
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN53 0001
+   8700                  R TRA170M2
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+                 *DS3                                SFLSIZ(0010) SFLPAG(001)
+   8700                                              SFLCTL(TRA170M1) LOCK OVERLAY
+   9300          53                                  SFLDSP
+   9400          53                                  SFLDSPCTL
+   9500          53                                  SFLINZ
+   9600          53                                  SFLEND
+   9700                    PGMQ                      SFLPGMQ                                 10            2       1
+                 * * * * *   F I N E  O R I G I N E  E S P A N S A   * * * * *
+                                             Messaggi
+    ID      Numero    gravità
+* CPD7865      10        1      Messaggio . . . :   Il campo si sovrappone ad uno o più campi nel record.
+* CPD8111      10        1      Messaggio . . . :   Il record potrebbe non operare come previsto.
+                                          Riepilogo messaggi
+ Totale            Informativo            Avvert.        Err.        Grave
+                       (0-9)              (10-19)       (20-29)      (30-99)
+        2                 0                    2             0            0
+* CPC7301      00               Messaggio . . . :   File TRA1700V creato nella libreria QTEMP.
+                         * * * * *   F I N E  C O M P I L A Z I O N E   * * * * *
+

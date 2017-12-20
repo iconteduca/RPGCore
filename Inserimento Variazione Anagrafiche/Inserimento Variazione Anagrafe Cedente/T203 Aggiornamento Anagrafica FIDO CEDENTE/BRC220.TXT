@@ -1,0 +1,2732 @@
+ **************************************************************************
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 05/01/2006
+ *
+ *  Descrizione programma..: Poteri Organi deliberanti fidi: Gestione
+ **************************************************************************
+ * Output and Input/Output files
+fDLBFID6L  uf a e           k disk    prefix(DFF_)
+fSTORDE0F  o    e           k disk    prefix(D$F_)
+fDLBFI21L  uf a e           k disk    prefix(DF2_)
+fSTORD20F  if a e           k disk    prefix(D$2_)
+ * Input-only files
+fANAFID2L  if   e           k disk
+fFIDDEB2L  if   e           k disk
+fMST0011L  if   e           k disk
+fRSKFID2L  if   e           k disk
+fRSKFI21L  if   e           k disk
+fPARAM     if   e           k disk
+ * Workstation and Printer files
+fBRC2200V  cf   e             workstn infds($INFDS)
+f                                     sfile(V02S:V02NRR)
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+d $INFDS          ds
+d  $FunctKey            369    369
+d  $1RecOfPag           378    379b 0
+d $FunctKeyList   ds
+d  $_Null                        1    inz(x'00')
+d  $_Enter                       1    inz(x'F1')
+d  $_Help                        1    inz(x'F3')
+d  $_RollDw                      1    inz(x'F4')
+d  $_RollUp                      1    inz(x'F5')
+d  $_Print                       1    inz(x'F6')
+d  $_BackSp                      1    inz(x'F8')
+d  $_Clear                       1    inz(x'FD')
+d  $_Cmd01                       1    inz(x'31')
+d  $_Cmd02                       1    inz(x'32')
+d  $_Cmd03                       1    inz(x'33')
+d  $_Cmd04                       1    inz(x'34')
+d  $_Cmd05                       1    inz(x'35')
+d  $_Cmd06                       1    inz(x'36')
+d  $_Cmd07                       1    inz(x'37')
+d  $_Cmd08                       1    inz(x'38')
+d  $_Cmd09                       1    inz(x'39')
+d  $_Cmd10                       1    inz(x'3A')
+d  $_Cmd11                       1    inz(x'3B')
+d  $_Cmd12                       1    inz(x'3C')
+d  $_Cmd13                       1    inz(x'B1')
+d  $_Cmd14                       1    inz(x'B2')
+d  $_Cmd15                       1    inz(x'B3')
+d  $_Cmd16                       1    inz(x'B4')
+d  $_Cmd17                       1    inz(x'B5')
+d  $_Cmd18                       1    inz(x'B6')
+d  $_Cmd19                       1    inz(x'B7')
+d  $_Cmd20                       1    inz(x'B8')
+d  $_Cmd21                       1    inz(x'B9')
+d  $_Cmd22                       1    inz(x'BA')
+d  $_Cmd23                       1    inz(x'BB')
+d  $_Cmd24                       1    inz(x'BC')
+ * Variabili locali -------------------------------------------------------
+d DIV           e ds
+d EPD008        e ds
+d £DLBFID       e ds                  extname(DLBFID0F) prefix(DFF_)
+d  £DLBFID1               1      1
+d  £DLBFIDx               2     31
+d  £DLBFID2              32    206
+d £STORDE       e ds                  extname(STORDE0F) prefix(D$F_)
+d  £STORDE1              21     21
+d  £STORDEx              22     51
+d  £STORDE2              52    226
+d £DLBFI2       e ds                  extname(DLBFI20F) prefix(DF2_)
+d  £DLBFI21               1      1
+d  £DLBFI2x               2     31
+d  £DLBFI22              32     44
+d £STORD2       e ds                  extname(STORD20F) prefix(D$2_)
+d  £STORD21              21     21
+d  £STORD2x              22     51
+d  £STORD22              52     64
+d £ExRFTRSK       s                   like(RFTRSK) inz
+d £ExV02TRSK      s                   like(V02TRSK) inz
+d £ExV02CLAR      s                   like(V02CLAR) inz
+d £ExV02VALO      s                   like(V02VALO) inz
+d £LastRecord     s                   like(V02NRR) inz
+d £NumImporti     s              6  0 inz
+d £LenV00TITLE    s              6  0 inz
+d £LenTitle       s              6  0 inz
+d £PrimoGiro      s               n   inz
+d £UpdtDetail     s               n   inz
+d £DataRevoca     s              8  0 inz
+d £DataScadenza   s              8  0 inz
+d £JobDate        s              8  0 inz
+d £JobTime        s              6  0 inz
+d £VxxPlanned     s               n   inz
+d £VxxExecute     s             10    inz
+d £VxxExExecute   s             10    inz
+d £VxxOperation   s             10    inz
+d £VxxPrepare     s              4    inz
+d £VxxCheckMode   s             10    inz
+d £V01FunctKey    s                   like($FunctKey) inz
+d £V01Ind         s               n   dim(99) inz
+d £V01SaveInd     s               n   dim(99) inz
+d £V02FunctKey    s                   like($FunctKey) inz
+d £V02MaxNRR      s                   like(V02NRR) inz
+d £V02SaveSRN     s                   like(V02SRN) inz
+d £V02Ind         s               n   dim(99) inz
+d £V02SaveInd     s               n   dim(99) inz
+d £V03FunctKey    s                   like($FunctKey) inz
+d £V03Ind         s               n   dim(99) inz
+d £V03SaveInd     s               n   dim(99) inz
+d £V04FunctKey    s                   like($FunctKey) inz
+d £V04Ind         s               n   dim(99) inz
+d £V04SaveInd     s               n   dim(99) inz
+d £V05FunctKey    s                   like($FunctKey) inz
+d £V05Ind         s               n   dim(99) inz
+d £V05SaveInd     s               n   dim(99) inz
+d £Refresh        s               n
+d £Error_         ds
+d  £Error                         n
+d  £Warning                       n
+d  £ErrorNRR                          like(V02NRR)
+d  £ErrorId                      7
+d  £ErrorData                   60
+d  £ErrId                             like(£ErrorId) dim(30)
+d  £ErrData                           like(£ErrorData) dim(30)
+d  £ErrIx                        2  0
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £DateError                    n
+d £Text           s             80    dim(10) ctdata perrcd(1)
+ * Parametri -------------------------------------------------------------- BRC220 è chiamato da TRA151 in:
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)           PgmBRC220 Gestione video potere organo deliberante
+d  $Entry_KCSOC                  6    overlay($Entry_KNSIF:1)
+d $Entry_         ds                                                        con
+d  $Entry_Op                     1                                          '4'
+ *                                    Tipo gestione:
+ *                                    1=Inserimento
+ *                                    2=Aggiornamento
+ *                                    3=Annullamento
+ *                                    4=Inquiry
+d  $Entry_Exit                   1
+ *                                    Modo di uscita:
+ *                                    0=Fine
+ *                                    1=Mappa precedente
+ *                                    2=Mappa successiva
+d  $Entry_OrDel                       like(DFF_DFORDE)                      V02ORDL
+d  $Entry_CdFid                       like(RFCODF)
+d BRC221_KPJBA  e ds                  extname(KPJBA) prefix(BRC221_)
+d BRC221_       e ds                  extname(EBP003) prefix(BRC221_)
+d BRC222_KPJBA  e ds                  extname(KPJBA) prefix(BRC222_)
+d BRC222_         ds
+d  BRC222_Exit                   1
+d  BRC222_OrDel                       like(DFF_DFORDE)
+d BRC224_KPJBA  e ds                  extname(KPJBA) prefix(BRC224_)
+d BRC224_         ds
+d  BRC224_OrDel1                      like(DFF_DFORDE)
+d  BRC224_OrDel2                      like(DFF_DFORDE)
+d TRA120_         ds
+d  TRA120_PTSOC                 14
+d  TRA120_PTKEYP                 3
+d  TRA120_PTKEYT                 9
+d  TRA120_PTFLAG                 1
+d DCER01_         ds
+d  DCER01_KPJBA                       like($Entry_KPJBA)
+d  DCER01_ErrId                       like(£ErrId) dim(30)
+d  DCER01_ErrDa                       like(£ErrData) dim(30)
+d  DCER01_Level                  2p 0
+d STD012_         ds
+d  STD012_SHDTIN                 8  0
+d  STD012_SHDTOU                 8  0
+d  STD012_SHFERD                 1
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+ *
+c                   dou           £VxxExecute = 'Exit'
+ *
+c                   select
+c                   when          £VxxExecute = 'Video01'
+c                   exsr      Video01
+c                   when          £VxxExecute = 'Video02'
+c                   exsr      Video02
+c                   when          £VxxExecute = 'Video03'
+c                   exsr      Video03
+c                   when          £VxxExecute = 'Video05'
+c                   exsr      Video05
+c                   when          £VxxExecute = 'Video04'
+c                   exsr      Video04
+c                   endsl
+ *
+c                   enddo
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   eval      *inlr = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+ * Operazioni preliminari (END) -------------------------------------------
+ * Operazioni varie (START) -----------------------------------------------
+c                   movea     *all'0'       £V01Ind
+c                   movea     *all'0'       £V01SaveInd
+c                   movea     *all'0'       £V02Ind
+c                   movea     *all'0'       £V02SaveInd
+c                   movea     *all'0'       £V03Ind
+c                   movea     *all'0'       £V03SaveInd
+c                   movea     *all'0'       £V04Ind
+c                   movea     *all'0'       £V04SaveInd
+c                   movea     *all'0'       £V05Ind
+c                   movea     *all'0'       £V05SaveInd
+ *
+c                   eval      V$$PGMQ = '*'
+ *
+c                   eval      PAKEYA = 'ACC'                                                          STATO ESERCIZI APERTI
+c                   eval      PAKEYB = '000000005'                                                    ....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8....:....9....:....0....:....1...
+c     key_PARAM     chain     PARAM                                         legge PARAM/ACC/000000005 2017123120161231C2016123120121231D2016123120151231120041231200520161231S24224220161231N
+c                   if            %found(PARAM)                                                                                                                               ¦¦¦
+c                   eval      EPD008 = PADESC                                           per trovare.:                                                                         EPDVEA Divisa esercizio Corrente
+c                   else
+c                   clear                   EPD008
+c                   endif
+ * Operazioni varie (END) -------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval      $Entry_KPJBU = $Entry_
+ * Operazioni finali (END) ------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Gestione video richiesta parametri
+c     Video01       begsr
+ *
+c                   movea     *in           £V01SaveInd
+c                   movea     £V01Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video01'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V01Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V01Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V01Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V01FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V01Process
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V01Ind
+c                   movea     £V01SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione video01
+c     V01Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V01FunctKey = $_Null
+c                   eval      £PrimoGiro = *on
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+ *
+c                   clear                   V01
+ *
+c                   eval      V01OPE = $Entry_Op                            Funzione
+c                   eval      V01ORDE = $Entry_OrDel                        Codice_Organo_deliberante
+ *
+c                   endif
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V01check
+ *
+c                   if            $Entry_Op <> *blank
+c                   eval      £VxxPlanned = *on
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   eval      £V01FunctKey = $_Enter
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione video01
+c     V01Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/01'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   eval      £LenTitle = %len(%trim(£Text(2)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(2))
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      *in99 =     £Error
+c                   eval      *in98 = £Warning
+c                   eval      $FunctKey = $_Null
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   exfmt     V01
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V01FunctKey = $FunctKey
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati video01
+c     V01Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Tipo operazione (START)
+c                   if            (    V01OPE <> '1'                        Se Funzione non valida
+c                                  and V01OPE <> '2'
+c                                  and V01OPE <> '3'
+c                                  and V01OPE <> '4'
+c                                  and V01OPE <> '5')
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0001'                             errore SYS0001
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ * Check: Tipo operazione (END)
+ * Search: Organo deliberante (START)
+c                   if            (    V01OPE = '2'
+c                                  or  V01OPE = '3'
+c                                  or  V01OPE = '4')
+c                   if            (    £V01FunctKey = $_Cmd04               Se F4=Ricerca
+c                                  and V01CRCD = 'V01'
+c                                  and V01CFLD = 'V01ORDE')
+c                             or  V01ORDE = *blank
+c                   clear                   BRC221_
+c                   eval      BRC221_EBORDE = V01ORDE
+c                   eval      BRC221_KPJBA = $Entry_KPJBA
+c                   eval      BRC221_KPJBU = BRC221_
+c                   call      'BRC221'      PL_BRC221                       chiama BRC221
+c                   eval      BRC221_ = BRC221_KPJBU
+c                   eval      V01ORDE = BRC221_EBORDE
+c                   eval      £Refresh = *on
+c                   endif
+c                   endif
+ * Search: Organo deliberante (END)
+ * Check: Codice Organo deliberante (START)
+c                   if            V01OPE = '1'                              Se Inserimento
+c     V01ORDE       chain(n)  DLBFID6L                                         legge DlbFid6L
+c                   if            %found(DLBFID6L)                          Se Trovato
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0061'                             errore SYS0061
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+c                   endif
+ *
+c                   if            (    V01OPE = '2'                         Se Modifica
+c                                  or  V01OPE = '3'                          o Annullamento/Ripristino
+c                                  or  V01OPE = '4')                         o Visualizzazione
+c                             and V01ORDE = *blank                           e non Codice Organo deliberante
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0006'                             errore SYS0006
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ *
+c                   if            V01OPE = '2'                              Se Modifica
+c                             or  V01OPE = '3'                               o Annullamento/Ripristino
+c                             or  V01OPE = '4'                               o Visualizzazione
+c                             or  V01OPE = '5'                               o Stampa
+c                             and V01ORDE <> '  '                                     e Codice Organo deliberante
+c     V01ORDE       chain(n)  DLBFID6L                                         legge DLBFID6L
+c                   if            not %found(DLBFID6L)                      Se non Trovato
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0062'                             errore SYS0062
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+c                   endif
+ *
+c                   if            V01OPE = '2'                              Se Modifica
+c                             or  V01OPE = '4'                               o Visualizzazione
+c                             or  V01OPE = '5' and v01orde <> '  '           o Stampa e Codice Organo deliberante
+c     V01ORDE       chain(n)  DLBFID6L                                         per maggior sicurezza sicura rilegge DLBFID6L
+c                   if            %found(DLBFID6L)                             Per ritrovato
+c                             and DFF_DFANNU = 'A'                                 MA annullato
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS6864'                                 errore SYS6864
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+c                   endif
+ * Check: Organo deliberante (END)
+ * Check: Annullamento Organo deliberante con fidi attivi (START)
+c                   if            V01OPE = '3'                              Se Annullamento/Ripristino
+ *
+c     V01ORDE       setll     ANAFID2L                                      si posiziona su ANAFID2L
+c                   dou           %eof(ANAFID2L)                             e cerca il primo record
+c                             or  (    FDSTAT <> 'E'                           con Cde_Stato_del_Fido non 'E' e non 'C'
+c                                  and FDSTAT <> 'C'
+c                                  and (    £DataRevoca > *date                e Data_Revoca > *Oggi
+c                                       or  £DataRevoca = 0)
+c                                  and (    £DataScadenza > *date              e Data_Scadenza > *Oggi
+c                                       or  £DataScadenza = 0))
+c     V01ORDE       reade     ANAFID2L
+c                   if            not %eof(ANAFID2L)
+c                   eval      £SDSs = FDDRVS
+c                   eval      £SDAa = FDDRVA
+c                   eval      £SDMm = FDDRVM
+c                   eval      £SDGg = FDDRVG
+c                   eval      £DataRevoca = £SystemDate
+c                   eval      £SDSs = FDDSCS
+c                   eval      £SDAa = FDDSCA
+c                   eval      £SDMm = FDDSCM
+c                   eval      £SDGg = FDDSCG
+c                   eval      £DataScadenza = £SystemDate
+c                   endif
+c                   enddo
+c                   if            not %eof(ANAFID2L)                        Se ci riesce
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2620'                             errore SYS2620
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ *
+c     V01ORDE       setll     FIDDEB2L                                      idem su FIDDEB2L
+c                   dou           %eof(FIDDEB2L)
+c                             or  (    FDSTAT <> 'E'
+c                                  and FDSTAT <> 'C'
+c                                  and (    £DataRevoca > *date
+c                                       or  £DataRevoca = 0)
+c                                  and (    £DataScadenza > *date
+c                                       or  £DataScadenza = 0))
+c     V01ORDE       reade     FIDDEB2L
+c                   if            not %eof(FIDDEB2L)
+c                   eval      £SDSs = FDDRVS
+c                   eval      £SDAa = FDDRVA
+c                   eval      £SDMm = FDDRVM
+c                   eval      £SDGg = FDDRVG
+c                   eval      £DataRevoca = £SystemDate
+c                   eval      £SDSs = FDDSCS
+c                   eval      £SDAa = FDDSCA
+c                   eval      £SDMm = FDDSCM
+c                   eval      £SDGg = FDDSCG
+c                   eval      £DataScadenza = £SystemDate
+c                   endif
+c                   enddo
+c                   if            not %eof(FIDDEB2L)
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2620'                             errore SYS2620
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ *
+c                   endif
+ * Check: Annullamento Organo deliberante con fidi attivi (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £PrimoGiro = *off
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione video01
+c     V01Process    begsr
+ *
+c                   if        v01ope <> '5'                                 Se non Stampa
+c                   eval      £VxxPlanned = *on
+c                   eval      £VxxExecute   = 'Video02'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   else                                                    se Stampa
+c                   clear                   BRC224_                            chaima BRC224
+c                   eval      BRC224_OrDel1 = V01ORDE
+c                   eval      BRC224_KPJBA = $Entry_KPJBA
+c                   eval      BRC224_KPJBU = BRC224_
+c                   call      'BRC224'
+c                   parm                    brc224_kpjba
+c                   eval      £VxxPlanned = *off
+c                   eval      £ErrorId = 'SYS3181'                          SYS3181 00 Stampa eseguita
+c                   exsr      ErrorAdd
+c                   exsr      ErrorDecode
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Gestione video richiesta parametri
+c     Video02       begsr
+ *
+c                   movea     *in           £V02SaveInd
+c                   movea     £V02Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video02'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V02Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V02Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V02FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V02FunctKey = $_Cmd02
+c                             and $Entry_Op <> *blank
+c                   eval      $Entry_Exit = '1'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V02FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V02FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   if            V01OPE <> '3'
+c                             and V01OPE <> '4'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   else
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   endif
+c                   when          £V02FunctKey = $_Cmd24
+c                   eval      £VxxExExecute = £VxxExecute
+c                   eval      £VxxExecute = 'PgmTRA158'
+c                   exsr      PgmBRC222
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V02Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V02FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V02Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxExecute = 'Video03'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxExecute = 'Video03'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V02Ind
+c                   movea     £V02SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione video02
+c     V02Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V02FunctKey = $_Null
+c                   eval      £PrimoGiro = *on
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('T':£VxxPrepare) >= 1
+ *
+c                   clear                   V02T
+ *
+c                   eval      V02ORDE = V01ORDE                             Codice organo deliberante
+ *
+c                   if            V01OPE = '2'                              Se Modifica
+c                             or  V01OPE = '3'                                 Annullamento/Ripristino
+c                             or  V01OPE = '4'                                 Visualizzazione
+ * Impostazioni per Modifica/Interrogazione (START)
+c     V02ORDE       chain     DLBFID6L
+c                   if            not %found(DLBFID6L)
+c                   clear                   DLBFID1R
+c                   endif
+c                   eval      V02DTDEC = DFF_DFGIOR * 1000000               Data Decorrenza
+c                                      + DFF_DFMESE * 10000
+c                                      + DFF_DFSECO * 100
+c                                      + DFF_DFANNO
+c                   eval      V02DESC  = DFF_DFDESC                         Descrizione
+c                   eval      V02DES2  = DFF_DFDES2
+c                   eval      V02RSR   = DFF_DFRSR                          Descrizione ridotta
+c                   eval      V02MXFI  = DFF_DFMXFI                         Valore massimale fido
+c                   eval      V02DIV   = DFF_DFDIV                          Divisa
+c                   eval      V02RIUC  = DFF_DFRIUC                         Riutilizzo rischi Cedenti
+c                   eval      V02RIUD  = DFF_DFRIUD                                           Debitori
+ * Impostazioni per Modifica/Interrogazione (END)
+c                   else
+ * Impostazioni per Inserimento (START)
+c                   clear                   £Date
+c                   eval      £SystemDate = *date
+c                   exsr      RotateDate
+c                   eval      V02DTDEC = £UserDate                          Data Decorrenza = *Oggi
+c                   eval      V02DIV  = EPDVEA                              Divisa Esercizio Corrente
+c                   eval      V02RIUC = 'N'                                 No Cedenti
+c                   eval      V02RIUD = 'N'                                 No Debitori
+ * Impostazioni per Inserimento (END)
+c                   endif
+ *
+c                   endif
+ * Caricamento subfile (START)                                              Qui inizia una lunga sequenza di codice
+c                   if            £VxxPrepare = *blank                      che serve a caricare il SubFile con le
+c                             or  %scan('C':£VxxPrepare) >= 1               lucette ed i fregnetti: vedi in fondo, ma senza lucette...
+ *
+c                   clear                   V02C
+ *
+c                   eval      *in10 = *off
+c                   eval      *in12 = *on
+c                   write     V02C
+c                   eval      *in12 = *off
+c                   eval      V02NRR = 0
+c                   eval      £V02MaxNRR = 0
+c                   eval      £V02SaveSRN = 0
+c                   eval      V02SRV = 1
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ *
+c                   eval      £ExRFTRSK = *loval
+c     *loval        setll     RSKFID2L
+c                   dou           %eof(RSKFID2L)
+c                   read      RSKFID2L
+c                   if            not %eof(RSKFID2L)
+c                             and RFANNU <> 'A'
+ * Scrittura riga divisoria (START)
+c                   if            RFTRSK <> £ExRFTRSK
+ *
+c                   clear                   V02S
+ *
+c                   eval      V02NRR = £V02MaxNRR + 1
+ *
+c                   select
+c                   when          RFTRSK = 'C'
+c                   eval      V02DRSK  = 'Rischi cedente'
+c                   when          RFTRSK = 'D'
+c                   eval      V02DRSK  = 'Rischi debitore'
+c                   endsl
+c                   eval      V02DRSK£ = x'26'
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in30 =     V02CRSK = *blank
+c                   eval      *in32 =     V02TPVA <> '1'
+ *
+c                   write(e)  V02S
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V02MaxNRR = V02NRR
+c                   endif
+ *
+c                   endif
+ * Scrittura riga divisoria (END)
+ * Scrittura riga dati (START)
+c                   clear                   V02S
+ *
+c                   eval      V02NRR = £V02MaxNRR + 1
+ *
+c                   eval      V02DRSK  = %trim(%editc(RFCLAR:'Z')) +
+c                             '.'
+c                   eval      %subst(V02DRSK:4:1) = x'20'
+c                   if            $Entry_CdFid <> *blank
+ *                  eval      RFCRSK = Già impostato
+c                   eval      RFCODF = $Entry_CdFid
+c     Key_RSKFI2    chain     RSKFI21L
+c                   if            %found(RSKFI21L)
+c                   eval      %subst(V02DRSK:4:1) = x'28'
+c                   endif
+c                   endif
+c                   eval      %subst(V02DRSK:5:50) = RFDRSK
+c                   eval      V02DRSK£ = x'22'
+c                   eval      V02CRSK  = RFCRSK
+c                   eval      V02TRSK  = RFTRSK
+c                   eval      V02CLAR  = RFCLAR
+c                   eval      V02TPVA  = RFTPVA
+c                   eval      V02PPND  = RFPPND
+c                   if            V01OPE = '2'
+c                             or  V01OPE = '3'
+c                             or  V01OPE = '4'
+c                   eval      DF2_DFORDE = V02ORDE
+c                   eval      DF2_DFCRSK = V02CRSK
+c     Key_DLBFI2    chain     DLBFI21L
+c                   if            %found(DLBFI21L)
+c                   eval      V02VALO = DF2_DFVALO
+c                   eval      V02VALOH = DF2_DFVALO
+c                   endif
+c                   endif
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in30 =     V02CRSK = *blank
+c                   eval      *in32 =     V02TPVA <> '1'
+ *
+c                   write(e)  V02S
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V02MaxNRR = V02NRR
+c                   endif
+ * Scrittura riga dati (END)
+c                   eval      £ExRFTRSK = RFTRSK
+c                   endif
+c                   enddo
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('P':£VxxPrepare) >= 1
+ *
+c                   clear                   V02P
+ *
+c                   endif
+ * Caricamento subfile (END)
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V02Check
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione video02
+c     V02Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/02'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   select
+c                   when          V01OPE = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   when          V01OPE = '2'
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU <> 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(5)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(5))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU = 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(6)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(6))
+c                   when          V01OPE = '4'
+c                   eval      £LenTitle = %len(%trim(£Text(7)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(7))
+c                   endsl
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in08 =     DFF_DFANNU = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in11 = *on
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ *
+c                   eval      V02SRN = £V02SaveSRN
+c                   if            £Error
+c                             and £ErrorNRR > 0
+c                   eval      V02SRN = £ErrorNRR
+c                   endif
+c                   if            V02SRN <= 0
+c                             or  V02SRN > £V02MaxNRR
+c                   eval      V02SRN = 1
+c                   endif
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   write     V02T
+c                   write     V02C
+c                   write     V02P
+c                   read      V02T
+c                   read      V02C
+c                   read      V02P
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V02FunctKey = $FunctKey
+c                   eval      £ErrorNRR = 0
+c                   if            $1RecOfPag <> 0
+c                   eval      £V02SaveSRN = $1RecOfPag
+c                   endif
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati video02
+c     V02Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £NumImporti = 0
+c                   eval      £ExV02TRSK = *loval
+c                   eval      £ExV02CLAR = *loval
+c                   eval      £ExV02VALO = *loval
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+c                   eval      *in23 = *off
+c                   eval      *in24 = *off
+c                   eval      *in25 = *off
+c                   eval      *in26 = *off
+c                   eval      *in27 = *off
+ *
+c                   if            V01OPE <> '4'
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Codice Organo deliberante (START)
+c                   if            V01OPE = '1'                              Se Inserimento
+c                             and V02ORDE = *blank                           e non Codice organo deliberante
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0006'                             errore SYS0006
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ *
+c                   if            V01OPE = '1'                              Se Inserimento
+c     V02ORDE       chain(n)  DLBFID6L                                         legge DLBFID6L
+c                   if            %found(DLBFID6L)                          Se Trovato
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0061'                             errore SYS0061
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+c                   endif
+ * Check: Codice Organo deliberante (END)
+ * Check: Descrizione Organo deliberante non valorizzata (START)
+c                   if            V02DESC = *blank                          Se non Descrizione
+c                             and V02DES2 = *blank
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0006'                             errore SYS0006
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ * Check: Descrizione Organo deliberante non valorizzata (END)
+ * Check: Descrizione ridotta Organo deliberante non valorizzata (START)
+c                   if            V02RSR = *blank                           Se non Descrizione ridotta
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0006'                             errore SYS0006
+c                   exsr      ErrorAdd
+c                   eval      *in23 = *on
+c                   endif
+c                   endif
+ * Check: Descrizione ridotta Organo deliberante non valorizzata (END)
+ * Check: Validità data decorrenza (START)
+c                   clear                   £Date
+c                   eval      £UserDate = V02DTDEC                          Se Data Decorrenza
+c                   exsr      CheckDate
+c                   if            £DateError                                   errata
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0095'                             errore SYS0095
+c                   exsr      ErrorAdd
+c                   eval      *in24 = *on
+c                   endif
+c                   endif
+ * Check: Validità data decorrenza (END)
+ * Check: Valore massimale fido non valido (START)
+c                   if            V02MXFI < 0                               Se Valore massimale fido < 0
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in25 = *on
+c                   endif
+c                   endif
+ * Check: Valore massimale fido non valido (END)
+ * Check: Valore massimale fido non immesso (START)
+c                   if            V02MXFI = 0                               Se Valore massimale fido = 0
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS7450'                             errore SYS7450
+c                   exsr      ErrorAdd
+c                   eval      *in25 = *on
+c                   endif
+c                   endif
+ * Check: Valore massimale fido non immesso (END)
+ * Search: Divisa (START)
+c                   if            £V02FunctKey = $_Cmd04                    Se F4=Ricerca
+c                             and %subst(V02CRCD:1:3) = 'V02'
+c                             and V02CFLD = 'V02DIV'
+c                   clear                   TRA120_
+c                   eval      TRA120_PTSOC = 'BRC220/F1 '
+c                   eval      TRA120_PTKEYP = 'DIV'
+c                   call      'TRA120'      PL_TRA120                       chiama TRA120
+c                   if            TRA120_PTFLAG <> '1'
+c                   move      TRA120_PTKEYT V02DIV
+c                   endif
+c                   eval      £Refresh = *on
+c                   endif
+ * Search: Divisa (END)
+ * Check: Divisa (START)
+c                   eval      V02DSGL = *blank
+ *
+c                   eval      MTKEYA = 'DIV'
+c                   eval      MTKEYB = *all'0'
+c                   move      V02DIV        MTKEYB
+c     Key_MST001    chain     MST0011L                                      legge Mst0011L/DIV/V02DIV
+c                   if            %found(MST0011L)
+c                             and MTFLAG <> 'A'
+c                   evalr     DIV = MTDESC
+c                   else                                                    se non trovato o annullato
+c                   clear                   DIV
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0647'                             errore SYS0647
+c                   exsr      ErrorAdd
+c                   eval      *in35 = *on
+c                   endif
+c                   endif
+c                   eval      V02DSGL = DIVSGL
+ * Check: Divisa (END)
+ * Check: Validità divisa (START)
+c                   if            DIVDCL > 0                                Se Data_cessazione_Corso_Legale
+c                             and *DATE > DIVDCL                               è stata raggiunta
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS1736'                             errore SYS1736
+c                   exsr      ErrorAdd
+c                   eval      *in35 = *on
+c                   endif
+c                   endif
+ * Check: Validità divisa (END)
+ * Check: Riutilizzo risci cedente (START)
+c                   if            V02RIUC <> 'S'                            Se Riutilizzo rischi Cedenti non 'S' e non 'N'
+c                             and V02RIUC <> 'N'
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in26 = *on
+c                   endif
+c                   endif
+ * Check: Riutilizzo risci cedente (END)
+ * Check: Riutilizzo risci debitore (START)
+c                   if            V02RIUD <> 'S'                            Se Riutilizzo rischi Debitori non 'S' e non 'N'
+c                             and V02RIUD <> 'N'
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in27 = *on
+c                   endif
+c                   endif
+ * Check: Riutilizzo risci debitore (END)
+c                   if            £V02MaxNRR > 0
+c                   for       V02NRR = 1 to £V02MaxNRR                      per tutte le voci del SubFile
+c     V02NRR        chain     V02S
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      *in31 = *off
+c                   endif
+ *
+c                   eval      £LastRecord = V02NRR
+ * Check: Valore come importo fido (START)
+c                   if            V02TPVA = '1'                             Se da RSKFID/Sts Tipo valore: 1=Importo fido, 2=Percentuale copertura
+ *
+c                   if            V02MAX <> *blank                          Se "Max" valorizzato
+c                             or  (    *in55                                 oppure "sono state fatte modifiche nelle righe da 4 a 9"
+c                                  and V02PPND <> 0)                              e RSKFID/Pct Perc. ponderazione <> 0
+c                   if            V02MAX <> *blank                          Se "Max" valorizzato
+c                             and V02PPND = 0                                e RSKFID/Pct Perc. ponderazione = 0
+c                   eval(rh)  V02VALO = V02MXFI                                "fino a" = Valore massimale fido
+c                   else                                                     altrimenti
+c                   eval(rh)  V02VALO = %int((V02MXFI * V02PPND / 100          "fino a" = %ParteIntera( ( V02MXFI * V02PPND / 100 + 9000 ) / 10000 ) * 10000 e poi riarrotondato
+c                                     + 9000) / 10000) * 10000
+c                   endif
+c                   if            V02VALO > V02MXFI                         Se troppo grande ...
+c                   eval      V02VALO = V02MXFI
+c                   endif
+c                   eval      V02MAX = *blank
+c                   eval      £Refresh = *on
+c                   endif
+ *
+c                   if            V02VALO > V02MXFI                         Se "fino a" > Valore massimale fido
+c                             or  V02VALO < 0                                           o negativo
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V02NRR
+c                   endif
+c                   endif
+c                   endif
+ *
+c                   endif
+ * Check: Valore come importo fido (END)
+ * Check: Valore come percentuale di copertura (START)
+c                   if            V02TPVA = '2'                             Se da RSKFID/Sts Tipo valore: 2=Percentuale copertura
+ *
+c                   if            V02VALO < 0                               Se "fino a" negativo
+c                             or  V02VALO > 100                              o > 100
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V02NRR
+c                   endif
+c                   endif
+c                   endif
+ *
+c                   endif
+ * Check: Valore come percentuale di copertura (END)
+ * Check: Valore uguale a prec. se classe di rischio uguale a prec. (START)
+c                   if            (    (    V02TRSK = 'C'                   Se Tipo Rischio Fidi C
+c                                       and V02RIUC = 'S')                   e Riutilizzo rischi Cedenti S
+c                                  or  (    V02TRSK = 'D'                      o Tipo Rischio Fidi D
+c                                       and V02RIUD = 'S'))                    e Riutilizzo rischi Debitori S
+c                             and V02CLAR = £ExV02CLAR                       e RSKFID/Num Classe Rischio Fidi è uguale
+c                             and V02TRSK = £ExV02TRSK                       e Tipo Rischio Fidi è uguale
+c                             and V02VALO <> £ExV02VALO                      e "fino a" è diverso
+c                             and £ExV02CLAR <> *loval
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS7610'                             errore SYS7610 99 In caso di riutilizzo, a parità di classe di rischio il valore deve essere uguale.
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V02NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Valore uguale a prec. se classe di rischio uguale a prec. (END)
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in30 =     V02CRSK = *blank
+c                   eval      *in32 =     V02TPVA <> '1'
+ *
+c                   update    V02S
+ *
+c                   if            V02VALO <> 0
+c                             and V02TPVA = '1'
+c                   eval      £NumImporti = £NumImporti + 1
+c                   endif
+ *
+c                   eval      £ExV02TRSK = V02TRSK
+c                   eval      £ExV02CLAR = V02CLAR
+c                   eval      £ExV02VALO = V02VALO
+c                   endfor
+c                   endif
+ * Check: Inserire almeno un importo (START)
+c                   if            £NumImporti = 0                           Se nessun importo "fino a"
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7442'                             errore SYS7442
+c                   exsr      ErrorAdd
+c                   endif
+c                   endif
+ * Check: Inserire almeno un importo (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   endif
+ *
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £PrimoGiro = *off
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione video02
+c     V02Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   endsr
+ **************************************************************************
+ *  Gestione video altri poteri
+c     Video03       begsr
+ *
+c                   movea     *in           £V03SaveInd
+c                   movea     £V03Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video03'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V03Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V03Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V03FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V03FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video02'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V03FunctKey = $_Cmd03
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V03FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V03FunctKey = $_Cmd24
+c                   eval      £VxxExExecute = £VxxExecute
+c                   eval      £VxxExecute = 'PgmTRA158'
+c                   exsr      PgmBRC222
+c                   eval      £VxxExecute = 'Video03'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V03FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V03Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V03FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V03FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V03FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V03Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V03FunctKey = $_Cmd11
+c                   eval      £VxxExecute = 'Video05'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V03FunctKey = $_Enter
+c                   eval      £VxxExecute = 'Video05'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V03Ind
+c                   movea     £V03SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video03
+c     V03Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V03FunctKey = $_Null
+c                   eval      £PrimoGiro = *on
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+ *
+c                   clear                   V03
+ *
+c                   eval      V03ORDE  = V02ORDE
+c                   eval      V03DTDEC = V02DTDEC
+c                   eval      V03DESC  = V02DESC
+c                   eval      V03DES2  = V02DES2
+c                   eval      V03RSR   = V02RSR
+c                   eval      V03MXFI  = V02MXFI
+c                   eval      V03DIV   = V02DIV
+c                   eval      V03DSGL  = V02DSGL
+c                   eval      V03RIUC  = V02RIUC
+c                   eval      V03RIUD  = V02RIUD
+ *
+c                   if            V01OPE = '2'                              Modifica
+c                             or  V01OPE = '3'                              Annullamento/Ripristino
+c                             or  V01OPE = '4'                              Visualizzazione
+ * Impostazioni per Modifica/Interrogazione (START)
+ *                  Record già letto in V02Prepare
+c                   eval      V03MXLS  = DFF_DFMXLS
+c                   eval      V03MXDS  = DFF_DFMXDS
+c                   eval      V03MXPS  = DFF_DFMXPS
+c                   eval      V03MSDT  = DFF_DFMSDT
+c                   eval      V03MSDS  = DFF_DFMSDS
+c                   eval      V03NEWC  = DFF_DFNEWC
+ * Impostazioni per Modifica/Interrogazione (END)
+c                   else
+ * Impostazioni per Inserimento (START)
+c                   eval      V03NEWC = 'N'
+ * Impostazioni per Inserimento (END)
+c                   endif
+ *
+c                   endif
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V03check
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video03
+c     V03Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/03'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   select
+c                   when          V01OPE = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   when          V01OPE = '2'
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU <> 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(5)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(5))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU = 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(6)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(6))
+c                   when          V01OPE = '4'
+c                   eval      £LenTitle = %len(%trim(£Text(7)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(7))
+c                   endsl
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in08 =     DFF_DFANNU = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   exfmt     V03
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V03FunctKey = $FunctKey
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ *
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video03
+c     V03Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+c                   eval      *in23 = *off
+c                   eval      *in24 = *off
+c                   eval      *in25 = *off
+ *
+c                   if            V01OPE <> '4'                             Se non Visualizzazione
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Valore limite massimo sconfino (START)
+c                   if            V03MAX1 <> *blank
+c                   eval      V03MXLS = V02MXFI
+c                   eval      V03MAX1 = *blank
+c                   eval      £Refresh = *on
+c                   endif
+ *
+c                   if            V03MXLS > V02MXFI                         Se Valore_limite_max_sconfino > Valore_massimale_fido
+c                             or  V03MXLS < 0                                o negativo
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ * Check: Valore limite massimo sconfino (END)
+ * Check: Numero giorni durata massimo sconfino (START)
+c                   if            V03MXDS < 0                               Se Numero_giorni_durata_max_sconfino < 0
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ * Check: Numero giorni durata massimo sconfino (END)
+ * Check: Percentuale sconfino per op.ni autoliquidanti (START)
+c                   if            V03MXPS > 100                             Se %_sconfino_per_op.ni_non_autoliquidanti
+c                             or  V03MXPS < 0                                  errata
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in23 = *on
+c                   endif
+c                   endif
+ * Check: Percentuale sconfino per op.ni autoliquidanti (END)
+ * Check: Percentuale sconfino per op.ni smobilizzo cred. deb.terzi (START)
+c                   if            V03MSDT > 100                             Se %_sconfino_per_op.ni_smobilizzo_crediti_verso_deb.terzi
+c                             or  V03MSDT < 0                                  errata
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in24 = *on
+c                   endif
+c                   endif
+ * Check: Percentuale sconfino per op.ni smobilizzo cred. deb.terzi (END)
+ * Check: Percentuale sconfino per op.ni smobilizzo cred. deb.soci (START)
+c                   if            V03MSDS > 100                             Se %_sconfino_per_op.ni_smobilizzo_crediti_verso_deb.soci
+c                             or  V03MSDS < 0                                  errata
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in25 = *on
+c                   endif
+c                   endif
+ * Check: Percentuale sconfino per op.ni smobilizzo cred. deb.soci (END)
+ * Check: Nuova clientela (START)
+c                   if            V03NEWC <> 'S'                            Se Nuova_clientela <> 'S'/'N'
+c                             and V03NEWC <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in26 = *on
+c                   endif
+c                   endif
+ * Check: Nuova clientela (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   endif
+ *
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £PrimoGiro = *off
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video03
+c     V03Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   endsr
+ **************************************************************************
+ *  Gestione video esclusioni
+c     Video04       begsr
+ *
+c                   movea     *in           £V04SaveInd
+c                   movea     £V04Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video04'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V04Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V04Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V04FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V04FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video05'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V04FunctKey = $_Cmd03
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V04FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V04FunctKey = $_Cmd24
+c                   eval      £VxxExExecute = £VxxExecute
+c                   eval      £VxxExecute = 'PgmTRA158'
+c                   exsr      PgmBRC222
+c                   eval      £VxxExecute = 'Video04'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V04FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V04Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V04FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V04FunctKey = $_Cmd03
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V04FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V04FunctKey = $_Enter
+c                             and $Entry_Op = '4'
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V04FunctKey = $_Enter
+c                             and V01OPE = '4'
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V04Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V04FunctKey = $_Cmd03
+c                             and V01OPE = '1'
+c                   eval      £VxxExecute = 'Video02'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V04FunctKey = $_Cmd03
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V04FunctKey = $_Cmd11
+c                             and V01OPE = '1'
+c                   eval      £VxxExecute = 'Video02'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V04FunctKey = $_Cmd11
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V04Ind
+c                   movea     £V04SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video04
+c     V04Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V04FunctKey = $_Null
+c                   eval      £PrimoGiro = *on
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+ *
+c                   clear                   V04
+ *
+c                   eval      V04ORDE  = V02ORDE
+c                   eval      V04DTDEC = V02DTDEC
+c                   eval      V04DESC  = V02DESC
+c                   eval      V04DES2  = V02DES2
+c                   eval      V04RSR   = V02RSR
+c                   eval      V04MXFI  = V02MXFI
+c                   eval      V04DIV   = V02DIV
+c                   eval      V04DSGL  = V02DSGL
+c                   eval      V04RIUC  = V02RIUC
+c                   eval      V04RIUD  = V02RIUD
+ *
+c                   if            V01OPE = '2'                              Modifica
+c                             or  V01OPE = '3'                              Annullamento/Ripristino
+c                             or  V01OPE = '4'                              Visualizzazione
+ * Impostazioni per Modifica/Interrogazione (START)
+ *                  Record già letto in V02Prepare
+c                   eval      V04FCES  = DFF_DFFCES
+c                   eval      V04FCEP  = DFF_DFFCEP
+c                   eval      V04FCOP  = DFF_DFFCOP
+c                   eval      V04FCOM  = DFF_DFFCOM
+c                   eval      V04FCLF  = DFF_DFFCLF
+c                   eval      V04FCGR  = DFF_DFFCGR
+c                   eval      V04FDBE  = DFF_DFFDBE
+ * Impostazioni per Modifica/Interrogazione (END)
+c                   else
+ * Impostazioni per Inserimento (START)
+c                   eval      V04FCES  = 'S'
+c                   eval      V04FCEP  = 'S'
+c                   eval      V04FCOP  = 'S'
+c                   eval      V04FCOM  = 'S'
+c                   eval      V04FCLF  = 'S'
+c                   eval      V04FCGR  = 'S'
+c                   eval      V04FDBE  = 'S'
+ * Impostazioni per Inserimento (END)
+c                   endif
+ *
+c                   endif
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V04check
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video04
+c     V04Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/04'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   select
+c                   when          V01OPE = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   when          V01OPE = '2'
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU <> 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(5)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(5))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU = 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(6)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(6))
+c                   when          V01OPE = '4'
+c                   eval      £LenTitle = %len(%trim(£Text(7)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(7))
+c                   endsl
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in08 =     DFF_DFANNU = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   exfmt     V04
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V04FunctKey = $FunctKey
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video04
+c     V04Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+c                   eval      *in23 = *off
+c                   eval      *in24 = *off
+c                   eval      *in25 = *off
+c                   eval      *in26 = *off
+c                   eval      *in27 = *off
+ *
+c                   if            V01OPE <> '4'                             Visualizzazione
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Abil. fidi cedente per: Cedenti esteri (START)
+c                   if            V04FCES <> 'S'                            Se Cedenti_esteri <> 'S'/'N'
+c                             and V04FCES <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Cedenti esteri (END)
+ * Check: Abil. fidi cedente per: Cedenti enti publici (START)
+c                   if            V04FCEP <> 'S'                            Se Cedenti_enti_pubblici <> 'S'/'N'
+c                             and V04FCEP <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Cedenti enti publici (END)
+ * Check: Abil. fidi cedente per: Operazioni in pool (START)
+c                   if            V04FCOP <> 'S'                            Se Operazioni_in_pool <> 'S'/'N'
+c                             and V04FCOP <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in23 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Operazioni in pool (END)
+ * Check: Abil. fidi cedente per: Operazioni maturity (START)
+c                   if            V04FCOM <> 'S'                            Se Operazioni_maturity <> 'S'/'N'
+c                             and V04FCOM <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in24 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Operazioni maturity (END)
+ * Check: Abil. fidi cedente per: Locazioni finanziarie (START)
+c                   if            V04FCLF <> 'S'                            Se Locazioni_finanziarie <> 'S'/'N'
+c                             and V04FCLF <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in25 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Locazioni finanziarie (END)
+ * Check: Abil. fidi cedente per: Cedenti appartenenti a gruppo (START)
+c                   if            V04FCGR <> 'S'                            Se Cedenti_appart._a_gruppo <> 'S'/'N'
+c                             and V04FCGR <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in26 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Cedenti appartenenti a gruppo (END)
+ * Check: Abil. fidi debitore per: Debitori esteri (START)
+c                   if            V04FDBE <> 'S'                            Se Debitori_esteri <> 'S'/'N'
+c                             and V04FDBE <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in27 = *on
+c                   endif
+c                   endif
+ * Check: Abil. fidi cedente per: Debitori esteri (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   endif
+ *
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £PrimoGiro = *off
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video04
+c     V04Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      £JobDate = *date
+c                   time                    £JobTime
+ * Cancellazione (START) --------------------------------------------------
+c                   if            V01OPE = '3'                              Annullamento/Ripristino
+ *
+c                   clear                   £STORDE
+c                   eval      £STORDE1 = £DLBFID1
+c                   eval      £STORDEx = £DLBFIDx
+c                   eval      £STORDE2 = £DLBFID2
+ *
+c                   if            DFF_DFANNU <> 'A'                         Se non era annullato
+c                   eval      DFF_DFANNU = 'A'                                 lo annulla
+c                   else                                                    altrimenti
+c                   eval      DFF_DFANNU = 'V'                                 lo ripristina
+c                   endif
+c                   eval      DFF_DFNAZI = $Entry_KNRAZ
+c                   eval      DFF_DFUUPD = $Entry_KNMUS
+c                   eval      DFF_DFDUPD = £JobDate
+c                   update    DLBFID1R                                      <<
+ *
+c                   if            £DLBFID1 <> £STORDE1                      Se Poteri_Organi_deliberanti_fidi:_Testata
+c                             or  £DLBFID2 <> £STORDE2                         <> Storico_Organi_deliberanti_fido, pezzetto per pezzetto...
+c                   eval      D$F_DZ$AZN = $Entry_KNRAZ
+c                   eval      D$F_DZ$USI = $Entry_KNMUS
+c                   eval      D$F_DZ$DIN = £JobDate
+c                   eval      D$F_DZ$TIN = £JobTime
+c                   write     STORDE1R                                      <<
+c                   endif
+ *
+c     V02ORDE       setll     DLBFI21L
+c                   dou           %eof(DLBFI21L)
+c     V02ORDE       reade     DLBFI21L                                      legge tutto DlbFi2 con Cde_Organo_Deliberante
+c                   if            not %eof(DLBFI21L)
+ *
+c                   clear                   £STORD2
+c                   eval      £STORD21 = £DLBFI21                           valorizza STORD2, pezzetto per pezzetto...
+c                   eval      £STORD2x = £DLBFI2x
+c                   eval      £STORD22 = £DLBFI22
+c                   eval      D$2_DZ$AZN = $Entry_KNRAZ
+c                   eval      D$2_DZ$USI = $Entry_KNMUS
+c                   eval      D$2_DZ$DIN = £JobDate
+c                   eval      D$2_DZ$TIN = £JobTime
+c                   write     STORD21R                                      <<
+ *
+c                   eval      DF2_DFNAZI = DFF_DFNAZI                       [omissis]
+c                   eval      DF2_DFUUPD = DFF_DFUUPD                       *Utente
+c                   eval      DF2_DFDUPD = DFF_DFDUPD                       *Oggi
+c                   eval      DF2_DFANNU = DFF_DFANNU                       V-alido/A-nnullato
+c                   update    DLBFI21R                                      <<
+ *
+c                   endif
+c                   enddo
+ *
+c                   endif
+ * Cancellazione (END) ----------------------------------------------------
+ * Inserimento/Variazione (START) -----------------------------------------
+c                   if            V01OPE = '1'                              Inserimento
+c                             or  V01OPE = '2'                              Modifica
+ * Aggiornamento DLBFI2 (START)
+c                   eval      £UpdtDetail = *off
+ *
+c                   for       V02NRR = 1 to £LastRecord                     per ogni voce del SubFile
+c     V02NRR        chain     V02S
+ *
+c                   if            V02VALO <> 0                              valida
+c                             or  V02VALOH <> 0
+ *
+c                   eval      DF2_DFORDE = V02ORDE                          con Cde_Organo_Deliberante
+c                   eval      DF2_DFCRSK = V02CRSK                            e Cde_Rischio_Fidi
+c     Key_DLBFI2    chain     DLBFI21L                                      legge DlbFi2
+ *
+c                   if            %found(DLBFI21L)                          Se Trovato
+c                   clear                   £STORD2
+c                   eval      £STORD21 = £DLBFI21
+c                   eval      £STORD2x = £DLBFI2x
+c                   eval      £STORD22 = £DLBFI22
+c                   eval      D$2_DZ$AZN = $Entry_KNRAZ
+c                   eval      D$2_DZ$USI = $Entry_KNMUS
+c                   eval      D$2_DZ$DIN = £JobDate
+c                   eval      D$2_DZ$TIN = £JobTime
+c                   write     STORD21R                                      <<
+c                   endif
+ *
+c                   select
+c                   when          not %found(DLBFI21L)                      Se non Trovato
+c                   clear                   DLBFI21R
+c                   eval      DF2_DFANNU = 'V'                                 valorizza
+c                   eval      DF2_DFNAZI = $Entry_KNRAZ
+c                   eval      DF2_DFUINS = $Entry_KNMUS
+c                   eval      DF2_DFDINS = £JobDate
+c                   when          V02VALO = 0                               Se Trovato e Voce_Non_Più_Valida
+c                             and V02VALOH <> 0
+c                             and %found(DLBFI21L)
+c                   eval      DF2_DFANNU = 'A'                                 Annulla
+c                   eval      DF2_DFNAZI = $Entry_KNRAZ
+c                   eval      DF2_DFUUPD = $Entry_KNMUS
+c                   eval      DF2_DFDUPD = £JobDate
+c                   other                                                   Se Trovato e Voce_Valida
+c                   eval      DF2_DFNAZI = $Entry_KNRAZ
+c                   eval      DF2_DFUUPD = $Entry_KNMUS
+c                   eval      DF2_DFDUPD = £JobDate                            valorizza
+c                   endsl
+ *
+c                   if            DF2_DFANNU <> 'A'                         Se non annullato
+ *
+c                   eval      DF2_DFORDE = V02ORDE                             valorizza Cde_Organo_Deliberante
+c                   eval      DF2_DFCRSK = V02CRSK                                       Cde_Rischio_Fidi
+c                   eval      DF2_DFVALO = V02VALO                                       Importo/Percent._max_rischio
+ *
+c                   endif
+ *
+c                   if            not %found(DLBFI21L)                      Se Non Trovato
+c                   write     DLBFI21R                                         Write
+c                   else                                                    Altrimenti
+c                   if            DF2_DFANNU <> 'A'                            Se Non Annullato
+c                   update    DLBFI21R                                            Update
+c                   else                                                       Altrimenti
+c                   delete    DLBFI21R                                            Delete
+c                   endif
+c                   endif
+c                   eval      £UpdtDetail = *on
+ *
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in30 =     V02CRSK = *blank
+c                   eval      *in32 =     V02TPVA <> '1'
+ *
+c                   update    V02S
+ *
+c                   endif
+ *
+c                   endfor
+ * Aggiornamento DLBFI2 (END)
+ * Aggiornamento DLBFID (START)
+c                   if            not %found(DLBFID6L)                      Se Non Trovato DlbFid
+c                   clear                   DLBFID1R                           inizializza DlbFid
+c                   else                                                    Altrimenti
+c                   clear                   £STORDE                            valorizza StOrDe
+c                   eval      £STORDE1 = £DLBFID1
+c                   eval      £STORDEx = £DLBFIDx
+c                   eval      £STORDE2 = £DLBFID2
+c                   endif
+ *
+c                   eval      DFF_DFTREC = 'DBF'                            valorizza
+c                   eval      DFF_DFANNU = 'V'
+c                   eval      DFF_DFNAZI = $Entry_KNRAZ
+c                   if             not %found(DLBFID6L)                     Se non trovato
+c                   eval      DFF_DFUINS = $Entry_KNMUS                        Inserimento
+c                   eval      DFF_DFDINS = £JobDate
+c                   else                                                    oppure
+c                   eval      DFF_DFUUPD = $Entry_KNMUS                        Aggiornamento
+c                   eval      DFF_DFDUPD = £JobDate
+c                   endif
+ *
+c                   eval      DFF_DFORDE = V02ORDE
+c                   eval      £UserDate = V02DTDEC
+c                   eval      DFF_DFSECO = £UDSs
+c                   eval      DFF_DFANNO = £UDAa
+c                   eval      DFF_DFMESE = £UDMm
+c                   eval      DFF_DFGIOR = £UDGg
+c                   eval      DFF_DFDESC = V02DESC
+c                   eval      DFF_DFDES2 = V02DES2
+c                   eval      DFF_DFRSR  = V02RSR
+c                   eval      DFF_DFMXFI = V02MXFI
+c                   eval(h)   DFF_DFLIMI = V02MXFI / 1000
+c                   eval      DFF_DFDIV  = V02DIV
+c                   eval      DFF_DFRIUC = V02RIUC
+c                   eval      DFF_DFRIUD = V02RIUD
+c                   eval      DFF_DFMXLS = V03MXLS
+c                   eval      DFF_DFMXDS = V03MXDS
+c                   eval      DFF_DFMXPS = V03MXPS
+c                   eval      DFF_DFMSDT = V03MSDT
+c                   eval      DFF_DFMSDS = V03MSDS
+c                   eval      DFF_DFNEWC = V03NEWC
+c                   eval      DFF_DFFCES = V04FCES
+c                   eval      DFF_DFFCEP = V04FCEP
+c                   eval      DFF_DFFCOP = V04FCOP
+c                   eval      DFF_DFFCOM = V04FCOM
+c                   eval      DFF_DFFCLF = V04FCLF
+c                   eval      DFF_DFFCGR = V04FCGR
+c                   eval      DFF_DFFDBE = V04FDBE
+c                   eval      DFF_DFLSFD = V05LSFD
+c                   eval      DFF_DFPSFD = V05PSFD
+c                   eval      DFF_DFNEWD = V05NEWD
+ *
+c                   if            not %found(DLBFID6L)                      Se non trovato
+c                   write     DLBFID1R                                         <<
+c                   else                                                    Altrimenti
+c                   update    DLBFID1R                                         <<
+c                   if            £DLBFID1 <> £STORDE1                         Se "è_cambiato_qualcosa"
+c                             or  £DLBFID2 <> £STORDE2
+c                             or  £UpdtDetail
+c                   eval      D$F_DZ$AZN = $Entry_KNRAZ
+c                   eval      D$F_DZ$USI = $Entry_KNMUS
+c                   eval      D$F_DZ$DIN = £JobDate
+c                   eval      D$F_DZ$TIN = £JobTime
+c                   write     STORDE1R                                            Write StOrDe
+c                   endif
+c                   endif
+ * Aggiornamento DLBFID (END)
+c                   endif
+ * Inserimento/Variazione (END) -------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Gestione video altri poteri
+c     Video05       begsr
+ *
+c                   movea     *in           £V05SaveInd
+c                   movea     £V05Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video05'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V05Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V05Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V05FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V05FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video03'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V05FunctKey = $_Cmd03
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V05FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V05FunctKey = $_Cmd24
+c                   eval      £VxxExExecute = £VxxExecute
+c                   eval      £VxxExecute = 'PgmTRA158'
+c                   exsr      PgmBRC222
+c                   eval      £VxxExecute = 'Video05'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V05FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V05Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V05FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V05FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V05FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V05Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V05FunctKey = $_Cmd11
+c                   eval      £VxxExecute = 'Video04'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V05FunctKey = $_Enter
+c                   eval      £VxxExecute = 'Video04'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V05Ind
+c                   movea     £V05SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video05
+c     V05Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V05FunctKey = $_Null
+c                   eval      £PrimoGiro = *on
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+ *
+c                   clear                   V05
+ *
+c                   eval      V05ORDE  = V02ORDE
+c                   eval      V05DTDEC = V02DTDEC
+c                   eval      V05DESC  = V02DESC
+c                   eval      V05DES2  = V02DES2
+c                   eval      V05RSR   = V02RSR
+c                   eval      V05MXFI  = V02MXFI
+c                   eval      V05DIV   = V02DIV
+c                   eval      V05DSGL  = V02DSGL
+c                   eval      V05RIUC  = V02RIUC
+c                   eval      V05RIUD  = V02RIUD
+ *
+c                   if            V01OPE = '2'                              Modifica
+c                             or  V01OPE = '3'                              Annullamento/Ripristino
+c                             or  V01OPE = '4'                              Visualizzazione
+ * Impostazioni per Modifica/Interrogazione (START)
+ *                  Record già letto in V02Prepare
+c                   eval      V05LSFD  = DFF_DFLSFD
+c                   eval      V05NEWD  = DFF_DFNEWD
+c                   eval      V05PSFD  = DFF_DFPSFD
+ * Impostazioni per Modifica/Interrogazione (END)
+c                   else
+ * Impostazioni per Inserimento (START)
+c                   eval      V05NEWD = 'N'
+ * Impostazioni per Inserimento (END)
+c                   endif
+ *
+c                   endif
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V05check
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video05
+c     V05Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/05'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   select
+c                   when          V01OPE = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   when          V01OPE = '2'
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU <> 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(5)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(5))
+c                   when          V01OPE = '3'
+c                             and DFF_DFANNU = 'A'
+c                   eval      £LenTitle = %len(%trim(£Text(6)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(6))
+c                   when          V01OPE = '4'
+c                   eval      £LenTitle = %len(%trim(£Text(7)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(7))
+c                   endsl
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      *in01 =     V01OPE = '1'
+c                   eval      *in02 =     V01OPE = '2'
+c                   eval      *in03 =     V01OPE = '3'
+c                   eval      *in04 =     V01OPE = '4'
+c                   eval      *in08 =     DFF_DFANNU = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   exfmt     V05
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V05FunctKey = $FunctKey
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video05
+c     V05Check      begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+c                   eval      *in23 = *off
+ *
+c                   if            V01OPE <> '4'
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Valore limite massimo sconfino (START)
+c                   if            V05MAX1 <> *blank                         Se "Max"
+c                   eval      V05LSFD = V02MXFI                                maxa "fino_a"
+c                   eval      V05MAX1 = *blank
+c                   eval      £Refresh = *on
+c                   endif
+ *
+c                   if            V05LSFD > V02MXFI                         Se Valore_limite_max_sconfino_per_fidi_debitore > Valore_massimale_fido
+c                             or  V05LSFD < 0                                o negativo
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ * Check: Valore limite massimo sconfino (END)
+ * Check: Percentuale sconfino per fidi debitore (START)
+c                   if            V05PSFD > 100                             Se %_sconfino_per_fidi_debitore
+c                             or  V05PSFD < 0                                  errata
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS2117'                             errore SYS2117
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ * Check: Percentuale sconfino per fidi debitore (END)
+ * Check: Nuova clientela (START)
+c                   if            V05NEWD <> 'S'                            Se Nuova_clientela <> 'S'/'N'
+c                             and V05NEWD <> 'N'
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in23 = *on
+c                   endif
+c                   endif
+ * Check: Nuova clientela (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   endif
+ *
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+c                   if            £VxxCheckMode <> 'DecodeOnly'
+c                   eval      £PrimoGiro = *off
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video05
+c     V05Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione dati storici (Pgm: BRC222)
+c     PgmBRC222     begsr
+ *
+c                   clear                   BRC222_
+c                   eval      BRC222_OrDel = V02ORDE
+c                   eval      BRC222_KPJBA = $Entry_KPJBA
+c                   eval      BRC222_KPJBU = BRC222_
+ *
+c                   call      'BRC222'      PL_BRC222                       chiama BRC222 Poteri Organi deliberanti fidi: Dati storici
+ *
+c                   eval      BRC222_ = BRC222_KPJBU
+ *
+c                   select
+c                   when          BRC222_Exit = '0'
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          BRC222_Exit = '1'
+c                   eval      £VxxExecute = £VxxExExecute
+c                   eval      £VxxOperation = 'Display'
+c                   when          BRC222_Exit = '2'
+c                   eval      £VxxExecute = £VxxExExecute
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di controllo data
+c     CheckDate     begsr
+ * Sistemo date utente (START) --------------------------------------------
+c                   select
+c                   when          £UserDate <> 0
+c                             and £User6Date = 0
+c                   eval      £6DGg = £UDGg
+c                   eval      £6DMm = £UDMm
+c                   eval      £6DAa = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   when          £User6Date <> 0
+c                             and £UserDate = 0
+c                   eval      £UDGg = £6DGg
+c                   eval      £UDMm = £6DMm
+c                   if        £6DAa < 80
+c                   eval      £UDAaaa = 2000 + £6DAa
+c                   else
+c                   eval      £UDAaaa = 1900 + £6DAa
+c                   endif
+c                   endsl
+ * Sistemo date utente (END) ----------------------------------------------
+ * Controllo data (START) -------------------------------------------------
+c                   clear                   STD012_
+c                   eval      STD012_SHDTIN = £UserDate
+c                   eval      STD012_SHFERD = '1'
+ *
+c                   call      'STD012'      PL_STD012
+ *
+c                   eval      £DateError = STD012_SHFERD = 'S'
+ * Controllo data (END) ---------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Utility di rotazione data
+c     RotateDate    begsr
+ * Sistemo date utente (START) --------------------------------------------
+c                   select
+c                   when          £UserDate <> 0
+c                             and £User6Date = 0
+c                   eval      £6DGg = £UDGg
+c                   eval      £6DMm = £UDMm
+c                   eval      £6DAa = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   when          £User6Date <> 0
+c                             and £UserDate = 0
+c                   eval      £UDGg = £6DGg
+c                   eval      £UDMm = £6DMm
+c                   if        £6DAa < 80
+c                   eval      £UDAaaa = 2000 + £6DAa
+c                   else
+c                   eval      £UDAaaa = 1900 + £6DAa
+c                   endif
+c                   endsl
+ * Sistemo date utente (END) ----------------------------------------------
+ * Ruota data (START) -----------------------------------------------------
+c                   clear                   STD012_
+c                   select
+c                   when          £UserDate <> 0
+c                             and £SystemDate = 0
+c                   eval      STD012_SHDTIN = £UserDate
+c                   eval      STD012_SHFERD = '1'
+c                   when          £SystemDate <> 0
+c                             and £UserDate = 0
+c                   eval      STD012_SHDTIN = £SystemDate
+c                   eval      STD012_SHFERD = '2'
+c                   other
+c                   leavesr
+c                   endsl
+ *
+c                   call      'STD012'      PL_STD012
+ *
+c                   select
+c                   when          £UserDate <> 0
+c                             and £SystemDate = 0
+c                   eval      £SystemDate = STD012_SHDTOU
+c                   when          £SystemDate <> 0
+c                             and £UserDate = 0
+c                   eval      £UserDate = STD012_SHDTOU
+c                   eval      £6DGg   = £UDGg
+c                   eval      £6DMm   = £UDMm
+c                   eval      £6DAa   = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   endsl
+ * Ruota data (END) -------------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Utility di aggiunta errori ad elenco
+c     ErrorAdd      begsr
+ *
+c                   if            £ErrIx < 30
+c                   eval      £ErrIx = £ErrIx + 1
+c                   eval      £ErrId(£ErrIx) = £ErrorId
+c                   eval      £ErrData(£ErrIx) = £ErrorData
+c                   endif
+c                   eval      £Error = *on
+ *
+c                   eval      £ErrorId = *blank
+c                   eval      £ErrorData = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di decodifica errori
+c     ErrorDecode   begsr
+ *
+c                   clear                   DCER01_
+c                   eval      DCER01_KPJBA = $Entry_KPJBA
+c                   movea     £ErrId        DCER01_ErrId
+c                   movea     £ErrData      DCER01_ErrDa
+ *
+c                   call      'DCER01'      PL_DCER01
+ *
+c                   eval      £Warning = DCER01_Level < 60
+ *
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_BRC221     plist
+c                   parm                    BRC221_KPJBA
+c     PL_BRC222     plist
+c                   parm                    BRC222_KPJBA
+c     PL_TRA120     plist
+c                   parm                    TRA120_PTSOC
+c                   parm                    TRA120_PTKEYP
+c                   parm                    TRA120_PTKEYT
+c                   parm                    TRA120_PTFLAG
+c     PL_DCER01     plist
+c                   parm                    DCER01_KPJBA
+c                   parm                    DCER01_ErrId
+c                   parm                    DCER01_ErrDa
+c                   parm                    DCER01_Level
+c     PL_STD012     plist
+c                   parm                    STD012_SHDTIN
+c                   parm                    STD012_SHDTOU
+c                   parm                    STD012_SHFERD
+ * Definizione chiavi -----------------------------------------------------
+c     Key_DLBFI2    klist
+c                   kfld                    DF2_DFORDE
+c                   kfld                    DF2_DFCRSK
+c     Key_MST001    klist
+c                   kfld                    MTKEYA
+c                   kfld                    MTKEYB
+c     Key_PARAM     klist
+c                   kfld                    PAKEYA
+c                   kfld                    PAKEYB
+c     Key_RSKFI2    klist
+c                   kfld                    RFCRSK
+c                   kfld                    RFCODF
+ *
+c                   endsr
+**   £Text
+POTERI ORGANI DELIBERANTI FIDI
+
+Inserimento
+Modifica
+Annullamento
+Ripristino
+Visualizzazione
+   .08.
+   .09.
+   .10.
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+                                                                                 4
+                                                                                 5
+          Funzione .................: B       1 Inserimento                      6
+                                              2 Modifica                         7
+                                              3 Annullamento/Ripristino          8
+                                              4 Visualizzazione                  9
+                                              5 Stampa                          10
+                                                                                11
+          Codice Organo deliberante : BB      (per stampa: ' ' = tutti)         12
+                                                                                13
+                                                                                14
+                                                                                15
+                                                                                16
+                                                                                17
+                                                                                18
+                                                                                19
+                                                                                20
+                                                                                21
+ _______________________________________________________________________________22
+ Cmd01 Fine                                      Cmd04 Ricerca                  23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1                                     BRC220/02          POTERI ORGANI DELIBERANTI FIDI          UUUUUU     GG/MM/AA
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2                                                                Visualizzazione                 SSSSSS     OO:MM:SS
+                                                                                 3
+ Codice organo deliberante:  BB                            A N N U L L A T O     4                                     Codice organo deliberante:  CA
+ Descrizione .............:  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  5                                     Descrizione .............:  CONS.DI AMM.NE
+                             BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  6
+ Descrizione ridotta .....:  BBBBBBBBBB                  Decorrenza: 99/99/9999  7                                     Descrizione ridotta .....:  CDA                         Decorrenza:  2/03/1995
+ Valore massimale fido ...:  99.999.999.999,99   Divisa: BBB OOOOO               8                                     Valore massimale fido ...:  99.999.999.999,00   Divisa: 242
+ Riutilizzo rischi .......:  Cedenti: B (S/N)    Debitori: B (S/N)               9                                     Riutilizzo rischi .......:  Cedenti: N (S/N)    Debitori: N (S/N)
+                                                                                10
+                Poteri in materia di delibera degli affidamenti                 11                                                    Poteri in materia di delibera degli affidamenti
+                                                       Max -------fino a------- 12                                                                                               -------fino a-------
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 13                                     Rischi cedente
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 14                                     1.  Finanziamento Straordinario                              99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 15                                     1.  Anticipo Ordini e Crediti Maturandi                      99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 16                                     1.  Prestiti - Mutui - Credito al consumo                    99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 17                                     2.  Anticipo Crediti Senza Notifica                          99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 18                                     3.  Anticipo su Crediti Notificati Pro-solvendo              99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 19                                     4.  Anticipo su Crediti Notificati Pro-soluto                99.999.999.999,00
+ OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO B  9.999.999.999.999,99 20                                     4.  Anticipo Crediti Notif.Prosolvendo Debit.Convenz.        99.999.999.999,00
+                                                                                21                                                                                                           Segue...
+ ______________________________________________________________________________ 22
+ Cmd01 Fine   Cmd02 Ritorno   Cmd11 Forza        Cmd04 Ricerca    Cmd24 Storico 23                                     Cmd01 Fine   Cmd02 Ritorno                                       Cmd24 Storico
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+ Codice organo deliberante:  OO                            A N N U L L A T O     4
+ Descrizione .............:  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  5
+                             OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  6
+ Descrizione ridotta .....:  OOOOOOOOOO                  Decorrenza: 66/66/6666  7
+ Valore massimale fido ...:  66.666.666.666,66   Divisa: OOO OOOOO               8
+ Riutilizzo rischi .......:  Cedenti: O (S/N)    Debitori: O (S/N)               9
+                                                                                10
+   Poteri temporanei urgenti e/o di utilizzi degli affidamenti - Fidi cedente   11
+                                                          Max ------fino a----- 12
+ Valore limite max sconfino ............................:  B  99.999.999.999,99 13
+ Numero giorni durata max sconfino .....................:     999               14
+ % sconfino per op.ni non autoliquidanti ...............:     999,99            15
+ % sconfino per op.ni smobilizzo crediti verso deb.terzi:     999,99            16
+ % sconfino per op.ni smobilizzo crediti verso deb.soci :     999,99            17
+ Nuova clientela .......................................:     B   (S/N)         18
+                                                                                19
+                                                                                20
+                                                                                21
+ ______________________________________________________________________________ 22
+ Cmd01 Fine   Cmd02 Ritorno   Cmd11 Forza                         Cmd24 Storico 23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+ Codice organo deliberante:  OO                            A N N U L L A T O     4
+ Descrizione .............:  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  5
+                             OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  6
+ Descrizione ridotta .....:  OOOOOOOOOO                  Decorrenza: 66/66/6666  7
+ Valore massimale fido ...:  66.666.666.666,66   Divisa: OOO OOOOO               8
+ Riutilizzo rischi .......:  Cedenti: O (S/N)    Debitori: O (S/N)               9
+                                                                                10
+                          Inclusioni per fidi cedente                           11
+                                                                                12
+ Cedenti esteri ..........: B   (S/N)      Cedenti enti pubblici ...: B   (S/N) 13
+ Operazioni in pool ......: B   (S/N)      Operazioni maturity .....: B   (S/N) 14
+ Locazioni finanziarie ...: B   (S/N)      Cedenti appart. a gruppo : B   (S/N) 15
+                                                                                16
+                          Inclusioni per fidi debitore                          17
+                                                                                18
+ Debitori esteri .........: B   (S/N)                                           19
+                                                                                20
+                                                                                21
+ ______________________________________________________________________________ 22
+ Cmd01 Fine   Cmd02 Ritorno   Cmd03 Conferma                      Cmd24 Storico 23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+ Codice organo deliberante:  OO                            A N N U L L A T O     4
+ Descrizione .............:  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  5
+                             OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  6
+ Descrizione ridotta .....:  OOOOOOOOOO                  Decorrenza: 66/66/6666  7
+ Valore massimale fido ...:  66.666.666.666,66   Divisa: OOO OOOOO               8
+ Riutilizzo rischi .......:  Cedenti: O (S/N)    Debitori: O (S/N)               9
+                                                                                10
+   Poteri temporanei urgenti e/o di utilizzi degli affidamenti - Fidi debitore  11
+                                                          Max ------fino a----- 12
+ Valore limite max sconfino per fidi debitore ..........:  B  99.999.999.999,99 13
+ % sconfino per fidi debitore ..........................:     999,99            14
+ Nuova clientela .......................................:     B   (S/N)         15
+                                                                                16
+                                                                                17
+                                                                                18
+                                                                                19
+                                                                                20
+                                                                                21
+ ______________________________________________________________________________ 22
+ Cmd01 Fine   Cmd02 Ritorno   Cmd11 Forza                         Cmd24 Storico 23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8

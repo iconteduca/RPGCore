@@ -1,0 +1,1146 @@
+ **************************************************************************
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 26/04/2006
+ *
+ *  Descrizione programma..: Nuova Gestione anagrafico fidi
+ **************************************************************************
+ * Output and Input/Output files
+fANAFI31L  uf a e           k disk
+ * Input-only files
+fAGCONE1L  if   e           k disk
+fAGCORI1L  if   e           k disk
+fAGPERF1L  if   e           k disk
+fAGRAPP1L  if   e           k disk
+fAGRAPP2L  if   e           k disk    rename(AGRAPP1R:AGRAPP2R)
+fAGSNPF1L  if   e           k disk
+fAGSOGG1C  if   e           k disk    rename(AGPERF1R:AGPERFCR)
+f                                     rename(AGSNPF1R:AGSNPFCR)
+f                                     rename(AGCONE1R:AGCONECR)
+fANACED1L  if   e           k disk
+fANAFID3L  if   e           k disk
+fMST0011L  if   e           k disk
+fUSRPWR1L  if   e           k disk
+ * Workstation and Printer files
+fTRA1570V  cf   e             workstn infds($INFDS)
+f                                     sfile(V01S:V01NRR)
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+d $INFDS          ds
+d  $FunctKey            369    369
+d  $1RecOfPag           378    379b 0
+d $FunctKeyList   ds
+d  $_Null                        1    inz(x'00')
+d  $_Enter                       1    inz(x'F1')
+d  $_Help                        1    inz(x'F3')
+d  $_RollDw                      1    inz(x'F4')
+d  $_RollUp                      1    inz(x'F5')
+d  $_Print                       1    inz(x'F6')
+d  $_BackSp                      1    inz(x'F8')
+d  $_Clear                       1    inz(x'FD')
+d  $_Cmd01                       1    inz(x'31')
+d  $_Cmd02                       1    inz(x'32')
+d  $_Cmd03                       1    inz(x'33')
+d  $_Cmd04                       1    inz(x'34')
+d  $_Cmd05                       1    inz(x'35')
+d  $_Cmd06                       1    inz(x'36')
+d  $_Cmd07                       1    inz(x'37')
+d  $_Cmd08                       1    inz(x'38')
+d  $_Cmd09                       1    inz(x'39')
+d  $_Cmd10                       1    inz(x'3A')
+d  $_Cmd11                       1    inz(x'3B')
+d  $_Cmd12                       1    inz(x'3C')
+d  $_Cmd13                       1    inz(x'B1')
+d  $_Cmd14                       1    inz(x'B2')
+d  $_Cmd15                       1    inz(x'B3')
+d  $_Cmd16                       1    inz(x'B4')
+d  $_Cmd17                       1    inz(x'B5')
+d  $_Cmd18                       1    inz(x'B6')
+d  $_Cmd19                       1    inz(x'B7')
+d  $_Cmd20                       1    inz(x'B8')
+d  $_Cmd21                       1    inz(x'B9')
+d  $_Cmd22                       1    inz(x'BA')
+d  $_Cmd23                       1    inz(x'BB')
+d  $_Cmd24                       1    inz(x'BC')
+ * Variabili locali -------------------------------------------------------
+d DIV           e ds
+d £DLBFID       e ds                  extname(DLBFID0F)
+d £LenV00TITLE    s              6  0 inz
+d £LenTitle       s              6  0 inz
+d £PrimoGiro      s               n   inz
+d £VideoScreen    s              6    inz
+d £ExVideoScreen  s              6    inz
+d £LastRecord     s                   like(V01NRR) inz
+d £Cedente        ds
+d  £Ced_X                        5    inz
+d  V01CED                             overlay(£Ced_X:1)
+d  £Ced_N                        5  0 overlay(£Ced_X:1)
+d  £Ced_Estero                    n   inz
+d  £Ced_EntePub                   n   inz
+d  £Ced_InGruppo                  n   inz
+d £NumCedenti     s              6  0 inz
+d £i              s              6  0 inz
+d £CodCed         s                   dim(999) like(F3CED) inz
+d £iCodCed        s              6  0 inz
+d £NuovoSoggetto  s               n   inz
+d £Soggetto       s                   dim(999) like(RPCANG) inz
+d £iSoggetto      s              6  0 inz
+d £Gruppo         s                   dim(999) like(PFGRUP) inz
+d £iGruppo        s              6  0 inz
+d £VxxPlanned     s               n   inz
+d £VxxExecute     s             10    inz
+d £VxxOperation   s             10    inz
+d £VxxPrepare     s              4    inz
+d £VxxCheckMode   s             10    inz
+d £V01FunctKey    s                   like($FunctKey) inz
+d £V01Ind         s               n   dim(99) inz
+d £V01SaveInd     s               n   dim(99) inz
+d £V01MaxNRR      s                   like(V01NRR) inz
+d £V01SaveSRN     s                   like(V01SRN) inz
+d £Refresh        s               n
+d £Error_         ds
+d  £Error                         n
+d  £Warning                       n
+d  £ErrorNRR                          like(V01NRR)
+d  £ErrorId                      7
+d  £ErrorData                   60
+d  £ErrSysId                          like(£ErrorId) dim(30)
+d  £ErrSysData                        like(£ErrorData) dim(30)
+d  £ErrSysIx                     2  0
+d  £ErrSysLevel                  2  0
+d  £ErrSciId                          like(£ErrorId) dim(30)
+d  £ErrSciData                        like(£ErrorData) dim(30)
+d  £ErrSciIx                     2  0
+d  £ErrSciLevel                  2  0
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £DateError                    n
+d £Text           s             80    dim(10) ctdata perrcd(1)
+ * Parametri -------------------------------------------------------------- TRA157 è chiamato da TRA151 in:
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)        PgmTRA157 Gestione video altri cedenti per fido plurimo
+d $Entry_         ds                                                        con
+d  $Entry_Op                     1                                          V01OP
+ *                                    Tipo gestione:
+ *                                    1=Inserimento
+ *                                    2=Aggiornamento
+d  $Entry_Exit                   1
+ *                                    Modo di uscita:
+ *                                    0=Fine
+ *                                    1=Mappa precedente
+ *                                    2=Mappa successiva
+d  $Entry_NrFid                       like(F3PRFD)                          V02PRFD
+d BRO310_KPJBA  e ds                  extname(KPJBA) prefix(BRO310_)
+d BRO310_         ds
+d  BRO310_xxxxx                 10
+d  BRO310_DRCed                 10    overlay(BRO310_xxxxx:1)
+d  BRO310_CdCed                  5s 0 overlay(BRO310_xxxxx:1)
+d TRA347_KPJBA  e ds                  extname(KPJBA) prefix(TRA347_)
+d TRA347_         ds
+d  TRA347_OrDel                       like(DFORDE)
+d  TRA347_Date                   8  0
+d  TRA347_Found                  1
+d  TRA347_DZ$USI                10
+d  TRA347_DZ$DIN                 8  0
+d  TRA347_DZ$TIN                 6  0
+d TRA347_DLBFID e ds                  extname(DLBFID0F) prefix(TRA347_)
+d DCER01_         ds
+d  DCER01_KPJBA                       like($Entry_KPJBA)
+d  DCER01_ErrId                       like(£ErrSysId) dim(30)
+d  DCER01_ErrDa                       like(£ErrSysData) dim(30)
+d  DCER01_Level                  2p 0
+d DCER11_         ds
+d  DCER11_KPJBA                       like($Entry_KPJBA)
+d  DCER11_ErrId                       like(£ErrSysId) dim(30)
+d  DCER11_ErrDa                       like(£ErrSysData) dim(30)
+d  DCER11_Level                  2p 0
+d STDC01_         ds
+d  STDC01_Msgf                  10
+d  STDC01_MsgId                  7
+d  STDC01_MsgDt                256
+d  STDC01_MsgTx                132
+d  STDC01_MsgSv                  2p 0
+ **************************************************************************
+iAGPERFCR      U1
+iAGSNPFCR      U2
+iAGCONECR      U3
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+ *
+c                   dou           £VxxExecute = 'Exit'
+ *
+c                   select
+c                   when          £VxxExecute = 'Video01'
+c                   exsr      Video01
+c                   endsl
+ *
+c                   enddo
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   eval      *inlr = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+ * Operazioni preliminari (END) -------------------------------------------
+ * Operazioni varie (START) -----------------------------------------------
+c                   movea     *all'0'       £V01Ind
+c                   movea     *all'0'       £V01SaveInd
+ *
+c                   eval      V$$PGMQ = '*'
+ *
+c                   eval      UPUSER = $Entry_KNMUS
+c     UPUSER        chain     USRPWR1L                                      cerca UPUPWV di *Utente
+c                   if            not %found(USRPWR1L)
+c                   eval      UPUPWR = 0
+c                   eval      UPUPWV = 0
+c                   endif
+c                   eval      UPUPWR = 99
+ * Operazioni varie (END) -------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval      $Entry_KPJBU = $Entry_
+ *
+c                   eval      *inU1 = *off
+c                   eval      *inU2 = *off
+c                   eval      *inU3 = *off
+ * Operazioni finali (END) ------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Gestione subfile codici fido
+c     Video01       begsr
+ *
+c                   movea     *in           £V01SaveInd
+c                   movea     £V01Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video01'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V01Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V01Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd02
+c                   eval      $Entry_Exit = '1'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Cmd04
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V01Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V01FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V01Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V01Ind
+c                   movea     £V01SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video01
+c     V01Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V01FunctKey = $_Null
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('T':£VxxPrepare) >= 1
+ *
+c                   clear                   V01T
+ *
+c     $Entry_NrFid  chain     ANAFID3L                                      legge AnaFid3L con Inp_Nbr_Progressivo_Fido
+c                   if            %found(ANAFID3L)
+ *
+c                   eval      V01PRFD  = FDPRFD
+c                   eval      V01CODC  = FDCODC
+c     FDCODC        chain     ANACED1L                                      legge AnaCed1L con Cde_Cedente
+c                   if            %found(ANACED1L)
+c                   eval      V01RASC = ACRAS
+c                   endif
+c                   clear                   TRA347_
+c                   eval      TRA347_OrDel = FDORDL
+c                   if        FDSTAT = 'R'
+c                   eval      TRA347_Date  = FDDRVS * 1000000
+c                                          + FDDRVA * 10000
+c                                          + FDDRVM * 100
+c                                          + FDDRVG
+c                   else
+c                   eval      TRA347_Date  = FDDDLS * 1000000
+c                                          + FDDDLA * 10000
+c                                          + FDDDLM * 100
+c                                          + FDDDLG
+c                   endif
+c                   eval      TRA347_KPJBA = $Entry_KPJBA
+c                   eval      TRA347_KPJBU = TRA347_
+c                   call      'TRA347'      PL_TRA347                       chiama TRA347
+c                   eval      TRA347_ = TRA347_KPJBU
+c                   eval      £DLBFID = TRA347_DLBFID
+c                   if            TRA347_Found <= '0'
+c                   clear                   £DLBFID
+c                   endif
+c                   eval      V01IFDU  = FDIFDU
+c                   eval      MTKEYA = 'DIV'
+c                   eval      MTKEYB = *all'0'
+c                   move      FDDIV         MTKEYB
+c     Key_MST001    chain     MST0011L                                      legge Mst0011L/DIV con Cde_Divisa
+c                   if            %found(MST0011L)
+c                             and MTFLAG <> 'A'
+c                   evalr     DIV = MTDESC
+c                   else
+c                   clear                   DIV
+c                   endif
+c                   eval      V01DSGL  = DIVSGL
+ *
+c                   endif
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('C':£VxxPrepare) >= 1
+ *
+c                   clear                   V01C
+ *
+c                   eval      *in10 = *off
+c                   eval      *in12 = *on
+c                   write     V01C                                          inizializza SubFile
+c                   eval      *in12 = *off
+c                   eval      V01NRR = 0
+c                   eval      £V01MaxNRR = 0
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ * Impostazioni per Modifica/Interrogazione (START)
+c     $Entry_NrFid  setll     ANAFI31L
+c                   dou           %eof(ANAFI31L)
+c     $Entry_NrFid  reade(n)  ANAFI31L                                      legge tutti i Cde_Cedente delNbr_Progressivo_Fido
+c                   if            not %eof(ANAFI31L)
+ *
+c                   clear                   V01S
+ *
+c                   if            £Ced_X = *blank
+c                   eval      £Ced_N = 0
+c                   endif
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+ *
+c                   eval      V01LFBU = F3LFBU                              Val_Limite_Fido_Bankitalia
+c                   if            F3FLAG = 'A'
+c                   eval      V01FLAG = F3FLAG                              Sts_Record_V/A
+c                   else
+c                   eval      V01FLAG = *blank
+c                   endif
+c                   eval      £Ced_N = F3CED
+c                   eval      V01CEDH = F3CED
+ *
+c                   if            £Ced_N = 0
+c                   eval      £Ced_X = *blank
+c                   endif
+c                   eval      *in30 =     V01CEDH <> 0
+c                   eval      *in34 =     V01FLAG = 'A'
+ *
+c                   write(e)  V01S                                          scrive SubFile
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   endif
+c                   enddo
+ * Impostazioni per Modifica/Interrogazione (END)
+ * Carica subfile con righe vuote (START)
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ *
+c                   dou           V01NRR >= 99
+ *
+c                   clear                   V01S
+ *
+c                   if            £Ced_X = *blank
+c                   eval      £Ced_N = 0
+c                   endif
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+ *
+c                   if            £Ced_N = 0
+c                   eval      £Ced_X = *blank
+c                   endif
+c                   eval      *in30 =     V01CEDH <> 0
+c                   eval      *in34 =     V01FLAG = 'A'
+ *
+c                   write(e)  V01S
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   enddo
+ *
+c                   endif
+ * Carica subfile con righe vuote (END)
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('P':£VxxPrepare) >= 1
+ *
+c                   clear                   V01P
+ *
+c                   endif
+ *
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V01Check
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VideoScreen = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video01
+c     V01Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/01'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   if            $Entry_Op = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   else
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   endif
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      £ExVideoScreen = £VideoScreen
+c                   eval      £VideoScreen = 'V01'
+c                   eval      £PrimoGiro = £VideoScreen <> £ExVideoScreen
+ *
+c                   eval      *in01 =     $Entry_Op = '1'
+c                   eval      *in02 =     $Entry_Op = '2'
+c                   eval      *in08 =     FDFLAG = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in11 = *on
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ *
+c                   eval      V01SRN = £V01SaveSRN
+c                   if            £Error
+c                   eval      V01SRN = £ErrorNRR
+c                   endif
+c                   if            V01SRN <= 0
+c                             or  V01SRN > £V01MaxNRR
+c                   eval      V01SRN = 1
+c                   endif
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   write     V01T
+c                   write     V01C
+c                   write     V01P
+c                   read      V01C
+c                   read      V01P
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V01FunctKey = $FunctKey
+c                   eval      £ErrorNRR = 0
+c                   if            $1RecOfPag <> 0
+c                   eval      £V01SaveSRN = $1RecOfPag
+c                   endif
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video01
+c     V01Check      begsr
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £VxxPlanned = *off
+c                   eval      £LastRecord = 0
+c                   reset                   £CodCed
+c                   eval      £iCodCed = 0
+c                   eval      £NumCedenti = 0
+c                   endif
+ * Controllo dati inseriti (START) ----------------------------------------
+c                   if            £V01MaxNRR > 0
+c                   for       V01NRR = 1 to £V01MaxNRR                      Per tutte le voci del SubFile
+c     V01NRR        chain     V01S
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      *in31 = *off
+c                   eval      *in32 = *off
+c                   eval      *in33 = *off
+c                   endif
+ *
+c                   if            £Ced_X = *blank
+c                   eval      £Ced_N = 0
+c                   endif
+ *
+c                   if            V01OP  <> *blank                          Se il terminalista ha fatto qualcosa ...
+c                             or  (    £Ced_X <> *blank
+c                                  and £Ced_N <> 0)
+c                             or  V01LFBU <> 0
+c                             or  (    £V01FunctKey = $_Cmd04
+c                                  and V01NRR = V01SCRN)
+ *
+c                   if            (    £Ced_X <> *blank
+c                                  and £Ced_N <> 0)
+c                   eval      £LastRecord = V01NRR
+c                   if            V01OP <> 'A'
+c                             and V01FLAG <> 'A'
+c                   eval      £NumCedenti = £NumCedenti + 1
+c                   endif
+c                   endif
+ * Check: Operazione non valida (START)
+c                   if            V01OP <> 'A'                              Se V01OP <> A-nnullamento
+c                             and V01OP <> 'R'                                     e <> R-iattivazione
+c                             and V01OP <> *blank                                  e <> non-fare-nulla
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Operazione non valida (END)
+ * Search: Cedente (START)
+c                   if            V01CEDH = 0
+c                   if            £V01FunctKey = $_Cmd04                    Se F4=Ricerca
+c                             and V01CRCD = 'V01S'
+c                             and V01CFLD = 'V01CED'
+c                             and V01NRR = V01SCRN
+c                   clear                   BRO310_
+c                   eval      BRO310_DRCed = 'A'
+c                   eval      BRO310_KPJBA = $Entry_KPJBA
+c                   eval      BRO310_KPJBU = BRO310_
+c                   call      'BRO310'      PL_BRO310                          ricerca con BRO310
+c                   eval      BRO310_ = BRO310_KPJBU
+c                   if        BRO310_CdCed <> 0
+c                   eval      £Ced_N = BRO310_CdCed
+c                   endif
+c                   eval      £Refresh = *on
+c                   endif
+c                   endif
+ * Search: Cedente (END)
+ * Check: Cedente (START)
+c                   eval      ACCED = £Ced_N
+c     ACCED         chain     ANACED1L                                      legga AnaCed1L
+c                   if            %found(ANACED1L)
+c                   eval      V01RAS = ACRAS
+c                   endif
+c                   if            (    not %found(ANACED1L)                 Se non Trovato
+c                                  or  ACFLAG = 'A')                         o Annullato
+c                             and (    V01OP = 'R'                           e R-iattivazione
+c                                  or  (    V01OP = *blank                     o *Blank
+c                                       and V01FLAG <> 'A'))                            e Non Già Annullato
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0155'                             errore SYS0155
+c                   exsr      ErrorAdd
+c                   eval      *in32 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Cedente (END)
+ * Check: Cedente uguale a capofila (START)
+c                   if            V01OP <> 'A'
+c                   if            £Ced_N = V01CODC                          Se Cedente = Cedente_Capofila
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7492'                             errore SYS7492
+c                   exsr      ErrorAdd
+c                   eval      *in32 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+c                   endif
+ * Check: Cedente uguale a capofila (END)
+ * Check: Cedente non abilitato per organo deliberante (START)
+c                   exsr      RtvDatiCed                                    esegue
+ *
+c                   if            (    £Ced_Estero                          Se Cedente_Estero
+c                                  and DFFCES <> 'S')                                         e Organo_Deliberante non può deliberare per Cedenti Esteri
+c                             or  (    £Ced_EntePub                          o Cedente_Ente_Pubblico
+c                                  and DFFCEP <> 'S')                                                e ...
+c                             or  (    £Ced_InGruppo                         o Cedente_Appartenente_a_Gruppo
+c                                  and DFFCGR <> 'S')                                                        e ...
+c                   if            £VxxCheckMode = 'Standard'
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   eval      STDC01_MsgId = 'SCI0074'                         errore SCI0074
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > UPUPWV
+c                   eval      £ErrorId = 'SCI0074'
+c                   exsr      ErrorAdd
+c                   eval      *in32 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+c                   endif
+ * Check: Cedente non abilitato per organo deliberante (END)
+ * Check: Codice cedente specificato più volte (START)
+c                   if            (    £Ced_X <> *blank
+c                                  and £Ced_N <> 0)
+c                   if            %lookup(£Ced_N:£CodCed) <= 0              Se non trovato in schiera £CodCed
+ *
+c                   eval      £iCodCed = £iCodCed + 1                          +1
+c                   eval      £CodCed(£iCodCed) = £Ced_N                       cataloga
+ *
+c                   else
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0061'                             errore SYS0061
+c                   exsr      ErrorAdd
+c                   eval      *in32 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+ *
+c                   endif
+c                   endif
+ * Check: Codice cedente specificato più volte (END)
+ * Check: Importo limite per Bankitalia (START)
+c                   if            V01LFBU <> 0                              Se Limite_Fido
+c                             and V01LFBU > FDIFDU                             > Limite_Fido_Bankitalia
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7457'                             errore SYS7457
+c                   exsr      ErrorAdd
+c                   eval      *in33 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Importo limite per Bankitalia (END)
+c                   endif
+ *
+c                   if            £Ced_N = 0
+c                   eval      £Ced_X = *blank
+c                   endif
+ *
+c                   eval      *in30 =     V01CEDH <> 0
+c                   eval      *in34 =     V01FLAG = 'A'
+ *
+c                   update    V01S
+ *
+c                   endfor
+c                   endif
+ * Check: Numero cedenti inseriti (START)
+c                   if            £NumCedenti = 0                           Se non ci sono Cedenti
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7491'                             errore SYS7491
+c                   exsr      ErrorAdd
+c                   endif
+c                   endif
+ * Check: Numero cedenti inseriti (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Reperimento dati caratteristici Cedente
+c     RtvDatiCed    begsr
+ *
+c                   reset                   £Soggetto
+c                   eval      £iSoggetto = 0
+c                   reset                   £Gruppo
+c                   eval      £iGruppo = 0
+c                   eval      £Ced_Estero = *off
+c                   eval      £Ced_EntePub = *off
+c                   eval      £Ced_InGruppo = *off
+ * Reperimento codice soggetto principale (START)
+c                   eval      RPTRFA = 'C'
+c                   eval      RPCDRF = £Ced_N
+c     Key_AGRAPP2   chain     AGRAPP2L                                      cerca Rapporti per Cedente
+c                   if            %found(AGRAPP2L)                          Se Tovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                   eval      £iSoggetto = 1
+c                   eval      £Soggetto(£iSoggetto) = RPCANG                   cataloga NDG
+c                   endif
+ * Reperimento codice soggetto principale (END)
+c                   if            £iSoggetto >= 1                           Se Soggetto
+ * Reperimento altri codici soggetti cointestatari (START)
+c                   eval      RPCANG = £Soggetto(£iSoggetto)
+c                   if            %subst(RPCANG:1:1) = 'C'                   è una Cointestazione
+c     RPCANG        setll     AGCORI1L
+c                   dou           %eof(AGCORI1L)
+c     RPCANG        reade     AGCORI1L                                      legge Cointestatari
+c                   if            not %eof(AGCORI1L)                        Se Trovati
+c                             and CIFLAG <> 'A'                              e non annullati
+c                   if            %lookup(CICINT:£Soggetto) <= 0             e non già catalogati
+c                   eval      £iSoggetto = £iSoggetto + 1                      +1
+c                   eval      £Soggetto(£iSoggetto) = CICINT                   cataloga
+c                   endif
+c                   endif
+c                   enddo
+c                   endif
+ * Reperimento altri codici soggetti cointestatari (END)
+c                   endif
+ *
+c                   dou           not £NuovoSoggetto                        fino a quando trova nuovi Soggetti
+c                   eval      £NuovoSoggetto = *off
+ * Reperimento gruppo (START)
+c                   for       £i = 1 to £iSoggetto                          per ogni Soggetto
+ *
+c                   select
+c                   when          %subst(£Soggetto(£i):1:1) = 'P'           Se Persona Fisica
+c                   eval      PFCANG = £Soggetto(£i)
+c     PFCANG        chain     AGPERF1L                                      legge
+c                   if            %found(AGPERF1L)                          Se Trovato
+c                             and PFGRUP <> *blank                           e con Gruppo
+c                   if            %lookup(PFGRUP:£Gruppo) <= 0                 non già catalogato
+c                   eval      £iGruppo = £iGruppo + 1                          +1
+c                   eval      £Gruppo(£iGruppo) = PFGRUP                       cataloga
+c                   eval      £Ced_InGruppo = *on                              e se lo segna
+c                   endif
+c                   endif
+c                   when          %subst(£Soggetto(£i):1:1) = 'N'           Se Società
+c                   eval      IMCANG = £Soggetto(£i)
+c     IMCANG        chain     AGSNPF1L                                      idem con AGSNPF1L
+c                   if            %found(AGSNPF1L)
+c                             and IMGRUP <> *blank
+c                   if            %lookup(IMGRUP:£Gruppo) <= 0
+c                   eval      £iGruppo = £iGruppo + 1
+c                   eval      £Gruppo(£iGruppo) = IMGRUP
+c                   eval      £Ced_InGruppo = *on
+c                   endif
+c                   endif
+c                   when          %subst(£Soggetto(£i):1:1) = 'C'           Se Cointestazione
+c                   eval      CECANG = £Soggetto(£i)
+c     CECANG        chain     AGCONE1L                                      idem con AGCONE1L
+c                   if            %found(AGCONE1L)
+c                             and CEGRUP <> *blank
+c                   if            %lookup(CEGRUP:£Gruppo) <= 0
+c                   eval      £iGruppo = £iGruppo + 1
+c                   eval      £Gruppo(£iGruppo) = CEGRUP
+c                   eval      £Ced_InGruppo = *on
+c                   endif
+c                   endif
+c                   endsl
+ *
+c                   endfor
+ * Reperimento gruppo (END)
+ * Reperimento codici soggetto sotto stesso gruppo (START)
+c                   for       £i = 1 to £iGruppo                            per ogni Gruppo
+ *
+c     £Gruppo(£i)   setll     AGSOGG1C                                      posiziona
+c                   dou           %eof(AGSOGG1C)                            e legge il combinato fra
+c                   eval      *inU1 = *off                                                           AgPerF0F
+c                   eval      *inU2 = *off                                                           AgSNPF0F
+c                   eval      *inU3 = *off                                                           AgGrup0F
+c     £Gruppo(£i)   reade     AGSOGG1C
+c                   if            not %eof(AGSOGG1C)                        Se Trovato
+ *
+c                   select
+c                   when          *inU1                                      e Persona Fisica
+c                   if            %lookup(PFCANG:£Soggetto) <= 0               e Soggetto non ancora catalogato
+c                   eval      £iSoggetto = £iSoggetto + 1                        +1
+c                   eval      £Soggetto(£iSoggetto) = PFCANG                     cataloga
+c                   eval      £NuovoSoggetto = *on
+c                   endif
+c                   when          *inU2                                      e Società
+c                   if            %lookup(IMCANG:£Soggetto) <= 0
+c                   eval      £iSoggetto = £iSoggetto + 1                        idem
+c                   eval      £Soggetto(£iSoggetto) = IMCANG
+c                   eval      £NuovoSoggetto = *on
+c                   endif
+c                   when          *inU3                                      e Cointestazione
+c                   eval      CICINZ = CECANG
+c     CICINZ        setll     AGCORI1L
+c                   dou           %eof(AGCORI1L)
+c     CICINZ        reade     AGCORI1L                                         legge Cointestatari
+c                   if            not %eof(AGCORI1L)
+c                             and CIFLAG <> 'A'
+c                   if            %lookup(CICINT:£Soggetto) <= 0
+c                   eval      £iSoggetto = £iSoggetto + 1                        idem
+c                   eval      £Soggetto(£iSoggetto) = CICINT
+c                   eval      £NuovoSoggetto = *on
+c                   endif
+c                   endif
+c                   enddo
+c                   endsl
+ *
+c                   endif
+c                   enddo
+ *
+c                   endfor
+ * Reperimento codici soggetto sotto stesso gruppo (END)
+c                   enddo
+ * Reperimento codice cedente (START)
+c                   for       £i = 1 to £iSoggetto                          Per ogni Soggetto
+ *
+c                   eval      RPCANG = £Soggetto(£i)
+c     RPCANG        setll     AGRAPP1L
+c                   dou           %eof(AGRAPP1L)
+c     RPCANG        reade     AGRAPP1L                                      legge Rapporti
+c                   if            not %eof(AGRAPP1L)                        Se Trovato
+c                             and RPFLAG <> 'A'                              e non annullato
+c                             and RPTRFA = 'C'                               e Cedente
+ * Determinazione se cedente estero (START)
+c                   eval      ACCED = RPCDRF
+c     ACCED         chain     ANACED1L                                      legge AnaCed1L
+c                   if            %found(ANACED1L)
+c                             and ACFLAG <> 'A'
+c                   if            ACNAZ <> '086'                            Se non è Italia
+c                   eval      £Ced_Estero = *on                                è Estero
+c                   endif
+c                   if            ACFGRD = 'PUBA'                           Se Cde_Forma_Giuridica
+c                   eval      £Ced_EntePub = *on                               è Ente_Pubblico
+c                   endif
+c                   endif
+ * Determinazione se cedente estero (END)
+c                   endif
+c                   enddo
+ * Reperimento codice cedente (END)
+c                   endfor
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video01
+c     V01Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Inserimento/Variazione (START) -----------------------------------------
+c                   for       V01NRR = 1 to £LastRecord
+c     V01NRR        chain     V01S                                          Per ogni voce del SubFile
+ *
+c                   if            £Ced_X = *blank
+c                   eval      £Ced_N = 0
+c                   endif
+ *
+c                   if            (    £Ced_X <> *blank                     Se c'è un Cde_Cedente
+c                                  and £Ced_N <> 0)
+ *
+c                   eval      F3PRFD = $Entry_NrFid
+c                   eval      F3CED  = £Ced_N
+c     Key_ANAFI3    chain     ANAFI31L                                      legge AnaFi31L
+ *
+c                   if            not %found(ANAFI31L)                      Se non Trovato
+ *
+c                   clear                   ANAFI31R                           prepara dati
+c                   eval      F3TREC = 'AF3'
+c                   eval      F3FLAG = 'V'
+c                   eval      F3NAZN = $Entry_KNRAZ
+c                   eval      £SystemDate = *Date
+c                   eval      F3DINS = %rem(£SystemDate:1000000)
+c                   eval      F3USER = $Entry_KNMUS
+c                   eval      F3PRFD = $Entry_NrFid
+c                   eval      F3CED  = £Ced_N
+ *
+c                   else                                                    se Trovato
+ *
+c                   eval      £SystemDate = *Date                              prepara dati
+c                   eval      F3DUPD = %rem(£SystemDate:1000000)
+c                   time                    F3HEXE
+c                   eval      F3USER = $Entry_KNMUS
+ *
+c                   endif
+ *
+c                   select
+c                   when          V01OP = 'A'
+c                   eval      F3FLAG = 'A'                                  o è A-nnullato
+c                   when          V01OP = 'R'
+c                   eval      F3FLAG = 'V'                                  o è V-alido
+c                   endsl
+c                   eval      F3LFBU = V01LFBU                              prepara dati
+c                   eval      F3LMFI = V01LFBU / 1000
+ *
+c                   if            not %found(ANAFI31L)
+c                   write     ANAFI31R                                      e Write
+c                   else
+c                   update    ANAFI31R                                      o Update
+c                   endif
+ *
+c                   endif
+ *
+c                   eval      V01OP   = *blank                              prepara dati
+c                   if            F3FLAG = 'A'
+c                   eval      V01FLAG = F3FLAG
+c                   else
+c                   eval      V01FLAG = *blank
+c                   endif
+ *
+c                   if            £Ced_N = 0
+c                   eval      £Ced_X = *blank
+c                   endif
+c                   eval      *in30 =     V01CEDH <> 0
+c                   eval      *in34 =     V01FLAG = 'A'
+ *
+c                   update    V01S                                          e aggiorna SubFile
+ *
+c                   endfor
+ * Inserimento/Variazione (END) -------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Utility di aggiunta errori ad elenco
+c     ErrorAdd      begsr
+ *
+c                   if            %subst(£ErrorId:1:3) = 'SYS'
+ *
+c                   if            £ErrSysIx < 30
+c                   eval      £ErrSysIx = £ErrSysIx + 1
+c                   eval      £ErrSysId(£ErrSysIx) = £ErrorId
+c                   eval      £ErrSysData(£ErrSysIx) = £ErrorData
+c                   endif
+ *
+c                   else
+ *
+c                   if            £ErrSciIx < 30
+c                   eval      £ErrSciIx = £ErrSciIx + 1
+c                   eval      £ErrSciId(£ErrSciIx) = £ErrorId
+c                   eval      £ErrSciData(£ErrSciIx) = £ErrorData
+c                   endif
+ *
+c                   endif
+ *
+c                   eval      £Error = *on
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di decodifica errori
+c     ErrorDecode   begsr
+ *
+c                   if            £ErrSysIx >= 1
+c                   clear                   DCER01_
+c                   eval      DCER01_KPJBA = $Entry_KPJBA
+c                   movea     £ErrSysId     DCER01_ErrId
+c                   movea     £ErrSysData   DCER01_ErrDa
+c                   call      'DCER01'      PL_DCER01
+c                   eval      £ErrSysLevel = DCER01_Level
+c                   else
+c                   eval      £ErrSysLevel = 0
+c                   endif
+ *
+c                   if            £ErrSciIx >= 1
+c                   if            £ErrSysIx <= 0
+c                   clear                   DCER01_
+c                   eval      DCER01_KPJBA = $Entry_KPJBA
+c                   movea     £ErrSciId     DCER01_ErrId
+c                   movea     £ErrSciData   DCER01_ErrDa
+c                   call      'DCER01'      PL_DCER01
+c                   eval      £ErrSciLevel = DCER01_Level
+c                   else
+c                   clear                   DCER11_
+c                   eval      DCER11_KPJBA = $Entry_KPJBA
+c                   movea     £ErrSciId     DCER11_ErrId
+c                   movea     £ErrSciData   DCER11_ErrDa
+c                   call      'DCER11'      PL_DCER11
+c                   eval      £ErrSciLevel = DCER11_Level
+c                   endif
+c                   else
+c                   eval      £ErrSciLevel = 0
+c                   endif
+ *
+c                   if            £ErrSysLevel > 60
+c                             or  £ErrSciLevel = 99
+c                             or  £ErrSciLevel > UPUPWR
+ *                  Errore bloccante
+c                   eval      £Warning = *off
+c                   else
+ *                  Errore forzabile
+c                   eval      £Warning = *on
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_BRO310     plist
+c                   parm                    BRO310_KPJBA
+c     PL_TRA347     plist
+c                   parm                    TRA347_KPJBA
+c                   parm                    TRA347_DLBFID
+c     PL_DCER01     plist
+c                   parm                    DCER01_KPJBA
+c                   parm                    DCER01_ErrId
+c                   parm                    DCER01_ErrDa
+c                   parm                    DCER01_Level
+c     PL_DCER11     plist
+c                   parm                    DCER11_KPJBA
+c                   parm                    DCER11_ErrId
+c                   parm                    DCER11_ErrDa
+c                   parm                    DCER11_Level
+c     PL_STDC01     plist
+c                   parm                    STDC01_Msgf
+c                   parm                    STDC01_MsgId
+c                   parm                    STDC01_MsgDt
+c                   parm                    STDC01_MsgTx
+c                   parm                    STDC01_MsgSv
+ * Definizione chiavi -----------------------------------------------------
+c     Key_AGRAPP2   klist
+c                   kfld                    RPTRFA
+c                   kfld                    RPCDRF
+c     Key_ANAFI3    klist
+c                   kfld                    F3PRFD
+c                   kfld                    F3CED
+c     Key_MST001    klist
+c                   kfld                    MTKEYA
+c                   kfld                    MTKEYB
+ *
+c                   endsr
+**   £Text
+GESTIONE ANAGRAFICA FIDI
+Inserimento
+Variazione
+   .05.
+   .06.
+   .07.
+   .08.
+   .09.
+   .10.
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+ Fido Nr.: 66666   A N N U L L A T O            Importo 66.666.666.666,66 OOOOO  4
+ Capofila: 66666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                             5
+                                                                                 6
+ S__Ann__Cedente______________________________________________Limite_Bankitalia  7
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99  8
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99  9
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 10
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 11
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 12
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 13
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 14
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 15
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 16
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 17
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 18
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 19
+ B   O   BBBBB    OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO         99.999.999.999,99 20
+                                                                       Segue... 21
+ A=Annullamento_R=Riattivazione________________________________________________ 22
+ Cmd01 Fine   Cmd02 Ritorno   Cmd04 Ricerca                      Cmd11 Forza    23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8

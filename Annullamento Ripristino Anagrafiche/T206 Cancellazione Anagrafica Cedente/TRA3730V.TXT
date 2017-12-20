@@ -1,0 +1,186 @@
+ Nome file . . . . . . . . . . . . . . . . . . . . . :   TRA3730V
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  QTEMP
+ Attributo file  . . . . . . . . . . . . . . . . . . :   Video
+ File origine contenente DDS  . . . . . . . . . . . . :  QDDSSRC
+   Nome libreria  . . . . . . . . . . . . . . . . . . :  SRCFAC
+ Membro origine con DDS  . . . . . . . . . . . :         TRA3730V
+ Ultima modifica membro orig.  . . . . . . . . . . . . : 15/10/10  16:03:30
+ Opzioni elenco origine  . . . . . . . . . . . . . . :   *SOURCE    *LIST      *NOSECLVL  *NOEVENTF
+ Livello gravità generaz. DDS  . . . . . . . . . . . :   20
+ Indicaz. liv. di gravità DDS  . . . . . . . . . . . . : 00
+ Autorizzazione . . . . . . . . . . . . . . . . . . :    *LIBCRTAUT
+ Sostituz. file  . . . . . . . . . . . . . . . . . . . : *NO
+ Testo . . . . . . . . . . . . . . . . . . . . . . . :   Rischi fidi: Ricerca
+ Compilatore  . . . . . . . . . . . . . . . . . . . . :  Processore descrizione dati IBM System i5
+                                      Origine descrizione dati
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+    100  AE064A**   EDP150S1    EMMAND      14/10/2010  09:38:42                          15/10/10
+    200  AE028 ************************************************************************** 05/06/07
+    300        *                                                                          31/01/06
+    400        *  Programmatore..........: Andrea Emmanueli                               31/01/06
+    500        *  Data creazione.........: 27/04/2007                                     27/04/07
+    600        *                                                                          31/01/06
+    700        *  Aggiornato da..........:                                                31/01/06
+    800        *  Data aggiornamento.....:                                                31/01/06
+    900        *                                                                          31/01/06
+   1000        *  Descrizione programma..: Aggiornamento automatico fidi debitore         27/04/07
+   1100        *                                                                          31/01/06
+   1200        ************************************************************************** 31/01/06
+   1300                                                                                   31/01/06
+   1400  AE064                                       DSPSIZ(24  80 *NORMAL -              15/10/10
+   1500  AE064                                              27 132 *WIDE)                 15/10/10
+   1600                                              REF(*LIBL/DCTFAC)                    26/04/06
+   1700                                              CHGINPDFT(HI CS)                     26/04/06
+   1800                                              PRINT                                31/01/06
+   1900                                                                                   31/01/06
+   2000        ************************************************************************** 31/01/06
+   2100        * NOCLEAR: Not displayed. Used only for window displaying                 31/01/06
+   2200        ************************************************************************** 31/01/06
+   2300                                                                                   31/01/06
+   2400                  R NOCLEAR                                                        20/12/05
+   2500                                              KEEP                                 20/12/05
+   2600                                              ASSUME                               20/12/05
+   2700                                          1  2' '                                  20/12/05
+   2800                                                                                   16/12/05
+   2900        ************************************************************************** 16/12/05
+   3000        *Video01: Testata visualizzazione messaggi                                14/08/07
+   3100        ************************************************************************** 16/12/05
+   3200                                                                                   20/12/05
+   3300                  R V01T                                                           05/06/07
+   3400                                                                                   31/01/06
+   3500                                              CLRL(*ALL)                           31/01/06
+   3600                                              OVERLAY                              31/01/06
+   3700                                              WINDOW(*DFT 08 74)                   05/06/07
+   3800                                              WDWTITLE((*TEXT ' Aggiornamento aut- 27/04/07
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+   3900                                              omatico fidi debitore ') *CENTER)    27/04/07
+   4000                                                                                   05/06/07
+   4100        ************************************************************************** 05/06/07
+   4200                                                                                   05/06/07
+   4300                  R V01P                                                           05/06/07
+   4400                                                                                   05/06/07
+   4500                                              OVERLAY                              05/06/07
+   4600                                              WINDOW(V01T)                         05/06/07
+   4700                                                                                   27/04/07
+   4800         N09   N07                                                                 05/06/07
+   4900        O 98   N07                            CA01                                 05/06/07
+   5000          09 98N07                            CF11                                 05/06/07
+   5100                                                                                   27/04/07
+   5200                                          6  2'                                  - 05/06/07
+   5300                                                                                 - 27/04/07
+   5400                                                 '                                 05/06/07
+   5500                                              DSPATR(UL)                           27/04/07
+   5600                                                                                   19/12/05
+   5700                                                                                   05/06/07
+   5800         N09   N07                                                                 05/06/07
+   5900        O 98   N07                        7  2'Cmd01'                              05/06/07
+   6000                                              DSPATR(RI)                           05/06/07
+   6100         N09   N07                                                                 05/06/07
+   6200        O 98   N07                        7  8'Fine'                               05/06/07
+   6300          09 98N07                        7 60'Cmd11'                              05/06/07
+   6400                                              DSPATR(RI)                           05/06/07
+   6500          09 98N07                        7 66'Forza   '                           05/06/07
+   6600          07                                                                       05/06/07
+   6700        O 09N98                           7 60'Invio'                              05/06/07
+*                                      CPD7865-******
+   6800                                              DSPATR(RI)                           05/06/07
+   6900          07                                                                       05/06/07
+   7000        O 09N98                           7 66'Prosegui'                           05/06/07
+*                                      CPD7865-******
+   7100                                                                                   16/12/05
+   7200        ************************************************************************** 16/12/05
+   7300        * MessageFile                                                             16/12/05
+   7400        ************************************************************************** 16/12/05
+   7500                                                                                   16/12/05
+   7600                  R V$$S                      SFL                                  16/12/05
+   7700                                                                                   16/12/05
+   7800                                              SFLMSGRCD(02)                        05/06/07
+   7900                    V$$MSGK                   SFLMSGKEY                            16/12/05
+   8000                    V$$PGMQ                   SFLPGMQ                              16/12/05
+   8100                                                                                   16/12/05
+   8200        ************************************************************************** 16/12/05
+   8300                                                                                   16/12/05
+   8400                  R V$$C                      SFLCTL(V$$S)                         16/12/05
+   8500                                              WINDOW(V01T)                         05/06/07
+   8600                                                                                   16/12/05
+   8700          99                                  ALARM                                16/12/05
+   8800                                              OVERLAY                              16/12/05
+   8900          99                                  SFLDSP                               16/12/05
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  Data
+   9000          99                                  SFLINZ                               16/12/05
+   9100          99                                  SFLEND(*MORE)                        05/06/07
+   9200         N99                                  SFLCLR                               16/12/05
+   9300                                              SFLSIZ(99)                           05/06/07
+   9400                                              SFLPAG(3)                            05/06/07
+   9500                    V$$PGMQ                   SFLPGMQ                              16/12/05
+                         * * * * *   F I N E  O R I G I N E   * * * * *
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+   1400                                              DSPSIZ(24  80 *NORMAL        27 132-
+   1400                                               *WIDE) CHGINPDFT(HI CS) PRINT
+   2400                  R NOCLEAR                   KEEP ASSUME
+   2700                                          1  2' '                                      1
+   3300                  R V01T
+                 *NORMAL                             WINDOW(*DFT 8 74)
+                 *WIDE                               WINDOW(*DFT 8 74)
+   3500                                              CLRL(*ALL) OVERLAY +
+   3800                                              WDWTITLE((*TEXT ' Aggiornamento aut-
+   3800                                              omatico fidi debitore ') *CENTER)
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN07 0002   *IN09 0001   *IN98 0003
+   4300                  R V01P
+                 *NORMAL                             WINDOW(V01T)
+                 *WIDE                               WINDOW(V01T)
+   4500                                              OVERLAY
+   4800         N09   N07
+   4900        O 98   N07                            CA01
+   5000          09 98N07                            CF11
+   5200                                          6  2'                                  -    72
+   5200                                                                                 -
+   5200                                                 ' DSPATR(UL)
+   5800         N09   N07
+   5900        O 98   N07                        7  2'Cmd01' DSPATR(RI)                       5
+   6100         N09   N07
+   6200        O 98   N07                        7  8'Fine'                                   4
+   6300          09 98N07                        7 60'Cmd11' DSPATR(RI)                       5
+   6500          09 98N07                        7 66'Forza   '                               8
+   6600          07
+   6700        O 09N98                           7 60'Invio' DSPATR(RI)                       5
+   6900          07
+   7000        O 09N98                           7 66'Prosegui'                               8
+   7600                  R V$$S
+                 *NORMAL                             SFLMSGRCD(02)
+                 *WIDE                               SFLMSGRCD(02)
+   7600                                              SFL
+   7900                    V$$MSGK                   SFLMSGKEY                                4            1       1
+   8000                    V$$PGMQ                   SFLPGMQ                                 10            5       5
+               * Posizioni buffer emissione indicatore opzione:
+               *  *IN99 0001
+   8400                  R V$$C
+                 *NORMAL                             SFLSIZ(0099) SFLPAG(003)
+                 *WIDE                               SFLSIZ(0099) SFLPAG(003)
+                 *NORMAL                             WINDOW(V01T)
+                 *WIDE                               WINDOW(V01T)
+   8400                                              SFLCTL(V$$S)
+   8700          99                                  ALARM
+   8800                                              OVERLAY
+   8900          99                                  SFLDSP
+   9000          99                                  SFLINZ
+   9100          99                                  SFLEND(*MORE)
+   9200         N99                                  SFLCLR
+   9500                    V$$PGMQ                   SFLPGMQ                                 10            2       1
+                                          Origine espansa
+                                                                                          Lungh.      Posiz. buffer
+ SEQNBR  *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8 campo         Em.     Im.
+                 * * * * *   F I N E  O R I G I N E  E S P A N S A   * * * * *
+                                             Messaggi
+    ID      Numero    gravità
+* CPD7865      10        2      Messaggio . . . :   Il campo si sovrappone ad uno o più campi nel record.
+                                          Riepilogo messaggi
+ Totale            Informativo            Avvert.        Err.        Grave
+                       (0-9)              (10-19)       (20-29)      (30-99)
+        2                 0                    2             0            0
+* CPC7301      00               Messaggio . . . :   File TRA3730V creato nella libreria QTEMP.
+                         * * * * *   F I N E  C O M P I L A Z I O N E   * * * * *
+

@@ -1,0 +1,247 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  AREA ..............: FACTORING                                        *
+ *  DESCRIZIONE .......: Determinazione tipologia PTO IAS                 * V04Check_4 Controllo dati Video04, Screen 4
+ *  PROGRAMMATORE .....: LUIGI RICCI                                      *    Determina PTO IAS se non premo F6
+ *  PRIMA COMPILAZIONE : 22/06/2012                                       *    con V04PRFD, V04CODF e V04FPUG
+ ************************************************************************** Se TRA414_Tias <> 0 ==> V04TIAS = TRA414_tias
+ * Il programma può essere chiamato con i seguenti parametri in
+ * alternativa:
+ *   - Coppia cedente debitore
+ *   - Codice fido e progressivo fido
+ *   - Schiera clausole (dalla modifica clausole prima di
+ *     confermare gli aggiornamenti)
+ **************************************************************************
+fANAFID3L  if   e           k disk
+fCLAFID2L  if   e           k disk
+fCLAMIT1L  if   e           k disk
+fREFIRA1L  if   e           k disk
+fPARAM     if   e           k disk
+ **************************************************************************
+d CLAM            s                   dim(999) like(cmclam)
+ **************************************************************************
+d CLA           e ds
+d KPJBA         e ds
+d TIA           e ds
+ **************************************************************************
+d $ENTRY_         ds
+d  $ENTRY_Prfd                   5s 0
+d  $ENTRY_Codf                   4
+d  $ENTRY_Tias                   3  0
+d  $ENTRY_Ced                    5  0
+d  $ENTRY_Deb                    8  0
+d  $ENTRY_Fpug                   1
+ **************************************************************************
+d  wscodf         s                   like(rrcodf)
+d  wsfound        s              1
+d  wsFpug         s              1
+d  wsFVer         s              1
+d  wsprfd         s                   like(rrprfd)
+d  wstias0        s              3  0 inz
+d  wstias1        s              3  0 inz
+d  wstotp         s              3  0
+d  wx             s              4  0
+ **************************************************************************
+c                   clear                   $ENTRY_Tias
+ * Ricevuto cedente e debitore
+c                   if        $entry_ced <> 0                               Se Inp_Cedente
+c                   exsr      FidRap                                        esegue
+ * Ricevuto progressivo fido e codice fido o schiera clausole
+c                   else                                                    altrimenti
+c                   eval      wsprfd = $ENTRY_Prfd
+c                   eval      wscodf = $ENTRY_Codf
+c                   eval      wsfpug = $ENTRY_Fpug
+c                   exsr      RtvTip                                        esegue
+c                   endif
+ *
+c                   eval      kpjbu = $ENTRY_
+ *
+c                   seton                                        LR
+ **************************************************************************
+ *  Algoritmo di determinazione tipologia IAS
+ **************************************************************************
+c     RtvTip        begsr
+ *--- Attribuzione mediante pesi clausole
+c                   z-add     0             wstotp
+c                   move      *off          wsfver
+c                   eval      wsfound = *off
+c                   if        %parms > 1                                    Se ha ricevuto 2+ Parametri, cioé anche CLAM
+ *      Da schiera
+c                   for       wx = 1 to 999                                 Da 1 a 999 per WX
+c                   if        CLAM(wx) <> 0
+c     CLAM(wx)      chain     CLAMIT1R                                      Legge una delle 8 possibili Clausole di Mitigazione
+c                   if        %found                                        Se Trovato
+c                   exsr      AddPes                                        Esegue
+c                   endif
+c                   endif
+c                   endfor
+ *
+c                   else                                                    altrimenti
+ *      Da file
+c                   eval      fcprfd = wsPrfd                               Con Inp_Nbr_Progressivo_Fido
+c                   eval      fccodf = wsCodf                                 e Inp_Cde_Fido
+c     kclafid       setll     CLAFID1R                                      Si posiziona
+c                   do        *hival
+c     kclafid       reade     CLAFID1R                                      e legge ClaFid2L
+c                   if        %eof
+c                   leave
+c                   endif
+c     fcclam        chain     CLAMIT1R                                      poi legge ClaMit1L
+c                   if        %found                                        Se Trovato
+c                   exsr      AddPes                                        Esegue
+c                   endif
+c                   enddo
+ *
+c                   endif
+ * Se fido con clausola da verificare lascia quello che c'è
+c                   if        wsfver = *on                                  Se *On
+c                   eval      fdprfd = wsprfd
+c                   eval      fdcodf = wscodf
+c     kANAFID       chain     ANAFID3L                                      Legge AnaFid3L con Inp_
+c                   if        %found
+c                   eval      $ENTRY_Tias = fdtias                          Tipo Pto IAS
+c                   endif
+c                   leavesr                                                 End-of-SubRoutine
+c                   endif
+ * Se fido con pagamento sotto garanzia allora NO IAS
+c                   if        wsfpug = 'N'                                  Se 'N'
+c                   eval      $ENTRY_Tias = wstias0
+c                   leavesr                                                 End-of-SubRoutine
+c                   endif
+ * Se non supera soglia è PTO IAS
+c                   if        wsfound = *on                                 Se *On
+c                   if        wstotp <= clasgp                              Se < PARAM/CLA_Soglia PTO IAS
+c                   eval      $ENTRY_Tias = wstias1
+c                   else
+c                   eval      $ENTRY_Tias = wstias0
+c                   endif
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Totalizza peso clausole
+ **************************************************************************
+c     AddPes        begsr
+ *
+c                   select
+c                   when      cmboma = 'S'
+c                   add       clapbm        wstotp
+c                   when      cmfraf = 'S'
+c                   add       clapff        wstotp
+c                   when      cmmaxi = 'S'
+c                   add       clapmx        wstotp
+c                   when      cmming = 'S'
+c                   add       clapmi        wstotp
+c                   when      cmrclc = 'S'
+c                   add       claprc        wstotp
+c                   when      cmmini = 'S'
+c                   add       clapmn        wstotp
+c                   endsl
+c                   eval      wsfound = *on                                 Set *On
+ *
+c                   if        cmclam = 999
+c                   move      *on           wsfver                          Set *On
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Analizza i fidi collegati al rapporto
+ **************************************************************************
+c     FidRap        begsr
+ *
+c                   eval      rrced = $entry_ced                            Con Inp_Cedente
+c                   eval      rrdeb = $entry_deb                                Inp_Debitore
+c     kREFIRA       setll     REFIRA1L                                      Si posiziona
+c                   do        *hival
+c     kREFIRA       reade     REFIRA1L                                      e legge tutta la coppia
+c                   if        %eof
+c                   leave
+c                   endif
+ * Singolo codice fido
+c                   if        rrcodf <> *blank                              Se
+c                   eval      wsprfd = rrprfd
+c                   eval      wscodf = rrcodf
+c                   eval      fdprfd = rrprfd
+c                   eval      fdcodf = rrcodf
+c     kANAFID       chain     ANAFID3L                                      Legge AnaFid3l
+c                   if        %found
+c                   eval      wsfpug = fdFpug                               Pagamento sotto garanzia
+c                   endif
+c                   exsr      RtvTip                                        esegue
+c                   if        $entry_tias <> 0                              Se
+c                   leavesr                                                 --> leavesr -->
+c                   endif
+c                   else                                                    altrimenti
+ * Tutti i codici fido
+c     rrprfd        setll     ANAFID3L                                      Si posiziona
+c                   do        *hival
+c     rrprfd        reade     ANAFID3L                                      legge le Forme Tecniche
+c                   if        %eof
+c                   leave
+c                   endif
+c                   eval      wsprfd = fdprfd
+c                   eval      wscodf = fdcodf
+c                   eval      wsfpug = fdFpug
+c                   exsr      RtvTip
+c                   if        $entry_tias <> 0                              Se
+c                   leavesr                                                 --> leavesr -->
+c                   endif
+c                   enddo                                                   anafid
+c                   endif
+ *
+c                   enddo                                                   refira
+ *
+c                   endsr
+ **************************************************************************
+ *  Operazioni iniziali
+ **************************************************************************
+c     *inzsr        begsr
+ * Parametri
+c     *entry        plist
+c                   parm                    KPJBA                           Obbligatorio
+c                   parm                    CLAM                            Facoltativo
+c                   eval      $ENTRY_ = kpjbu
+ * Chiavi
+c     kANAFID       klist
+c                   kfld                    fdprfd
+c                   kfld                    fdcodf
+c     kclafid       klist
+c                   kfld                    fcprfd
+c                   kfld                    fccodf
+c     krefira       klist
+c                   kfld                    rrced
+c                   kfld                    rrdeb
+c     pakey         klist
+c                   kfld                    pakeya
+c                   kfld                    pakeyb
+ * Peso classi mitigazione
+c                   eval      pakeya = 'CLA'
+c                   eval      pakeyb = *all'0'
+c                   move      1             pakeyb
+c     pakey         chain     PARAM                                         Legge PARAM/CLA/000000001
+c                   if        %found                                        Per EmilRo trova 010101010000101 1 CLAPBM 2.0 Peso Bonus/Malus
+c                   eval      CLA = padesc                                                                   1 CLAPFF 2.0 Peso Franchigia fissa
+                                                                                                             1 CLAPMX 2.0 Peso Max indennizzabile
+                                                                                                             1 CLAPMI 2.0 Peso Minimo garantito
+                                                                                                             0 CLASGP 3.0 Soglia PTO IAS
+                                                                                                             1 CLAPRC 2.0 Peso Ricalcolo commissioni
+                                                                                                             1 CLAPMN 2.0 Peso Minimo indennizzabile
+c                   else
+c                   clear                   cla                             le altre Società ...
+c                   endif
+ * Tipologia IAS
+c     'TIA'         setll     PARAM                                         Legge tutti i PARAM/TIA
+c                   do        *hival                                        Per *TUTTI trova PAKEYB    PADESC
+c     'TIA'         reade     PARAM                                                          000000001 PTO all'Attivo NO        PTO Att.NO0
+c                   if        %eof                                                           000000020 PTO all'Attivo SÂ        PTO Att.SÂ1
+c                   leave                                                                              ¦                        ¦         ¦
+c                   endif                                                                              TIADES...................TIARID....TIAATT
+c                   eval      TIA = padesc
+c                   select
+c                   when      tiaatt = '0'                                  con TiaAtt  = '0'
+c                   move      pakeyb        wstias0                             WsTias0 = 001
+c                   when      tiaatt = '1'                                  con TiaAtt  = '1'
+c                   move      pakeyb        wstias1                             WsTias1 = 020
+c                   endsl
+c                   enddo
+ *
+c                   endsr

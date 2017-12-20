@@ -1,0 +1,1309 @@
+ **************************************************************************
+ *  Programmatore..........: Andrea Emmanueli
+ *  Data creazione.........: 06/07/2006
+ *
+ *  Descrizione programma..: Piani di rientro fidi
+ **************************************************************************
+ * Output and Input/Output files
+fPIAFID1L  uf a e           k disk
+ * Input-only files
+fANACED1L  if   e           k disk
+fANAFID3L  if   e           k disk
+fMST0011L  if   e           k disk
+ * Workstation and Printer files
+fTRA1580V  cf   e             workstn infds($INFDS)
+f                                     sfile(V01S:V01NRR)
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+d $INFDS          ds
+d  $FunctKey            369    369
+d  $1RecOfPag           378    379b 0
+d $FunctKeyList   ds
+d  $_Null                        1    inz(x'00')
+d  $_Enter                       1    inz(x'F1')
+d  $_Help                        1    inz(x'F3')
+d  $_RollDw                      1    inz(x'F4')
+d  $_RollUp                      1    inz(x'F5')
+d  $_Print                       1    inz(x'F6')
+d  $_BackSp                      1    inz(x'F8')
+d  $_Clear                       1    inz(x'FD')
+d  $_Cmd01                       1    inz(x'31')
+d  $_Cmd02                       1    inz(x'32')
+d  $_Cmd03                       1    inz(x'33')
+d  $_Cmd04                       1    inz(x'34')
+d  $_Cmd05                       1    inz(x'35')
+d  $_Cmd06                       1    inz(x'36')
+d  $_Cmd07                       1    inz(x'37')
+d  $_Cmd08                       1    inz(x'38')
+d  $_Cmd09                       1    inz(x'39')
+d  $_Cmd10                       1    inz(x'3A')
+d  $_Cmd11                       1    inz(x'3B')
+d  $_Cmd12                       1    inz(x'3C')
+d  $_Cmd13                       1    inz(x'B1')
+d  $_Cmd14                       1    inz(x'B2')
+d  $_Cmd15                       1    inz(x'B3')
+d  $_Cmd16                       1    inz(x'B4')
+d  $_Cmd17                       1    inz(x'B5')
+d  $_Cmd18                       1    inz(x'B6')
+d  $_Cmd19                       1    inz(x'B7')
+d  $_Cmd20                       1    inz(x'B8')
+d  $_Cmd21                       1    inz(x'B9')
+d  $_Cmd22                       1    inz(x'BA')
+d  $_Cmd23                       1    inz(x'BB')
+d  $_Cmd24                       1    inz(x'BC')
+ * Variabili locali -------------------------------------------------------
+d DIV           e ds
+d TPG           e ds
+d £LenV00TITLE    s              6  0 inz
+d £LenTitle       s              6  0 inz
+d £PrimoGiro      s               n   inz
+d £VideoScreen    s              6    inz
+d £ExVideoScreen  s              6    inz
+d £DlbDate        s              8  0 inz
+d £ScadDate       s              8  0 inz
+d £LastRecord     s                   like(V01NRR) inz
+d £TotRate        s                   like(FDIFDU) inz
+d £Scadenze       s                   dim(999) like(PFDTSC) inz
+d £iScadenze      s              6  0 inz
+d £FoundRate      s              1    inz
+d £EndOfMonth     s               n   inz
+d £GgMese         s              2  0 dim(12) ctdata perrcd(12)
+d £GStart         s              2  0
+d £NumRata        s              6  0 inz
+d £VxxPlanned     s               n   inz
+d £VxxExecute     s             10    inz
+d £VxxOperation   s             10    inz
+d £VxxPrepare     s              4    inz
+d £VxxCheckMode   s             10    inz
+d £V01FunctKey    s                   like($FunctKey) inz
+d £V01Ind         s               n   dim(99) inz
+d £V01SaveInd     s               n   dim(99) inz
+d £V01MaxNRR      s                   like(V01NRR) inz
+d £V01SaveSRN     s                   like(V01SRN) inz
+d £V02FunctKey    s                   like($FunctKey) inz
+d £V02Ind         s               n   dim(99) inz
+d £V02SaveInd     s               n   dim(99) inz
+d £Refresh        s               n
+d £Error_         ds
+d  £Error                         n
+d  £Warning                       n
+d  £ErrorNRR                          like(V01NRR)
+d  £ErrorId                      7
+d  £ErrorData                   60
+d  £ErrId                             like(£ErrorId) dim(30)
+d  £ErrData                           like(£ErrorData) dim(30)
+d  £ErrIx                        2  0
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £EurDate                      d   DatFmt(*EUR)
+d   £IsoDate                      d   DatFmt(*ISO)
+d   £DateError                    n
+d £Add_           ds
+d  £Add_Date                     8  0 inz
+d  £Add_Months                   3  0 inz
+d  £Add_EOfM                      n   inz
+d  £Add_NewMonth                 4  0 inz
+d  £Add_GStart                   2  0 inz
+d £Text           s             80    dim(10) ctdata perrcd(1)
+ * Parametri -------------------------------------------------------------- TRA158 è chiamato da TRA151 in:
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)           PgmTRA158 Gestione video piani di rientro
+d $Entry_         ds                                                              con
+d  $Entry_Op                     1                                          V01OP
+ *                                    Tipo gestione:
+ *                                    1=Inserimento
+ *                                    2=Aggiornamento
+ *                                    4=Inquiry
+d  $Entry_Exit                   1
+ *                                    Modo di uscita:
+ *                                    0=Fine
+ *                                    1=Mappa precedente
+ *                                    2=Mappa successiva
+d  $Entry_NrFid                       like(PFPRFD)                          V04PRFD
+d  $Entry_CdFid                       like(PFCODF)                          V04CODF
+d DCER01_         ds
+d  DCER01_KPJBA                       like($Entry_KPJBA)
+d  DCER01_ErrId                       like(£ErrId) dim(30)
+d  DCER01_ErrDa                       like(£ErrData) dim(30)
+d  DCER01_Level                  2p 0
+d STD012_         ds
+d  STD012_SHDTIN                 8  0
+d  STD012_SHDTOU                 8  0
+d  STD012_SHFERD                 1
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+ *
+c                   dou           £VxxExecute = 'Exit'
+ *
+c                   select
+c                   when          £VxxExecute = 'Video01'
+c                   exsr      Video01
+c                   when          £VxxExecute = 'Video02'
+c                   exsr      Video02
+c                   endsl
+ *
+c                   enddo
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   eval      *inlr = *on
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+ * Operazioni preliminari (END) -------------------------------------------
+ * Operazioni varie (START) -----------------------------------------------
+c                   movea     *all'0'       £V01Ind
+c                   movea     *all'0'       £V01SaveInd
+ *
+c                   eval      V$$PGMQ = '*'
+ *
+c                   eval      FDPRFD = $Entry_NrFid                         con Inp_Nbr_Progressivo_Fido
+c                   eval      FDCODF = $Entry_CdFid                             Inp_Cde_Fido
+c     Key_ANAFID    chain     ANAFID3L                                          legge AnaFid3L
+c                   if            not %found(ANAFID3L)
+c                   eval      $Entry_Exit = '2'
+c                   goto      EndOfPgm
+c                   endif
+c                   eval      £DlbDate = FDDDLS * 1000000 + FDDDLA * 10000      e cuce la Data_Delibera
+c                             + FDDDLM * 100 + FDDDLG
+ * Operazioni varie (END) -------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval      $Entry_KPJBU = $Entry_
+ * Operazioni finali (END) ------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Gestione subfile codici fido
+c     Video01       begsr
+ *
+c                   movea     *in           £V01SaveInd
+c                   movea     £V01Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video01'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V01Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V01Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd02
+c                   eval      $Entry_Exit = '1'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd08
+c                   eval      £VxxExecute = 'Video02'
+c                   eval      £VxxOperation = 'Prepare'
+c                   eval      £VxxPrepare = *blank
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V01Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V01FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V01FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V01Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V01FunctKey = $_Enter
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V01FunctKey = $_Cmd11
+c                   eval      $Entry_Exit = '2'
+c                   eval      £VxxExecute = 'Exit'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V01Ind
+c                   movea     £V01SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video01
+c     V01Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V01FunctKey = $_Null
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('T':£VxxPrepare) >= 1
+ *
+c                   clear                   V01T
+ *
+c                   eval      V01PRFD  = FDPRFD                             Nbr_Progressivo_Fido
+c                   eval      V01CODF  = FDCODF                             Cde_Fido
+c                   eval      V01DES1  = FDDES1                             Nar_Descrizione_Fido
+c                   eval      V01DES2  = FDDES2                             Nar_Descrizione_Fido
+c                   eval      V01CODC  = FDCODC                             Cde_Cedente
+c     FDCODC        chain     ANACED1L
+c                   if            %found(ANACED1L)
+c                   eval      V01RAS  = ACRAS                               Nar_Ragione_Sociale
+c                   endif
+c                   eval      V01IFDU  = FDIFDU                             Val_Fido_in_unità
+c                   eval      V01SOMMA = FDIANU + FDIARU + FDINNU           Importo_da_Rateizzare
+c                   eval      MTKEYA = 'DIV'
+c                   eval      MTKEYB = *all'0'
+c                   move      FDDIV         MTKEYB
+c     Key_MST001    chain     MST0011L
+c                   if            %found(MST0011L)
+c                             and MTFLAG <> 'A'
+c                   evalr     DIV = MTDESC
+c                   else
+c                   clear                   DIV
+c                   endif
+c                   eval      V01DSGL  = DIVSGL                             Cde_Sigla_Divisa
+c                   eval      V01DSGLS = DIVSGL                             Cde_Sigla_Divisa
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('C':£VxxPrepare) >= 1
+ *
+c                   clear                   V01C
+ *
+c                   eval      *in10 = *off
+c                   eval      *in12 = *on
+c                   write     V01C
+c                   eval      *in12 = *off
+c                   eval      V01NRR = 0
+c                   eval      £V01MaxNRR = 0
+ *
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('S':£VxxPrepare) >= 1
+ * Impostazioni per Modifica/Interrogazione (START)
+c                   eval      PFPRFD = FDPRFD                               con Nbr_Progressivo_Fido
+c                   eval      PFCODF = FDCODF                                   Cde_Fido
+c     Key_PIAFIDa   setll     PIAFID1L                                          si posiziona
+c                   dou           %eof(PIAFID1L)
+c     Key_PIAFIDa   reade(n)  PIAFID1L                                          e legge tutte le Rate
+c                   if            not %eof(PIAFID1L)
+ *
+c                   clear                   V01S
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+ *
+c                   eval      V01RATA = PFRATA                              Nbr_Rata_Contratto
+c                   clear                   £Date
+c                   eval      £SystemDate = PFDTSC
+c                   exsr      RotateDate
+c                   eval      V01DTSC  = £UserDate                          Dte_scadenza_rata
+c                   eval      V01DTSCH = £UserDate
+c                   eval      V01IRAT = PFIRAT                              Val_Importo_rata
+c                   clear                   £Date
+c                   eval      £SystemDate = PFDTPG
+c                   exsr      RotateDate
+c                   eval      V01DTPG  = £UserDate                          Dte_pagamento
+c                   eval      V01TPAG = PFTPAG                              Cde_Tipo_Pagamento_O/S -------.
+c                   if            PFTPAG <> *blank                                                        v ....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8....:....9....:....0....:....1...
+c                   eval      MTKEYA = 'TPG'                                                              B RICEVUTA BANCARIA        RB                                                                                    50
+c                   eval      MTKEYB = *all'0'                                                            C CAMBIALE                 CM                                                                                    00
+c                   move      PFTPAG        MTKEYB                                                        D RIMESSA DIRETTA          RD
+c     Key_MST001    chain     MST0011L                                      legge Mst0011L/TPG/PFTPAG     R SDD                      SD
+c                   if            %found(MST0011L)                                                        T TRATTA                   TR                                                                                    00
+c                             and MTFLAG <> 'A'                                                             ¦                        ¦ ¦                                                                                    ¦
+c                   evalr     TPG = MTDESC                                                                  ¦                        ¦ TPGFL2 86 FILLER --------------------------------------------------------------------'
+c                   else                                                                                    ¦                        TPGRID  2 DES. RIDOTTA
+c                   clear                   TPG                                                             TPGDES 25 DES.TIPO PAGAMENTI
+c                   endif                                                                                                            ¦
+c                   eval      V01TPAGD = TPGRID                             Des_Tipo_Pagamento_O/S <---------------------------------'
+c                   endif
+c                   eval      V01IPAG = PFIPAG                              Val_Importo_pagamento
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in30 =     V01IPAG <> 0
+ *
+c                   write(e)  V01S                                          scrive SubFile
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   endif
+c                   enddo
+ * Impostazioni per Modifica/Interrogazione (END)
+ * Carica subfile con righe vuote (START)
+c                   if            (    £VxxPrepare = *blank
+c                                  or  %scan('S':£VxxPrepare) >= 1)
+c                             and $Entry_Op <> '4'
+ *
+c                   dou           V01NRR >= 999
+ *
+c                   clear                   V01S
+ *
+c                   eval      V01NRR = £V01MaxNRR + 1
+c                   eval      V01RATA = V01NRR
+ *
+c                   eval      *in30 =     V01IPAG <> 0
+ *
+c                   write(e)  V01S                                          scrive SubFile vuoto
+c                   if            not %Error
+c                   eval      *in10 = *on
+c                   eval      £V01MaxNRR = V01NRR
+c                   endif
+ *
+c                   enddo
+ *
+c                   endif
+ * Carica subfile con righe vuote (END)
+c                   endif
+ *
+c                   if            £VxxPrepare = *blank
+c                             or  %scan('P':£VxxPrepare) >= 1
+ *
+c                   clear                   V01P
+ *
+c                   endif
+ *
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V01Check
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VideoScreen = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video01
+c     V01Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Imposta dati Testata generica V00 (START) ------------------------------
+c                   clear                   V00
+ *
+c                   eval      V00SCREEN = %trim($PgmName) + '/01'
+ *
+c                   eval      £LenV00TITLE = %len(V00TITLE1)
+c                   eval      £LenTitle = %len(%trim(£Text(1)))
+c                   eval      %subst(V00TITLE1:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(1))
+c                   eval      £LenV00TITLE = %len(V00TITLE2)
+c                   select
+c                   when          $Entry_Op = '1'
+c                   eval      £LenTitle = %len(%trim(£Text(3)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(3))
+c                   when          $Entry_Op = '2'
+c                   eval      £LenTitle = %len(%trim(£Text(4)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(4))
+c                   when          $Entry_Op = '4'
+c                   eval      £LenTitle = %len(%trim(£Text(6)))
+c                   eval      %subst(V00TITLE2:%int((£lenV00TITLE
+c                                - £LenTitle) / 2) + 1:£LenTitle)
+c                                = %trim(£Text(6))
+c                   endsl
+ *
+c                   eval      V00SINFO = $Entry_KNSIF
+ *
+c                   eval      V00USER = $Entry_KNMUS
+ * Imposta dati Testata generica V00 (END) --------------------------------
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      £ExVideoScreen = £VideoScreen
+c                   eval      £VideoScreen = 'V01'
+c                   eval      £PrimoGiro = £VideoScreen <> £ExVideoScreen
+ *
+c                   eval      *in01 =     $Entry_Op = '1'
+c                   eval      *in02 =     $Entry_Op = '2'
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in08 =     FDFLAG = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in11 = *on
+c                   eval      *in20 =     FDFDPL = 'S'
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ *
+c                   eval      V01SRN = £V01SaveSRN
+c                   if            £Error
+c                   eval      V01SRN = £ErrorNRR
+c                   endif
+c                   if            V01SRN <= 0
+c                             or  V01SRN > £V01MaxNRR
+c                   eval      V01SRN = 1
+c                   endif
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V00
+c                   write     V$$C
+c                   write     V01T
+c                   write     V01C
+c                   write     V01P
+c                   read      V01C
+c                   read      V01P
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V01FunctKey = $FunctKey
+c                   eval      £ErrorNRR = 0
+c                   if            $1RecOfPag <> 0
+c                   eval      £V01SaveSRN = $1RecOfPag
+c                   endif
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video01
+c     V01Check      begsr
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £VxxPlanned = *off
+c                   eval      £LastRecord = 0
+c                   reset                   £Scadenze
+c                   eval      £iScadenze = 0
+c                   eval      £TotRate = 0
+c                   endif
+ *
+c                   if            £VxxCheckMode <> 'Standard'
+c                             or  $Entry_Op <> '4'
+ * Controllo dati inseriti (START) ----------------------------------------
+c                   if            £V01MaxNRR > 0
+c                   for       V01NRR = 1 to £V01MaxNRR                      per tutte le voci del SubFile
+c     V01NRR        chain     V01S
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      *in31 = *off
+c                   eval      *in32 = *off
+c                   endif
+ *
+c                   if            V01DTSC <> 0
+c                             or  V01DTSCH <> 0
+c                             or  V01IRAT <> 0
+c                   eval      £LastRecord = V01NRR
+c                   endif
+ *
+c                   if            V01DTSC <> 0                              Se Dte_scadenza_rata
+c                             or  V01IRAT <> 0                               o Val_Importo_rata valorizzati
+ *
+c                   eval      £TotRate = £TotRate + V01IRAT                    + V01IRAT
+ * Check: Data scadenza (START)
+c                   clear                   £Date
+c                   eval      £UserDate = V01DTSC
+c                   exsr      CheckDate
+c                   if            £DateError                                Se Dte_scadenza_rata
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0085'                             errore SYS0085
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+c                   eval      £ScadDate = STD012_SHDTOU
+ * Check: Data scadenza (END)
+ * Check: Data scadenza minore di data delibera (START)
+c                   if            £ScadDate < £DlbDate                      Se Data_Scadenza < Data_Delibera
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7459'                             errore SYS7459
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Data scadenza minore di data delibera (END)
+ * Check: Data scadenza specificata più volte (START)
+c                   if            %lookup(V01DTSC:£Scadenze) <= 0           Se non ancora catalogata
+ *
+c                   eval      £iScadenze = £iScadenze + 1                      +1
+c                   eval      £Scadenze(£iScadenze) = V01DTSC                  cataloga
+ *
+c                   else                                                    altrimenti
+ *
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7520'                             errore SYS7520
+c                   exsr      ErrorAdd
+c                   eval      *in31 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+ *
+c                   endif
+ * Check: Data scadenza specificata più volte (END)
+ * Check: Importo rata (START)
+c                   if            V01IRAT <= 0                              Se manca Importo_Rata
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in32 = *on
+c                   if            £ErrorNRR = 0
+c                   eval      £ErrorNRR = V01NRR
+c                   endif
+c                   endif
+c                   endif
+ * Check: Importo rata (END)
+c                   endif
+ *
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in30 =     V01IPAG <> 0
+ *
+c                   update    V01S
+ *
+c                   endfor
+c                   endif
+ * Check: Totale rate diverso da importo fido (START)
+c                   if            £TotRate < V01SOMMA                       Se TotRate < FDIANU + FDIARU + FDINNU
+c                             and £iScadenze >= 1                            e scadenze
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7521'                             errore SYS7521
+c                   exsr      ErrorAdd
+c                   endif
+c                   endif
+ * Check: Totale rate diverso da importo fido (END)
+ * Check: Richiesta almeno una scadenza (START)
+c                   if            £iScadenze = 0                            Se non inserite scadenze
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS8558'                             errore SYS8558
+c                   exsr      ErrorAdd
+c                   endif
+c                   endif
+ * Check: Richiesta almeno una scadenza (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   endif
+ *
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video01
+c     V01Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   if            $Entry_Op <> '4'
+ * Aggiornamento archivi (START) ------------------------------------------
+c                   for       V01NRR = 1 to £LastRecord                     per ogni voce del SubFile
+c     V01NRR        chain     V01S
+ *
+c                   if            V01DTSC <> 0                              Se voce da elaborare
+c                             or  V01DTSCH <> 0
+ *
+c                   eval      PFPRFD = $Entry_NrFid                         compone
+c                   eval      PFCODF = $Entry_CdFid                                i
+c                   clear                   £Date                                   campi
+c                   eval      £UserDate = V01DTSCH                                       della
+c                   exsr      RotateDate                                                      chiave
+c                   eval      PFDTSC = £SystemDate                                                  di
+c                   eval      PFRATA = V01RATA                                                        lettura
+c     Key_PIAFID    chain     PIAFID1L                                      e legge PiaFid1L
+ *
+c                   select
+c                   when          not %found(PIAFID1L)                      se non Trovato
+c                   clear                   PIAFID1R
+c                   eval      PFTREC = 'PIF'                                prepara
+c                   eval      PFFLAG = 'V'
+c                   eval      PFNAZN = $Entry_KNRAZ
+c                   eval      PFUINS = $Entry_KNMUS
+c                   eval      PFDINS = *date
+c                   when          V01DTSC = 0
+c                             and V01DTSCH <> 0
+c                             and %found(PIAFID1L)
+c                   eval      PFFLAG = 'A'
+c                   eval      PFNAZN = $Entry_KNRAZ
+c                   eval      PFUUPD = $Entry_KNMUS
+c                   eval      PFDUPD = *date
+c                   other                                                   se trovato
+c                   eval      PFNAZN = $Entry_KNRAZ                         prepara
+c                   eval      PFUUPD = $Entry_KNMUS
+c                   eval      PFDUPD = *date
+c                   endsl
+ *
+c                   if            PFFLAG <> 'A'                             Se non Annullato
+ *
+c                   eval      PFPRFD = $Entry_NrFid                         prepara
+c                   eval      PFCODF = $Entry_CdFid
+c                   eval      PFRATA = 0
+c                   clear                   £Date
+c                   eval      £UserDate = V01DTSC
+c                   exsr      RotateDate
+c                   eval      PFDTSC = £SystemDate
+c                   eval      PFIRAT = V01IRAT
+c                   eval      PFDIV  = FDDIV
+ *
+c                   endif
+ *
+c                   if            not %found(PIAFID1L)
+c                   write     PIAFID1R                                      Write
+c                   else                                                     o
+c                   update    PIAFID1R                                      Update
+c                   endif
+ *
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in30 =     V01IPAG <> 0
+ *
+c                   update    V01S
+ *
+c                   endif
+ *
+c                   endfor
+ * Rinumerazione rate (START)
+c                   eval      £NumRata = 0
+c                   eval      PFPRFD = FDPRFD
+c                   eval      PFCODF = FDCODF
+c     Key_PIAFIDa   setll     PIAFID1L
+c                   dou           %eof(PIAFID1L)
+c     Key_PIAFIDa   reade     PIAFID1L                                      poi rilegge tutto
+c                   if            not %eof(PIAFID1L)
+c                             and PFRATA = 0
+ *
+c                   eval      £NumRata = £NumRata + 1                       e fa +1
+c                   eval      PFRATA = £NumRata                             in Nbr_Rata_Contratto
+ *
+c                   update    PIAFID1R
+ *
+c                   endif
+c                   enddo
+ * Rinumerazione rate (END)
+ * Aggiornamento archivi (END) --------------------------------------------
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Gestione videata richiesta parametri per calcolo automatico rate
+c     Video02       begsr
+ *
+c                   movea     *in           £V02SaveInd
+c                   movea     £V02Ind       *in
+c                   clear                   £Error_
+ *
+c                   dou           £VxxExecute <> 'Video02'
+ *
+c                   select
+ * Preparazione e caricamento video (START) -------------------------------
+c                   when          £VxxOperation = 'Prepare'
+ *
+c                   exsr      V02Prepare
+ *
+c                   if            not £VxxPlanned
+c                   eval      £VxxOperation = 'Display'
+c                   endif
+ * Preparazione e caricamento video (END) ---------------------------------
+ * Emissione video (START) ------------------------------------------------
+c                   when          £VxxOperation = 'Display'
+ *
+c                   exsr      V02Display
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V02FunctKey = $_Cmd01
+c                   eval      $Entry_Exit = '0'
+c                   eval      £VxxExecute = 'Exit'
+c                   when          £V02FunctKey = $_Cmd02
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Check'
+c                   eval      £VxxCheckMode = 'Standard'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Emissione video (END) --------------------------------------------------
+ * Controlla dati immessi a video (START) ---------------------------------
+c                   when          £VxxOperation = 'Check'
+ *
+c                   exsr      V02Check
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          (    £Error
+c                                  and not £Warning)
+c                             or  £Refresh
+c                             or  (    £Warning
+c                                  and £V02FunctKey <> $_Cmd11)
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxOperation = 'Process'
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxOperation = 'Process'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Controlla dati immessi a video (END) -----------------------------------
+ * Elaborazione dati a video (START) --------------------------------------
+c                   when          £VxxOperation = 'Process'
+ *
+c                   exsr      V02Process
+ *
+c                   if            not £VxxPlanned
+c                   select
+c                   when          £V02FunctKey = $_Cmd11
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Display'
+c                   when          £V02FunctKey = $_Enter
+c                   eval      £VxxExecute = 'Video01'
+c                   eval      £VxxOperation = 'Display'
+c                   other
+c                   eval      £VxxOperation = 'Display'
+c                   endsl
+c                   endif
+ * Elaborazione dati a video (END) ----------------------------------------
+c                   endsl
+ *
+c                   enddo
+ *
+c                   clear                   £Error_
+c                   movea     *in           £V02Ind
+c                   movea     £V02SaveInd   *in
+ *
+c                   endsr
+ **************************************************************************
+ *  Preparazione Video02
+c     V02Prepare    begsr
+ *
+c                   eval      £VxxPlanned = *off
+c                   eval      £V02FunctKey = $_Null
+ * Imposta dati (START) ---------------------------------------------------
+c                   if            £VxxPrepare = *blank
+ *
+c                   clear                   V02
+ *
+c                   endif
+ *
+c                   eval      £VxxCheckMode = 'DecodeOnly'
+c                   exsr      V02Check
+ * Imposta dati (END) -----------------------------------------------------
+c                   eval      £VideoScreen = *blank
+ *
+c                   endsr
+ **************************************************************************
+ *  Visualizzazione Video02
+c     V02Display    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Setup indicatori e campi vari (START) ----------------------------------
+c                   eval      £ExVideoScreen = £VideoScreen
+c                   eval      £VideoScreen = 'V02'
+c                   eval      £PrimoGiro = £VideoScreen <> £ExVideoScreen
+ *
+c                   eval      *in01 =     $Entry_Op = '1'
+c                   eval      *in02 =     $Entry_Op = '2'
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in08 =     FDFLAG = 'A'
+c                   eval      *in09 =     not £PrimoGiro
+c                                     and (    not £Error
+c                                          or  £Warning)
+c                   eval      *in99 =     £Error
+c                   eval      *in98 =     £Warning
+c                   eval      $FunctKey = $_Null
+ * Setup indicatori e campi vari (END) ------------------------------------
+ * Visualizzazione videate (START) ----------------------------------------
+c                   write     V02
+c                   write     V$$C02
+c                   write     V02P
+c                   read      V02
+c                   read      V02P
+ * Visualizzazione videate (END) ------------------------------------------
+ * Reset indicatori e campi vari (START) ----------------------------------
+c                   eval      £V02FunctKey = $FunctKey
+c                   eval      £Refresh = *off
+c                   clear                   £Error_
+ * Reset indicatori e campi vari (END) ------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controllo dati Video02
+c     V02Check      begsr
+ *
+c                   if            £VxxCheckMode = 'Standard'
+ *
+c                   eval      £VxxPlanned = *off
+ *
+c                   eval      *in21 = *off
+c                   eval      *in22 = *off
+c                   eval      *in23 = *off
+c                   eval      *in24 = *off
+ *
+c                   endif
+ * Controllo dati inseriti (START) ----------------------------------------
+ * Check: Importo singola rata (START)
+c                   if            V02VAL1R <= 0                             Se manca Importo_singola_rata
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in21 = *on
+c                   endif
+c                   endif
+ * Check: Importo singola rata (END)
+ * Check: Numero rate da generare (START)
+c                   if            V02NUMER <= 0                             Se manca N°_rate_da_generare
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in22 = *on
+c                   endif
+c                   endif
+ * Check: Numero rate da generare (END)
+ * Check: Periodicità rate (START)
+c                   if            V02PERIR <> 0                             Se Periodicità_rate ...
+c                             and V02PERIR <> 1
+c                             and V02PERIR <> 2
+c                             and V02PERIR <> 3
+c                             and V02PERIR <> 4
+c                             and V02PERIR <> 6
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0016'                             errore SYS0016
+c                   exsr      ErrorAdd
+c                   eval      *in23 = *on
+c                   endif
+c                   endif
+ * Check: Periodicità rate (END)
+ * Check: Scadenza 1° rata (START)
+c                   clear                   £Date
+c                   eval      £UserDate = V02SCA1R                          Se Scadenza_1°_rata
+c                   exsr      CheckDate
+c                   if            £DateError                                   errata
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS0085'                             errore SYS0085
+c                   exsr      ErrorAdd
+c                   eval      *in24 = *on
+c                   endif
+c                   endif
+c                   eval      £ScadDate = STD012_SHDTOU
+ *
+c                   if            not £DateError                            si segna se scadenza a fine mese
+c                   eval      £SystemDate =£ScadDate
+c                   if            (    %rem(£SDAa:4) = 0
+c                                  and £SDAa <> 0)
+c                             or  %rem(£SDAaaa:400) = 0
+c                   eval      £GgMese(2) = 29
+c                   else
+c                   eval      £GgMese(2) = 28
+c                   endif
+c                   eval      £EndOfMonth = *off
+c                   if            £SDGg = £GgMese(£SDMm)
+c                   eval      £EndOfMonth = *on
+c                   endif
+c                   endif
+ * Check: Scadenza 1° rata (END)
+ * Check: Data scadenza minore di data delibera (START)
+c                   if            £ScadDate < £DlbDate                      Se Scadenza < Delibera
+c                   if            £VxxCheckMode = 'Standard'
+c                   eval      £ErrorId = 'SYS7459'                             errore SYS7459
+c                   exsr      ErrorAdd
+c                   eval      *in24 = *on
+c                   endif
+c                   endif
+ * Check: Data scadenza minore di data delibera (END)
+ * Check: Rate già esistenti su subfile (START)
+c                   eval      £FoundRate = '0'
+c                   if            £V01MaxNRR > 0
+c                   for       V01NRR = 1 to £V01MaxNRR                      per ogni voce del SubFile
+c     V01NRR        chain     V01S
+c                   if            V01DTSC <> 0                              se valida
+c                             or  V01DTSCH <> 0
+c                             or  V01IRAT <> 0
+c                   eval      £FoundRate = '1'                                 '1'
+c                   if            V01TPAG <> *blank                         se con Tipo_Pagamento
+c                   eval      £FoundRate = '2'                                 '2'
+c                   endif
+c                   endif
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in30 =     V01IPAG <> 0
+c                   update    V01S
+c                   if            £FoundRate = '2'
+c                   leave                                                    e per '2' esce dal ciclo
+c                   endif
+c                   endfor
+c                   endif
+ *
+c                   if            £FoundRate >= '1'
+c                   if            £VxxCheckMode = 'Standard'
+c                   if            £FoundRate = '2'                          se '2'
+c                   eval      £ErrorId = 'SYS7706'                          errore SYS7706 99 Rate già esistenti con pagamenti.
+c                   else                                                    se '1'
+c                   eval      £ErrorId = 'SYS7704'                          errore SYS7704 00 Rate già esistenti: premere Cmd11 per forzare la sostituzione.
+c                   endif
+c                   exsr      ErrorAdd
+c                   endif
+c                   endif
+ * Check: Rate già esistenti su subfile (END)
+ * Controllo dati inseriti (END) ------------------------------------------
+c                   if            £Error
+c                   exsr      ErrorDecode
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazione Video02
+c     V02Process    begsr
+ *
+c                   eval      £VxxPlanned = *off
+ * Creazione automatica rate (START)
+c                   eval      £GStart = %rem(£ScadDate:100)
+ *
+c                   if            V02NUMER > £LastRecord
+c                   eval      £LastRecord = V02NUMER
+c                   endif
+c                   for       V01NRR = 1 to £LastRecord                     Per ogni Rata da generare
+c     V01NRR        chain     V01S
+ *
+c                   if        V01NRR <= V02NUMER                            inserisce
+c                   clear                   £Date
+c                   eval      £SystemDate = £ScadDate
+c                   exsr      RotateDate
+c                   eval      V01DTSC  = £UserDate
+c                   eval      V01IRAT = V02VAL1R
+c                   else                                                    o
+c                   eval      V01DTSC = 0                                     annulla
+c                   eval      V01IRAT = 0
+c                   endif
+c                   eval      *in04 =     $Entry_Op = '4'
+c                   eval      *in30 = *off
+ *
+c                   update    V01S                                          aggiorna SubFile
+ *
+c                   if        V01NRR < V02NUMER
+c                   clear                   £Add_
+c                   eval      £Add_Date = £ScadDate
+c                   if        V02PERIR <> 0
+c                   eval      £Add_Months = V02PERIR
+c                   else
+c                   eval      £Add_Months = 12
+c                   endif
+c                   eval      £Add_EOfM = £EndOfMonth
+c                   eval      £Add_GStart = £GStart
+c                   exsr      AddMonths
+c                   eval      £ScadDate = £Add_Date
+c                   endif
+ *
+c                   endfor
+ * Creazione automatica rate (END)
+c                   endsr
+ **************************************************************************
+ *  Utility di aggiunta mesi ad una data
+c     AddMonths     begsr
+ *
+c                   eval      £SystemDate = £Add_Date
+ *
+c                   eval      £Add_NewMonth = £SDMm + £Add_Months
+ * Sistemazione eventuale data errata (START)
+c                   if            £Add_NewMonth > 12
+c                   dou           £Add_NewMonth <= 12
+c                   eval      £Add_NewMonth = £Add_NewMonth - 12
+c                   eval      £SDAaaa = £SDAaaa + 1
+c                   enddo
+c                   endif
+c                   eval      £SDMm = £Add_NewMonth
+ *
+c                   if            (    %rem(£SDAa:4) = 0
+c                                  and £SDAa <> 0)
+c                             or  %rem(£SDAaaa:400) = 0
+c                   eval      £GgMese(2) = 29
+c                   else
+c                   eval      £GgMese(2) = 28
+c                   endif
+c                   if            £SDGg > £GgMese(£SDMm)
+c                   eval      £SDGg = £GgMese(£SDMm)
+c                   endif
+ * Sistemazione eventuale data errata (END)
+ * Impostazione nuovo fine mese se necessario (START)
+c                   if            £Add_EOfM
+c                   eval      £SDGg = £GgMese(£SDMm)
+c                   else
+c                   if            £Add_GStart <= £GgMese(£SDMm)
+c                   eval      £SDGg = £Add_GStart
+c                   endif
+c                   endif
+ * Impostazione nuovo fine mese se necessario (END)
+c                   eval      £Add_Date = £SystemDate
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di aggiunta errori ad elenco
+c     ErrorAdd      begsr
+ *
+c                   if            £ErrIx < 30
+c                   eval      £ErrIx = £ErrIx + 1
+c                   eval      £ErrId(£ErrIx) = £ErrorId
+c                   eval      £ErrData(£ErrIx) = £ErrorData
+c                   endif
+c                   eval      £Error = *on
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di decodifica errori
+c     ErrorDecode   begsr
+ *
+c                   clear                   DCER01_
+c                   eval      DCER01_KPJBA = $Entry_KPJBA
+c                   movea     £ErrId        DCER01_ErrId
+c                   movea     £ErrData      DCER01_ErrDa
+ *
+c                   call      'DCER01'      PL_DCER01
+ *
+c                   eval      £Warning =     DCER01_Level <= 60
+ *
+c                   endsr
+ **************************************************************************
+ *  Utility di controllo data
+c     CheckDate     begsr
+ * Sistemo date utente (START) --------------------------------------------
+c                   select
+c                   when          £UserDate <> 0
+c                             and £User6Date = 0
+c                   eval      £6DGg = £UDGg
+c                   eval      £6DMm = £UDMm
+c                   eval      £6DAa = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   when          £User6Date <> 0
+c                             and £UserDate = 0
+c                   eval      £UDGg = £6DGg
+c                   eval      £UDMm = £6DMm
+c                   if        £6DAa < 80
+c                   eval      £UDAaaa = 2000 + £6DAa
+c                   else
+c                   eval      £UDAaaa = 1900 + £6DAa
+c                   endif
+c                   endsl
+ * Sistemo date utente (END) ----------------------------------------------
+ * Controllo data (START) -------------------------------------------------
+c                   clear                   STD012_
+c                   eval      STD012_SHDTIN = £UserDate
+c                   eval      STD012_SHFERD = '1'
+ *
+c                   call      'STD012'      PL_STD012
+ *
+c                   eval      £DateError = STD012_SHFERD = 'S'
+ * Controllo data (END) ---------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Utility di rotazione data
+c     RotateDate    begsr
+ * Sistemo date utente (START) --------------------------------------------
+c                   select
+c                   when          £UserDate <> 0
+c                             and £User6Date = 0
+c                   eval      £6DGg = £UDGg
+c                   eval      £6DMm = £UDMm
+c                   eval      £6DAa = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   when          £User6Date <> 0
+c                             and £UserDate = 0
+c                   eval      £UDGg = £6DGg
+c                   eval      £UDMm = £6DMm
+c                   if        £6DAa < 80
+c                   eval      £UDAaaa = 2000 + £6DAa
+c                   else
+c                   eval      £UDAaaa = 1900 + £6DAa
+c                   endif
+c                   endsl
+ * Sistemo date utente (END) ----------------------------------------------
+ * Ruota data (START) -----------------------------------------------------
+c                   clear                   STD012_
+c                   select
+c                   when          £UserDate <> 0
+c                             and £SystemDate = 0
+c                   eval      STD012_SHDTIN = £UserDate
+c                   eval      STD012_SHFERD = '1'
+c                   when          £SystemDate <> 0
+c                             and £UserDate = 0
+c                   eval      STD012_SHDTIN = £SystemDate
+c                   eval      STD012_SHFERD = '2'
+c                   other
+c                   leavesr
+c                   endsl
+ *
+c                   call      'STD012'      PL_STD012
+ *
+c                   select
+c                   when          £UserDate <> 0
+c                             and £SystemDate = 0
+c                   eval      £SystemDate = STD012_SHDTOU
+c                   when          £SystemDate <> 0
+c                             and £UserDate = 0
+c                   eval      £UserDate = STD012_SHDTOU
+c                   eval      £6DGg   = £UDGg
+c                   eval      £6DMm   = £UDMm
+c                   eval      £6DAa   = £UDAaaa - %int(£UDAaaa / 100) * 100
+c                   endsl
+ * Ruota data (END) -------------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_DCER01     plist
+c                   parm                    DCER01_KPJBA
+c                   parm                    DCER01_ErrId
+c                   parm                    DCER01_ErrDa
+c                   parm                    DCER01_Level
+c     PL_STD012     plist
+c                   parm                    STD012_SHDTIN
+c                   parm                    STD012_SHDTOU
+c                   parm                    STD012_SHFERD
+ * Definizione chiavi -----------------------------------------------------
+c     Key_ANAFID    klist
+c                   kfld                    FDPRFD
+c                   kfld                    FDCODF
+c     Key_PIAFID    klist
+c                   kfld                    PFPRFD
+c                   kfld                    PFCODF
+c                   kfld                    PFDTSC
+c                   kfld                    PFRATA
+c     Key_PIAFIDa   klist
+c                   kfld                    PFPRFD
+c                   kfld                    PFCODF
+c     Key_MST001    klist
+c                   kfld                    MTKEYA
+c                   kfld                    MTKEYB
+ *
+c                   endsr
+**   £Add_GgMesi
+312831303130313130313031
+**   £Text
+GESTIONE PIANI DI RIENTRO
+Inserimento
+Variazione
+   .05.
+Inquiry
+   .07.
+   .08.
+   .09.
+   .10.
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+ OOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOO  DD/DD/DD  1
+            OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOO TT:TT:TT  2
+                                                                                 3
+ Fido Nr.: 66666   A N N U L L A T O            Importo 66.666.666.666,66 OOOOO  4
+ Cod.fido: OOOO                           da rateizzare 66.666.666.666,66 OOOOO  5
+           OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO          6
+           OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO          7
+ Cedente : 66666 OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                             8
+                                                                                 9
+ --------------- Rata ---------------     ------------- Pagamento ------------- 10
+ _N._____scadenza_____________importo___________data___tipo_____________importo 11
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 12
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 13
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 14
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 15
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 16
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 17
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 18
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 19
+ 666   99/99/9999   99.999.999.999,99     66/66/6666   OO     66.666.666.666,66 20
+                                                                                21
+ ___________________________________________________________________________    22
+ Cmd01 Fine   Cmd02 Ritorno          Cmd08 Calcolo autom. rate   Cmd11 Forza    23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8
+                                                                                 1
+ .........................................................                       2
+ :                                                       :                       3
+ :  Importo singola rata .......: 99.999.999.999,99      :                       4
+ :  N° rate da generare ........: 999                    :                       5
+ :  Periodicità rate ...........: 9  (1=Mensile,         :                       6
+ :                                    2=Bimestrale,      :                       7
+ :                                    3=Trimestrale,     :                       8
+ :                                    4=Quadrimestrale,  :                       9
+ :                                    6=Semestrale,      :                      10
+ :                                    0=Annuale)         :                      11
+ :  Scadenza 1° rata ...........: 99/99/9999             :                      12
+ :  ___________________________________________________  :                      13
+ :  Cmd01 Fine   Cmd02 Ritorno   Cmd11 Forza             :                      14
+ :                                                       :                      15
+ :                                                       :                      16
+ :.......................................................:                      17
+                                                                                18
+                                                                                19
+                                                                                20
+                                                                                21
+                                                                                22
+                                                                                23
+                                                                                24
+....:....1....:....2....:....3....:....4....:....5....:....6....:....7....:....8

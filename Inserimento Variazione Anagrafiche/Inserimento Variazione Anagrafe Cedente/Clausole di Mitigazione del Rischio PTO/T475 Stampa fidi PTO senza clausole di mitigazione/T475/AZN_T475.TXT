@@ -1,0 +1,9 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T475                      Stampa fidi PTO senza clausole di mitigazione
+        --------------------------------------------------------------------------------
+        TRA417                        Stampa fidi PTO senza clausole di mitigazione
+        --------------------------------------------------------------------------------
+        TRA417    RPGLE 1-ANACED1L  1-ANAFID3L  1-CLAFID2L  1-CEDCLA1L  1-CLAMIT1L
+        .         .     1-CEDSCA5L  1-PARAM     1-TABFID1L  2-TRA4170P
+        --------------------------------------------------------------------------------

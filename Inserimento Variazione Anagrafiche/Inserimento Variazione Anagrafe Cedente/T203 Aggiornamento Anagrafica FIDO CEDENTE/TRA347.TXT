@@ -1,0 +1,139 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  Programmatore.....: Andrea Emmanueli
+ *  Data creazione....: 14/12/2006                                          V02Check Controllo Dati Video02
+ *                                                                             Check Organo deliberante V02ORDL
+ *  Descriz. programma: Reperimento dati da DLBFID o STORDE                      con V02ORDL
+ *                      Utilizzato per reperire i dati da DLBFID piuttosto           £RevoDate se Revoca
+ *                      che da STORDE in base al valore della data di rife-          £DlbDate  altrimenti
+ *                      rimento ricevuta come parametro. La data potrebbe      OK se 1=Dati Attuali
+ *                      essere quella di delibera fido oppure quella del           o 2=Dati storici
+ *                      giorno.
+ ************************************************************************** RtvTpSconfino Rep. Tipologia Fido per Suddivisione Importi per Controllo Sconfino
+ * Input-only files                                                            Debitori del Gruppo
+fDLBFID6L  if   e           k disk    usropn                                      Esiste un Mix di Debitori nel Gruppo
+fSTORDE1L  if   e           k disk    usropn prefix(DF:2)                        con £RtS_ORDL
+ **************************************************************************          £RtS_Date
+ * Variabili di sistema                                                        OK se 1=Dati Attuali
+d                sds                                                               o 2=Dati storici
+d   $Parms          *parms                                                        Se DF3_DFMSDT > DF3_DFMSDS allora £RtS_TpSconf = 'T'
+d   $ProcName       *proc                                                                                altrimenti £RtS_TpSconf = 'S'
+d   $PgmName              1     10
+d   $JobName            244    253                                          PgmBRC220 Gestione video potere organo deliberante (Pgm: BRC220)
+d   $UserName           254    263                                               con V02ORDL
+d   $JobNumber          264    269s 0                                                £RevoDate se Revoca
+ * Variabili locali                                                                  £DlbDate  altrimenti
+d £FileOpened     s               n   inz(*off)                                OK se 1=Dati Attuali
+d £Date           ds                                                               o 2=Dati storici
+d   £SystemDate                  8  0                                             Chiama BRC220...
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £DateError                    n
+ * Parametri
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)
+d $Entry_         ds
+d  $Entry_OrDel                       like(DFORDE)                          Organo deliberante
+d  $Entry_Date                   8  0                                       Data di riferimento
+d  $Entry_Found                  1                                          Tipo dati reperiti: 0=Dati inesistenti o annullati 1=Dati attuali 2=Dati storici
+d  $Entry_DZ$USI                10
+d  $Entry_DZ$DIN                 8  0
+d  $Entry_DZ$TIN                 6  0
+d $Entry_DLBFID e ds                  extname(DLBFID0F)
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START)
+c                   if            $Entry_OrDel <> *loval                    Se Organo Deliberante <> *LowValue
+ *
+c                   eval      DFORDE = $Entry_OrDel
+c     DFORDE        chain     DLBFID6L                                      Legge DlbFid6L con Organo Deliberante
+c                   if            %found(DLBFID6L)                          Se Trovato
+c                             and (DFSECO * 1000000 +                        e Data Aggiornamento <= Data di Riferimento
+c                                  DFANNO * 10000 +
+c                                  DFMESE * 100 +
+c                                  DFGIOR) <= $Entry_Date
+c                   eval      $Entry_Found = '1'                            Ritorna 1=Dati Attuali e DLBFID
+c                   else                                                    altrimenti
+c                   eval      £SystemDate = $Entry_Date
+c                   eval      DFSECO = £SDSs
+c                   eval      DFANNO = £SDAa
+c                   eval      DFMESE = £SDMm
+c                   eval      DFGIOR = £SDGg
+c     Key_STORDE    setgt     STORDE1L                                      Legge l'ultimo StOrDe1L con Organo Deliberante
+c     DFORDE        readpe    STORDE1L                                                                e Data di Riferimento
+c                   if            not %eof(STORDE1L)                        Se Trovato
+c                   eval      $Entry_Found = '2'                            Ritorna 2=Dati Storici e DLBFID
+c                   eval      $Entry_DZ$USI = DF$USI                                               e Utente
+c                   eval      $Entry_DZ$DIN = DF$DIN                                                 Data
+c                   eval      $Entry_DZ$TIN = DF$TIN                                                 e Ora di Write di STORDE0F
+c                   else                                                    altrimenti
+c                   eval      $Entry_Found = '0'                            Ritorna 0=Dati Inesistenti o Annullati
+c                   endif
+c                   endif
+ *
+c                   endif
+ *
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   if            $Entry_OrDel <> *loval                    Se Organo Deliberante <> *LowValue
+c                   eval      *inLR = *off
+c                   eval      *inRT = *on
+c                   else                                                    altrimenti
+c                   eval      *inLR = *on
+c                   eval      *inRT = *off
+c                   endif
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START)
+c                   eval      $Entry_ = $Entry_KPJBU
+c                   clear                   $Entry_Found
+c                   clear                   $Entry_DZ$USI
+c                   clear                   $Entry_DZ$DIN
+c                   clear                   $Entry_DZ$TIN
+c                   clear                   $Entry_DLBFID
+ * Apertura file (START)
+c                   if            not £fileOpened
+c                   open      DLBFID6L
+c                   open      STORDE1L
+c                   eval      £FileOpened = *on
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ *  Elaborazioni finali e chiusura file
+c     PgmEnd        begsr
+ * Operazioni finali (START)
+c                   eval      $Entry_KPJBU = $Entry_
+ *
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c                   parm                    $Entry_DLBFID
+ * Definizione chiavi
+c     Key_STORDE    klist
+c                   kfld                    DFORDE
+c                   kfld                    DFSECO
+c                   kfld                    DFANNO
+c                   kfld                    DFMESE
+c                   kfld                    DFGIOR
+ *
+c                   endsr

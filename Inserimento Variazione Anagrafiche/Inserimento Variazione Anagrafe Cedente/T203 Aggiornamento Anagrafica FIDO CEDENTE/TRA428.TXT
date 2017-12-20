@@ -1,0 +1,340 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  AREA ..............: FACTORING                                        *
+ *  DESCRIZIONE Aggiornamento giorni termine P.U.G. sui fidi del cedente. * V04Check_4 Controllo Dati Video04, Screen 4
+ *  PROGRAMMATORE .....: LUIGI RICCI                                      *    Check GG Termine di Pagamento Sotto Garanzia
+ *  PRIMA COMPILAZIONE : 26/09/2012                                       *    ** PTO
+ **************************************************************************       Verifica se Presenti Altri Fidi del Cedente con Giorni Diversi
+fANAFID3L  uf   e           k disk    rename(ANAFID1R:ANAFID3)                    con V04CODC, V04GGPG, V04PRFD, V04CODF, '1'
+fANAFID4L  uf   e           k disk    rename(ANAFID1R:ANAFID4)                 Se TRA428_esit = '1' ==> SYS8415 00 Verranno variati i gg termine P.U.G. su tutti i fidi attivi del cedente
+fANAFID7L  if   e           k disk    rename(ANAFID1R:ANAFID7)
+fANAFID8L  if   e           k disk    rename(ANAFID1R:ANAFID8)              V04Process Elaborazione Video04
+fANAFI33L  if   e           k disk    rename(ANAFI31R:ANAFI33)                 Aggiornamento gg Termine P.U.G. su Tutti i Fidi del Cedente
+fANAFI34L  if   e           k disk    rename(ANAFI31R:ANAFI34)                    con FDCODC, FDGGPG, FDPRFD, FDCODF, '2' e '2'
+ **************************************************************************
+d PRFD            s                   like(fdprfd) dim(999)                 Fidi aggiornati
+ **************************************************************************
+D KPJBA         e ds
+ **************************************************************************
+d $Entry_         ds
+d  $entry_ced                    5  0
+d  $entry_ggpg                   5  0                                       Nuovi giorni
+d  $entry_prfd                   5  0                                       Fido in modifica
+d  $entry_codf                   4
+d  $entry_mode                   1                                          1=Test  2=Aggiornamento
+d  $entry_call                   1                                          1=call da TRA150 2=call da TRA151
+d  $entry_esit                   1                                          1=GG diversi
+ *
+d TRA440_KPJBA  e ds                  extname(KPJBA) prefix(TRA440_)
+d TRA440_         ds
+d  TRA440_Prfd                   5s 0
+d  TRA440_caze                   1
+ **************************************************************************
+d wsdrev          s              8  0
+d wsdsca          s              8  0
+d wsflsc          s               n
+d wstpcm          s              1  0
+d wstpcm0         s              1  0
+ *
+d x1              s              3  0
+d x2              s              3  0
+ **************************************************************************
+c                   select                                                  Select
+c                   when      $Entry_mode = '1'
+c                   exsr      TstGio                                        Test
+c                   when      $Entry_mode = '2'
+c                   exsr      AggGio                                        Aggiornamento
+c                   endsl
+ *
+c                   eval      kpjbu = $entry_
+c                   seton                                        LR
+ **************************************************************************
+ * Verifica esistenza di gg termine P.U.G. diversi
+ **************************************************************************
+c     TstGio        begsr
+ * Se chiamato da gestione fido ANAFID3L e ANAFID4L sono in OVRDBF su WANFID
+ * quindi il test va fatto sia sul progressivo fido contenuto sul file di lavoro
+ * sia sugli altri eventuali progressivi fido sul file effettivo
+c                   clear                   $entry_esit
+ * Legge tutti i fidi del cedente
+c                   setoff                                       10         *In10 = *Off
+c     $entry_ced    setll     ANAFID4L                                      Si posiziona su AnaFid4L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade(n)  ANAFID4L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdprfd = $entry_prfd and                      Salta Nbr Progressivo Fido
+c                             fdcodf = $entry_codf                              e Cde Fido = Input
+c                   iter
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkCla                                        Esegue ...
+c                   if        $entry_esit = '1'                             Se ...
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   enddo                                                   AnaFid4L
+ * Fidi plurimi
+c     $entry_ced    setll     ANAFI33L                                      Si posiziona su AnaFi33L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade     ANAFI33L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *                                                                          Con ogni Nbr Progressivo Fido trovato
+c     f3prfd        setll     ANAFID3L                                      si posiziona su AnaFid3L
+c                   do        *hival
+c     f3prfd        reade(n)  ANAFID3L                                       e legge l'eventuale record (è Unique)
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdprfd = $entry_prfd and                      Salta Nbr Progressivo Fido
+c                             fdcodf = $entry_codf                              e Cde Fido = Input
+c                   iter
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      Chkcla                                        Esegue ...
+c                   if        $entry_esit = '1'                             Se ...
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   enddo                                                   AnaFid3L
+c                   enddo                                                   AnaFi33L
+ *
+ * Se chiamato da fido test anche sugli altri progressivi fido sul file effettivo **
+ ** ???             if        $entry_call <> '1'                            ********
+ **                 leavesr                                                 ********
+ **                 endif                                                   ********
+ *
+ * Legge tutti i fidi del cedente
+c                   seton                                        10         Stavolta *On
+c     $entry_ced    setll     ANAFID8L                                      Si posiziona su AnaFid8L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade     ANAFID8L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdprfd = $entry_prfd                          Salta Nbr Progressivo Fido = Input
+c                   iter
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkCla                                        Esegue ...
+c                   if        $entry_esit = '1'                             Se ...
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   enddo                                                   AnaFid8L
+ * Fidi plurimi
+c     $entry_ced    setll     ANAFI34L                                      Si posiziona su AnaFi34L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade     ANAFI34L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *                                                                          Con ogni Nbr Progressivo Fido trovato
+c     f3prfd        setll     ANAFID7L                                      si posiziona su AnaFid7L
+c                   do        *hival
+c     f3prfd        reade     ANAFID7L                                       e legge l'eventuale record (è Unique)
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdprfd = $entry_prfd                          Salta Nbr Progressivo Fido = Input
+c                   iter
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      Chkcla                                        Esegue ...
+c                   if        $entry_esit = '1'                             Se ...
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   enddo                                                   AnaFid7L
+c                   enddo                                                   AnaFi34L
+ *
+c                   endsr
+ **************************************************************************
+ * Verifica esistenza di clausola P.U.G. per progressivo/codice fido
+ **************************************************************************
+c     ChkCla        begsr
+ *
+c                   if        fdggpg = $entry_ggpg                          Se ANAFID/Nbr GG Termine di Pagamento Sotto Garanzia = Input
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   eval      $entry_esit = '1'                             <<<
+ *
+c                   endsr
+ **************************************************************************
+ * Modifica giorni termine P.U.G.
+ **************************************************************************
+c     AggGio        begsr
+ *
+c                   clear                   PRFD                            Inizializza
+c                   clear                   x1
+ *
+ * Legge tutti i fidi del cedente
+c                   seton                                        10         *In10 = *On
+c     $entry_ced    setll     ANAFID4L                                      Si posiziona su AnaFid4L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade     ANAFID4L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      ChgGio                                        Esegue
+ *
+c                   enddo                                                   AnaFid4L
+ * Fidi plurimi
+c                   setoff                                       10         Stavolta *Off
+c     $entry_ced    setll     ANAFI33L                                      Si posiziona su AnaFi33L con Inp_Cedente
+c                   do        *hival
+c     $entry_ced    reade     ANAFI33L                                       e legge tutti i Fidi del Cedente
+c                   if        %eof
+c                   leave
+c                   endif
+ *                                                                          Con ogni Nbr Progressivo Fido trovato
+c     f3prfd        setll     ANAFID3L                                      si posiziona su AnaFid3L
+c                   do        *hival
+c     f3prfd        reade     ANAFID3L                                       e legge l'eventuale record (è Unique)
+c                   if        %eof
+c                   leave
+c                   endif
+ *
+c                   if        fdfpug <> 'S'                                 Salta Pagamento sotto garanzia <> 'S'
+c                   iter
+c                   endif
+ *
+c                   exsr      ChkScaFid                                     Esegue ...
+c                   if        wsflsc = *on                                  Salta se scaduto
+c                   iter
+c                   endif
+ *
+c                   exsr      ChgGio                                        Esegue
+ *
+c                   enddo                                                   AnaFid3L
+c                   enddo                                                   AnaFi33L
+ *
+ * Aggiornamento storico fido
+c                   if        $entry_call = '1'                             Se chiamato da TRA150 !
+c                   for       x2 = 1 to x1                                     da 1 a x1 volte
+c                   exsr      UpdStoF                                             esegue ...
+c                   endfor
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ * Modifica gg termine P.U.G. per progressivo/codice fido
+ **************************************************************************
+c     ChgGio        begsr
+ *
+c                   if        fdggpg = $entry_ggpg                          Se ANAFID/Nbr GG Termine di Pagamento Sotto Garanzia = Input
+c                   leavesr                                                 va a fine SubRoutine
+c                   endif
+ *
+c                   move      *date         fddupd                          ANAFID/Data Aggiornamento = Data_Odierna
+c                   eval      fduupd = knmus                                       Utente di Aggiorn. = Utente_Lavoro
+c                   eval      fdggpg = $entry_ggpg                          ANAFID/Nbr GG Termine di Pagamento Sotto Garanzia = Input
+c  N10              update    ANAFID3                                       e Update AnaFid3L
+c   10              update    ANAFID4                                              o AnaFid4L a secondo di *In10
+ *
+c                   if        fdprfd <> $entry_prfd                         Se ANAFID/Nbr Progressivo Fido <> Input
+c                   if        %lookup(fdprfd:PRFD:1:x1) = 0                 Se FDPRFD non trovato in PRFD da 1 a x1
+c                   add       1             x1                                 x1 = x1 + 1
+c                   eval      PRFD(x1) = fdprfd                                FDPRFD = all'ennesimo + 1 PRFD
+c                   endif                                                   ...
+c                   endif                                                   ...
+ *
+c                   endsr
+ **************************************************************************
+ * Aggiorna storico fido                                                    ... chiamando TRA440
+ **************************************************************************
+C     UpdStoF       BEGSR
+**
+c                   eval      TRA440_KPJBA = KPJBA
+c                   clear                   TRA440_
+c                   eval      TRA440_prfd = PRFD(x2)
+c                   eval      TRA440_caze = 'E'
+c                   eval      TRA440_kpjbu = TRA440_
+c                   call      'TRA440'
+c                   parm                    TRA440_KPJBA
+**
+C                   ENDSR
+ **************************************************************************
+ *  Verifica se fido è scaduto
+ **************************************************************************
+c     ChkScaFid     begsr
+ *
+c                   eval      wsflsc = *off
+c                   eval      wsdsca = fddscs * 1000000 +
+c                                      fddsca * 10000 +
+c                                      fddscm * 100 + fddscg
+c                   eval      wsdrev = fddrvs * 1000000 +
+c                                      fddrva * 10000 +
+c                                      fddrvm * 100 + fddrvg
+c                   if        wsdsca <> 0  and                              Se
+c                             wsdsca < *date or                                Data_Scadenza < Data_Odierna
+c                             wsdrev <> 0  and                               o
+c                             wsdrev < *date                                   Data_Revoca   < Data_Odierna
+c                   eval      wsflsc = *on                                  il Fido è scaduto
+c                   endif
+ *
+c                   endsr
+ **************************************************************************
+ * Operazioni iniziali
+ **************************************************************************
+c     *inzsr        begsr
+ *
+ * Parametri
+c     *entry        plist
+c                   parm                    KPJBA
+c                   eval      $Entry_ = kpjbu
+ *
+c                   endsr

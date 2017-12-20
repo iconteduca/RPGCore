@@ -1,0 +1,668 @@
+ ************************************************************************** E' chiamato da TRA151 in:
+ *  Programmatore.: Andrea Emmanueli
+ *  Data creazione: 30/03/2010                                              V05Check Controllo dati Video05
+ *                                                                             Controllo preliminare aggiornamento autom. fidi deb
+ *  Descrizione...: Controlli preventivi Agg. automatico fidi debitore      con: v. sotto
+ **************************************************************************
+ * Input-only files
+fAGCONE1L  if   e           k disk
+fAGPERF1L  if   e           k disk
+fAGRAPP2L  if   e           k disk           rename(AGRAPP1R:AGRAPP2R)
+fAGSNPF1L  if   e           k disk
+fANARAP1L  if   e           k disk
+fFIDDEB3L  if   e           k disk           rename(FIDDEB1R:FIDDEB3R)
+fFIDDEL1L  if   e           k disk
+fFIDDEB4L  if   e           k disk
+fPARAM     if   e           k disk
+fRAPPTO1L  if   e           k disk
+fUSRPWR1L  if   e           k disk
+ **************************************************************************
+ * Variabili di sistema ---------------------------------------------------
+d                sds
+d   $Parms          *parms
+d   $ProcName       *proc
+d   $PgmName              1     10
+d   $JobName            244    253
+d   $UserName           254    263
+d   $JobNumber          264    269s 0
+d $INFDS          ds
+d  $FunctKey            369    369
+d  $1RecOfPag           378    379b 0
+ * Variabili locali -------------------------------------------------------
+d AUF           e ds
+ *
+d £CodF_PDO       s                   like(FDCODF) inz('D001')
+d £CodF_PTOAsSS   s                   like(FDCODF) inz('D101')
+d £CodF_PTOAsCS   s                   like(FDCODF) inz('D102')
+d £CodF_PTONoAs   s                   like(FDCODF) inz('D103')
+ *
+d £CodFidoNew     s                   like(FDCODF) inz
+d £CodFidoOld     s                   like(FDCODF) inz
+d £DataRevoca     s              8  0 inz
+d £DataScadenza   s              8  0 inz
+d £Debitore       s                   like(FDDEB) inz
+d £FoundCoppia    s               n   inz
+d £Gruppo         s                   like(FDGRUP) inz
+d £ImportoNew     s             15  2 inz
+d £ImportoOld     s             15  2 inz
+d £ImpNewPTO      s             15  2 inz
+d £ImpNewPDO      s             15  2 inz
+d £ImpOldPTO      s             15  2 inz
+d £ImpOldPDO      s             15  2 inz
+d £ImportoPTO     s             15  2 inz
+d £ImportoPDO     s             15  2 inz
+d £MaxGravErr     s              2  0 inz
+d £NumDiFidi      s              6  0 inz
+d £NumFidiR       s              6  0 inz
+d £NumFidiF       s              6  0 inz
+d £PcCopertNew    s                   like(FDPCCP) inz
+d £PcCopertOld    s                   like(FDPCCP) inz
+d £PcGaranzNew    s                   like(FDPCGA) inz
+d £PcGaranzOld    s                   like(FDPCGA) inz
+d £ProgFido       s                   like(FDPRFD) inz
+d £FidoFittiz     s                   like(FDFFIT) inz
+d £SaldoPTO       s             15  2 inz
+d £SaldoPDO       s             15  2 inz
+d £Soggetto       s                   like(FDCANG) inz
+d £TipoRicerca    s              1  0 inz
+ *                                    1=Debitore, 2=NDG, 3=Gruppo
+d £TotLimitPDO    s             15  2 inz
+d £TotLimitPTO    s             15  2 inz
+d £TotPDO         s             15  2 inz
+d £TotPTO         s             15  2 inz
+ *
+d £Date           ds
+d   £SystemDate                  8  0
+d   £SDAaaa                      4  0 overlay(£SystemDate:1)
+d   £SDSs                        2  0 overlay(£SystemDate:1)
+d   £SDAa                        2  0 overlay(£SystemDate:3)
+d   £SDMm                        2  0 overlay(£SystemDate:5)
+d   £SDGg                        2  0 overlay(£SystemDate:7)
+d   £UserDate                    8  0
+d   £UDGg                        2  0 overlay(£UserDate:1)
+d   £UDMm                        2  0 overlay(£UserDate:3)
+d   £UDSs                        2  0 overlay(£UserDate:5)
+d   £UDAa                        2  0 overlay(£UserDate:7)
+d   £UDAaaa                      4  0 overlay(£UserDate:5)
+d   £User6Date                   6  0
+d   £6DGg                        2  0 overlay(£User6Date:1)
+d   £6DMm                        2  0 overlay(£User6Date:3)
+d   £6DAa                        2  0 overlay(£User6Date:5)
+d   £EurDate                      d   DatFmt(*EUR)
+d   £IsoDate                      d   DatFmt(*ISO)
+d   £DateError                    n
+ * Parametri --------------------------------------------------------------
+d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)
+d $Entry_       e ds                  extname(TRA377DS) prefix($Entry_)     con:
+                            T77OP   1   Operazione 1=Modifica PDO da ANARAP '2'
+ * Dati chiave              T77DEB  8.0 Debitore   2=Modifica PTO da RAPPTO RTDEB
+                            T77CED  5.0 Cedente    X=Solo per chiusura file RTCED
+                            T77RAC  4.0 Num. RAC (fac.)                     RTNRAC
+ * Nuovi valori dati comuni T77IMP 15.2 Importo                             RTIRAC
+                            T77DIV  3   Divisa                              RTCDIV
+ * Nuovi valori dati RAPPTO T77CAS  5.0 Cod. assicurazione                  FDCASS
+                            T77PCO  5.2 % Copertura                         FDPCCP  Se FDCASS <> 0 and FDPCCP <> 0
+                            T77PGZ  5.2 % Garanzia                          FDPCGA  Se FDPCGA <> 0
+ * Nuovi valori dati ANARAP T77DAC  1   Spalmatura da cedente               ARDACE
+                            T77DEC  8.0 Debitore capofila                   ARDECA
+ * OUTPUT: Messaggio errore T77ERR  1   Tipologia errore: 0=No errore
+                            T77EID  7   Id messaggio      1=Forzabile
+                            T77EDA100   Dati messaggio    2=Bloccante
+ * Nuovi valori dati RAPPTO T77TRA  1   Tipo RAC                            RTTRAC
+ *
+d STDC01_         ds
+d  STDC01_MsgF                  10
+d  STDC01_MsgId                  7
+d  STDC01_MsgDt                256
+d  STDC01_MsgTx                132
+d  STDC01_MsgSv                  2p 0
+ *
+d STD028_       e ds                  extname(DSPS28) prefix(STD028_)
+ **************************************************************************
+ *  MAIN
+ **************************************************************************
+c                   exsr      PgmBegin
+ * MAIN (START) -----------------------------------------------------------
+c                   if            $Entry_T77OP <> 'X'
+ *
+c                   exsr      RicercaFido
+ *
+c                   exsr      ControlloFido
+ *
+c                   endif
+ * MAIN (END) -------------------------------------------------------------
+c     EndOfPgm      tag
+c                   exsr      PgmEnd
+ *
+c                   if            $Entry_T77OP = 'X'
+c                   eval      *inrt = *off
+c                   eval      *inlr = *on
+c                   else
+c                   eval      *inrt = *on
+c                   eval      *inlr = *off
+c                   endif
+ **************************************************************************
+ *  Elaborazioni iniziali e apertura file
+c     PgmBegin      begsr
+ * Operazioni preliminari (START) -----------------------------------------
+c                   eval      $Entry_ = $Entry_KPJBU
+c                   eval      $Entry_T77ERR = *blank
+c                   eval      $Entry_T77EID = *blank
+c                   eval      $Entry_T77EDA = *blank
+ * Operazioni preliminari (END) -------------------------------------------
+ *
+ * Operazioni varie (START) -----------------------------------------------
+c                   if            $Entry_T77OP <> 'X'
+ *
+c                   eval          £MaxGravErr = *loval
+ *
+c                   eval      PAKEYA = 'AUF'
+c                   eval      PAKEYB = *all'0'
+c                   move      '1'           PAKEYB
+c     Key_PARAM     chain     PARAM                                         Legge PARAM/AUF/000000001, per EmilRo:
+c                   if            %found(PARAM)                             10100100111100010110000001000000110100001000111010001001101020101001111110000000000000000000011010010
+c                   eval      AUF = PADESC                                                                                              ¦        ¦
+c                   else                                                                                                                ¦        AUF432 Blocco agg.auto. FidiDeb x RAC da BRO432
+c                   clear                   AUF                                                                                         AUFAAF Sts Modalità agg.autom. fidi debitore da rapporto
+c                   endif
+ *
+c                   eval      UPUSER = $Entry_KNMUS
+c     UPUSER        chain     USRPWR1L                                      Legge USRPWR1L con Utente
+c                   if            not %found(USRPWR1L)                      Se NON Trovato
+c                   eval      UPUPWR = 0                                    0
+c                   eval      UPUPWV = 0                                    0
+c                   endif                                                   Poi, comunque
+c                   eval      UPUPWR = 99                                   99
+ *
+c                   if            $Entry_T77OP <> '1'
+c                             and $Entry_T77OP <> '2'
+c                   goto      EndOfPgm                                      Quis custodiet ipsos custodes?
+c                   endif
+ *
+c                   if            $Entry_T77OP = '1'                        Oltre ogni regionevole dubbio...
+c                             or  $Entry_T77OP = '2'
+c                   eval      ARDEB = $Entry_T77DEB
+c                   eval      ARCED = $Entry_T77CED
+c     Key_ANARAP    chain     ANARAP1L                                      Legge AnaRap1L
+c                   endif
+ *
+c                   if            $Entry_T77OP = '2'
+c                   eval      RTCED = $Entry_T77CED
+c                   eval      RTDEB = $Entry_T77DEB
+c                   eval      RTNRAC = $Entry_T77RAC
+c     Key_RAPPTO    chain     RAPPTO1L                                      Legge RapPto1L
+c                   endif
+ *
+c                   if            (    $Entry_T77DEC = 0                    If ( Debitore_capofila = 0           And
+c                                  and $Entry_T77DAC = 'S')                      Spalmatura_da_cedente = 'S' )
+c                             or  (    $Entry_T77DEC = $Entry_T77DEB        Or ( Debitore_capofila = Debitore    And
+c                                  and $Entry_T77DAC <> 'S')                     Spalmatura_da_cedente <> 'S' )
+c                             or  (    $Entry_T77OP = '2'                   Or ( Modifica PTO da RAPPTO          And
+c                                  and %found(RAPPTO1L)                          Trovato(RAPPTO1L)               And
+c                                  and RTUINS = 'BRO432'                         Utente_Inserimento = 'BRO432'   And
+c                                  and AUF432 = '1')                             PARAM/AUF432 = '1' )
+c                             or  (    RTDSCA <= *date                      Or ( Dte_Scadenza_RAC_PTO <= *Oggi )
+c                                  and RTDSCA <> 0)
+c                             or  (    RTDREV <= *date                      Or ( Dte_Revoca_RAC_PTO <= *Oggi )
+c                                  and RTDREV <> 0)
+c                   goto      EndOfPgm                                      <<<
+c                   endif
+ *
+c                   eval      £PcCopertNew = $Entry_T77PCO                  % Copertura
+c                   eval      £PcGaranzNew = $Entry_T77PGZ                  % Garanzia
+ *
+c                   eval      £PcCopertOld = RTPCCO                         Pct Copertura
+c                   eval      £PcGaranzOld = RTPCGZ                         Pct Garanzia
+ *
+c                   endif
+ * Operazioni varie (END) -------------------------------------------------
+c                   endsr
+ **************************************************************************
+c     PgmEnd        begsr
+ *  Elaborazioni finali e chiusura file
+ *
+ * Operazioni finali (START) ----------------------------------------------
+c                   eval      $Entry_KPJBU = $Entry_
+ * Operazioni finali (END) ------------------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Ricerca fido debitore da controllare
+c     RicercaFido   begsr
+ * Ricerca Soggetto e Gruppo debitore (START) -----------------------------
+c                   eval      £Debitore = $Entry_T77DEB
+c                   eval      £Soggetto = *blank
+c                   eval      £Gruppo = *blank
+ *
+c                   eval      RPTRFA = 'D'
+c                   eval      RPCDRF = £Debitore
+c     Key_AGRAPP2   chain     AGRAPP2L                                      Legge AgRapp2L con Debitore
+c                   if            %found(AGRAPP2L)
+c                             and RPFLAG <> 'A'
+c                   eval      £Soggetto = RPCANG                            trova NDG/Codice_Anagrafe_Generale
+c                   endif
+ *
+c                   select
+c                   when          %subst(£Soggetto:1:1) = 'P'               Se Persona Fisica
+c                   eval      PFCANG = £Soggetto
+c     PFCANG        chain     AGPERF1L                                      Legge AGPERF1L
+c                   if            %found(AGPERF1L)
+c                             and PFGRUP <> *blank
+c                   eval      £Gruppo = PFGRUP                              trova Gruppo_appartenenza
+c                   endif
+c                   when          %subst(£Soggetto:1:1) = 'N'               Se Società
+c                   eval      IMCANG = £Soggetto
+c     IMCANG        chain     AGSNPF1L                                      Legge AGSNPF1L
+c                   if            %found(AGSNPF1L)
+c                             and IMGRUP <> *blank
+c                   eval      £Gruppo = IMGRUP                              trova Gruppo_appartenenza
+c                   endif
+c                   when          %subst(£Soggetto:1:1) = 'C'               Se Cointestazione
+c                   eval      CECANG = £Soggetto
+c     CECANG        chain     AGCONE1L                                      Legge AGCONE1L
+c                   if            %found(AGCONE1L)
+c                             and CEGRUP <> *blank
+c                   eval      £Gruppo = CEGRUP                              trova Gruppo_appartenenza
+c                   endif
+c                   endsl
+ * Ricerca Soggetto e Gruppo debitore (END) -------------------------------
+ *
+ * Determinazione Codice fido nuovo (START) -------------------------------
+c                   eval      £CodFidoNew = *blank
+ *
+c                   select
+ *
+c                   when          $Entry_T77OP = '1'                        Se Modifica PDO da ANARAP
+c                             and $Entry_T77IMP <> 0                         a Inp_Importo
+c                   eval      £CodFidoNew = £CodF_PDO                       = "D001"
+ *
+c                   when          $Entry_T77OP = '2'                        Se Modifica PTO da RAPPTO
+c                   select
+c                   when          $Entry_T77CAS <> 0                        Se Cod._assicurazione <> 0
+c                             and £PcCopertNew >= £PcGaranzNew               e $Entry_T77PCO >= $Entry_T77PGZ
+c                   eval      £CodFidoNew = £CodF_PTOAsSS                   = "D101"
+c                   when          $Entry_T77CAS <> 0                        Se
+c                             and £PcCopertNew < £PcGaranzNew                                <
+c                   eval      £CodFidoNew = £CodF_PTOAsCS                   = "D102"
+c                   when          $Entry_T77CAS = 0
+c                   eval      £CodFidoNew = £CodF_PTONoAs                   = "D103"
+c                   endsl
+ *
+c                   endsl
+ * Determinazione Codice fido nuovo (END) ---------------------------------
+ *
+ * Determinazione Codice fido vecchio (START) -----------------------------
+c                   eval      £CodFidoOld = *blank
+ *
+c                   select
+ *
+c                   when          $Entry_T77OP = '1'                        Se Modifica PDO da ANARAP
+c                             and %found(ANARAP1L)                           e Trovato(AnaRap1L)
+c                             and ARIFPD <> 0                                e AnaRap/Val_Fido_PDO_(/1000) <> 0
+c                   eval      £CodFidoOld = £CodF_PDO                       = "D001"
+ *
+c                   when          $Entry_T77OP = '2'                        Se Modifica PTO da RAPPTO
+c                   select
+c                   when          RTCASS <> 0                               Se RapPto/Cde_Assicurazione <>
+c                             and £PcCopertOld >= £PcGaranzOld               e >=
+c                             and %found(RAPPTO1L)                           e ...
+c                   eval      £CodFidoOld = £CodF_PTOAsSS                   = "D101"
+c                   when          RTCASS <> 0                               Se
+c                             and £PcCopertOld < £PcGaranzOld                e <
+c                             and %found(RAPPTO1L)                           e ...
+c                   eval      £CodFidoOld = £CodF_PTOAsCS                   = "D102"
+c                   when          RTCASS = 0                                Se 0
+c                             and %found(RAPPTO1L)                           e ...
+c                   eval      £CodFidoOld = £CodF_PTONoAs                   = "D103"
+c                   endsl
+ *
+c                   endsl
+ * Determinazione Codice fido vecchio (END) -------------------------------
+ *
+ * Ricerca fido da controllare (START) ------------------------------------
+c                   eval      £NumDiFidi = 0
+c                   eval      £NumFidiR = 0
+c                   eval      £NumFidiF = 0
+c                   eval      £ProgFido = 0
+c                   eval      £FidoFittiz = '?'
+ *
+c                   for       £TipoRicerca = 1 to 3
+ *
+c                   eval      FDDEB  = 0
+c                   eval      FDCANG = *blank
+c                   eval      FDGRUP = *blank
+c                   select
+c                   when          £TipoRicerca = 1
+c                   eval      FDDEB  = £Debitore
+c                   when          £TipoRicerca = 2
+c                   eval      FDCANG = £Soggetto
+c                   when          £TipoRicerca = 3
+c                   eval      FDGRUP = £Gruppo
+c                   endsl
+c     Key_FIDDEB4   setll     FIDDEB4L                                      Si posiziona prima con Debitore
+c                   dou           %eof(FIDDEB4L)                                           poi con NDG
+c     Key_FIDDEB4   reade     FIDDEB4L                                                     poi con Gruppo
+c                   if            not %eof(FIDDEB4L)                           per trovare
+c                             and FDFLAG <> 'A'                                            record non annullati
+c                             and FDCODF = £CodFidoNew                                     e Cde_Fido richiesto
+c                   eval      £DataRevoca = FDDRVS * 1000000 +
+c                                           FDDRVA * 10000 +
+c                                           FDDRVM * 100 +
+c                                           FDDRVG
+c                   eval      £DataScadenza = FDDSCS * 1000000 +
+c                                             FDDSCA * 10000 +
+c                                             FDDSCM * 100 +
+c                                             FDDSCG
+c                   if            (    £DataRevoca > *date                  Se Data_Revoca > *Oggi
+c                                  or  £DataRevoca = 0)
+c                             and (    £DataScadenza > *date                 e Data_Scadenza > *Oggi
+c                                  or  £DataScadenza = 0)
+ *
+c                   eval      £NumDiFidi = £NumDiFidi + 1                   + 1
+c                   if            FDFFIT = *blank                           Se Non Sts_Fido_fittizio
+c                   eval      £NumFidiR = £NumFidiR + 1                     + 1 a £NumFidiR
+c                   else
+c                   eval      £NumFidiF = £NumFidiF + 1                     + 1 a £NumFidiF
+c                   endif
+c                   if            £NumDiFidi = 1                            Se prima_volta
+c                             or  (    FDFFIT = *blank                       o Non Sts_Fido_fittizio
+c                                  and £FidoFittiz = 'S')                      e £FidoFittiz = 'S'
+c                   eval      £ProgFido = FDPRFD                                 Salva il Nbr_Progressivo_Fido
+c                   eval      £FidoFittiz = FDFFIT                             ( se possibile, di un Fido non fittizio ??? )
+c                   endif
+ *
+c                   endif
+c                   endif
+c                   enddo
+ *
+c                   endfor
+ * Ricerca fido da controllare (END) --------------------------------------
+c                   endsr
+ **************************************************************************
+ *  Controlli congruenza fido - dati variati
+c     ControlloFido begsr
+ * Check: Non trovati fidi "reali" e modalita di aggiornamento "Solo fidi reali" (START)
+ *
+c                   if            £NumFidiR = 0                             Se non ci sono Fidi Reali
+c                             and £CodFidoNew <> *blank                      e ho un Codice_Fido_Nuovo
+c                             and AUFAAF = '1'                               e Sts_Modalità_agg.autom._fidi_debitore_da_rapporto = '1'
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgId = 'SCI0135'                      errore SCI0135 30 Non presenti fidi "reali" per il debitore &1 e codice fido &2. I fidi debitore non verranno aggiornati.
+c                   eval      STDC01_MsgDt = %editw(£Debitore:'      /  ')
+c                                          + £CodFidoNew
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+ * Check: Non trovati fidi "reali" e modalita di aggiornamento "Solo fidi reali" (END)
+ *
+ * Check: Più fidi trovati per il Debitore-CodiceFido (START)
+c                   if            £NumFidiR >= 2                            Se ci sono 2+ Fidi Reali
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgId = 'SCI0130'                      errore SCI0130 01 Per il debitore &1 sono stati trovati più fidi con codice &2.
+c                   eval      STDC01_MsgDt = %editw(£Debitore:'      /  ')
+c                                          + £CodFidoNew
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+ * Check: Più fidi trovati per il Debitore-CodiceFido (END)
+c                   if            £NumFidiR = 1                             Se 1 Fido Reale
+ *
+c                   eval      FDPRFD = £ProgFido
+c     FDPRFD        chain     FIDDEB3L                                      Legge il primo FIDDEB3L
+c                   if            %found(FIDDEB3L)                          Se Trovato
+c                             and FDFFIT = *blank                                      e Non Fittizio
+ *
+c                   eval      FDPRFD = £ProgFido
+c                   eval      FDCODF = £CodFidoNew
+c     Key_FIDDEB    chain     FIDDEB3L                                      rilegge FIDDEB3L con Cde_Fido_Nuovo
+ * Conversione importi ricevuti da divisa rapporto a divisa fido (START)
+c                   select
+ *
+c                   when          $Entry_T77OP = '1'                        Se Modifica PDO da ANARAP
+ *
+c                   if            %found(ANARAP1L)                          Se Trovato AnaRap1L
+c                   if            $Entry_T77DIV <> FDDIV                     e la Divisa è diversa
+c                   clear                   STD028_
+c                   eval      STD028_P8IMP1 = ARIFPD * 1000                 converte Val_Fido_PDO_(/1000)
+c                   eval      STD028_P8DIV1 = ARCDIV
+c                   eval      STD028_P8DIV2 = FDDIV
+c                   eval      STD028_P8DATA = *date
+c                   call      'STD028'      PL_STD028
+c                   if        STD028_P8ERR = 'S'
+c                   eval      STD028_P8IMD2 = 0
+c                   endif
+c                   else
+c                   eval      STD028_P8IMD2 = ARIFPD * 1000
+c                   endif
+c                   eval      £ImportoOLD = STD028_P8IMD2
+c                   else
+c                   eval      £ImportoOLD = 0
+c                   endif
+ *
+c                   if            $Entry_T77DIV <> FDDIV                    Se la Divisa è diversa
+c                   clear                   STD028_
+c                   eval      STD028_P8IMP1 = $Entry_T77IMP * 1000          converte Inp_Importo
+c                   eval      STD028_P8DIV1 = $Entry_T77DIV
+c                   eval      STD028_P8DIV2 = FDDIV
+c                   eval      STD028_P8DATA = *date
+c                   call      'STD028'      PL_STD028
+c                   if        STD028_P8ERR = 'S'
+c                   eval      STD028_P8IMD2 = 0
+c                   endif
+c                   else
+c                   eval      STD028_P8IMD2 = $Entry_T77IMP * 1000
+c                   endif
+c                   eval      £ImportoNEW = STD028_P8IMD2
+ *
+c                   when          $Entry_T77OP = '2'                        Se Modifica PTO da RAPPTO
+ *
+c                   if            %found(RAPPTO1L)                          Se Trovato RapPto1L
+c                   if            $Entry_T77DIV <> FDDIV                    se la Divisa è diversa
+c                   clear                   STD028_
+c                   eval      STD028_P8IMP1 = RTIRAC                        converte Val_R.A.C._PTO
+c                   eval      STD028_P8DIV1 = RTCDIV
+c                   eval      STD028_P8DIV2 = FDDIV
+c                   eval      STD028_P8DATA = *date
+c                   call      'STD028'      PL_STD028
+c                   if        STD028_P8ERR = 'S'
+c                   eval      STD028_P8IMD2 = 0
+c                   endif
+c                   else
+c                   eval      STD028_P8IMD2 = RTIRAC
+c                   endif
+c                   eval      £ImportoOLD = STD028_P8IMD2
+c                   else
+c                   eval      £ImportoOLD = 0
+c                   endif
+ *
+c                   if            $Entry_T77DIV <> FDDIV                    Se la Divisa è diversa
+c                   clear                   STD028_
+c                   eval      STD028_P8IMP1 = $Entry_T77IMP                 converte Inp_Importo
+c                   eval      STD028_P8DIV1 = $Entry_T77DIV
+c                   eval      STD028_P8DIV2 = FDDIV
+c                   eval      STD028_P8DATA = *date
+c                   call      'STD028'      PL_STD028
+c                   if        STD028_P8ERR = 'S'
+c                   eval      STD028_P8IMD2 = 0
+c                   endif
+c                   else
+c                   eval      STD028_P8IMD2 = $Entry_T77IMP
+c                   endif
+c                   eval      £ImportoNEW = STD028_P8IMD2
+ *
+c                   endsl
+ * Conversione importi ricevuti da divisa rapporto a divisa fido (END)
+ *
+ * Check: Un fido trovato ma allocato (START)
+c                   if            FDLOCK <> *blank                          Se allocato
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgId = 'SYS7740'                      errore SYS7740 99 Per il debitore &1 il fido &2 risulta essere allocato.
+c                   eval      STDC01_MsgDt = %editw(£Debitore:'      /  ')
+c                                          + %editc(FDPRFD:'X')
+c                   eval      STDC01_MsgF  = 'SYSERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+ * Check: Un fido trovato ma allocato (END)
+ *
+ * Check: Nuovo codice fido non esistente in fido trovato (START)
+c                   if            not %found(FIDDEB3L)                      Se Non Trovato FidDeb3L
+c                   clear                   STDC01_
+c                   if            $Entry_T77OP = '1'
+c                   eval      STDC01_MsgId = 'SCI0118'                      errore SCI0118 01 Imposs. modif. dati rapporto: Cod.fido &2 non presente in fido debitore &1.
+c                   else                                                         o
+c                   eval      STDC01_MsgId = 'SCI0119'                      errore SCI0119 01 Imposs. modif. dati RAC: Cod.fido &2 non presente in fido debitore &1.
+c                   endif
+c                   eval      STDC01_MsgDt = %editc(FDPRFD:'X') + FDCODF
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+ * Check: Nuovo codice fido non esistente in fido trovato (END)
+ *
+ * Controllo congruenza dati tra FIDDEL e FIDDEB (START)
+c                   eval      £TotLimitPTO = 0
+c                   eval      £TotLimitPDO = 0
+c                   eval      £ImportoPTO = 0
+c                   eval      £ImportoPDO = 0
+c                   if            $Entry_T77OP = '2'                        Se Modifica PTO da RAPPTO
+c                   eval      £ImpOldPTO = £ImportoOld
+c                   eval      £ImpNewPTO = £ImportoNew
+c                   else                                                     o
+c                   eval      £ImpOldPDO = £ImportoOld
+c                   eval      £ImpNewPDO = £ImportoNew
+c                   endif
+c                   eval      £TotLimitPTO = £ImpNewPTO
+c                   eval      £TotLimitPDO = £ImpNewPDO
+c                   eval      £SaldoPTO = £ImpNewPTO - £ImpOldPTO
+c                   eval      £SaldoPDO = £ImpNewPDO - £ImpOldPDO
+ *
+c                   eval      FLPRFD = £ProgFido
+c                   eval      FLCODF = £CodFidoNew
+c     Key_FIDDEL    setll     FIDDEL1L
+c                   dou           %eof(FIDDEL1L)
+c     Key_FIDDEL    reade     FIDDEL1L                                      Legge FidDel1L
+c                   if            not %eof(FIDDEL1L)                        per Trovato
+c                             and (    FLDEB  <> $Entry_T77DEB                e almeno uno fra Debitore
+c                                  or  FLCANG <> *blank                                        NDG
+c                                  or  FLCED  <> $Entry_T77CED                                 Cedente
+c                                  or  FLCON1 <> *blank                                        Conto
+c                                  or  FLCON2 <> *blank                                        è diverso
+c                                  or  FLCON3 <> *blank)                                       o valorizzato
+c                   eval      £TotLimitPTO = £TotLimitPTO + FLIFPT          aggiunge Val_Fido_di_cui_prosoluto
+c                   eval      £TotLimitPDO = £TotLimitPDO + FLIFPD                 e Val_Fido_di_cui_prosolvendo
+c                   endif
+c                   enddo
+ *
+c                   if            £TotLimitPTO > FDIFPT                     Se > FidDeb/Val_Fido_di_cui_prosoluto
+c                             and $Entry_T77OP = '2'                         e Modifica_PTO_da_RAPPTO
+c                             and $Entry_T77TRA <> 'S'                       e Tipo_RAC
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgId = 'SCI0116'                      errore SCI0116 01 Imposs. modificare dati RAC: Tot.Applicaz.PTO > fido debitore &1 / &2.
+c                   eval      STDC01_MsgDt = %editc(FDPRFD:'X') + FDCODF
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+c                   if            £TotLimitPDO > FDIFPD                     Se > FidDeb/Val_Fido_di_cui_prosolvendo
+c                             and $Entry_T77OP = '1'                         e Modifica_PDO_da_ANARAP
+c                   clear                   STDC01_
+c                   eval      STDC01_MsgId = 'SCI0117'                      errore SCI0117 01 Imposs. modificare dati rapporto: Tot.Applicaz.PDO > fido debitore &1 / &2.
+c                   eval      STDC01_MsgDt = %editc(FDPRFD:'X') + FDCODF
+c                   eval      STDC01_MsgF  = 'SCIERR'
+c                   call      'STDC01'      PL_STDC01
+c                   if            STDC01_MsgSv > £MaxGravErr
+c                   eval      $Entry_T77EID = STDC01_MsgId
+c                   eval      $Entry_T77EDA = STDC01_MsgDt
+c                   eval      £MaxGravErr = STDC01_MsgSv
+c                   endif
+c                   endif
+ * Controllo congruenza dati tra FIDDEL e FIDDEB (END)
+c                   endif
+ *
+c                   endif
+ * Reperimento Tipologia d'errore (START)
+c                   eval      $Entry_T77ERR = '0'
+c                   if            $Entry_T77EID <> *blank
+c                   if            (    %subst($Entry_T77EID:1:3) = 'SYS'
+c                                  and £MaxGravErr > 60)
+c                             or  (    %subst($Entry_T77EID:1:3) = 'SCI'
+c                                  and £MaxGravErr = 99)
+c                             or  (    %subst($Entry_T77EID:1:3) = 'SCI'
+c                                  and £MaxGravErr > UPUPWR)                rem: UPUPWR fisso 99
+ *                  Errore bloccante
+c                   eval      $Entry_T77ERR = '2'                           determina se errore Bloccante
+c                   else
+ *                  Errore forzabile
+c                   eval      $Entry_T77ERR = '1'                           o Forzabile a secondo del codice errore
+c                   endif
+c                   endif
+c                   if            %subst($Entry_T77EID:1:3) = 'SCI'         Ma,
+c                             and £MaxGravErr <= UPUPWV                         se l'Utente è Iper-Ultra-Super-[omissis]
+c                   eval      $Entry_T77ERR = '0'                           non ci sono errori...
+c                   eval      $Entry_T77EID = *blank
+c                   eval      $Entry_T77EDA = *blank                        (... il Capo, non sbaglia mai !!!)
+c                   endif
+ * Reperimento Tipologia d'errore (END)
+c                   endsr
+ **************************************************************************
+ *  Definizione parametri e chiavi
+c     *inzsr        begsr
+ * Definizione parametri --------------------------------------------------
+c     *entry        plist
+c                   parm                    $Entry_KPJBA
+c     PL_STDC01     plist
+c                   parm                    STDC01_MsgF
+c                   parm                    STDC01_MsgId
+c                   parm                    STDC01_MsgDt
+c                   parm                    STDC01_MsgTx
+c                   parm                    STDC01_MsgSv
+c     PL_STD028     plist
+c                   parm                    STD028_
+ * Definizione chiavi -----------------------------------------------------
+c     Key_AGRAPP2   klist
+c                   kfld                    RPTRFA
+c                   kfld                    RPCDRF
+c     Key_ANARAP    klist
+c                   kfld                    ARDEB
+c                   kfld                    ARCED
+c     Key_FIDDEB    klist
+c                   kfld                    FDPRFD
+c                   kfld                    FDCODF
+c     Key_FIDDEB4   klist
+c                   kfld                    FDDEB
+c                   kfld                    FDCANG
+c                   kfld                    FDGRUP
+c     Key_FIDDEL    klist
+c                   kfld                    FLPRFD
+c                   kfld                    FLCODF
+c     Key_PARAM     klist
+c                   kfld                    PAKEYA
+c                   kfld                    PAKEYB
+c     Key_RAPPTO    klist
+c                   kfld                    RTCED
+c                   kfld                    RTDEB
+c                   kfld                    RTNRAC
+ *
+c                   endsr

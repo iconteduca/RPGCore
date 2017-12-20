@@ -1,0 +1,945 @@
+  Programma  . . . . . . . . . . . :   TRA383
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   TRA383
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   Recupero dati FidoC x delibere FidiD NonAutonomi
+  Ultima modifica. . . . . . . . . :   22/01/14  15:40:22
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 h decedit('0,') datedit(*YMD.)                                                                      AE136 140113     000100
+     2 h fixnbr(*zoned:*inputpacked) option(*nodebugio:*srcstmt)                                                 140113     000200
+000300  **************************************************************************                               071018     000300
+000400  *                                                                                                        071018     000400
+000500  *  Programmatore.: Andrea Emmanueli                                                                      140113     000500
+000600  *  Data creazione: 10/01/2014                                                                            140113     000600
+000700  *                                                                                                        071018     000700
+000800  *  Descrizione...:: Recupero dati FidoC x delibere FidiD NonAutonomi                                     140113     000800
+000900  *                                                                                                        071018     000900
+001000  **************************************************************************                               071018     001000
+001200  **************************************************************************                               071018     001200
+001300  *                                                                                                        071018     001300
+001400  * Input-only files                                                                                       071018     001400
+        *--------------------------------------------------------------------*
+        * Opzioni del compilatore operative:                                 *
+        *--------------------------------------------------------------------*
+        *  Testo 'Descrizione'  . . . . . . :                                *
+        *                 Recupero dati FidoC x delibere FidiD NonAutonomi   *
+        *  Livello di gravità generazione . :   10                           *
+        *  Gruppo di attivazione assunto. . :   *YES                         *
+        *  Opzioni compilatore. . . . . . . :   *XREF      *GEN              *
+        *                                       *NOSECLVL  *SHOWCPY          *
+        *                                       *EXPDDS    *EXT              *
+        *                                       *NOSHOWSKP *SRCSTMT          *
+        *                                       *NODEBUGIO *UNREF            *
+        *                                       *NOEVENTF                    *
+        *  Livello  di ottimizzazione . . . :   *NONE                        *
+        *  Rientro listato origine. . . . . :   *NONE                        *
+        *  Opzioni conversione tipo . . . . :   *NONE                        *
+        *  Sequenza di ordinamento. . . . . :   *HEX                         *
+        *  Identificativo lingua. . . . . . :   *JOBRUN                      *
+        *  Profilo utente . . . . . . . . . :   *USER                        *
+        *  Autorizzazione . . . . . . . . . :   *LIBCRTAUT                   *
+        *  Troncamento numerico . . . . . . :   *YES                         *
+        *  Correzione campo numerico. . . . :   *ZONED      *INPUTPACKED     *
+        *  Consentire valori nulli. . . . . :   *NO                          *
+        *  Abilitaz. raccolta prestazioni . :   *PEP                         *
+        *  Dati modellamento. . . . . . . . :   *NOCOL                       *
+        *  Creazione interfaccia programma. :   *NO                          *
+        *--------------------------------------------------------------------*
+001500 fANAFID3L  if   e           k disk                                                                        140113     001500
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANAFID3L         MODELL/ANAFID3L                             *
+        * Formato/i record . . . . . :  ANAFID1R         ANAFID1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001600 fFIDDEL1L  if   e           k disk                                                                        140113     001600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  FIDDEL1L         MODELL/FIDDEL1L                             *
+        * Formato/i record . . . . . :  FIDDEL1R         FIDDEL1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001700 fREFIRA1L  if   e           k disk                                                                        140113     001700
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  REFIRA1L         MODELL/REFIRA1L                             *
+        * Formato/i record . . . . . :  REFIRA1R         REFIRA1R                                    *
+        *--------------------------------------------------------------------------------------------*
+001800 fTABFID1L  if   e           k disk                                                                        140113     001800
+001900  *                                                                                                        071018     001900
+002000  **************************************************************************                               071018     002000
+002200  **************************************************************************                               071018     002200
+002300  *                                                                                                        071018     002300
+002400  * Variabili di sistema ---------------------------------------------------                               071018     002400
+002500  *                                                                                                        071018     002500
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  TABFID1L         MODELL/TABFID1L                             *
+        * Formato/i record . . . . . :  TABFID           TABFID                                      *
+        *--------------------------------------------------------------------------------------------*
+002600 d                sds                                                                                      071018     002600
+002700 d   $Parms          *parms                                                                                071018     002700
+002800 d   $ProcName       *proc                                                                                 071018     002800
+002900 d   $PgmName              1     10                                                                        071018     002900
+003000 d   $JobName            244    253                                                                        071018     003000
+003100 d   $UserName           254    263                                                                        071018     003100
+003200 d   $JobNumber          264    269s 0                                                                     071018     003200
+003300  *                                                                                                        071018     003300
+003400  * Variabili locali -------------------------------------------------------                               071018     003400
+003500  *                                                                                                        071018     003500
+003600 d £CoppieCedDeb   ds                                                                                      140113     003600
+003700 d  £Coppie                      13    dim(99999)                                                          140113     003700
+003800 d  £CoppieCed                    5  0 overlay(£Coppie:1) inz                                              140113     003800
+003900 d  £CoppieDeb                    8  0 overlay(£Coppie:6) inz                                              140113     003900
+004000 d  £iCoppie                      6  0 inz                                                                 140113     004000
+004100 d  £iMaxCoppie                   6  0 inz                                                                 140113     004100
+004200 d £DataDeli       s              8  0 inz                                                                 140113     004200
+004300 d £DataRevo       s              8  0 inz                                                                 140113     004300
+004400 d £DataScad       s              8  0 inz                                                                 140113     004400
+004500 d £MinFDDPRF      s                   like(FDDPRF) inz                                                    140113     004500
+004600  *                                                                                                        071018     004600
+004700  * Parametri --------------------------------------------------------------                               071018     004700
+004800  *                                                                                                        071018     004800
+004900 d $Entry_KPJBA  e ds                  extname(KPJBA) prefix($Entry_)                                      071018     004900
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  $ENTRY_KPJBA                                                 *                     1
+        * Prefisso . . . . . . . . . :  $ENTRY_ :    0                                               *                     1
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     1
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+000001=D $ENTRY_KNMUS                  10A   EXTFLD (KNMUS)                       Nome Utente                   -B-        1000001
+000002=D $ENTRY_KTPRF                   3A   EXTFLD (KTPRF)                       Tipo Utente                   -B-        1000002
+000003=D $ENTRY_KNRAZ                   9S 0 EXTFLD (KNRAZ)                       Num. Azione                   -B-        1000003
+000004=D $ENTRY_KTSIF                   3A   EXTFLD (KTSIF)                       Tipo Sistema Informativo      -B-        1000004
+000005=D $ENTRY_KNMTD                  10A   EXTFLD (KNMTD)                       Nome Terminale                -B-        1000005
+000006=D $ENTRY_KFLRC                   1A   EXTFLD (KFLRC)                       Flag Ripartenza               -B- b=Nrm R=Rip
+000007=D $ENTRY_KNRVJ                   9S 0 EXTFLD (KNRVJ)                       Num. Azione Interrotta        -B-        1000007
+000008=D $ENTRY_KMSMN                   7A   EXTFLD (KMSMN)                       Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+000009=D $ENTRY_KNRJO                   6A   EXTFLD (KNRJO)                       Num. Lavoro                   -B-        1000009
+000010=D $ENTRY_KSTJO                   1A   EXTFLD (KSTJO)                       Flag Stato Lavoro             -A- N=Nrm H=Hld
+000011=D $ENTRY_KFLMS                   1A   EXTFLD (KFLMS)                       Flag Messaggio Pendente       -X-        1000011
+000012=D $ENTRY_KTMIN                   6S 0 EXTFLD (KTMIN)                       Time Fine Azione              -A- HHMMSS
+000013=D $ENTRY_KCDAZ                   4A   EXTFLD (KCDAZ)                       Cod. Azione                   -B-        1000013
+000014=D $ENTRY_KTPAZ                   1A   EXTFLD (KTPAZ)                       Tipo Azione                   -B- I/W=Int B/N=Bch
+000015=D $ENTRY_KCDRC                   1A   EXTFLD (KCDRC)                       Cod. Ripartenza               -C- b 0123 5678
+000016=D $ENTRY_KTPFN                   1A   EXTFLD (KTPFN)                       Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+000017=D $ENTRY_KQOTD                  10A   EXTFLD (KQOTD)                       Nome OutQ Terminale           -B-        1000017
+000018=D $ENTRY_KNMEB                  10A   EXTFLD (KNMEB)                       Nome Lavoro                   -B-        1000018
+000019=D $ENTRY_KNMSB                   3S 0 EXTFLD (KNMSB)                       Num. Sbmjob Eseguiti          -B-        1000019
+000020=D $ENTRY_KNRRB                   2A   EXTFLD (KNRRB)                       Num. ReSbmjob Batch           -A-        1000020
+000021=D $ENTRY_KNSIF                   9A   EXTFLD (KNSIF)                       Nome Sistema Informativo      -B-        1000021
+000022=D $ENTRY_KCDJD                   2A   EXTFLD (KCDJD)                       Cod. JobD                     -A-        1000022
+000023=D $ENTRY_KQIEB                   7A   EXTFLD (KQIEB)                       Nome JobQ                     -B-        1000023
+000024=D $ENTRY_KQOFR                  10A   EXTFLD (KQOFR)                       Nome OutQ                     -B-        1000024
+000025=D $ENTRY_KKEYF                   5S 0 EXTFLD (KKEYF)                       Cod. RRN Azione               -B-        1000025
+000026=D $ENTRY_KRCDS                   5S 0 EXTFLD (KRCDS)                       Cod. RRN Sessione             -A-        1000026
+000027=D $ENTRY_KEXCN                   1A   EXTFLD (KEXCN)                       Flag Controllo JobD     Batch -X-        1000027
+000028=D $ENTRY_KCOAZ                   4A   EXTFLD (KCOAZ)                       Cod. Azione             Batch -C-        1000028
+000029=D $ENTRY_KFLAD                   1A   EXTFLD (KFLAD)                       Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+000030=D $ENTRY_KQOPR                  10A   EXTFLD (KQOPR)                       Nome OutQ               Batch -C-        1000030
+000031=D $ENTRY_KNMCP                   2A   EXTFLD (KNMCP)                       Num. Copie Stampe       Batch -X-        1000031
+000032=D $ENTRY_KJOST                   1A   EXTFLD (KJOST)                       Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+000033=D $ENTRY_KSTEB                   1A   EXTFLD (KSTEB)                       Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+000034=D $ENTRY_KCOJB                   2A   EXTFLD (KCOJB)                       Cod. JobD               Batch -C-        1000034
+000035=D $ENTRY_KQEBI                   7A   EXTFLD (KQEBI)                       Nome JobQ               Batch -C-        1000035
+000036=D $ENTRY_KMDST                  10A   EXTFLD (KMDST)                       Nome Modulo Stampe      Batch -X-        1000036
+000037=D $ENTRY_KFIER                  30A   EXTFLD (KFIER)                       Cod. LibFilMbr in Errore      -X-        1000037
+000038=D $ENTRY_KCANC                   1A   EXTFLD (KCANC)                       Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+000039=D $ENTRY_KGRAZ                   3A   EXTFLD (KGRAZ)                       Cod. Gruppo Azione            -C-        1000039
+000040=D $ENTRY_KFSLG                   1A   EXTFLD (KFSLG)                       Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+000041=D $ENTRY_KTPWS                   1A   EXTFLD (KTPWS)                       Tipo Terminale                -X- N=Nrm
+000042=D $ENTRY_KDTJB                   6A   EXTFLD (KDTJB)                       Data Lavoro             Batch -X-        1000042
+000043=D $ENTRY_KJRNM                  10A   EXTFLD (KJRNM)                       Nome Journal                  -X-        1000043
+000044=D $ENTRY_KJRLB                  10A   EXTFLD (KJRLB)                       Libr.Journal                  -X-        1000044
+000045=D $ENTRY_KRITB                   1A   EXTFLD (KRITB)                       Flag Ritorno Batch            -C-        1000045
+000046=D $ENTRY_KBUFF                   8A   EXTFLD (KBUFF)                       Fllr                          -X-        1000046
+000047=D $ENTRY_KPJBU                 256A   EXTFLD (KPJBU)                       Dati Applicativo              -D-        1000047
+005000 d $Entry_       e ds                  extname(TRA383DS) prefix($Entry_)                                   140114     005000
+005100  *                                                                                                        071018     005100
+005200  **************************************************************************                               071018     005200
+005400  **************************************************************************                               071018     005400
+005500  *  MAIN                                                                                                  071018     005500
+005600  **************************************************************************                               071018     005600
+005700  *                                                                                                        071018     005700
+005800  *                 -------------------------                                                              071018     005800
+        *--------------------------------------------------------------------------------------------*                     2
+        * Struttura dati . . . . . . :  $ENTRY_                                                      *                     2
+        * Prefisso . . . . . . . . . :  $ENTRY_ :    0                                               *                     2
+        * Formato esterno  . . . . . :  TRA383 : MODELL/TRA383DS                                     *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+000001=D $ENTRY_$PRFD                   5S 0 EXTFLD ($PRFD)                       Nbr Progressivo Fido         FD          2000001
+000002=D $ENTRY_$CED                    5S 0 EXTFLD ($CED)                        Cde Cedente                  AC          2000002
+000003=D $ENTRY_$DEB                    8S 0 EXTFLD ($DEB)                        Cde Debitore                 AD          2000003
+000004=D $ENTRY_$FPRFD                  5S 0 EXTFLD ($FPRFD)                      Nbr Progressivo Fido         FD          2000004
+000005=D $ENTRY_$FDDLX                  8S 0 EXTFLD ($FDDLX)                                                               2000005
+000006=D $ENTRY_$FDPRF                  8S 0 EXTFLD ($FDPRF)                      Dte Prossima revisione Fido  FD          2000006
+000007=D $ENTRY_$FORDL                  2A   EXTFLD ($FORDL)                      Cde Organo Deliberante       MST         2000007
+000001=IANAFID1R                                                                                                           3000001
+        *--------------------------------------------------------------------------------------------*                     3
+        * Formato record RPG . . . . :  ANAFID1R                                                     *                     3
+        * Formato esterno  . . . . . :  ANAFID1R : MODELL/ANAFID3L                                   *                     3
+        * Formato testo. . . . . . . :  ANAGRAFICA FIDI                                              *                     3
+        *--------------------------------------------------------------------------------------------*                     3
+000002=I                             A    1    3  FDTREC                          Cde Tipo Rec.File -AFD-      CMN         3000002
+000003=I                             A    4    4  FDFLAG                          Sts Record V/A               CMN         3000003
+000004=I                             P    5    9 0FDNAZN                          Nbr Azione Aggiornamento     CMN         3000004
+000005=I                             A   10   10  FDLOCK                          Sts Blocco record            CMN         3000005
+000006=I                             P   11   15 0FDNREC                          Nbr Relativo Record          CMN         3000006
+000007=I                             S   16   21 0FDDINS                          Dte Inserimento              CMN         3000007
+000008=I                             S   22   27 0FDDUPD                          Dte Aggiornamento            CMN         3000008
+000009=I                             S   28   32 0FDCODC                          Cde Cedente                  AC          3000009
+000010=I                             A   33   36  FDCODF                          Cde Fido                     FD          3000010
+000011=I                             A   37   96  FDDES1                          Nar Descrizione Fido         FD          3000011
+000012=I                             A   97  156  FDDES2                          Nar Descrizione Fido         FD          3000012
+000013=I                             S  157  158 0FDDDLS                          Dte SS Delibera Fido         FD          3000013
+000014=I                             S  159  160 0FDDDLA                          Dte AA Delibera Fido         FD          3000014
+000015=I                             S  161  162 0FDDDLM                          Dte MM Delibera Fido         FD          3000015
+000016=I                             S  163  164 0FDDDLG                          Dte GG Delibera Fido         FD          3000016
+000017=I                             S  165  166 0FDDSCS                          Dte SS Scadenza Fido         FD          3000017
+000018=I                             S  167  168 0FDDSCA                          Dte AA Scadenza Fido         FD          3000018
+000019=I                             S  169  170 0FDDSCM                          Dte MM Scadenza Fido         FD          3000019
+000020=I                             S  171  172 0FDDSCG                          Dte GG Scadenza Fido         FD          3000020
+000021=I                             A  173  175  FDDIV                           Cde Divisa                   MST         3000021
+000022=I                             P  176  180 0FDIMAN                          Val Fido avvenuta Notifica   FD          3000022
+000023=I                             P  181  185 0FDIMAR                          Val Fido avven.Riconoscimen. FD          3000023
+000024=I                             A  186  187  FDORDL                          Cde Organo Deliberante       MST         3000024
+000025=I                             S  188  189 0FDDRVS                          Dte SS Revoca Fido           FD          3000025
+000026=I                             S  190  191 0FDDRVA                          Dte AA Revoca Fido           FD          3000026
+000027=I                             S  192  193 0FDDRVM                          Dte MM Revoca Fido           FD          3000027
+000028=I                             S  194  195 0FDDRVG                          Dte GG Revoca Fido           FD          3000028
+000029=I                             A  196  196  FDOPER                          Sts Fido Operante N=No       FD          3000029
+000030=I                             A  197  197  FDSTAT                          Cde Stato del Fido           MST         3000030
+000031=I                             A  198  198  FDFIL                           Cde Filiale                  MST         3000031
+000032=I                             A  199  199  FDSEO                           Cde Settore                  MST         3000032
+000033=I                             A  200  200  FDCNTZ                          Cde Contenzioso              MST         3000033
+000034=I                             A  201  210  FDRSRC                          Nar Ridotta Rag.Soc.Ced.     AC          3000034
+000035=I                             A  211  211  FDWRK1                          Sts Pool 0/3/4               FD          3000035
+000036=I                             A  212  212  FDWRK2                          Sts Ristrutturazione 0/9     FD          3000036
+000037=I                             A  213  213  FDWRK3                          Sts Byte Work 03             FD          3000037
+000038=I                             A  214  214  FDWRK4                          Sts Byte Work 04             FD          3000038
+000039=I                             A  215  215  FDWRK5                          Sts Byte Work 05             FD          3000039
+000040=I                             A  216  216  FDWRK6                          Sts Byte Work 06             FD          3000040
+000041=I                             A  217  217  FDWRK7                          Sts Byte Work 07             FD          3000041
+000042=I                             A  218  218  FDWRK8                          Sts Byte Work 08             FD          3000042
+000043=I                             A  219  219  FDWRK9                          Sts Byte Work 09             FD          3000043
+000044=I                             A  220  220  FDWRK0                          Sts Byte Work 10             FD          3000044
+000045=I                             P  221  223 0FDPRFD                          Nbr Progressivo Fido         FD          3000045
+000046=I                             A  224  224  FDTPFD                          Tipo Fido                                3000046
+000047=I                             A  225  225  FDFDPL                          Sts Fido Plurimo S/N         FD          3000047
+000048=I                             P  226  230 0FDIMNN                          Val Fido Not Notification    FD          3000048
+000049=I                             P  231  235 0FDIMFD                          Val Fido                     FD          3000049
+000050=I                             P  236  240 0FDLMFI                          Val Limite Fido Bankitalia   FD          3000050
+000051=I                             P  241  245 0FDIMFP                          Val Fido in Pool             FD          3000051
+000052=I                             S  246  253 0FDDPRF                          Dte Prossima revisione Fido  FD          3000052
+000053=I                             A  254  261  FDPRO                           Progressivo univoco banca                3000053
+000054=I                             A  262  263  FDTPCE                          Cde Tipologia cessione                   3000054
+000055=I                             P  264  265 0FDFIPC                          Pct Finanziamento            CC          3000055
+000056=I                             A  266  266  FDMCIN                          Cde Modalità calc. interessi             3000056
+000057=I                             P  267  268 0FDCADI                          Cde Capital.ne  Interessi    MST         3000057
+000058=I                             P  269  273 0FDDTRB                          Dte Rimborso                             3000058
+000059=I                             A  274  275  FDMORB                          Cde Modalità rimborso                    3000059
+000060=I                             P  276  277 0FDGGCO                          Nbr GG conferma d'ordine                 3000060
+000061=I                             A  278  279  FDNOTC                          Cde Notifica Cessioni        MST         3000061
+000062=I                             A  280  281  FDTDEB                          Tipologia debitore (TDE)                 3000062
+000063=I                             A  282  282  FDBOLC                          Sts Bolla consegna                       3000063
+000064=I                             A  283  283  FDSAL                           Sts S.A.L.                               3000064
+000065=I                             A  284  284  FDRIGA                          Sts Tipo garanzie ricevute               3000065
+000066=I                             A  285  285  FDCPAF                          Cde Tipo pagam. fatture                  3000066
+000067=I                             A  286  287  FDMPAF                          Cde Mod. pagam. fatture                  3000067
+000068=I                             P  288  290 0FDGGPF                          Crediti esigibili in GG                  3000068
+000069=I                             P  291  292 0FDGGVM                          Nbr Gg valuta maturity                   3000069
+000070=I                             P  293  295 2FDPCGA                          Pct Garanzia                             3000070
+000071=I                             P  296  298 2FDPCCP                          Pct Copertura                            3000071
+000072=I                             P  299  300 0FDGGDC                          Nbr GG Ammessi doc/cess      RP          3000072
+000073=I                             A  301  301  FDCPAG                          Cde Tipo pagamento (RAC)                 3000073
+000074=I                             A  302  303  FDMPAG                          Cde Modo Pagamento (FM/DF)   RP          3000074
+000075=I                             P  304  305 0FDGGDF                          Nbr GG diff.pagamento. (RAC)             3000075
+000076=I                             P  306  307 0FDGGTO                          Nbr GG Tolleranza            RP          3000076
+000077=I                             P  308  310 0FDCASS                          Cde Assicurazione                        3000077
+000078=I                             P  311  313 2FDPCPO                          Pct Pool                                 3000078
+000079=I                             A  314  314  FDRRAT                          Sts Rimborso rateale                     3000079
+000080=I                             A  315  316  FDPRCR                          Cde Provenienza crediti                  3000080
+000081=I                             P  317  321 0FDDTVS                          Dte Variazione stato fido                3000081
+000082=I                             A  322  323  FDTRIC                          Cde Riconoscimento CIM       AR          3000082
+000083=I                             P  324  325 0FDGGSD                          Nbr GG toll.scaduto per debitore         3000083
+000084=I                             P  326  332 2FDIANU                          Val Fido avvenuta Notifica inunità            FD
+000085=I                             P  333  339 2FDIARU                          Val Fido avven.Riconoscimen. in unità          FD
+000086=I                             P  340  346 2FDINNU                          Val Fido Not Notification in unità             FD
+000087=I                             P  347  353 2FDIFDU                          Val Fido in unità            FD          3000087
+000088=I                             P  354  360 2FDLFBU                          Val Limite Fido Bankitalia inunità            FD
+000089=I                             P  361  367 2FDIFPU                          Val Fido in Pool in unità    FD          3000089
+000090=I                             P  368  371 0FDGRUD                          Cde Gruppo debitore                      3000090
+000091=I                             A  372  372  FDRISK                          NON USATO                                3000091
+000092=I                             P  373  379 2FDESPD                          Val Esenz. per fidi deb.PDO per rischi < a
+000093=I                             A  380  380  FDTSDD                          Sts GG toll. scad. x deb da data Scad. o Deb.
+000094=I                             P  381  382 0FDGDCD                          Nbr GG Ammessi doc/cess PDO              3000094
+000095=I                             A  383  383  FDXTRF                          Sts Extra fido (S/ )                     3000095
+000096=I                             A  384  389  FDUINS                          Utente di Inserimento                    3000096
+000097=I                             A  390  395  FDUUPD                          Utente di Aggiornamento                  3000097
+000098=I                             P  396  402 2FDQFNO                          Val Quota fido non operante              3000098
+000099=I                             S  403  405 0FDTIAS                          Tipo Pto IAS                             3000099
+000100=I                             A  406  406  FDDEBC                          Sts Debitore Convenzionato               3000100
+000101=I                             P  407  409 0FDGGPG                          Nbr GG Termine di Pagamento sotto garanzia
+000102=I                             A  410  410  FDFPUG                          Pagamento sotto garanzia                 3000102
+000103=I                             P  411  413 2FDPANU                          Pct avvenuta Notifica                    3000103
+000104=I                             P  414  416 2FDPARU                          Pct avven.Riconoscimen.                  3000104
+000105=I                             P  417  419 2FDPCMX                          Pct Concentrazione massima               3000105
+000106=I                             P  420  421 0FDDRMX                          GG Durata residua massima                3000106
+000107=I                             P  422  424 2FDPDO                           Pct Quota PDO                            3000107
+000108=I                             P  425  431 2FDIPDO                          Quota PDO                                3000108
+000001=IFIDDEL1R                                                                                                           4000001
+        *--------------------------------------------------------------------------------------------*                     4
+        * Formato record RPG . . . . :  FIDDEL1R                                                     *                     4
+        * Formato esterno  . . . . . :  FIDDEL1R : MODELL/FIDDEL1L                                   *                     4
+        * Formato testo. . . . . . . :  anagrafe FIDi DEbitori - Limitazioni                         *                     4
+        *--------------------------------------------------------------------------------------------*                     4
+000002=I                             A    1    1  FLFLAG                          Sts Record V/A               CMN         4000002
+000003=I                             A    2    4  FLTREC                          Cde Tipo record              CMN         4000003
+000004=I                             P    5    9 0FLNAZN                          Nbr Azione Aggiornamento     CMN         4000004
+000005=I                             A   10   15  FLUINS                          Utente di Inserimento                    4000005
+000006=I                             P   16   20 0FLDINS                          Dte Inserimento                          4000006
+000007=I                             A   21   26  FLUUPD                          Utente di Aggiornamento                  4000007
+000008=I                             P   27   31 0FLDUPD                          Dte Aggiornamento                        4000008
+000009=I                             P   32   34 0FLPRFD                          Nbr Progressivo Fido         FD          4000009
+000010=I                             A   35   38  FLCODF                          Cde Fido                     FD          4000010
+000011=I                             P   39   43 0FLDEB                           Cde Debitore                 AD          4000011
+000012=I                             A   44   51  FLCANG                          Codice Anagrafe Generale                 4000012
+000013=I                             P   52   58 2FLIFPT                          Val Fido di cui prosoluto                4000013
+000014=I                             P   59   65 2FLIFPD                          Val Fido di cui prosolvendo              4000014
+000015=I                             A   66   68  FLDIV                           Cde Divisa                   MST         4000015
+000016=I                             P   69   71 0FLCED                           Cde Cedente                  AC          4000016
+000017=I                             A   72   72  FLCON1                          Cde Tipo Operazione          CC          4000017
+000018=I                             A   73   73  FLCON2                          Cde Tipo Conto               CC          4000018
+000019=I                             A   74   74  FLCON3                          Cde Conto Progressivo        CC          4000019
+000001=IREFIRA1R                                                                                                           5000001
+        *--------------------------------------------------------------------------------------------*                     5
+        * Formato record RPG . . . . :  REFIRA1R                                                     *                     5
+        * Formato esterno  . . . . . :  REFIRA1R : MODELL/REFIRA1L                                   *                     5
+        * Formato testo. . . . . . . :  RELAZIONI FIDI/RAPPORTI                                      *                     5
+        *--------------------------------------------------------------------------------------------*                     5
+000002=I                             A    1    3  RRTREC                          Cde Tipo Rec.File -TFC-                  5000002
+000003=I                             A    4    4  RRFLAG                          Sts Record V/A               CMN         5000003
+000004=I                             P    5    9 0RRNAZN                          Nbr Azione Aggiornamento     CMN         5000004
+000005=I                             A   10   10  RRLOCK                          Sts Blocco record            CMN         5000005
+000006=I                             A   11   16  RRUINS                          Utente di Inserimento                    5000006
+000007=I                             P   17   21 0RRDINS                          Dte di 8 cifre                           5000007
+000008=I                             A   22   31  RRUSER                          Utente di Aggiornamento                  5000008
+000009=I                             P   32   36 0RRDUPD                          Dte di 8 cifre                           5000009
+000010=I                             P   37   39 0RRCED                           Cde Cedente                  AC          5000010
+000011=I                             P   40   42 0RRPRFD                          Nbr Progressivo Fido         FD          5000011
+000012=I                             A   43   46  RRCODF                          Cde Fido                     FD          5000012
+000013=I                             P   47   51 0RRDEB                           Cde Debitore                 AD          5000013
+000001=ITABFID                                                                                                             6000001
+        *--------------------------------------------------------------------------------------------*                     6
+        * Formato record RPG . . . . :  TABFID                                                       *                     6
+        * Formato esterno  . . . . . :  TABFID : MODELL/TABFID1L                                     *                     6
+        * Formato testo. . . . . . . :  TABELLA FIDI                                                 *                     6
+        *--------------------------------------------------------------------------------------------*                     6
+000002=I                             A    1    3  RTREC                           Cde Tipo Rec.File -TDF-      CMN         6000002
+000003=I                             A    4    4  RFLAG                           Sts Record V/A               CMN         6000003
+000004=I                             P    5    9 0RNAZN                           Nbr Azione Aggiornamento     CMN         6000004
+000005=I                             A   10   15  TFUUPD                          Utente di Aggiornamento                  6000005
+000006=I                             P   16   20 0TFDUPD                          Dte Aggiornamento                        6000006
+000007=I                             A   21   24  TFCDF                           Cde Fido                     FD          6000007
+000008=I                             P   25   26 0TFPRR                           Nbr Progr.vo Riga Descr.     F2          6000008
+000009=I                             A   27   86  TFDSF                           Nar Descrizione Fido         FD          6000009
+000010=I                             A   87   87  TFTFIM                          Tipo Fido Minerva                        6000010
+000011=I                             A   88   89  TFTFID                          Tipologia fido (TFD)                     6000011
+000012=I                             A   90   90  TFCECR                          Cessione credito S/N                     6000012
+000013=I                             A   91   91  TFNOCR                          Notifica credito S/N                     6000013
+000014=I                             A   92   92  TFRICR                          Riconoscimento credito S/N               6000014
+000015=I                             A   93   94  TFTDEB                          Tipologia debitore (TDE)                 6000015
+000016=I                             A   95   95  TFMACR                          Mod. accoglimento crediti                6000016
+000017=I                             A   96   96  TFVARB                          Variabile/Testo                          6000017
+000018=I                             A   97   97  TFVERA                          Sts Versam. anticipati S/N               6000018
+000019=I                             A   98   98  TFCRFU                          Sts Crediti futuri S/N                   6000019
+000020=I                             A   99   99  TFLOFI                          Sts Locaz. finanziarie S/N               6000020
+000021=I                             A  100  100  TFMATU                          Sts Operazioni maturity S/N              6000021
+000022=I                             A  101  101  TFSCON                          Sts Sconto S/N                           6000022
+000023=I                             A  102  102  TFACCR                          Sts Acquisto crediti                     6000023
+000024=I                             A  103  103  TFREFD                          Sts Relazione Fido-Debitori              6000024
+000025=I                             A  104  104  TFFTYP                          Sts Fido Ced/Deb                         6000025
+000026=I                             A  105  105  TFPTAS                          Sts PTO Riassicurato (S/N)               6000026
+000027=I                             A  106  106  TFPTSS                          Sts PTO Ass.SenzaScop. (S/N)             6000027
+000028=I                             A  107  107  TFCSCO                          Scadenza Convenzionale                   6000028
+005900 c                   exsr      PgmBegin                                                                    071018     005900
+006000  *                 -------------------------                                                              071018     006000
+006100  *                                                                                                        071018     006100
+006200  * MAIN (START) -----------------------------------------------------------                               071018     006200
+006300  *                                                                                                        140113     006300
+006400 c                   eval      £MinFDDPRF = *hival                                                         140121     006400
+006500  *                                                                                                        071018     006500
+006600  * Recupero coppie cedente/debitore (START)                                                               140113     006600
+006700  *                                                                                                        140113     006700
+006800 c                   clear                   £Coppie                                                       140113     006800
+006900 c                   select                                                                      B01       140113     006900
+007000  *                                                                                                        140113     007000
+007100 c                   when          $Entry_$PRFD <> 0                                             X01       140120     007100
+007200  *                                                                                                        140113     007200
+007300  * Recupero coppia cedente/debitore Dal fido debitore ricevuto (START)                                    140113     007300
+007400  *                                                                                                        140113     007400
+007500 c                   eval      FLPRFD = $Entry_$PRFD                                              01       140115     007500
+007600 c     FLPRFD        setll     FIDDEL1L                                                           01       140113     007600
+007700 c                   dou           %eof(FIDDEL1L)                                                B02       140113     007700
+007800 c     FLPRFD        reade     FIDDEL1L                                                           02       140113     007800
+007900 c                   if            not %eof(FIDDEL1L)                                            B03       140113     007900
+008000 c                   eval      £iCoppie = £iCoppie + 1                                            03       140113     008000
+008100 c                   eval      £CoppieCed(£iCoppie) = FLCED                                       03       140113     008100
+008200 c                   eval      £CoppieDeb(£iCoppie) = FLDEB                                       03       140113     008200
+008300 c                   endif                                                                       E03       140113     008300
+008400 c                   enddo                                                                       E02       140113     008400
+008500  *                                                                                                        140113     008500
+008600  * Recupero coppia cedente/debitore Dal fido debitore ricevuto (END)                                      140113     008600
+008700  *                                                                                                        140113     008700
+008800 c                   when          $Entry_$CED <> 0                                              X01       140114     008800
+008900 c                             and $Entry_$DEB <> 0                                              X01       140114     008900
+009000  *                                                                                                        140113     009000
+009100  * Recupero coppia cedente/debitore dalla coppia ricevuta (START)                                         140113     009100
+009200  *                                                                                                        140113     009200
+009300 c                   eval      £iCoppie = 1                                                       01       140113     009300
+009400 c                   eval      £CoppieCed(£iCoppie) = $Entry_$CED                                 01       140114     009400
+009500 c                   eval      £CoppieDeb(£iCoppie) = $Entry_$DEB                                 01       140114     009500
+009600  *                                                                                                        140113     009600
+009700  * Recupero coppia cedente/debitore dalla coppia ricevuta (END)                                           140113     009700
+009800  *                                                                                                        140113     009800
+009900 c                   endsl                                                                       E01       140113     009900
+010000  *                                                                                                        140113     010000
+010100 c                   eval      £iMaxCoppie = £iCoppie                                                      140113     010100
+010200  *                                                                                                        140113     010200
+010300  * Recupero coppie cedente/debitore (END)                                                                 140113     010300
+010400  *                                                                                                        140113     010400
+010500  *                                                                                                        140113     010500
+010600  *                                                                                                        140113     010600
+010700  *  Leggo ogni coppia trovata                                                                             140113     010700
+010800 c                   for       £iCoppie = 1 to £iMaxCoppie                                       B01       140113     010800
+010900  *                                                                                                        140113     010900
+011000  *  Con Cedente e Debitore leggo REFIRA                                                                   140113     011000
+011100 c                   eval      RRCED = £CoppieCed(£iCoppie)                                       01       140113     011100
+011200 c                   eval      RRDEB = £CoppieDeb(£iCoppie)                                       01       140113     011200
+011300 c     Key_REFIRA    setll     REFIRA1L                                                           01       140113     011300
+011400 c                   dou           %eof(REFIRA1L)                                                B02       140113     011400
+011500 c     Key_REFIRA    reade     REFIRA1L                                                           02       140113     011500
+011600 c                   if            not %eof(REFIRA1L)                                            B03       140113     011600
+011700  *                                                                                                        140113     011700
+011800  *  Per tutti i fidi in REFIRA leggo ANAFID3L                                                             140113     011800
+011900 c                   eval      FDPRFD = RRPRFD                                                    03       140113     011900
+012000 c                   eval      FDCODF = RRCODF                                                    03       140113     012000
+012100 c     Key_ANAFID    setll     ANAFID3L                                                           03       140113     012100
+012200 c                   dou           %eof(ANAFID3L)                                                B04       140113     012200
+012300 c                             or  RRCODF <> *blank                                              B04       140113     012300
+012400 c     FDPRFD        reade     ANAFID3L                                                           04       140113     012400
+012500 c                   if            not %eof(ANAFID3L)                                            B05       140113     012500
+012600 c                             and (    FDCODF <> '1010'                                         B05       140120     012600
+012700 c                                  and FDCODF <> '1012'                                         B05       140120     012700
+012800 c                                  and FDCODF <> '1013')                                        B05       140120     012800
+012900 c                   eval      £DataDeli = FDDDLS * 1000000                                       05       140113     012900
+013000 c                                       + FDDDLA * 10000                                         05       140113     013000
+013100 c                                       + FDDDLM * 100                                           05       140113     013100
+013200 c                                       + FDDDLG                                                 05       140113     013200
+013300 c                   eval      £DataRevo = FDDRVS * 1000000                                       05       140113     013300
+013400 c                                       + FDDRVA * 10000                                         05       140113     013400
+013500 c                                       + FDDRVM * 100                                           05       140113     013500
+013600 c                                       + FDDRVG                                                 05       140113     013600
+013700 c                   eval      £DataScad = FDDSCS * 1000000                                       05       140113     013700
+013800 c                                       + FDDSCA * 10000                                         05       140113     013800
+013900 c                                       + FDDSCM * 100                                           05       140113     013900
+014000 c                                       + FDDSCG                                                 05       140113     014000
+014100 c                   if            (    £DataRevo > *date                                        B06       140113     014100
+014200 c                                  or  £DataRevo = 0)                                           B06       140113     014200
+014300 c                             and (    £DataScad > *date                                        B06       140113     014300
+014400 c                                  or  £DataScad = 0)                                           B06       140113     014400
+014500 c                             and FDDPRF > *date                                                B06       140113     014500
+014600  *                                                                                                        140113     014600
+014700  *  Con il codice fido leggo TABFID1L e seleziono solo i fidi PDO.                                        140113     014700
+014800 c                   eval      TFCDF = FDCODF                                                     06       140113     014800
+014900 c     TFCDF         chain     TABFID1L                                                           06       140113     014900
+015000 c                   if            %found(TABFID1L)                                              B07       140113     015000
+015100 c                             and TFMACR = '0'                                                  B07       140113     015100
+015200  *                                                                                                        140113     015200
+015300  *  Memorizzo FDORDL, FDDDLx, FDDPRF relativi al FDDPRF minore.                                           140113     015300
+015400 c                   if            FDDPRF < £MinFDDPRF                                           B08       140113     015400
+015500 c                             and FDDPRF > *date                                                B08       140121     015500
+015600 c                   eval      $Entry_$FPRFD = FDPRFD                                             08       140114     015600
+015700 c                   eval      $Entry_$FDDLX = £DataDeli                                          08       140114     015700
+015800 c                   eval      $Entry_$FDPRF = FDDPRF                                             08       140114     015800
+015900 c                   eval      $Entry_$FORDL = FDORDL                                             08       140114     015900
+016000 c                   eval      £MinFDDPRF = FDDPRF                                                08       140113     016000
+016100 c                   endif                                                                       E08       140113     016100
+016200  *                                                                                                        140113     016200
+016300  *  Fine lettura TABFID                                                                                   140113     016300
+016400 c                   endif                                                                       E07       140113     016400
+016500  *                                                                                                        140113     016500
+016600  *  Torno a rileggere ANAFID                                                                              140113     016600
+016700 c                   endif                                                                       E06       140113     016700
+016800 c                   endif                                                                       E05       140113     016800
+016900 c                   enddo                                                                       E04       140113     016900
+017000  *                                                                                                        140113     017000
+017100  *  Torno a rileggere REFIRA                                                                              140113     017100
+017200 c                   endif                                                                       E03       140113     017200
+017300 c                   enddo                                                                       E02       140113     017300
+017400  *                                                                                                        140113     017400
+017500  *  Torno a leggere la successiva coppia                                                                  140113     017500
+017600 c                   endfor                                                                      E01       140113     017600
+017700  *                                                                                                        071018     017700
+017800  * MAIN (END) -------------------------------------------------------------                               071018     017800
+017900  *                                                                                                        071018     017900
+018000 c     EndOfPgm      tag                                                                                   071018     018000
+018100  *                                                                                                        071018     018100
+018200  *                 -------------------------                                                              071018     018200
+018300 c                   exsr      PgmEnd                                                                      071018     018300
+018400  *                 -------------------------                                                              071018     018400
+018500  *                                                                                                        071018     018500
+018600 c                   eval      *inlr = *on                                                                 071018     018600
+018700  *                                                                                                        071018     018700
+018800  **************************************************************************                               071018     018800
+019000 c     PgmBegin      begsr                                                                                 071018     019000
+019100  **************************************************************************                               071018     019100
+019200  *  Elaborazioni iniziali e apertura file                                                                 071018     019200
+019300  **************************************************************************                               071018     019300
+019400  *                                                                                                        071018     019400
+019500  * Operazioni preliminari (START) -----------------------------------------                               071018     019500
+019600  *                                                                                                        071018     019600
+019700 c                   eval      $Entry_ = $Entry_KPJBU                                                      071018     019700
+019800 c                   clear                   $Entry_$FPRFD                                                 140114     019800
+019900 c                   clear                   $Entry_$FDDLX                                                 140114     019900
+020000 c                   clear                   $Entry_$FDPRF                                                 140114     020000
+020100 c                   clear                   $Entry_$FORDL                                                 140114     020100
+020200  *                                                                                                        071018     020200
+020300  * Operazioni preliminari (END) -------------------------------------------                               071018     020300
+020400  *                                                                                                        071018     020400
+020500  * Apertura file (START)---------------------------------------------------                               071018     020500
+020600  *                                                                                                        071018     020600
+020700  *                                                                                                        071018     020700
+020800  * Apertura file (END) ----------------------------------------------------                               071018     020800
+020900  *                                                                                                        071018     020900
+021000  * Operazioni varie (START) -----------------------------------------------                               071018     021000
+021100  *                                                                                                        071018     021100
+021200  *                                                                                                        140113     021200
+021300  * Operazioni varie (END) -------------------------------------------------                               071018     021300
+021400  *                                                                                                        071018     021400
+021500  **************************************************************************                               071018     021500
+021600 c                   endsr                                                                                 071018     021600
+021800 c     PgmEnd        begsr                                                                                 071018     021800
+021900  **************************************************************************                               071018     021900
+022000  *  Elaborazioni finali e chiusura file                                                                   071018     022000
+022100  **************************************************************************                               071018     022100
+022200  *                                                                                                        071018     022200
+022300  * Operazioni varie (START) -----------------------------------------------                               071018     022300
+022400  *                                                                                                        071018     022400
+022500  *                                                                                                        071018     022500
+022600  * Operazioni varie (END) -------------------------------------------------                               071018     022600
+022700  *                                                                                                        071018     022700
+022800  * Chiusura file (START)---------------------------------------------------                               071018     022800
+022900  *                                                                                                        071018     022900
+023000  *                                                                                                        071018     023000
+023100  * Chiusura file (END) ----------------------------------------------------                               071018     023100
+023200  *                                                                                                        071018     023200
+023300  * Operazioni finali (START) ----------------------------------------------                               071018     023300
+023400  *                                                                                                        071018     023400
+023500 c                   eval      $Entry_KPJBU = $Entry_                                                      140114     023500
+023600  *                                                                                                        071018     023600
+023700  * Operazioni finali (END) ------------------------------------------------                               071018     023700
+023800  *                                                                                                        071018     023800
+023900  **************************************************************************                               071018     023900
+024000 c                   endsr                                                                                 071018     024000
+024200 c     *inzsr        begsr                                                                                 071018     024200
+024300  **************************************************************************                               071018     024300
+024400  *  Definizione parametri e chiavi                                                                        071018     024400
+024500  **************************************************************************                               071018     024500
+024600  *                                                                                                        071018     024600
+024700  * Definizione parametri --------------------------------------------------                               071018     024700
+024800  *                                                                                                        071018     024800
+024900 c     *entry        plist                                                                                 071018     024900
+025000 c                   parm                    $Entry_KPJBA                                                  071018     025000
+025100  *                                                                                                        071018     025100
+025200  * Definizione chiavi -----------------------------------------------------                               071018     025200
+025300  *                                                                                                        140113     025300
+025400 c     Key_ANAFID    klist                                                                                 140113     025400
+025500 c                   kfld                    FDPRFD                                                        140113     025500
+025600 c                   kfld                    FDCODF                                                        140113     025600
+025700  *                                                                                                        140113     025700
+025800 c     Key_FIDDEL    klist                                                                                 140113     025800
+025900 c                   kfld                    FLPRFD                                                        140113     025900
+026000  *                                                                                                        140113     026000
+026100 c     Key_REFIRA    klist                                                                                 140113     026100
+026200 c                   kfld                    RRCED                                                         140113     026200
+026300 c                   kfld                    RRDEB                                                         140113     026300
+026400  *                                                                                                        071018     026400
+026500  **************************************************************************                               071018     026500
+026600 c                   endsr                                                                                 111212     026600
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv   Specifica    Testo messaggio
+*RNF7066 00        001500  Il Formato record ANAFID1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00        001600  Il Formato record FIDDEL1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00        001700  Il Formato record REFIRA1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00        001800  Il Formato record TABFID non viene utilizzato per
+                           l'immissione e l'emissione.
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      1  ANAFID3L
+           ANAFID1R
+                        FDPRFD                  PACK      5,0 SIGNED
+                        FDCODF                  CHAR        4
+      2  FIDDEL1L
+           FIDDEL1R
+                        FLPRFD                  PACK      5,0 SIGNED
+                        FLCODF                  CHAR        4
+                        FLDEB                   PACK      8,0 SIGNED
+                        FLCANG                  CHAR        8
+                        FLCED                   PACK      5,0 SIGNED
+                        FLCON1                  CHAR        1
+                        FLCON2                  CHAR        1
+                        FLCON3                  CHAR        1
+      3  REFIRA1L
+           REFIRA1R
+                        RRCED                   PACK      5,0 SIGNED
+                        RRDEB                   PACK      8,0 SIGNED
+                        RRPRFD                  PACK      5,0 SIGNED
+                        RRCODF                  CHAR        4
+      4  TABFID1L
+           TABFID
+                        TFCDF                   CHAR        4
+                        TFPRR                   PACK      3,0 SIGNED
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         ANAFID3L          DISK                   001500D     012100      012200      012400
+                                                  012500
+           ANAFID1R                               001500D    3000001
+         FIDDEL1L          DISK                   001600D     007600      007700      007800
+                                                  007900
+           FIDDEL1R                               001600D    4000001
+         REFIRA1L          DISK                   001700D     011300      011400      011500
+                                                  011600
+           REFIRA1R                               001700D    5000001
+         TABFID1L          DISK                   001800D     014900      015000
+           TABFID                                 001800D    6000001
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         $ENTRY_           DS(41)                 005000D     019700M     023500
+         $ENTRY_$CED       S(5,0)                2000002D     008800      009400
+         $ENTRY_$DEB       S(8,0)                2000003D     008900      009500
+         $ENTRY_$FDDLX     S(8,0)                2000005D     015700M     019900M
+         $ENTRY_$FDPRF     S(8,0)                2000006D     015800M     020000M
+         $ENTRY_$FORDL     A(2)                  2000007D     015900M     020100M
+         $ENTRY_$FPRFD     S(5,0)                2000004D     015600M     019800M
+         $ENTRY_$PRFD      S(5,0)                2000001D     007100      007500
+*RNF7031 $ENTRY_KBUFF      A(8)                  1000046D
+*RNF7031 $ENTRY_KCANC      A(1)                  1000038D
+*RNF7031 $ENTRY_KCDAZ      A(4)                  1000013D
+*RNF7031 $ENTRY_KCDJD      A(2)                  1000022D
+*RNF7031 $ENTRY_KCDRC      A(1)                  1000015D
+*RNF7031 $ENTRY_KCOAZ      A(4)                  1000028D
+*RNF7031 $ENTRY_KCOJB      A(2)                  1000034D
+*RNF7031 $ENTRY_KDTJB      A(6)                  1000042D
+*RNF7031 $ENTRY_KEXCN      A(1)                  1000027D
+*RNF7031 $ENTRY_KFIER      A(30)                 1000037D
+*RNF7031 $ENTRY_KFLAD      A(1)                  1000029D
+*RNF7031 $ENTRY_KFLMS      A(1)                  1000011D
+*RNF7031 $ENTRY_KFLRC      A(1)                  1000006D
+*RNF7031 $ENTRY_KFSLG      A(1)                  1000040D
+*RNF7031 $ENTRY_KGRAZ      A(3)                  1000039D
+*RNF7031 $ENTRY_KJOST      A(1)                  1000032D
+*RNF7031 $ENTRY_KJRLB      A(10)                 1000044D
+*RNF7031 $ENTRY_KJRNM      A(10)                 1000043D
+*RNF7031 $ENTRY_KKEYF      S(5,0)                1000025D
+*RNF7031 $ENTRY_KMDST      A(10)                 1000036D
+*RNF7031 $ENTRY_KMSMN      A(7)                  1000008D
+*RNF7031 $ENTRY_KNMCP      A(2)                  1000031D
+*RNF7031 $ENTRY_KNMEB      A(10)                 1000018D
+*RNF7031 $ENTRY_KNMSB      S(3,0)                1000019D
+*RNF7031 $ENTRY_KNMTD      A(10)                 1000005D
+*RNF7031 $ENTRY_KNMUS      A(10)                 1000001D
+*RNF7031 $ENTRY_KNRAZ      S(9,0)                1000003D
+*RNF7031 $ENTRY_KNRJO      A(6)                  1000009D
+*RNF7031 $ENTRY_KNRRB      A(2)                  1000020D
+*RNF7031 $ENTRY_KNRVJ      S(9,0)                1000007D
+*RNF7031 $ENTRY_KNSIF      A(9)                  1000021D
+         $ENTRY_KPJBA      DS(502)                004900D     025000M
+                           BASED(_QRNL_PRM+)
+         $ENTRY_KPJBU      A(256)                1000047D     019700      023500M
+*RNF7031 $ENTRY_KQEBI      A(7)                  1000035D
+*RNF7031 $ENTRY_KQIEB      A(7)                  1000023D
+*RNF7031 $ENTRY_KQOFR      A(10)                 1000024D
+*RNF7031 $ENTRY_KQOPR      A(10)                 1000030D
+*RNF7031 $ENTRY_KQOTD      A(10)                 1000017D
+*RNF7031 $ENTRY_KRCDS      S(5,0)                1000026D
+*RNF7031 $ENTRY_KRITB      A(1)                  1000045D
+*RNF7031 $ENTRY_KSTEB      A(1)                  1000033D
+*RNF7031 $ENTRY_KSTJO      A(1)                  1000010D
+*RNF7031 $ENTRY_KTMIN      S(6,0)                1000012D
+*RNF7031 $ENTRY_KTPAZ      A(1)                  1000014D
+*RNF7031 $ENTRY_KTPFN      A(1)                  1000016D
+*RNF7031 $ENTRY_KTPRF      A(3)                  1000002D
+*RNF7031 $ENTRY_KTPWS      A(1)                  1000041D
+*RNF7031 $ENTRY_KTSIF      A(3)                  1000004D
+*RNF7031 $JOBNAME          A(10)                  003000D
+*RNF7031 $JOBNUMBER        S(6,0)                 003200D
+*RNF7031 $PARMS            S(3,0)                 002700D
+*RNF7031 $PGMNAME          A(10)                  002900D
+*RNF7031 $PROCNAME         A(10)                  002800D
+*RNF7031 $USERNAME         A(10)                  003100D
+         *DATE             S(8,0)                 014100      014300      014500      015500
+         *ENTRY            PLIST                  024900D
+         *INLR             N(1)                   018600M
+         *INZSR            BEGSR                  024200D
+         £COPPIE(99999)    A(13)                  003700D     003800      003900      006800M
+         £COPPIECED(99999) S(5,0)                 003800D     008100M     009400M     011100
+*RNF7031 £COPPIECEDDEB     DS(1299999)            003600D
+         £COPPIEDEB(99999) S(8,0)                 003900D     008200M     009500M     011200
+         £DATADELI         P(8,0)                 004200D     012900M     015700
+         £DATAREVO         P(8,0)                 004300D     013300M     014100      014200
+         £DATASCAD         P(8,0)                 004400D     013700M     014300      014400
+         £ICOPPIE          S(6,0)                 004000D     008000M     008000      008100
+                                                  008200      009300M     009400      009500
+                                                  010100      010800      011100      011200
+         £IMAXCOPPIE       S(6,0)                 004100D     010100M     010800
+         £MINFDDPRF        P(8,0)                 004500D     006400M     015400      016000M
+*RNF7031 ENDOFPGM          TAG                    018000D
+*RNF7031 FDBOLC            A(1)                  3000063D
+*RNF7031 FDCADI            P(2,0)                3000057D
+*RNF7031 FDCASS            P(5,0)                3000077D
+*RNF7031 FDCNTZ            A(1)                  3000033D
+*RNF7031 FDCODC            P(5,0)                3000009D
+         FDCODF            A(4)                  3000010D     012000M     012600      012700
+                                                  012800      014800      025600
+*RNF7031 FDCPAF            A(1)                  3000066D
+*RNF7031 FDCPAG            A(1)                  3000073D
+         FDDDLA            P(2,0)                3000014D     013000
+         FDDDLG            P(2,0)                3000016D     013200
+         FDDDLM            P(2,0)                3000015D     013100
+         FDDDLS            P(2,0)                3000013D     012900
+*RNF7031 FDDEBC            A(1)                  3000100D
+*RNF7031 FDDES1            A(60)                 3000011D
+*RNF7031 FDDES2            A(60)                 3000012D
+*RNF7031 FDDINS            P(6,0)                3000007D
+*RNF7031 FDDIV             A(3)                  3000021D
+         FDDPRF            P(8,0)                 004500     3000052D     014500      015400
+                                                  015500      015800      016000
+*RNF7031 FDDRMX            P(3,0)                3000106D
+         FDDRVA            P(2,0)                3000026D     013400
+         FDDRVG            P(2,0)                3000028D     013600
+         FDDRVM            P(2,0)                3000027D     013500
+         FDDRVS            P(2,0)                3000025D     013300
+         FDDSCA            P(2,0)                3000018D     013800
+         FDDSCG            P(2,0)                3000020D     014000
+         FDDSCM            P(2,0)                3000019D     013900
+         FDDSCS            P(2,0)                3000017D     013700
+*RNF7031 FDDTRB            P(8,0)                3000058D
+*RNF7031 FDDTVS            P(8,0)                3000081D
+*RNF7031 FDDUPD            P(6,0)                3000008D
+*RNF7031 FDESPD            P(13,2)               3000092D
+*RNF7031 FDFDPL            A(1)                  3000047D
+*RNF7031 FDFIL             A(1)                  3000031D
+*RNF7031 FDFIPC            P(3,0)                3000055D
+*RNF7031 FDFLAG            A(1)                  3000003D
+*RNF7031 FDFPUG            A(1)                  3000102D
+*RNF7031 FDGDCD            P(3,0)                3000094D
+*RNF7031 FDGGCO            P(3,0)                3000060D
+*RNF7031 FDGGDC            P(3,0)                3000072D
+*RNF7031 FDGGDF            P(3,0)                3000075D
+*RNF7031 FDGGPF            P(5,0)                3000068D
+*RNF7031 FDGGPG            P(5,0)                3000101D
+*RNF7031 FDGGSD            P(3,0)                3000083D
+*RNF7031 FDGGTO            P(3,0)                3000076D
+*RNF7031 FDGGVM            P(3,0)                3000069D
+*RNF7031 FDGRUD            P(7,0)                3000090D
+*RNF7031 FDIANU            P(13,2)               3000084D
+*RNF7031 FDIARU            P(13,2)               3000085D
+*RNF7031 FDIFDU            P(13,2)               3000087D
+*RNF7031 FDIFPU            P(13,2)               3000089D
+*RNF7031 FDIMAN            P(9,0)                3000022D
+*RNF7031 FDIMAR            P(9,0)                3000023D
+*RNF7031 FDIMFD            P(9,0)                3000049D
+*RNF7031 FDIMFP            P(9,0)                3000051D
+*RNF7031 FDIMNN            P(9,0)                3000048D
+*RNF7031 FDINNU            P(13,2)               3000086D
+*RNF7031 FDIPDO            P(13,2)               3000108D
+*RNF7031 FDLFBU            P(13,2)               3000088D
+*RNF7031 FDLMFI            P(9,0)                3000050D
+*RNF7031 FDLOCK            A(1)                  3000005D
+*RNF7031 FDMCIN            A(1)                  3000056D
+*RNF7031 FDMORB            A(2)                  3000059D
+*RNF7031 FDMPAF            A(2)                  3000067D
+*RNF7031 FDMPAG            A(2)                  3000074D
+*RNF7031 FDNAZN            P(9,0)                3000004D
+*RNF7031 FDNOTC            A(2)                  3000061D
+*RNF7031 FDNREC            P(9,0)                3000006D
+*RNF7031 FDOPER            A(1)                  3000029D
+         FDORDL            A(2)                  3000024D     015900
+*RNF7031 FDPANU            P(5,2)                3000103D
+*RNF7031 FDPARU            P(5,2)                3000104D
+*RNF7031 FDPCCP            P(5,2)                3000071D
+*RNF7031 FDPCGA            P(5,2)                3000070D
+*RNF7031 FDPCMX            P(5,2)                3000105D
+*RNF7031 FDPCPO            P(5,2)                3000078D
+*RNF7031 FDPDO             P(5,2)                3000107D
+*RNF7031 FDPRCR            A(2)                  3000080D
+         FDPRFD            P(5,0)                3000045D     011900M     012400      015600
+                                                  025500
+*RNF7031 FDPRO             A(8)                  3000053D
+*RNF7031 FDQFNO            P(13,2)               3000098D
+*RNF7031 FDRIGA            A(1)                  3000065D
+*RNF7031 FDRISK            A(1)                  3000091D
+*RNF7031 FDRRAT            A(1)                  3000079D
+*RNF7031 FDRSRC            A(10)                 3000034D
+*RNF7031 FDSAL             A(1)                  3000064D
+*RNF7031 FDSEO             A(1)                  3000032D
+*RNF7031 FDSTAT            A(1)                  3000030D
+*RNF7031 FDTDEB            A(2)                  3000062D
+*RNF7031 FDTIAS            P(3,0)                3000099D
+*RNF7031 FDTPCE            A(2)                  3000054D
+*RNF7031 FDTPFD            A(1)                  3000046D
+*RNF7031 FDTREC            A(3)                  3000002D
+*RNF7031 FDTRIC            A(2)                  3000082D
+*RNF7031 FDTSDD            A(1)                  3000093D
+*RNF7031 FDUINS            A(6)                  3000096D
+*RNF7031 FDUUPD            A(6)                  3000097D
+*RNF7031 FDWRK0            A(1)                  3000044D
+*RNF7031 FDWRK1            A(1)                  3000035D
+*RNF7031 FDWRK2            A(1)                  3000036D
+*RNF7031 FDWRK3            A(1)                  3000037D
+*RNF7031 FDWRK4            A(1)                  3000038D
+*RNF7031 FDWRK5            A(1)                  3000039D
+*RNF7031 FDWRK6            A(1)                  3000040D
+*RNF7031 FDWRK7            A(1)                  3000041D
+*RNF7031 FDWRK8            A(1)                  3000042D
+*RNF7031 FDWRK9            A(1)                  3000043D
+*RNF7031 FDXTRF            A(1)                  3000095D
+*RNF7031 FLCANG            A(8)                  4000012D
+         FLCED             P(5,0)                4000016D     008100
+*RNF7031 FLCODF            A(4)                  4000010D
+*RNF7031 FLCON1            A(1)                  4000017D
+*RNF7031 FLCON2            A(1)                  4000018D
+*RNF7031 FLCON3            A(1)                  4000019D
+         FLDEB             P(8,0)                4000011D     008200
+*RNF7031 FLDINS            P(8,0)                4000006D
+*RNF7031 FLDIV             A(3)                  4000015D
+*RNF7031 FLDUPD            P(8,0)                4000008D
+*RNF7031 FLFLAG            A(1)                  4000002D
+*RNF7031 FLIFPD            P(13,2)               4000014D
+*RNF7031 FLIFPT            P(13,2)               4000013D
+*RNF7031 FLNAZN            P(9,0)                4000004D
+         FLPRFD            P(5,0)                4000009D     007500M     007600      007800
+                                                  025900
+*RNF7031 FLTREC            A(3)                  4000003D
+*RNF7031 FLUINS            A(6)                  4000005D
+*RNF7031 FLUUPD            A(6)                  4000007D
+         KEY_ANAFID        KLIST                  012100      025400D
+*RNF7031 KEY_FIDDEL        KLIST                  025800D
+         KEY_REFIRA        KLIST                  011300      011500      026100D
+         PGMBEGIN          BEGSR                  005900      019000D
+         PGMEND            BEGSR                  018300      021800D
+*RNF7031 RFLAG             A(1)                  6000003D
+*RNF7031 RNAZN             P(9,0)                6000004D
+         RRCED             P(5,0)                5000010D     011100M     026200
+         RRCODF            A(4)                  5000012D     012000      012300
+         RRDEB             P(8,0)                5000013D     011200M     026300
+*RNF7031 RRDINS            P(8,0)                5000007D
+*RNF7031 RRDUPD            P(8,0)                5000009D
+*RNF7031 RRFLAG            A(1)                  5000003D
+*RNF7031 RRLOCK            A(1)                  5000005D
+*RNF7031 RRNAZN            P(9,0)                5000004D
+         RRPRFD            P(5,0)                5000011D     011900
+*RNF7031 RRTREC            A(3)                  5000002D
+*RNF7031 RRUINS            A(6)                  5000006D
+*RNF7031 RRUSER            A(10)                 5000008D
+*RNF7031 RTREC             A(3)                  6000002D
+*RNF7031 TFACCR            A(1)                  6000023D
+         TFCDF             A(4)                  6000007D     014800M     014900
+*RNF7031 TFCECR            A(1)                  6000012D
+*RNF7031 TFCRFU            A(1)                  6000019D
+*RNF7031 TFCSCO            A(1)                  6000028D
+*RNF7031 TFDSF             A(60)                 6000009D
+*RNF7031 TFDUPD            P(8,0)                6000006D
+*RNF7031 TFFTYP            A(1)                  6000025D
+*RNF7031 TFLOFI            A(1)                  6000020D
+         TFMACR            A(1)                  6000016D     015100
+*RNF7031 TFMATU            A(1)                  6000021D
+*RNF7031 TFNOCR            A(1)                  6000013D
+*RNF7031 TFPRR             P(3,0)                6000008D
+*RNF7031 TFPTAS            A(1)                  6000026D
+*RNF7031 TFPTSS            A(1)                  6000027D
+*RNF7031 TFREFD            A(1)                  6000024D
+*RNF7031 TFRICR            A(1)                  6000014D
+*RNF7031 TFSCON            A(1)                  6000022D
+*RNF7031 TFTDEB            A(2)                  6000015D
+*RNF7031 TFTFID            A(2)                  6000011D
+*RNF7031 TFTFIM            A(1)                  6000010D
+*RNF7031 TFUUPD            A(6)                  6000005D
+*RNF7031 TFVARB            A(1)                  6000017D
+*RNF7031 TFVERA            A(1)                  6000018D
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         LR                                       018600M
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00    194 Il nome o l'indicatore non sono referenziati.
+*RNF7066 00      4 Il nome di formato record di un file descritto esternamente
+                   non è utilizzato.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :      198
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :      198
+  Totali origine
+    Record . . . . . . . . . . . . :      482
+    Specifiche  . . . . . . . . . . :      347
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :      135
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma TRA383 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 20/12/17 alle 10:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *

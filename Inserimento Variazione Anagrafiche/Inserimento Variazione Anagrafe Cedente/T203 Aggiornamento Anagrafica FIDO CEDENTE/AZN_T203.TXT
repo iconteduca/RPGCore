@@ -1,0 +1,492 @@
+                                      Lista dei Riferimenti fra Programmi del 12/10/2017
+        --------------------------------------------------------------------------------
+        Azn.T203                      Aggiornamento Anagrafica FIDO CEDENTE
+        --------------------------------------------------------------------------------
+        TCA151                        Aggiornamento Anagrafe Fidi
+        . TRA151                      Nuova Gestione anagrafico fidi
+        . . ANA013                    Annullamento anagrafica cedente
+        . . . ANA014                  Controllo esistenza fidi debitori legati al deb.
+        . . . ANA028                  Storicizzazione garanzia
+        . . . ANA037                  Annullamento/Ripristino Indirizzi Garanti
+        . . . RRA010                  RUA - Interfaccia Gestione Cedenti con R.U.A.
+        . . . . STD131                MIS - Verifica se utente abilitato a gest.anagraf.
+        . . . . RRA004                RUA - Ana. Soggetti "Persona Fisica"
+        . . . . . ANA125              Inquiry Ateco 2007
+        . . . . . . QSQROUTE
+        . . . . . . QSQLOPEN
+        . . . . . . QSQLCLSE
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . BCT800              Controllo validità CAP/Località
+        . . . . . . BRT820            Inquiry CAP/Prov/comuni   (EPCMNI) Batch
+        . . . . . . . STDC04          Reperimento tipo lavoro interattivo/batch
+        . . . . . . BRT810            Inquiry CAP/Prov/comuni   (EPCMNI) Interattivo
+        . . . . . . . QSQROUTE
+        . . . . . . . QSQLOPEN
+        . . . . . . . QSQLCLSE
+        . . . . . BRT227              Scelta codici Tabelle con interrogazione
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . RRA008              RUA - Ricerca codice C.A.B.
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . . . STD035              Gira e controlla la data 01/01/1951 -> 31/12/2050
+        . . . . . STD045              UTY - Controllo Cod.Fisc. e P.IVA
+        . . . . . STD212              Gira e controlla la data con secolo
+        . . . . . STF010              Reperimento codici ATECO su AGSNPF/AGPERF
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . . TRA122              Interrogazione Tabelle file MST001 per descrizione
+        . . . . . TRA125              Interrogazione tabelle su param.
+        . . . . RRA002                RUA - Ana. Soggetti "Persona Giuridica"
+        . . . . . ANA125              Inquiry Ateco 2007
+        . . . . . BCT800              Controllo validità CAP/Località
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . RRA008              RUA - Ricerca codice C.A.B.
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . . . STD045              UTY - Controllo Cod.Fisc. e P.IVA
+        . . . . . STF010              Reperimento codici ATECO su AGSNPF/AGPERF
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . . TRA122              Interrogazione Tabelle file MST001 per descrizione
+        . . . . . TRA125              Interrogazione tabelle su param.
+        . . . . RRA012                RUA - Gestione Rapporti
+        . . . . . RRA015              RUA - Ricerca codice C.A.B. dipendenza (ADIPEN0F)
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . . RRA006              RUA - Ricerca Soggetti
+        . . . . . . RRA004            RUA - Ana. Soggetti "Persona Fisica"
+        . . . . . . RRA042            RPGLE: Duplicazione SOGxxx in TITxxx/DICxxx
+        . . . . . . . RRA006          RUA - Ricerca Soggetti
+        . . . . . . . STD035          Gira e controlla la data 01/01/1951 -> 31/12/2050
+        . . . . . . . STD131          MIS - Verifica se utente abilitato a gest.anagraf.
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . QSQROUTE
+        . . . . . . QSQLOPEN
+        . . . . . . QSQLCLSE
+        . . . . . RRA014              RUA - Gestione Titolari Effettivi
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . RRA006            RUA - Ricerca Soggetti
+        . . . . . . RRA024            RUA - Annullamento / Ripristino Soggetto
+        . . . . . . STD012            Gira e controlla la data con secolo
+        . . . . . RRA016              RUA - Gestione Dichiaranti
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . RRA006            RUA - Ricerca Soggetti
+        . . . . . . RRA024            RUA - Annullamento / Ripristino Soggetto
+        . . . . . . STD012            Gira e controlla la data con secolo
+        . . . . . RRA013              RUA - Gestione Delegati
+        . . . . . . AMT013R           * MV * tabella 'LEGAME DEL SOGGETTO'
+        . . . . . . . AMP000R         Stampa tabelle
+        . . . . . . . . UCS001        Gestione Printer Files
+        . . . . . . . . . URS001      Gestione Printer Files
+        . . . . . . . . . . UCS003    USF - Printer Files - Utility x Gestione
+        . . . . . . . . . . . UCU150    stione Autorizzazioni Oggetto
+        . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . UCS026    Salvataggio Spool Files
+        . . . . . . . . . . URS006    Gestione Printer Files
+        . . . . . . . . . . . UCS006    stione Printer Files
+        . . . . . . . . . . . . URS008    ione Printer Files
+        . . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . URS005    Gestione Printer Files
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . URS007    Gestione Printer Files
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . . UCS004    stione Printer Files
+        . . . . . . . . . . . QCMDEXC
+        . . . . . . . . . . UCS002    Gestione Printer Files
+        . . . . . . . . . . UCS004    Gestione Printer Files
+        . . . . . . DCER01            Decodifica Errori da SYSERR - KPJBA
+        . . . . . . RRA006            RUA - Ricerca Soggetti
+        . . . . . . RRA024            RUA - Annullamento / Ripristino Soggetto
+        . . . . . . STD012            Gira e controlla la data con secolo
+        . . . . . . *VARIABLE
+        . . . . . RRA024              RUA - Annullamento / Ripristino Soggetto
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . RRA022                  RUA - Interfaccia Gestione Garanzie con R.U.A.
+        . . . . RRA004                RUA - Ana. Soggetti "Persona Fisica"
+        . . . . RRA002                RUA - Ana. Soggetti "Persona Giuridica"
+        . . . . RRA018                RUA - Gestione Rapporti Leasing e Garanzie
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . RRA006              RUA - Ricerca Soggetti
+        . . . . . RRA013              RUA - Gestione Delegati
+        . . . . . RRA014              RUA - Gestione Titolari Effettivi
+        . . . . . RRA015              RUA - Ricerca codice C.A.B. dipendenza (ADIPEN0F)
+        . . . . . RRA016              RUA - Gestione Dichiaranti
+        . . . . . RRA024              RUA - Annullamento / Ripristino Soggetto
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . . . TRA120              Interrogazione Tabelle file MST001
+        . . . . RRA024                RUA - Annullamento / Ripristino Soggetto
+        . . . RRA024                  RUA - Annullamento / Ripristino Soggetto
+        . . . STD061                  Aggiorna le dipendenze di AUTINT presenti su PARAM
+        . . . STD131                  MIS - Verifica se utente abilitato a gest.anagraf.
+        . . . STF066                  Annullamento PEFTAB per società abilitate
+        . . . TCA373                  Agg. automatico fidi debitore
+        . . . . TRA373                Agg. automatico fidi debitore
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . DCER11              Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . . . STDC01              Reperimento testo e gravità messaggio
+        . . . . . STD028              Converte un importo da una divisa ad un'altra
+        . . . . . TRA383              Recupero dati FidoC x delibere FidiD NonAutonomi
+        . . . . KU101R                Utilities CrtDupObj Obj_FrLib_ObTyp_ToLib_NwObj
+        . . . . . KU102C              Utilities CrtDupObj CrtDupObj
+        . . . . . . KU103C            Utilities CrtDupObj DltPrvObj
+        . . . TRA002                  Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . . . TRA003                  Controllo presenza interessi maturity conto/rapp.
+        . . . . QSQLCLSE
+        . . . . QSQLOPEN
+        . . . . QSQROUTE
+        . . . TRA346                  Stampa lettera di concessione/variazione RAC
+        . . . . QCMDEXC
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . UCS001                Gestione Printer Files
+        . . ANA045                    Ricerca Gruppo x Denominazione
+        . . . ANA046                  Ricerca Gruppo x Codice Discendente
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . ANA105                    Window selezione status ANAGEN
+        . . BRC220                    Poteri Organi deliberanti fidi: Gestione
+        . . . BRC221                  Poteri Organi deliberanti fidi: Ricerca
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . BRC222                  Poteri Organi deliberanti fidi: Dati storici
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . BRC224                  Poteri Organi deliberanti fidi: Stampa
+        . . . . UCS001                Gestione Printer Files
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . STD012                  Gira e controlla la data con secolo
+        . . . TRA120                  Interrogazione Tabelle file MST001
+        . . BRC221                    Poteri Organi deliberanti fidi: Ricerca
+        . . BRO310                    Gestione anagrafica cedente
+        . . . ANA045                  Ricerca Gruppo x Denominazione
+        . . . STF203                  Determ. Sofferenza soggetto (Dt.Rif >= 31/12/2009)
+        . . . . UTISOC                Verifica aree abilitate alla società
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . BRR051                    Analisi Assicurazioni sinonimi (per Inquiry)
+        . . DCER01                    Decodifica Errori da SYSERR - KPJBA
+        . . DCER11                    Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . STDC01                    Reperimento testo e gravità messaggio
+        . . STD012                    Gira e controlla la data con secolo
+        . . STD028                    Converte un importo da una divisa ad un'altra
+        . . STD033                    Giorni di Differenza fra due Date
+        . . . STD030                  Reperimento Data e Ora
+        . . TRA083                    Interrogazione Codici ristrutt. crediti
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . TRA084                    Interrogazione Codici ristrutt. crediti
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . TRA091                    Controlli Fidi/conti
+        . . . STD006                  Calcolo data inizio/fine periodo capital.ne
+        . . . STD007                  Aggiunge Giorni ad una Data
+        . . TRA100                    Visualizzazione per scelta record file TABFID0F
+        . . TRA120                    Interrogazione Tabelle file MST001
+        . . TRA152                    Ricerca Fidi di un cedente
+        . . TRA157                    Gestione altri cedenti per fido plurimo
+        . . . BRO310                  Gestione anagrafica cedente
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . DCER11                  Decodifica Errori da SYSERR - KPJBA (No ClearMSGQ)
+        . . . STDC01                  Reperimento testo e gravità messaggio
+        . . . TRA347                  Reperimento dati da DLBFID o STORDE
+        . . TRA158                    Piani di rientro fidi
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . STD012                  Gira e controlla la data con secolo
+        . . TRA340                    Gestione testo fido (TABFID/ANAFI2/FIDDE2)
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . TRA332                  Variabili utilizzate in testo fido: Ricerca
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . TRA341                  Anteprima testo fido (TABFID/ANAFI2/FIDDE2)
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . TRA342                Impaginazione riga di testo fido
+        . . . . . TRA343              Rep. valore variabile fido (ANAFID/TABFID/FIDDE2)
+        . . . . . . STD012            Gira e controlla la data con secolo
+        . . . . . . STD028            Converte un importo da una divisa ad un'altra
+        . . . . . . TRA343A           Controllo gruppo garante-garantito
+        . . . . UCS001                Gestione Printer Files
+        . . . TRA343                  Rep. valore variabile fido (ANAFID/TABFID/FIDDE2)
+        . . TRA344                    Totalizzazione fidi già rilasciati al "soggetto"
+        . . . STD028                  Converte un importo da una divisa ad un'altra
+        . . . TRA343A                 Controllo gruppo garante-garantito
+        . . . TRA347                  Reperimento dati da DLBFID o STORDE
+        . . TRA345                    Calc. valore reale massimale rischio organo delib.
+        . . . TRA347                  Reperimento dati da DLBFID o STORDE
+        . . TRA347                    Reperimento dati da DLBFID o STORDE
+        . . TRA361                    Controllo N°Progressivi Fidi bloccati + stampa
+        . . TRA377                    Controlli preventivi Agg. automatico fidi debitore
+        . . . STDC01                  Reperimento testo e gravità messaggio
+        . . . STD028                  Converte un importo da una divisa ad un'altra
+        . . TRA391                    Gestione automatica LOGSCI: Fidi cedente
+        . . . STDC01                  Reperimento testo e gravità messaggio
+        . . . STD028                  Converte un importo da una divisa ad un'altra
+        . . . STD033                  Giorni di Differenza fra due Date
+        . . . TRA091                  Controlli Fidi/conti
+        . . . TRA344                  Totalizzazione fidi già rilasciati al "soggetto"
+        . . . TRA345                  Calc. valore reale massimale rischio organo delib.
+        . . . TRA347                  Reperimento dati da DLBFID o STORDE
+        . . . TRA361                  Controllo N°Progressivi Fidi bloccati + stampa
+        . . . TRA390                  Aggiornamento LOGSCI
+        . . TRA411                    Collegamento Clausole di Mitigazione/Fido
+        . . . BRO310                  Gestione anagrafica cedente
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . . . STD003                  UTY - Inversione della data
+        . . . TRA152                  Ricerca Fidi di un cedente
+        . . . TRA412                  Collegamento Clausole di Mitigazione/Fido - add
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . TRA413                  Condizioni Clausole di Mitigazione Rischio PTO
+        . . . . BRO310                Gestione anagrafica cedente
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . TRA412                Collegamento Clausole di Mitigazione/Fido - add
+        . . . TRA414                  Determinazione tipologia PTO IAS
+        . . . TRA415                  Aggiornamento PTO IAS su RAC collegati al fido
+        . . . . TRA002                Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . . . TRA436                  Gestione Scaglioni Bonus/malus per cedente (guida)
+        . . . . BRO310                Gestione anagrafica cedente
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . TRA437                Gestione Scaglioni Bonus/malus per cedente
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . . TRA440                  Storicizzazione Fido modificato
+        . . . TRA447                  Storico giorni termine P.U.G.
+        . . . . STD003                UTY - Inversione della data
+        . . . TRA448                  Gestione Scaglioni Ricalcolo commissioni (guida)
+        . . . . BRO310                Gestione anagrafica cedente
+        . . . . DCER01                Decodifica Errori da SYSERR - KPJBA
+        . . . . STD012                Gira e controlla la data con secolo
+        . . . . TRA449                Gestione Scaglioni Ricalcolo commissioni
+        . . . . . DCER01              Decodifica Errori da SYSERR - KPJBA
+        . . . . . STD012              Gira e controlla la data con secolo
+        . . TRA414                    Determinazione tipologia PTO IAS
+        . . TRA428                    Aggiorna gg termine P.U.G. su fidi cedente
+        . . . TRA440                  Storicizzazione Fido modificato
+        . . WINTIA                    RAPPORTI PTO - Selezione dalla tabella TIA
+        . . . DCER01                  Decodifica Errori da SYSERR - KPJBA
+        . KU101R                      Utilities CrtDupObj Obj_FrLib_ObTyp_ToLib_NwObj
+        . TRA150                      Nuova Gestione anagrafico fidi: Copia dati
+        . . ANA013                    Annullamento anagrafica cedente
+        . . TCA373                    Agg. automatico fidi debitore
+        . . TRA002                    Salvataggio RAPPTO0F in STORPT0F e controllo var.
+        . . TRA346                    Stampa lettera di concessione/variazione RAC
+        . . TRA415                    Aggiornamento PTO IAS su RAC collegati al fido
+        . . TRA428                    Aggiorna gg termine P.U.G. su fidi cedente
+        --------------------------------------------------------------------------------
+        TCA151    CLP   1-WANFID*   8-WANFID0F  1-WANFI2*   8-WANFI20F  1-WANFI3*
+        .         .     8-WANFI30F  1-WPIFID*   8-WPIFID0F  1-WLOGSC*   8-WLOGSC0F
+        .         .     1-WFICHG*   8-WFICHG0F  1-WCLFID*   8-WCLFID0F  8-ANAFID0F
+        .         .     8-WANFID0F  8-ANAFID2L  8-WANFID2L  8-ANAFID3L  8-WANFID3L
+        .         .     8-ANAFID4L  8-WANFID4L  8-ANAFID5L  8-WANFID5L  8-ANAFID6L
+        .         .     8-WANFID6L  8-ANAFI20F  8-WANFI20F  8-ANAFI22L  8-WANFI22L
+        .         .     8-ANAFI30F  8-WANFI30F  8-ANAFI31L  8-WANFI31L  8-ANAFI32L
+        .         .     8-WANFI32L  8-ANAFI33L  8-WANFI33L  8-PIAFID0F  8-WPIFID0F
+        .         .     8-PIAFID1L  8-WPIFID1L  8-PIAFID2L  8-WPIFID2L  8-LOGSCI0F
+        .         .     8-WLOGSC0F  8-LOGSCI01  8-WLOGSC01  8-CLAFID0F  8-WCLFID0F
+        .         .     8-CLAFID2L  8-WCLFID2L  8-CLAFID3L  8-WCLFID3L
+        TRA151    RPGLE 7-ANAFID3L  5-ANAFI22L  7-WFICHG0F  1-AGCONE1L  1-AGCORI1L
+        .         .     1-AGGRUP1L  1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L
+        .         .     1-AGSOGG1C  1-ANAASS1L  1-ANACED1L  1-ANACON1L  1-ANADEB1L
+        .         .     1-ANAFID7L  1-ANAFID8L  1-ANAFI34L  1-ANARAP1L  1-ARKCON2L
+        .         .     1-MST0011L  1-PARAM     1-PIAFID1L  1-RAPPTO1L  1-REFICO2L
+        .         .     1-REFIRA1L  1-REFIRA2L  1-RSKFID1L  1-RSKFI22L  1-STOFID2L
+        .         .     1-STOFID7L  1-STOFI37L  1-TABFIC1L  1-TABFID1L  1-USRPWR1L
+        .         .     1-WFICHG1L  1-CLAFID2L  1-PTOIAS2L  7-TRA1510V
+        ANA013    RPGLE 5-AGCONE1L  5-AGCORI1L  5-AGPERF1L  5-AGRAPP1L  5-AGRAPP2L
+        .         .     5-AGSNPF1L  5-ANACED1L  5-AUTINT1L  5-ANACON2L  5-ANADEB1L
+        .         .     5-ANARAP1L  5-ANARAP2L  5-APPDEB1L  5-APPRAP1L  5-DECCED0F
+        .         .     5-DECDEB0F  5-DECRAP0F  5-FIDDEB4L  1-FIDDEL1L  5-FIDDEL7L
+        .         .     5-FIDDEL8L  5-GARPPQ1L  5-GARREL3L  5-GARREL4L  5-GARREL5L
+        .         .     5-GARRIC1L  5-NDGIES1L  5-RAPNDG1L  5-RAPNDG2L  5-RAPPTO1L
+        .         .     5-REFIRA1L  5-REFICO1L  7-STFIDE2L  7-STFID22L  7-STFIDL2L
+        .         .     5-STOAEA2L  5-STOAEA3L  2-STORPT0F  5-WAICED1L  5-WKANAR1L
+        .         .     2-STORAP0F  1-AGCORI2L  1-AGCSOC2L  1-ANAFID7L  1-ANAFID8L
+        .         .     1-ANAFI34L  1-ANARCL4L  1-BKPART2L  1-CONATT0F  1-FATCTC9L
+        .         .     1-FATTURQL  1-FATTUR06  1-FIDDEB3L  1-FIDDEL4L  1-FIDDE22L
+        .         .     1-GARRIC2L  1-GARREL1L  1-NOTGIO4L  1-PONDEB2L  1-POOLOG1L
+        .         .     1-POOLPS6L  1-SPEATT2L  1-ECVKEY2L  1-APPORI4L  1-PARAM
+        ANA014    RPGLE 1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L
+        .         .     1-AGSNPF1L  1-AGSOGG1C  1-ANADEB1L  1-FIDDEB4L
+        ANA028    RPGLE 3-GARPPQ2L  3-GARRIC1L  3-GARREL1L  3-GARPPQ9L  3-GARRIC9L
+        .         .     3-GARREL9L
+        ANA037    RPGLE 1-AGCORI2L  1-AGCORI3L  5-GARIND1L  5-GARIND2L  1-GARRIC2L
+        RRA010    RPG   1-ANACED1L  1-AGRAPP2L  1-ACABXX1L  1-AGCORI1L  1-ANSOG03L
+        .         .     1-ANSOG01L  1-AGPERF1L  1-AGSNPF1L  1-ANRAP01L
+        STD131    RPGLE 1-MISUTE1L  1-PARAM
+        RRA004    RPGLE 3-RRA0040V  1-MST0011L  1-ACABXX1L  1-ACABXX3L  1-CATAST1L
+        .         .     1-CATAST2L  1-COMUNI1L  7-ANSOG01L  1-ANSOG03L  1-PARAM
+        .         .     7-RELSOG3L  1-RELSOG2L  1-TABATC1L  1-DECCED0F  1-DECDEB0F
+        .         .     1-DECCLI0F  2-LOGSOG0F
+        ANA125    RPG   3-ANA1250V  1-TABATC1L
+        DCER01    CLP
+        BCT800    CLP
+        BRT820    RPG   1-COMUNI1L
+        STDC04    CLP
+        BRT810    RPG   3-BRT8100V
+        BRT227    RPG   1-MST0011L  3-BRT2270V
+        RRA008    RPG   3-RRA0080V  1-ACABXX1L  1-ACABXX2L  1-ACABXX3L
+        STD012    RPG
+        STD035    RPG
+        STD045    RPG   1-CATAST2L  1-CATAST1L  1-ACABXX1L
+        STD212    RPG
+        STF010    RPGLE 1-AGRAPP2L  1-AGPERF1L  1-AGSNPF1L  1-MST0011L
+        TRA120    RPG   3-TRA1200V  1-MST0011L
+        TRA122    RPG   3-TRA1200V  1-MST0013L  1-MST0011L
+        TRA125    RPG   3-TRA1250V  1-PARAM
+        RRA002    RPGLE 3-RRA0020V  1-MST0011L  1-ACABXX1L  1-ACABXX3L  1-COMUNI1L
+        .         .     7-ANSOG01L  1-DECCED0F  1-DECDEB0F  1-DECCLI0F  2-LOGSOG0F
+        .         .     1-TABATC1L  1-PARAM
+        RRA012    RPG   d-INV01DTA  3-RRA0120V  1-ANSOG01L  1-ANDEL02L  4-ANDEL03L
+        .         .     1-ANTIT02L  1-ANDIC02L  1-ADIPEN2L  1-PARAM     1-MST0011L
+        .         .     6-ANRAP01L  1-ANACED1L  1-ANADEB1L  1-PANCLI1L  1-TBDAM01L
+        RRA015    RPG   3-RRA0150V  1-ADIPEN1L
+        RRA006    RPG   3-RRA0060V  1-ANSOG01L
+        RRA042    RPGLE 3-RRA0420V  7-ANSOG01L  1-MST0011L
+        RRA014    RPGLE d-INV01DTA  3-RRA0140V  1-ANSOG01L  7-ANTIT01L
+        RRA024    RPGLE 5-ANSOG01L  1-ANRAP01L  1-ANRAP02L  1-ANRAP03L  1-ANRAP04L
+        .         .     1-ANRAP05L  1-ANRAP06L  1-ANDEL01L  1-PARAM     5-RELSOG3L
+        .         .     1-ANDIC04L  1-ANTIT04L
+        RRA016    RPGLE d-INV01DTA  3-RRA0160V  1-ANSOG01L  7-ANDIC01L
+        RRA013    RPGLE d-INV01DTA  3-RRA0130V  1-ANRAP01L  1-ANSOG01L  7-ANDEL01L
+        .         .     1-TBDAM01L  1-TBTAM01L  3-ANESE01L
+        AMT013R   RPG   3-AMT013D   6-TBDAM01L
+        AMP000R   RPG   1-TBDAM01L  2-AMP000P
+        UCS001    CLP
+        URS001    RPG   1-PRTFIL1L  1-KFSIF01L  1-PRTFDS1L  1-KCOUQ01L  2-URS0010P
+        .         .     2-URS0011P  2-URS0012P  1-URS0011L  2-URS0012F  1-PARAM
+        UCS003    CLP
+        UCU150    CLLE  1-KFAUT01L
+        UCS026    CLLE  B-&FILE     3-&SPLF     8-SAVESPLF  B-&FILE     3-&SPLF
+        .         .     8-SAVESPLF
+        URS006    RPG   2-ADDLSR0F
+        UCS006    CLP   2-&SPLF
+        URS008    RPGLE 1-URS0080W
+        UCS004    CLP
+        URS005    RPG   4-URS0010F
+        URS007    RPGLE 5-URS0012L
+        UCS002    CLP
+        RRA022    RPG   1-GARRIC1L  1-GARIND1L  1-ACABXX1L  4-ANDEL02L  4-ANTIT02L
+        .         .     4-ANDIC02L  4-ANRAP01L  1-AGPERF1L  1-AGSNPF1L  1-AGCORI1L
+        .         .     1-MST0011L
+        RRA018    RPGLE d-INV01DTA  7-RRA0180V  1-ANSOG01L  1-ANDEL02L  5-ANDEL03L
+        .         .     1-ANTIT02L  1-ANDIC02L  1-ADIPEN2L  1-PARAM     1-MST0011L
+        .         .     7-ANRAP01L  1-TBDAM01L
+        STD061    RPG   4-PARAM
+        STF066    RPGLE 5-PEFTAB1L  1-PARAM
+        TCA373    CLP   8-WFIDEB0F  8-WFIDE20F  8-WFIDEL0F
+        TRA373    RPGLE 7-FIDDEB3L  7-FIDDE22L  7-FIDDEL1L  3-LOGAAF1L  5-PARAM
+        .         .     7-STFIDE2L  7-STFID22L  7-STFIDL2L  7-WFIDEB3L  7-WFIDEL1L
+        .         .     7-WFIDEL3L  7-WFIDEL4L  7-WFIDE22L  1-AGCONE1L  1-AGCORI1L
+        .         .     1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C
+        .         .     1-ANAASS1L  1-ANADEB1L  1-ANARAP1L  1-FIDDEB4L  1-FIDDEL6L
+        .         .     1-RAPPTO3L  1-RAPPTO4L  1-RAPPTO7L  1-TABFID1L  1-USRPWR1L
+        .         .     1-WFIDEB4L  3-TRA3730V
+        DCER11    CLP
+        STDC01    CLP
+        STD028    RPG   1-CAMBIO1L  1-MST0011L
+        TRA383    RPGLE 1-ANAFID3L  1-FIDDEL1L  1-REFIRA1L  1-TABFID1L
+        KU101R    RPG
+        KU102C    CLP   d-DBFPRD    8-&OBJ      B-KQDBR
+        KU103C    CLP   B-KQDBR     9-&FILE     8-KQDBR     1-&WHREFI   1-KQDBR
+        TRA002    RPGLE
+        TRA003    RPGLE 1-FATTUR01  1-MST0011L  1-RAPCON1L  1-PARAM
+        TRA346    RPGLE 3-RACSTA1L  1-ANACED1L  1-ANADEB1L  1-APPCED0F  1-MST0011L
+        .         .     1-PARAM     1-RAPPTO1L  1-STORPT0F  2-TRA3460P
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        ANA105    RPG   3-ANA1050V
+        BRC220    RPGLE 7-DLBFID6L  2-STORDE0F  7-DLBFI21L  3-STORD20F  1-ANAFID2L
+        .         .     1-FIDDEB2L  1-MST0011L  1-RSKFID2L  1-RSKFI21L  1-PARAM
+        .         .     7-BRC2200V
+        BRC221    RPGLE 1-DLBFID6L  1-MST0011L  7-BRC2210V
+        BRC222    RPGLE 1-DLBFID6L  1-DLBFI21L  1-MST0011L  1-PARAM     1-RSKFID2L
+        .         .     1-STORDE0F  1-STORD21L  1-STRSKF1L  7-BRC2220V
+        BRC224    RPGLE 1-DLBFID6L  1-DLBFID2L  1-DLBFI21L  1-RSKFID2L  1-MST0011L
+        .         .     2-BRC2240P
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        STF203    RPGLE 1-AGCORI1L  1-AGPERF1L  1-AGPNDT2L  1-AGRAPP1L  1-AGRAPP2L
+        .         .     1-AGSDET1L  1-AGSNPF1L  1-AGSOFF1L  1-ANACON1L  1-FCLBRN1L
+        .         .     1-FCLBRN2L  1-FCLBRN3L  1-FORBRN1L  1-FORBRN2L  1-FORBRN3L
+        .         .     1-FORBRN4L  1-MST0011L  1-PARAM     1-SC2MED2L  1-SC2SCO1L
+        UTISOC    RPG   1-MST0011L  1-PARAM
+        BRR051    RPG   3-BRR0510V  1-ANAASS2L
+        STD033    RPGLE
+        STD030    RPGLE
+        TRA083    RPGLE 7-TRA0830V  1-MST0011L
+        TRA084    RPGLE 7-TRA0840V  1-MST0011L
+        TRA091    RPG   1-ANACON1L  1-STOCOT3L  1-STOCOT1L  1-PARAM     1-MST0011L
+        STD006    RPG
+        STD007    RPGLE
+        TRA100    RPG   3-TRA1000V  1-TABFID1L
+        TRA152    RPG   1-ANAFID4L  1-ANAFI33L  1-ANAFID3L  1-ANACED1L  1-MST0011L
+        .         .     3-TRA1520V
+        TRA157    RPGLE 7-ANAFI31L  1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGRAPP1L
+        .         .     1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C  1-ANACED1L  1-ANAFID3L
+        .         .     1-MST0011L  1-USRPWR1L  7-TRA1570V
+        TRA347    RPGLE 1-DLBFID6L  1-STORDE1L
+        TRA158    RPGLE 7-PIAFID1L  1-ANACED1L  1-ANAFID3L  1-MST0011L  7-TRA1580V
+        TRA340    RPGLE 7-ANAFI22L  7-FIDDE22L  7-TABFID2L  1-AGCONE1L  1-AGGRUP1L
+        .         .     1-AGPERF1L  1-AGSNPF1L  1-ANACED1L  1-ANADEB1L  1-ANAFID3L
+        .         .     1-FIDDEB3L  1-MST0011L  1-VARFID1L  7-TRA3400V
+        TRA332    RPGLE 1-VARFID2L  7-TRA3320V
+        TRA341    RPGLE 1-AGCONE1L  1-AGGRUP1L  1-AGPERF1L  1-AGSNPF1L  1-ANACED1L
+        .         .     1-ANADEB1L  1-ANAFID3L  1-ANAFI22L  1-FIDDEB3L  1-FIDDE22L
+        .         .     1-TABFID2L  7-TRA3410V  2-TRA3410P
+        TRA342    RPGLE 1-VARFID1L
+        TRA343    RPGLE 1-ACLEN02L  1-AGCONE1L  1-AGCORI1L  1-AGCORI2L  1-AGGRUP1L
+        .         .     1-AGPERF1L  1-AGRAPP1L  1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C
+        .         .     1-ANAASS1L  1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-ANAFID7L
+        .         .     1-ANAFID8L  1-ANAFI34L  1-DLBFID2L  1-FIDDEB3L  1-FIDDEB7L
+        .         .     1-FIDDEB8L  1-GARREL3L  1-GARREL4L  1-GARREL5L  1-GARREL6L
+        .         .     1-GARRIC1L  1-GARRIC2L  1-MST0011L  1-PARAM     1-REFIRA2L
+        .         .     1-TABFID2L  1-VARFID1L  1-VARFI21L
+        TRA343A   RPGLE 1-AGCONE1L  1-AGCORI2L  1-AGPERF1L  1-AGRAPP2L  1-AGSNPF1L
+        .         .     1-ANAFID3L  1-ANAFI31L  1-GARREL6L  1-GARRIC1L
+        TRA344    RPGLE 1-AGCONE1L  1-AGCORI1L  1-AGCORI2L  1-AGPERF1L  1-AGRAPP1L
+        .         .     1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C  1-ANAFID7L  1-ANAFID8L
+        .         .     1-ANAFI34L  1-FIDDEB8L  1-GARREL3L  1-GARREL4L  1-GARREL5L
+        .         .     1-GARREL6L  1-GARRIC1L  1-GARRIC2L  1-PARAM     1-RSKFID1L
+        .         .     1-RSKFID2L  1-RSKFI22L  1-TABFID2L
+        TRA345    RPGLE 1-DLBFI21L  1-PARAM     1-RSKFID1L  1-RSKFID2L  1-RSKFI22L
+        .         .     1-STORD21L  1-TABFID1L
+        TRA361    RPG   3-WKFIDO0F  4-STOFID3L  4-ANAFID3L  1-ANAFID8L  1-ANAFID7L
+        .         .     1-ANAFI34L  1-ANAFI31L  1-DOCMAN1L  1-DOCREG1L  1-ANACED1L
+        .         .     1-TABFID1L  1-GARRIC2L  1-GARRIC1L  1-GARREL5L  1-GARREL3L
+        .         .     1-GARREL4L  1-AGRAPP1L  1-AGRAPP2L
+        TRA377    RPGLE 1-AGCONE1L  1-AGPERF1L  1-AGRAPP2L  1-AGSNPF1L  1-ANARAP1L
+        .         .     1-FIDDEB3L  1-FIDDEL1L  1-FIDDEB4L  1-PARAM     1-RAPPTO1L
+        .         .     1-USRPWR1L
+        TRA391    RPGLE 7-PARAM     1-AGCONE1L  1-AGCORI1L  1-AGPERF1L  1-AGRAPP1L
+        .         .     1-AGRAPP2L  1-AGSNPF1L  1-AGSOGG1C  1-ANACED1L  1-ANACON1L
+        .         .     1-ANADEB1L  1-ANAFID3L  1-ANAFID7L  1-ANAFID8L  1-ANAFI34L
+        .         .     1-ANAFI31L  1-ANARAP1L  1-GARREL3L  1-GARREL4L  1-GARREL5L
+        .         .     1-GARRIC1L  1-RAPPTO1L  1-REFICO2L  1-REFIRA1L  1-REFIRA2L
+        .         .     1-RSKFID1L  1-STOFID2L  1-STOFID7L  1-STOFI37L  1-TABFID1L
+        .         .     1-USRPWR1L
+        TRA390    RPGLE 7-LOGSCI01  7-LOGSCI2L  7-LOGSCI03  7-LOGSCI4L  1-AGCONE1L
+        .         .     1-AGPERF1L  1-AGRAPP2L  1-AGSNPF1L
+        TRA411    RPGLE 1-ANACED1L  5-ANAFID3L  1-ANAFI31L  1-CEDCLA1L  7-CLAFID2L
+        .         .     1-CLAFID3L  1-CLAMIT1L  1-MST0011L  1-PARAM     5-PTOIAS2L
+        .         .     1-RAPPTO1L  1-REFIRA2L  1-TABFID1L  7-TRA4110V
+        STD003    RPG
+        TRA412    RPGLE 1-CLAMIT1L  7-TRA4120V
+        TRA413    RPGLE 1-ANACED1L  7-CEDCLA1L  1-CEDCLA2L  1-CLAMIT1L  1-MST0011L
+        .         .     1-PARAM     7-TRA4130V
+        TRA414    RPGLE 1-ANAFID3L  1-CLAFID2L  1-CLAMIT1L  1-REFIRA1L  1-PARAM
+        TRA415    RPGLE 3-PTOIAS1L  5-RAPPTOCL  1-REFIRA2L  2-STORPT0F  1-TABFID1L
+        TRA436    RPGLE 1-ANACED1L  1-CEDSCA1L  1-CEDSCA2L  1-PARAM     7-TRA4360V
+        TRA437    RPGLE 1-ANACED1L  7-CEDSCA1L  1-CEDSCA2L  1-MST0011L  7-TRA4370V
+        TRA440    RPGLE 1-ANAFID3L  7-STOFID2L
+        TRA447    RPGLE 1-ANACED1L  1-ANAFID3L  1-STOFID3L  1-STOFIDBL  7-TRA4470V
+        TRA448    RPGLE 1-ANACED1L  1-CEDSCA3L  1-CEDSCA4L  1-PARAM     7-TRA4480V
+        TRA449    RPGLE 1-ANACED1L  7-CEDSCA3L  1-CEDSCA4L  1-MST0011L  7-TRA4490V
+        TRA428    RPGLE 5-ANAFID3L  5-ANAFID4L  1-ANAFID7L  1-ANAFID8L  1-ANAFI33L
+        .         .     1-ANAFI34L
+        WINTIA    RPGLE 1-PARAM     7-WINTIA0V
+        TRA150    RPGLE 7-ANAFID3L  7-ANAFI22L  7-ANAFI31L  5-ANARAP2L  5-PARAM
+        .         .     7-PIAFID1L  5-RAPPTO1L  3-REFIRA1L  5-REFIRA2L  7-REFICO2L
+        .         .     2-STORPT0F  3-WANFID3L  3-WANFI22L  3-WANFI31L  3-WPIFID1L
+        .         .     7-STOFID2L  7-STOFI22L  7-STOFI32L  2-STORAP0F  7-CLAFID2L
+        .         .     3-WCLFID2L  5-PTOIAS2L  1-MST0011L  1-WPIFID2L  1-TABFID1L
+        .         .     1-WFICHG0F  5-ANACED1L  1-CLAFID3L
+        --------------------------------------------------------------------------------
+

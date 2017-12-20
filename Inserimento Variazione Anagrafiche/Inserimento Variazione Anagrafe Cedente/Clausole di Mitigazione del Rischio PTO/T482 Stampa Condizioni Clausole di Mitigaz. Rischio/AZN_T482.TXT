@@ -1,0 +1,24 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T482                      Stampa Condizioni Clausole di Mitigaz.Rischio PTO
+        --------------------------------------------------------------------------------
+        TRA444                        Stampa Condizioni Claus.Mitig.Rischio PTO (lancio)
+        . BRO310                      Gestione anagrafica cedente
+        . . ANA045                    Ricerca Gruppo x Denominazione
+        . . . ANA046                  Ricerca Gruppo x Codice Discendente
+        . TRA412                      Collegamento Clausole di Mitigazione/Fido - add
+        . TCA445    T483              Stampa Condizioni Clausole di Mitigaz.Rischio PTO
+        . . TRA445                    Stampa Condizioni Clausole di Mitigaz.Rischio PTO
+        . . TRA446                    Stampa Condizioni Bonus/Malus
+        --------------------------------------------------------------------------------
+        TRA444    RPGLE 1-ANACED1L  1-CLAMIT1L  1-PARAM     3-TRA4440V
+        BRO310    RPG   1-ANACED1L  1-ANACED2L  1-ANACED4L  1-AGCORI1L  1-AGPERF1L
+        .         .     1-AGSNPF1L  1-AGCONE1L  1-AGRAPP2L  1-AGGRUP1L  3-BRO3100V
+        ANA045    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP2L  7-ANA0450V
+        ANA046    RPGLE 1-AGSNPF1L  1-AGPERF1L  1-AGCONE1L  1-AGGRUP1L  7-ANA0460V
+        TRA412    RPGLE 1-CLAMIT1L  7-TRA4120V
+        TCA445    CLP
+        TRA445    RPGLE 1-ANACED1L  1-CEDCLA1L  1-CLAMIT1L  1-MST0011L  2-TRA4450P
+        TRA446    RPGLE 1-ANACED1L  1-CEDSCA1L  1-CEDSCA3L  1-CLAMIT1L  1-MST0011L
+        .         .     2-TRA4460P
+        --------------------------------------------------------------------------------

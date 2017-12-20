@@ -1,0 +1,1877 @@
+Azn.T200                      Aggiornamento Indirizzi Alternativi CEDENTE
+--------------------------------------------------------------------------------
+TRA011 <<<                    Gestione indirizzi alternativi
+. BCT800                      Controllo validità CAP/Località
+. . BRT820                    Inquiry CAP/Prov/comuni   (EPCMNI) Batch
+. . BRT810                    Inquiry CAP/Prov/comuni   (EPCMNI) Interattivo
+. TRA120                      Interrogazione Tabelle file MST001
+--------------------------------------------------------------------------------
+TRA011    RPG   1-ANACED0F  1-MST0011L  6-APPCED0F  3-TRA0110V <<<
+BCT800    CLP
+BRT820    RPG   1-COMUNI1L
+BRT810    RPG   3-BRT8100V
+TRA120    RPG   3-TRA1200V  1-MST0011L
+--------------------------------------------------------------------------------
+************************************************************************************
+*  TRA011/F1 OOOOOOOOO     GESTIONE INDIRIZZI ALTERNATIVI               DD/DD/DD   *
+*            OOOOOOOOOO            Scelta funzione                      TT:TT:TT   *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*            Funzione .....   _  1 - Inserimento                                   *
+*                                2 - Variazione                                    *
+*                                3 - Annullamento                                  *
+*                                4 - Ripristino                                    *
+*                                                                                  *
+*                                                                                  *
+*            Cedente ......   _____   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO          *
+*            Suffisso sede.   _                                                    *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*                                                                                  *
+*  CMD1 Fine Lavoro      CMD8 Decodifica      ENTER Controlli                      *
+*                                                                                  *
+************************************************************************************
+Membro . . . . . . . . . . :  TRA0110V        Record . . . . . . . . . . :  TRA0111
+Nom        Tipo   Lung    Rig   Col
+KNSIF        O         9    1   12
+KNMUS        O        10    2   12
+UVSCEL       B         1    9   29
+UVCEDE       B       5,0   15   29
+UVDECE       O        35   15   37
+UVSUFF       B         1   16   29
+************************************************************************************
+*  TRA011/F2 OOOOOOOOO     GESTIONE INDIRIZZI ALTERNATIVI               DD/DD/DD   *
+*            OOOOOOOOOO            OOOOOOOOOOOOOOO                      TT:TT:TT   *
+*                                                                                  *
+*                                                                                  *
+*  Cedente        66666   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                      *
+*                         OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                      *
+*  Suffisso sede  O                             Data ultima manutenzione 66/66/66  *
+*                                                           OOOOOOOOOOOOOOOOOOOOO  *
+*  ------------------------------------------------------------------------------  *
+*  Annull./Ripristino      _  (V/A)                                                *
+*                                                                                  *
+*  Indirizzo Alternativo   ______________________________                          *
+*                          ______________________________                          *
+*                                                                                  *
+*  C.A.P.                  _____                                                   *
+*                                                                                  *
+*  Località                _________________________                               *
+*                                                                                  *
+*  Provincia               __   OOOOOOOOOOOOOOO                                    *
+*                                                                                  *
+*  Nazione             (?) ___  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO                     *
+*                                                                                  *
+*  CMD2 Funzioni         CMD3 Aggiornamento      ENTER Controlli                   *
+*                                                                                  *
+************************************************************************************
+Membro . . . . . . . . . . :  TRA0110V        Record . . . . . . . . . . :  TRA0112
+Nom        Tipo   Lung    Rig   Col
+KNSIF        O         9    1   12
+KNMUS        O        10    2   12
+UVDECO       O        15    2   34
+UVCEDE       O       5,0    5   17
+UVRAS        O        35    5   25
+UVRAS1       O        35    6   25
+UVSUFF       O         1    7   17
+UVDTMA       O       6,0    7   72
+UVANNU       O        21    8   59
+UVANRI       B         1   10   26
+UVINAL       B        30   12   26
+UVINA2       B        30   13   26
+UVCAP        B         5   15   26
+UVLOC        B        25   17   26
+UVPROV       B         2   19   26
+UVDEPR       O        15   19   31
+UVNAZ        B         3   21   26
+UVDNAZ       O        30   21   31
+ Opzioni comando:
+   Programma  . . . . . . . . . . . :   QTEMP/TRA011
+   File origine . . . . . . . . . . :   SRCFAC/QRPGSRC
+   Membro origine . . . . . . . . . :   TRA011
+   opzioni elenco origine . . . . . :   *SOURCE     *XREF       *GEN        *NODUMP     *NOSECLVL   *NOSRCDBG   *NOLSTDBG
+   Opzioni generazione  . . . . . . :   *NOLIST     *NOXREF     *NOATR      *NODUMP     *NOOPTIMIZE
+   Rientro elenco origine . .     . :   *NONE
+   Opz. tipo conversione  . . .   . :   *NONE
+   Sequ. ordin. . . . . . . . .   . :   *HEX
+   Id Lingua . . . . .            . :   *JOBRUN
+   Indicatore SAA. . . . .        . :   *NOFLAG
+   Livello gravità generazione. . . :   9
+   File stampa. . . . . . . .     . :   *LIBL/QSYSPRT
+   Sostituzione programma . . . . . :   *NO
+   Release di destinazione . .    . :   *CURRENT
+   Profilo utente . . . . . . .   . :   *USER
+   Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+   Testo. . . . . . . . . . . . . . :   *SRCMBRTXT
+   Traccia delle fasi . . . . . . . :   *NO
+   Dump testo intermedio . . . .  . :   *NONE
+   Dump dinamico. . . . . . . . . . :   *NONE
+   Lista del codice . . . . . . . . :   *NONE
+   Ignorare errore dati decimali. . :   *NO
+   Cons. valori null  . . . . . . . :   *NO
+ Origine programma effettiva:
+   Membro . . . . . . . . . . . . . :   TRA011
+   File . . . . . . . . . . . . . . :   QRPGSRC
+   Libreria . . . . . . . . . . . . :   SRCFAC
+modifica RXT0014  . . . . . . . . . . : 13/08/11  21:19:38
+   Descrizione  . . . . . . . . . . :   Gestione indirizzi alternativi
+ NUMERO                                                                           USO    NUM   ULTIMO     PAGINA ID
+ SEQUENZA  *...1....+....2....+....3....+....4....+....5....+....6....+....7...*  IND    DO    AGGIORN.   RIGA   PROGRAMMA
+                            L i s t a   O r i g i n e
+      100  H**   EDP210S1    FRAMAR      08/04/2003  14:32:00                                  08/04/03
+      200  H**   EDP210S2    FRAMAR      16/05/2002  14:53:56                                  16/05/02
+      300  H* EDP210S2   REDGIA        09/03/99  15:03:47                                      09/03/99
+      400  H* SI007S2    GIAVIT        01/02/96  11:20:47                                      01/02/96
+      500  H* SI007S2    GIAVIT        18/01/96  11:20:36                                      18/01/96
+      600  H* SI007S1    GIAVIT        12/12/95  15:13:45                                      12/12/95
+      700  H* SI007S2    GIAVIT        17/11/95  11:37:12                                      17/11/95
+      800  H******************************************************************                 16/03/92
+      900  H*    TOGLIERE LA SPECIFICA CHE NON INTERESSA.                    *                 16/03/92
+     1000  H*                                                                *                 16/03/92
+     1100  H*            /J      GIORNO - MESE - ANNO                        *                 16/03/92
+     1200  H*           Y J      ANNO - MESE - GIORNO                        *                 16/03/92
+     1300  H*                                                                *                 16/03/92
+     1400  H******************************************************************                 16/03/92
+     1500  H            Y/J                                                                    08/04/03
+     1600  H******************************************************************                 16/03/92
+     1700  H*                                                                *                 16/03/92
+     1800  H*         GGGG     EEEEE   M   M    III   N    N     A           *                 16/03/92
+     1900  H*        G         E      M M M M    I    NN   N    A A          *                 16/03/92
+     2000  H*       G   GGGG   EEE    M  M  M    I    N N  N   A   A         *                 16/03/92
+     2100  H*        G    G    E      M     M    I    N   NN  AAAAAAA        *                 16/03/92
+     2200  H*         GGGG     EEEEE  M     M   III   N    N  A     A        *                 16/03/92
+     2300  H*                                                                *                 16/03/92
+     2400  H* GEMINA GEMINA GEMINA GEMINA GEMINA GEMINA GEMINA GEMINA GEMINA *                 16/03/92
+     2500  H*                                                                *                 16/03/92
+     2600  H*  (C) Copyright 1986. Vietata la riproduzione anche in parte.   *                 16/03/92
+     2700  H*                                                                *                 16/03/92
+     2800  H******************************************************************                 16/03/92
+     3000  H******************************************************************                 16/03/92
+     3100  H*                                                                *                 16/03/92
+     3200  H*  PROGRAMMER..........: E. BALDONI                              *                 16/03/92
+     3300  H*                                                                *                 16/03/92
+     3400  H*  FIRST COMPILED......: 16/03/92                                *                 16/03/92
+     3500  H*                                                                *                 16/03/92
+     3600  H*  UPDATED BY..........: CUSTOMISE                               *                 16/03/92
+     3700  H*                                                                *                 16/03/92
+     3800  H*  MAINTENANCE DATE....: DD/MM/YY                                *                 16/03/92
+     3900  H*                                                                *                 16/03/92
+     4000  H*                                                                *                 16/03/92
+     4100  H*                DESCRIZIONE DEL PROGRAMMA                       *                 16/03/92
+     4200  H*              =============================                     *                 16/03/92
+     4300  H*              GESTIONE DOCUMENTI ALTERNATIVI                    *                 16/03/92
+     4400  H*                                                                *                 16/03/92
+     4500  H******************************************************************                 16/03/92
+     4700  F******************************************************************                 16/03/92
+     4800  F*              F I L E    S E C T I O N                          *                 16/03/92
+     4900  F******************************************************************                 16/03/92
+     5000  FANACED0FIF  E           K        DISK                                              16/03/92
+            FORMATO(I) RECORD: FILE ANACED0F LIBRERIA MODELL.
+                       FORMATO ESTERNO ANACED1R NOME RPG ANACED1R.
+     5100  FMST0011LIF  E           K        DISK                                              09/03/99
+            FORMATO(I) RECORD: FILE MST0011L LIBRERIA WKLIBR.
+                       FORMATO ESTERNO MST0011R NOME RPG MST0011R.
+     5200  FAPPCED0FUF  E           K        DISK                      A                       16/03/92
+            FORMATO(I) RECORD: FILE APPCED0F LIBRERIA MODELL.
+                       FORMATO ESTERNO APPCED1R NOME RPG APPCED1R.
+     5300  FTRA0110VCF  E                    WORKSTN                                           16/03/92
+     5400  E******************************************************************                 16/03/92
+     5500  E*         T A B L E S     A N D      A R R A Y S                 *                 16/03/92
+     5600  E******************************************************************                 16/03/92
+            FORMATO(I) RECORD: FILE TRA0110V LIBRERIA OBJFAC.
+                       FORMATO ESTERNO TRA0111 NOME RPG TRA0111.
+                       FORMATO ESTERNO TRA0112 NOME RPG TRA0112.
+                       FORMATO ESTERNO UVSFL99 NOME RPG UVSFL99.
+                       FORMATO ESTERNO UVSCTL99 NOME RPG UVSCTL99.
+                       FORMATO ESTERNO UVMAPPA9 NOME RPG UVMAPPA9.
+     5700  E                    CDE        30 60                                               16/03/92
+     5800  E                    CID        30  7                                               16/03/92
+     5900  E                    SUF     1  10  1                                               16/03/92
+     6000  E                    MSG     1   5 21                                               16/03/92
+     6100  I******************************************************************                 16/03/92
+     6200  I*       E X T E R N A L    D A T A    S T R U C T U R E S        *                 16/03/92
+     6300  I******************************************************************                 16/03/92
+  A000000   INPUT  CAMPI PER RECORD ANACED1R FILE ANACED0F FORMATO ANACED1R.
+  A000000         ANAGRAFICA CEDENTI
+  A000001                                           1   3 ACTREC                Cde Tipo Rec.File -AC1-
+  A000002                                           4   4 ACFLAG                Sts Record V/A               CMN
+  A000003                                       P   5   90ACNAZN                Nbr Azione Aggiornamento     CMN
+  A000004                                          10  10 ACLOCK                Sts Blocco record            CMN
+  A000005                                       P  11  150ACNREC                Nbr Relativo Record          CMN
+  A000006                                          16  230ACDINS                Data Inserimento
+  A000007                                          24  310ACDUPD                Data Aggiornamento
+  A000008                                          32  360ACCED                 Cde Cedente                  AC
+  A000009                                          37  71 ACRAS                 Nar Ragione Sociale          AC
+  A000010                                          72 106 ACRAS2                Nar Rag.Sociale Seguito      AC
+  A000011                                         107 136 ACIND                 Nar Indirizzo                AC
+  A000012                                         137 141 ACCAP                 Cde C.A.P.                   MST
+  A000013                                         142 166 ACLOC                 Nar Località                 AC
+  A000014                                         167 168 ACPROV                Cde Provincia                MST
+  A000015                                         169 171 ACNAZ                 Cde Nazione                  MST
+  A000016                                         172 176 ACFACT                Cde Factor                   FC
+  A000017                                         177 180 ACRAMO                Cde Ramo attività            MST
+  A000018                                         181 190 ACRSR                 Nar Ridotta Cedente
+  A000019                                         191 206 ACFISC                Cde Fiscale                  AC
+  A000020                                         207 2170ACPIVA                Cde Partita I.V.A.           AC
+  A000021                                         218 221 ACFGRD                Cde Forma Giuridica          MST
+  A000022                                         222 223 ACRIVA                Cde Regime I.V.A.            MST
+  A000023                                         224 224 ACFIL                 Cde Filiale                  MST
+  A000024                                         225 225 ACSEO                 Cde Settore                  MST
+  A000025                                         226 227 ACEVI                 Cde Evidenza                 MST
+  A000026                                         228 228 ACCNTZ                Cde Contenzioso              MST
+  A000027                                         229 229 ACFSOF                Sts Sofferenza (S/N)
+  A000028                                         230 2370ACDCON                Dte Contratto Fact.
+  A000029                                         238 2390ACDRCS                Dte SS Risoluz.ne Cnt Fct    AC
+  A000030                                         240 2410ACDRCA                Dte AA Risoluz.ne Cnt Fct    AC
+  A000031                                         242 2430ACDRCM                Dte MM Risoluz.ne Cnt Fct    AC
+  A000032                                         244 2450ACDRCG                Dte GG Risoluz.ne Cnt Fact.  AC
+  A000033                                         246 246 ACFLEM                Sts Eliminazione  E=Elim.    AC
+  A000034                                         247 2480ACDASS                Dte SS Appendice Sconto      AC
+  A000035                                         249 2500ACDASA                Dte AA Appendice Sconto      AC
+  A000036                                         251 2520ACDASM                Dte MM Appendice Sconto      AC
+  A000037                                         253 2540ACDASG                Dte GG Appendice Sconto      AC
+  A000038                                         255 2560ACDEXS                Dte SS Appendice Estero      AC
+  A000039                                         257 2580ACDEXA                Dte AA Appendice Estero      AC
+  A000040                                         259 2600ACDEXM                Dte MM Appendice Estero      AC
+  A000041                                         261 2620ACDEXG                Dte GG Appendice Estero      AC
+  A000042                                         263 2640ACDSTS                Dte SS App.antic.straord.    AC
+  A000043                                         265 2660ACDSTA                Dte AA App.antic.straord.    AC
+  A000044                                         267 2680ACDSTM                Dte MM App.antic.straord.    AC
+  A000045                                         269 2700ACDSTG                Dte GG App.antic.straord.    AC
+  A000046                                         271 272 ACGAR                 Cde Garanzia 01
+  A000047                                         273 274 ACGAR2                Cde Garanzia 02
+  A000048                                         275 276 ACGAR3                Cde Garanzia 03
+  A000049                                         277 278 ACDM01                Cde Doc.Mancante 01
+  A000050                                         279 280 ACDM02                Cde Doc.Mancante 02
+  A000051                                         281 282 ACDM03                Cde Doc.Mancante 03
+  A000052                                         283 284 ACDM04                Cde Doc.Mancante 04
+  A000053                                         285 286 ACDM05                Cde Doc.Mancante 05
+  A000054                                         287 288 ACDM06                Cde Doc.Mancante 06
+  A000055                                         289 290 ACDM07                Cde Doc.Mancante 07
+  A000056                                         291 292 ACDM08                Cde Doc.Mancante 08
+  A000057                                         293 294 ACDM09                Cde Doc.Mancante 09
+  A000058                                         295 296 ACDM10                Cde Doc.Mancante 10
+  A000059                                         297 298 ACDM11                Cde Doc.Mancante 11
+  A000060                                         299 300 ACDM12                Cde Doc.Mancante 12
+  A000061                                         301 302 ACDM13                Cde Doc.Mancante 13
+  A000062                                         303 304 ACDM14                Cde Doc.Mancante 14
+  A000063                                         305 306 ACDM15                Cde Doc.Mancante 15
+  A000064                                         307 308 ACDM16                Cde Doc.Mancante 16
+  A000065                                         309 310 ACDM17                Cde Doc.Mancante 17
+  A000066                                         311 312 ACDM18                Cde Doc.Mancante 18
+  A000067                                         313 314 ACDM19                Cde Doc.Mancante 19
+  A000068                                         315 316 ACDM20                Cde Doc.Mancante 20
+  A000069                                         317 332 ACTELB                Nbr Telefono                 AC
+  A000070                                         333 348 ACTEXB                Nbr Telex /Fax               AC
+  A000071                                         349 368 ACPERB                Nar Persona da contattare    AC
+  A000072                                         369 371 ACRAPB                Cde Rapporto ns.banca
+  A000073                                         372 372 ACWRK1                Sts Byte Work 01
+  A000074                                         373 373 ACWRK2                Sts Byte Work 02
+  A000075                                         374 374 ACWRK3                Sts Byte Work 03
+  A000076                                         375 375 ACWRK4                Sts Byte Work 04
+  A000077                                         376 376 ACWRK5                Sts Byte Work 05
+  A000078                                         377 377 ACWRK6                Sts Byte Work 06
+  A000079                                         378 378 ACWRK7                Sts Byte Work 07
+  A000080                                         379 379 ACWRK8                Sts Byte Work 08
+  A000081                                         380 380 ACWRK9                Sts Byte Work 09
+  A000082                                         381 381 ACWRK0                Sts Byte Work 10
+  A000083                                         382 3860ACPRE                 Cde Presentatore             PA
+  A000084                                         387 387 ACSPWE                Sts Sped. Weekly             PA
+  A000085                                         388 388 ACSPCR                Sts Sped. Crediti in Essere  PA
+  A000086                                         389 389 ACSPEC                Sts Sped.E/C con FT          PA
+  A000087                                         390 390 ACSPSC                Sts Sped.Soll.Copia CED      PA
+  A000088                                         391 391 ACSPCB                Sts Spedizione Contabili     PA
+  A000089                                         392 392 ACSPW1                Sts Sped.Let/Riep. x Var.Cto PA
+  A000090                                         393 393 ACSPW2                Sts Sped.Generico            AC
+  A000091                                         394 428 ACNOT1                Nar Note Aggiuntive 1
+  A000092                                         429 463 ACNOT2                Nar Note Aggiuntive 2
+  A000093                                         464 498 ACNOT3                Nar Note Aggiuntive 3
+  A000094                                         499 533 ACNOT4                Nar Note Aggiuntive 4
+  A000095                                         534 568 ACNOT5                Nar Note Aggiuntive 5
+  A000096                                         569 569 ACIMGR                Sts appartenenza al gruppo   AC
+  A000097                                         570 575 ACCBLO                Codice CAB (6x)
+  A000098                                         576 578 ACSGRP                Cde Sottogruppo Attiv. Econ. MST
+  A000099                                         579 581 ACSETE                Cde Settore Attività Econom. MST
+  A000100                                         582 584 ACSSET                Cde Sottosettore Attiv. Econ.MST
+  A000101                                         585 587 ACGRP                 Cde Gruppo Attività EconomicaMST
+  A000102                                         588 590 ACBRAN                Cde Branca Attività EconomicaMST
+  A000103                                       P 591 5952ACSPIF                Val Spese Istrutt. Fornitore
+  A000104                                       P 596 6002ACSPID                Val Spese Istrutt. Debitore
+  A000105                                       P 601 6052ACSPCD                Val Spesa Copia Documento
+  A000106                                       P 606 6102ACSCHI                Val Spesa Chiusura Conto
+  A000107                                       P 611 6152ACSRIS                Val Spesa Rinnovo/Istrut.
+  A000108                                       P 616 6202ACSDPR                Val Spesa Dist./Pres. RIBA
+  A000109                                         621 623 ACCDIV                Cde Divisa                   MST
+  A000110                                       P 624 6250ACDMCS                Dte Contr. Mty Ced. SS       AC
+  A000111                                       P 626 6270ACDMCA                Dte Contr. Mty Ced. AA       AC
+  A000112                                       P 628 6290ACDMCM                Dte Contr. Mty Ced. MM       AC
+  A000113                                       P 630 6310ACDMCG                Dte Contr. Mty Ced. GG       AC
+  A000114                                       P 632 6330ACGVAL                Nbr GG Val. Accr. Mty Ced.   AC
+  A000115                                       P 634 6350ACGGDL                Nbr GG Dilazione Mty Deb.    AC
+  A000116                                       P 636 6370ACGSIC                Nbr GG Sosp.Inter. Mty Ced.  AC
+  A000117                                         638 638 ACLIQ                 Sts Società in liquidaz.
+  A000118                                       P 639 6400ACGGVB                Nbr GG Val. Beneficiario
+  A000119                                         641 642 ACMCVB                Cde Mod.calc.Val.Benef.
+  A000120                                         643 643 ACAVVB                Sts Stampa Avviso Bonifico
+  A000121                                       P 644 6480ACIFPT                Val Fido PTO (Mil)
+  A000122                                       P 649 6530ACIPFU                Val Fido Utilizzato PTO
+  A000123                                         654 6610ACDFT2                Dte Revisione Fido PTO
+  A000124                                         662 662 ACFCFC                Comunicato Fido
+  A000125                                         663 6670ACNRFS                Numero Foglio di Sintesi
+  A000126                                         668 6750ACDTFS                Data Foglio di Sintesi
+  A000127                                         676 6830ACDECO                Data Decor. Variazione Cond.
+  A000128                                         684 685 ACLANG                Lingua
+  A000129                                         686 735 ACMAIL                Indirizzo Mail
+  A000130                                         736 738 ACCDIS                Cde Canale Distr.
+  A000131                                         739 739 ACSPMC                Sts Sped. Lett. Mod. Contr.
+  A000132                                       P 740 7432ACSDIN                Val Spese Leg.Den.di Insolv
+  A000133                                       P 744 7472ACCANI                Val Spese Canone WEB
+  A000134                                       P 748 7490ACPERI                Periodicità canone WEB
+  A000135                                       P 750 7532ACCERT                Certif. a società di rev.
+  A000136                                       P 754 7572ACINCO                Recupero forfattario SP.Post
+  A000137                                       P 758 7612ACSFAX                Val spese Fax per pagina
+  A000138                                         762 767 ACUINS                Utente di Inserimento
+  A000139                                         768 773 ACUUPD                Utente di Aggiornamento
+  A000140                                       P 774 7782ACSIDI                Spese Istrutt. Debitore ITA
+  A000141                                       P 779 7832ACSIDE                Spese Istrutt. Deb. UE
+  A000142                                       P 784 7882ACSIDX                Spese Istrutt. Deb. EXTRA-UE
+  A000143                                         789 789 ACFMCH                Sts fatt.mens.comm.fact/hand
+  A000144                                         790 889 ACPEC                 Indirizzo PEC
+  A000145                                         890 989 ACPUMA                Acronimo PUMA
+  A000146                                         990 990 ACNCCG                Sblocco presentabilità=99 se Fido sola Garanzia/No
+  A000147                                         9911020 ACINDI                Indirizzo Puro
+  A000148                                        10211035 ACCIVI                Civico Sede
+  A000149                                        103610430ACDTW1                Campo Work 1
+  A000150                                        104410510ACDTW2                Campo Work 2
+  B000000   INPUT  CAMPI PER RECORD MST0011R FILE MST0011L FORMATO MST0011R.
+  B000000         Archivio Tabelle
+  B000001                                           1   1 MTFLAG                Stato Record
+  B000002                                           2   3 MTTREC                Codice File
+  B000003                                           4   6 MTKEYA                Campo Chiave A
+  B000004                                           7  15 MTKEYB                Campo Chiave B
+  B000005                                          16 128 MTDESC                Parametri Tabella
+  C000000   INPUT  CAMPI PER RECORD APPCED1R FILE APPCED0F FORMATO APPCED1R.
+  C000000         APPENDICE ANAGRAFE CEDENTI
+  C000001                                           1   3 PCTREC                Cde Tipo Rec.File -PC1-      CMN
+  C000002                                           4   4 PCFLAG                Sts Record V/A               CMN
+  C000003                                           5   5 PCLOCK                Sts Blocco record            CMN
+  C000004                                           6  110PCDINS                Dte Inserimento              CMN
+  C000005                                          12  170PCDUPD                Dte Aggiornamento            CMN
+  C000006                                          18  220PCCED                 Cde Cedente                  AC
+  C000007                                          23  23 PCSUFF                Cde Suffisso Sede            AP
+  C000008                                          24  53 PCIND                 Nar Indirizzo Alternativo    PC
+  C000009                                          54  58 PCCAP                 Cde C.A.P.                   MST
+  C000010                                          59  83 PCLOC                 Nar Località                 AC
+  C000011                                          84  85 PCPROV                Cde Provincia                MST
+  C000012                                          86  88 PCNAZ                 Cde Nazione                  MST
+  C000013                                          89 118 PCIND2                Nar Indirizzo Alternativo 2  PC
+  C000014                                         119 124 PCUINS                Utente di Inserimento
+  C000015                                         125 130 PCUUPD                Utente di Aggiornamento
+  D000000   INPUT  CAMPI PER RECORD TRA0111 FILE TRA0110V FORMATO TRA0111.
+  D000001                                           2   2 *IN08
+  D000002                                           1   1 *IN10
+  D000003                                           3   3 UVSCEL
+  D000004                                           4   80UVCEDE
+  D000005                                           9   9 UVSUFF
+  E000000   INPUT  CAMPI PER RECORD TRA0112 FILE TRA0110V FORMATO TRA0112.
+  E000001                                           1   1 *IN10
+  E000002                                           2   2 UVANRI
+  E000003                                           3  32 UVINAL
+  E000004                                          33  37 UVCAP
+  E000005                                          38  62 UVLOC
+  E000006                                          63  64 UVPROV
+  E000007                                          65  67 UVNAZ
+  E000008                                          68  97 UVINA2
+  F000000   INPUT  CAMPI PER RECORD UVSFL99 FILE TRA0110V FORMATO UVSFL99.
+  F000001                                           1   1 *IN10
+  F000002                                           2   5 UVMSGK
+  F000003                                           6  15 UVSFLQ
+  G000000   INPUT  CAMPI PER RECORD UVSCTL99 FILE TRA0110V FORMATO UVSCTL99.
+  G000001                                           1   1 *IN10
+  G000002                                           2  11 UVSFLQ
+  H000000   INPUT  CAMPI PER RECORD UVMAPPA9 FILE TRA0110V FORMATO UVMAPPA9.
+  H000001                                           1   1 *IN10
+     6400  IKPJBA     E DS                                                                     17/03/92
+     6500   *                   -- INPUT  PARAMETRO ARCHITETTURA -------*                      09/03/99
+  I000001                                           1  10 KNMUS                 Nome Utente                   -B-
+  I000002                                          11  13 KTPRF                 Tipo Utente                   -B-
+  I000003                                          14  220KNRAZ                 Num. Azione                   -B-
+  I000004                                          23  25 KTSIF                 Tipo Sistema Informativo      -B-
+  I000005                                          26  35 KNMTD                 Nome Terminale                -B-
+  I000006                                          36  36 KFLRC                 Flag Ripartenza               -B- b=Nrm R=Rip
+  I000007                                          37  450KNRVJ                 Num. Azione Interrotta        -B-
+  I000008                                          46  52 KMSMN                 Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+  I000009                                          53  58 KNRJO                 Num. Lavoro                   -B-
+  I000010                                          59  59 KSTJO                 Flag Stato Lavoro             -A- N=Nrm H=Hld
+  I000011                                          60  60 KFLMS                 Flag Messaggio Pendente       -X-
+  I000012                                          61  660KTMIN                 Time Fine Azione              -A- HHMMSS
+  I000013                                          67  70 KCDAZ                 Cod. Azione                   -B-
+  I000014                                          71  71 KTPAZ                 Tipo Azione                   -B- I/W=Int B/N=Bch
+  I000015                                          72  72 KCDRC                 Cod. Ripartenza               -C- b 0123 5678
+  I000016                                          73  73 KTPFN                 Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+  I000017                                          74  83 KQOTD                 Nome OutQ Terminale           -B-
+  I000018                                          84  93 KNMEB                 Nome Lavoro                   -B-
+  I000019                                          94  960KNMSB                 Num. Sbmjob Eseguiti          -B-
+  I000020                                          97  98 KNRRB                 Num. ReSbmjob Batch           -A-
+  I000021                                          99 107 KNSIF                 Nome Sistema Informativo      -B-
+  I000022                                         108 109 KCDJD                 Cod. JobD                     -A-
+  I000023                                         110 116 KQIEB                 Nome JobQ                     -B-
+  I000024                                         117 126 KQOFR                 Nome OutQ                     -B-
+  I000025                                         127 1310KKEYF                 Cod. RRN Azione               -B-
+  I000026                                         132 1360KRCDS                 Cod. RRN Sessione             -A-
+  I000027                                         137 137 KEXCN                 Flag Controllo JobD     Batch -X-
+  I000028                                         138 141 KCOAZ                 Cod. Azione             Batch -C-
+  I000029                                         142 142 KFLAD                 Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+  I000030                                         143 152 KQOPR                 Nome OutQ               Batch -C-
+  I000031                                         153 154 KNMCP                 Num. Copie Stampe       Batch -X-
+  I000032                                         155 155 KJOST                 Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+  I000033                                         156 156 KSTEB                 Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+  I000034                                         157 158 KCOJB                 Cod. JobD               Batch -C-
+  I000035                                         159 165 KQEBI                 Nome JobQ               Batch -C-
+  I000036                                         166 175 KMDST                 Nome Modulo Stampe      Batch -X-
+  I000037                                         176 205 KFIER                 Cod. LibFilMbr in Errore      -X-
+  I000038                                         206 206 KCANC                 Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+  I000039                                         207 209 KGRAZ                 Cod. Gruppo Azione            -C-
+  I000040                                         210 210 KFSLG                 Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+  I000041                                         211 211 KTPWS                 Tipo Terminale                -X- N=Nrm
+  I000042                                         212 217 KDTJB                 Data Lavoro             Batch -X-
+  I000043                                         218 227 KJRNM                 Nome Journal                  -X-
+  I000044                                         228 237 KJRLB                 Libr.Journal                  -X-
+  I000045                                         238 238 KRITB                 Flag Ritorno Batch            -C-
+  I000046                                         239 246 KBUFF                 Fllr                          -X-
+  I000047                                         247 502 KPJBU                 Dati Applicativo              -D-
+     6600  I                                       99 104 KCSOC                                09/03/99
+     6700  IEPCMNI    E DS                                                                     17/11/95
+  J000001                                           1   1 ECRTNC                Cod. ritorno
+  J000002                                           2   2 ECTORD                Tipo ordinam
+  J000003                                           3   3 ECTIPO                Tipo CAP
+  J000004                                           4   8 ECCAP                 Codice Avviamento Postale
+  J000005                                           9  140ECCODI                Codice Comune
+  J000006                                          15  18 ECCDCA                Codice Catastale
+  J000007                                          19  53 ECPROV                Provincia Estesa
+  J000008                                          54  55 ECCDPR                Sigla Provincia
+  J000009                                          56  95 ECLOCA                Descr.ne Località
+  J000010                                          96 170 ECTOPO                Descr.ne Toponimo
+     6800  I            DS                                                                     17/03/92
+     6900  I                                        1  14 R2INT                                16/05/02
+     7000  I                                        1   8 COST                                 17/03/92
+     7100  I                                        9  14 SOCI                                 17/03/92
+     7200  ISGL       E DS                                                                     09/03/99
+  K000001                                           1  30 SGLNAZ                DESCRIZIONE NAZIONE
+  K000002                                          31  32 SGLMER                Cde Mercato Geografico       MST
+  K000003                                          33  33 SGLRES                RESIDENZA
+  K000004                                          34  350SGLAAI                AREA ASSOGG. IVA
+  K000005                                          36  36 SGLZTP                ZONA TARIFFA POSTALE
+  K000006                                          37  37 SGIBAN                IBAN OBBLIGATORIO
+  K000007                                          38  38 SGLBGR                ZONA PER BILANCI E GRANDI RISCHI
+  K000008                                          39  41 SGLDIV                VALUTA
+  K000009                                          42  42 SGLFES                PRESENZA PROPRIA FILIALE ESTERA
+  K000010                                          43  43 SGLAPP                APPARTENENZA GRUPPO DEI  DIECI
+  K000011                                          44  46 SGLARE                AREA GEOGRAFICA PER      SEGNALAZIONE SU BASE
+  K000012                                          47  47 SGLUME                APPARTENENZA UME
+  K000013                                          48  48 SGLPNC                PAESE NON COOPERANTE
+  K000014                                          49  560SGLDID                DATA INIZIO DEFINIZIONE
+  K000015                                          57  640SGLDFD                DATA FINE DEFINIZIONE
+  K000016                                          65  65 SGLCTL                CAR. DI CONTROLLO NAZIONE
+  K000017                                          66  68 SGLISO                CODICE ISO NAZIONE
+  K000018                                          69  69 SGLSEP                APPARTENENZA SEPA
+  K000019                                          70  71 SGLIS2                COD.NAZIONE ISO 2
+  K000020                                          72  73 SGLPVA                PERFIX VAT
+  K000021                                          74  74 SGLTPV                TIPOLOGIA VAT A/N
+  K000022                                          75  760SGLMIN                VAT MINIMO
+  K000023                                          77  780SGLMAX                VAT MASSIMO
+  K000024                                          79 113 SGLFL2                FILLER
+     7300  I            DS                                                                     16/05/02
+     7400  I                                        1  80 DSDESC                               16/05/02
+     7500  I                                        1  30 DESC1                                16/05/02
+     7600  I                                       31  80 DESC2                                16/05/02
+     7700  I            DS                                                                     08/04/03
+     7800  I                                        1   60DATA                                 08/04/03
+     7900  I                                        1   20GG                                   08/04/03
+     8000  I                                        3   40MM                                   08/04/03
+     8100  I                                        5   60AA                                   08/04/03
+     8200  I******************************************************************                 16/03/92
+     8300  I*       I N T E R N A L    D A T A    S T R U C T U R E S        *                 16/03/92
+     8400  I******************************************************************                 16/03/92
+     8600  C******************************************************************                 16/03/92
+     8700  C*                WORKING STORAGE SECTION                         *                 16/03/92
+     8800  C******************************************************************                 16/03/92
+     8900  C                     MOVEL*ALL'0'   WSZERO 40        AZZ.IND 50-89                 16/03/92
+     9000  C                     MOVEL*ALL'0'   WSSTOF 20        AZZ.IND 30-49                 16/03/92
+     9100  C                     MOVEL*BLANKS   WSCDER 60        DATI ERRORE                   16/03/92
+     9200  C                     MOVEL*BLANKS   WSMSID  7        IDENT. MSG.ERR.               16/03/92
+     9300  C                     MOVEL*BLANK    WSFUNC  1        FUNZIONE                      16/03/92
+     9400  C                     Z-ADD1         WSNMAP  20       NUMERO MAPPA                  16/03/92
+     9500  C                     Z-ADD0         WSSLVL  20       SEVERITY LEVEL                16/03/92
+     9600  C                     Z-ADD0         X1      20       INDICE ERRORI                 16/03/92
+     9800  C******************************************************************                 16/03/92
+     9900  C*            LIST OF KEYS AND PARAMETERS USED                    *                 16/03/92
+    10000  C******************************************************************                 16/03/92
+    10100  C*                                                                                  16/03/92
+    10200  C           PLIST1    PLIST                                                         16/03/92
+    10300  C                     PARM           KPJBA                                          16/03/92
+    10400  C*                                                                                  16/03/92
+    10500  C           PLIST2    PLIST                                                         16/03/92
+    10600  C                     PARM           KPJBA                                          16/03/92
+    10700  C                     PARM           CID                                            16/03/92
+    10800  C                     PARM           CDE                                            16/03/92
+    10900  C                     PARM           WSSLVL                                         16/03/92
+    11000  C*                                                                                  16/03/92
+    11100  C           KEYANA    KLIST                                                         16/03/92
+    11200  C                     KFLD           UVCEDE                                         16/03/92
+    11300  C*                                                                                  16/03/92
+    11400  C           KEYAPP    KLIST                                                         16/03/92
+    11500  C                     KFLD           UVCEDE                                         16/03/92
+    11600  C                     KFLD           UVSUFF                                         16/03/92
+    11700  C*                                                                                  09/03/99
+    11800  C           MTKEY     KLIST                                                         09/03/99
+    11900  C                     KFLD           MTKEYA                                         09/03/99
+    12000  C                     KFLD           MTKEYB                                         09/03/99
+    12100  C*                                                                                  17/03/92
+    12300  C******************************************************************                 16/03/92
+    12400  C*         PARAMETERS IN INPUT AND HOUSEKEEPING                   *                 16/03/92
+    12500  C******************************************************************                 16/03/92
+    12600  C           *ENTRY    PLIST                                                         16/03/92
+    12700  C                     PARM           KPJBA                                          16/03/92
+    12800  C*                                                                                  16/03/92
+    12900  C                     EXSR HOUSEK                                                   16/03/92
+    13000  C*                                                                                  16/03/92
+    13100  C******************************************************************                 16/03/92
+    13200  C*                 M  A  I  N  L  I  N  E                         *                 16/03/92
+    13300  C******************************************************************                 16/03/92
+    13400  C* Itera fino a che non vengono richieste mappe precedenti                          16/03/92
+    13500  C           WSNMAP    DOUEQ99                                                B001   16/03/92
+    13600  C           WSNMAP    CASEQ1         RUNSC1                                   001   16/03/92
+    13700  C           WSNMAP    CASEQ2         RUNSC2                                   001   16/03/92
+    13800  C                     END                                                     001   16/03/92
+    13900  C                     END                                                    E001   16/03/92
+    14000  C                     MOVE '1'       *INLR                                          16/03/92
+    14100  C******************************************************************                 16/03/92
+    14200  C*        HOUSEK - HOUSEKEEPING                                   *                 16/03/92
+    14300  C******************************************************************                 16/03/92
+    14400  C           HOUSEK    BEGSR                                                         16/03/92
+    14500  C*                                                                                  16/03/92
+    14600  C                     MOVEL'1'       *IN98                                          16/03/92
+    14700  C                     EXSR CLRSCR                                                   16/03/92
+    14800  C*                                                                                  16/03/92
+    14900  C                     ENDSR                                                         16/03/92
+    15000  C******************************************************************                 16/03/92
+    15100  C*        RUNSC1 - EMISSIONE SCREEN DI SCELTA FUNZIONE            *                 16/03/92
+    15200  C******************************************************************                 16/03/92
+    15300  C           RUNSC1    BEGSR                                                         16/03/92
+    15400  C* Itera fino a che non sono state richieste altre videate                          16/03/92
+    15500  C           WSNMAP    DOUNE1                                                 B001   16/03/92
+    15600  C* Se esistono errori scrive il messaggio                                           16/03/92
+    15700  C                     MOVEL'*       'UVSFLQ                                   001   16/03/92
+    15800  C   99                WRITEUVSCTL99                                           001   16/03/92
+    15900  C  N99                WRITEUVMAPPA9                                           001   16/03/92
+    16000  C* Emette la videata                                                                16/03/92
+    16100  C                     EXFMTTRA0111                                            001   16/03/92
+    16200  C* Esame dei tasti funzionali                                                       16/03/92
+    16300  C                     EXSR CKCMD1                                             001   16/03/92
+    16400  C* Se non sono state richieste funzioni                                             16/03/92
+    16500  C           WSNMAP    IFEQ 1                                                 B002   16/03/92
+    16600  C* Controlla i dati immessi                                                         16/03/92
+    16700  C                     EXSR CONTRL                                             002   16/03/92
+    16800  C* Se i dati immessi risultano corretti passa alla successiva videata               16/03/92
+    16900  C           *IN99     IFEQ '0'                                               B003   16/03/92
+    17000  C           *INKH     ANDEQ'0'                                                003   16/03/92
+    17100  C                     EXSR EXECUT                                             003   16/03/92
+    17200  C                     END                                                    E003   16/03/92
+    17300  C                     END                                                    E002   16/03/92
+    17400  C                     END                                                    E001   16/03/92
+    17500  C*                                                                                  16/03/92
+    17600  C                     ENDSR                                                         16/03/92
+    17700  C******************************************************************                 16/03/92
+    17800  C*        RUNSC2 - EMISSIONE SECONDA VIDEATA                      *                 16/03/92
+    17900  C******************************************************************                 16/03/92
+    18000  C           RUNSC2    BEGSR                                                         16/03/92
+    18100  C                     MOVEL'1'       *IN98                                          16/03/92
+    18200  C* Itera fino a che non sono state richieste altre videate                          16/03/92
+    18300  C           WSNMAP    DOUNE2                                                 B001   16/03/92
+    18400  C* Se esistono errori scrive il messaggio                                           16/03/92
+    18500  C                     MOVEL'*       'UVSFLQ                                   001   16/03/92
+    18600  C   99                WRITEUVSCTL99                                           001   16/03/92
+    18700  C  N99                WRITEUVMAPPA9                                           001   16/03/92
+    18800  C* Emette la testata                                                                16/03/92
+    18900  C                     EXFMTTRA0112                                            001   16/03/92
+    19000  C* Esame dei tasti funzionali                                                       16/03/92
+    19100  C                     EXSR CKCMD2                                             001   16/03/92
+    19200  C* Se non sono state richieste funzioni                                             16/03/92
+    19300  C           WSNMAP    IFEQ 2                                                 B002   16/03/92
+    19400  C                     EXSR CONTRL                                             002   16/03/92
+    19500  C           WSFUNC    IFEQ 'E'                                               B003   16/03/92
+    19600  C                     EXSR EXECUT                                             003   16/03/92
+    19700  C                     Z-ADD1         WSNMAP                                   003   16/03/92
+    19800  C                     MOVEL' '       WSFUNC                                   003   16/03/92
+    19900  C                     EXSR CLRSCR                                             003   17/03/92
+    20000  C                     END                                                    E003   16/03/92
+    20100  C                     END                                                    E002   16/03/92
+    20200  C                     END                                                    E001   16/03/92
+    20300  C*                                                                                  16/03/92
+    20400  C                     ENDSR                                                         16/03/92
+    20500  C******************************************************************                 16/03/92
+    20600  C*        CKCMD1 - REROUTING STEPS                                *                 16/03/92
+    20700  C******************************************************************                 16/03/92
+    20800  C           CKCMD1    BEGSR                                                         16/03/92
+    20900  C* Forza l'entrata nei controlli                                                    16/03/92
+    21000  C                     MOVEL'C'       WSFUNC                                         16/03/92
+    21100  C* Se è stato premuto un tasto funzionale                                           16/03/92
+    21200  C           *IN10     IFEQ '1'                                               B001   16/03/92
+    21300  C* Se è stata richiesta la fine lavoro                                              16/03/92
+    21400  C           *INKA     IFEQ '1'                                               B002   16/03/92
+    21500  C* Forza l'uscita dal programma                                                     16/03/92
+    21600  C                     MOVEL' '       WSFUNC                                   002   16/03/92
+    21700  C                     Z-ADD99        WSNMAP                                   002   16/03/92
+    21800  C                     END                                                    E002   16/03/92
+    21900  C           *INKH     IFEQ '1'                                               B002   16/03/92
+    22000  C* Decodifica primo formato                                                         16/03/92
+    22100  C                     EXSR CHKCED                                             002   16/03/92
+    22200  C                     Z-ADD1         WSNMAP                                   002   16/03/92
+    22300  C                     END                                                    E002   16/03/92
+    22400  C* Spegne l'indicatore di VLDCMDKEY                                                 16/03/92
+    22500  C                     MOVE '0'       *IN10                                    001   16/03/92
+    22600  C                     END                                                    E001   16/03/92
+    22700  C*                                                                                  16/03/92
+    22800  C                     ENDSR                                                         16/03/92
+    22900  C******************************************************************                 16/03/92
+    23000  C*        CKCMD2 - REROUTING STEPS                                *                 16/03/92
+    23100  C******************************************************************                 16/03/92
+    23200  C           CKCMD2    BEGSR                                                         16/03/92
+    23300  C* Forza l'entrata nei controlli                                                    16/03/92
+    23400  C                     MOVEL'C'       WSFUNC                                         16/03/92
+    23500  C* Se è stato premuto un tasto funzionale                                           16/03/92
+    23600  C           *IN10     IFEQ '1'                                               B001   16/03/92
+    23700  C* Se è stata richiesta la videata precedente                                       16/03/92
+    23800  C           *INKB     IFEQ '1'                                               B002   16/03/92
+    23900  C                     SETOF                         99                    3   002   16/03/92
+    24000  C* Forza l'uscita alla videata parametrica                                          16/03/92
+    24100  C                     MOVEL' '       WSFUNC                                   002   16/03/92
+    24200  C                     Z-ADD1         WSNMAP                                   002   16/03/92
+    24300  C                     MOVEA'000'     *IN,30                                   002   16/03/92
+    24400  C                     MOVEA'0000'    *IN,01                                   002   16/03/92
+    24500  C                     EXSR CLRSCR                                             002   16/03/92
+    24600  C                     END                                                    E002   16/03/92
+    24700  C* Conferma scelta                                                                  16/03/92
+    24800  C           *INKC     IFEQ '1'                                               B002   16/03/92
+    24900  C           *IN99     ANDEQ'0'                                                002   16/03/92
+    25000  C* Forza l'entrata nell'esecuzione                                                  16/03/92
+    25100  C                     MOVEL'E'       WSFUNC                                   002   16/03/92
+    25200  C                     END                                                    E002   16/03/92
+    25300  C* Spegne l'indicatore di VLDCMDKEY  e dei comandi                                  16/03/92
+    25400  C                     MOVE '0'       *IN10                                    001   16/03/92
+    25500  C                     END                                                    E001   16/03/92
+    25600  C*                                                                                  16/03/92
+    25700  C                     ENDSR                                                         16/03/92
+    25800  C******************************************************************                 16/03/92
+    25900  C*        CONTRL - CONTROLLA LE VIDEATE                           *                 16/03/92
+    26000  C******************************************************************                 16/03/92
+    26100  C           CONTRL    BEGSR                                                         16/03/92
+    26200  C*                                                                                  16/03/92
+    26300  C                     SETOF                     979899                1 2 3         16/03/92
+    26400  C                     MOVEAWSSTOF    *IN,30                                         16/03/92
+    26500  C                     MOVEA*BLANKS   CDE                                            16/03/92
+    26600  C                     MOVEA*BLANKS   CID                                            16/03/92
+    26700  C                     Z-ADD0         X1                                             16/03/92
+    26800  C* Esegue controlli sulla mappa immissione/variazione                               16/03/92
+    26900  C           WSNMAP    CASEQ1         CONTR1                                         16/03/92
+    27000  C* Esegue controlli sulla mappa di conferma                                         16/03/92
+    27100  C           WSNMAP    CASEQ2         CONTR2                                         16/03/92
+    27200  C                     END                                                           16/03/92
+    27300  C* Se ci sono errori li decodifica                                                  16/03/92
+    27400  C           *IN99     IFEQ '1'                                               B001   16/03/92
+    27500  C                     EXSR DECODE                                             001   16/03/92
+    27600  C                     END                                                    E001   16/03/92
+    27700  C*                                                                                  16/03/92
+    27800  C                     ENDSR                                                         16/03/92
+    27900  C******************************************************************                 16/03/92
+    28000  C*        CONTR1 - CONTROLLI DELLA VIDEATA PARAMETRICA            *                 16/03/92
+    28100  C******************************************************************                 16/03/92
+    28200  C           CONTR1    BEGSR                                                         16/03/92
+    28300   *                                                                                  16/03/92
+    28400  C                     MOVEA'0000'    *IN,01                                         16/03/92
+    28500  C* Immettere 1/2/3/4 in campo funzione                                              16/03/92
+    28600  C           UVSCEL    IFEQ *BLANKS                                           B001   16/03/92
+    28700  C                     MOVEL'1'       *IN30                                    001   16/03/92
+    28800  C                     MOVE 'SYS0006' WSMSID                                   001   16/03/92
+    28900  C                     EXSR REGERR                                             001   16/03/92
+    29000  C                     END                                                    E001   16/03/92
+    29100  C*                                                                                  16/03/92
+    29200  C           UVSCEL    IFNE *BLANKS                                           B001   16/03/92
+    29300  C           UVSCEL    ANDNE'1'                                                001   16/03/92
+    29400  C           UVSCEL    ANDNE'2'                                                001   16/03/92
+    29500  C           UVSCEL    ANDNE'3'                                                001   16/03/92
+    29600  C           UVSCEL    ANDNE'4'                                                001   16/03/92
+    29700  C                     MOVEL'1'       *IN30                                    001   16/03/92
+    29800  C                     MOVE 'SYS0001' WSMSID                                   001   16/03/92
+    29900  C                     EXSR REGERR                                             001   16/03/92
+    30000  C                     END                                                    E001   16/03/92
+    30100  C*                                                                                  16/03/92
+    30200  C           UVCEDE    IFEQ *ZEROS                                            B001   16/03/92
+    30300  C                     MOVEL'1'       *IN31                                    001   16/03/92
+    30400  C                     MOVE 'SYS0006' WSMSID                                   001   16/03/92
+    30500  C                     EXSR REGERR                                             001   16/03/92
+    30600  C                     END                                                    E001   16/03/92
+    30700  C*                                                                                  16/03/92
+    30800  C           UVSUFF    IFEQ *BLANKS                                           B001   16/03/92
+    30900  C                     MOVEL'1'       *IN32                                    001   16/03/92
+    31000  C                     MOVE 'SYS0006' WSMSID                                   001   16/03/92
+    31100  C                     EXSR REGERR                                             001   16/03/92
+    31200  C                     END                                                    E001   16/03/92
+    31300  C*                                                                                  16/03/92
+    31400  C           UVSCEL    IFNE *BLANKS                                           B001   16/03/92
+    31500  C           UVCEDE    ANDNE*ZEROS                                             001   16/03/92
+    31600  C           UVSCEL    IFEQ '1'                                               B002   16/03/92
+    31700  C                     MOVEL'1'       *IN01                                    002   16/03/92
+    31800  C                     MOVEL*BLANKS   UVDECO                                   002   16/03/92
+    31900  C                     MOVELMSG,1     UVDECO                                   002   16/03/92
+    32000  C                     EXSR CHKCED                                             002   16/03/92
+    32100  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    32200  C                     MOVEL'1'       *IN31                                    003   16/03/92
+    32300  C                     MOVE 'SYS1092' WSMSID                                   003   16/03/92
+    32400  C                     EXSR REGERR                                             003   16/03/92
+    32500  C                     END                                                    E003   16/03/92
+    32600   *                                                                                  16/03/92
+    32700  C                     EXSR CHKAPP                                             002   16/03/92
+    32800  C           *IN90     IFEQ '0'                                               B003   16/03/92
+    32900  C                     MOVEA'11'      *IN,31                                   003   16/03/92
+    33000  C                     MOVE 'SYS1902' WSMSID                                   003   16/03/92
+    33100  C                     EXSR REGERR                                             003   16/03/92
+    33200  C                     ELSE                                                   X003   16/03/92
+    33300  C                     EXSR LOKSUF                                             003   16/03/92
+    33400  C           *IN15     IFEQ '0'                                               B004   16/03/92
+    33500  C                     MOVEL'1'       *IN32                                    004   16/03/92
+    33600  C                     MOVE 'SYS1906' WSMSID                                   004   16/03/92
+    33700  C                     EXSR REGERR                                             004   16/03/92
+    33800  C                     END                                                    E004   16/03/92
+    33900  C                     END                                                    E003   16/03/92
+    34000  C                     END                                                    E002   16/03/92
+    34100  C*                                                                                  16/03/92
+    34200  C           UVSCEL    IFEQ '2'                                               B002   16/03/92
+    34300  C                     MOVEL'1'       *IN02                                    002   16/03/92
+    34400  C                     MOVEL*BLANKS   UVDECO                                   002   16/03/92
+    34500  C                     MOVELMSG,2     UVDECO                                   002   16/03/92
+    34600  C                     EXSR CHKCED                                             002   16/03/92
+    34700  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    34800  C                     MOVEL'1'       *IN31                                    003   16/03/92
+    34900  C                     MOVE 'SYS1092' WSMSID                                   003   16/03/92
+    35000  C                     EXSR REGERR                                             003   16/03/92
+    35100  C                     END                                                    E003   16/03/92
+    35200   *                                                                                  16/03/92
+    35300  C                     EXSR CHKAPP                                             002   16/03/92
+    35400  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    35500  C                     MOVEA'11'      *IN,31                                   003   16/03/92
+    35600  C                     MOVE 'SYS1903' WSMSID                                   003   16/03/92
+    35700  C                     EXSR REGERR                                             003   16/03/92
+    35800  C                     ELSE                                                   X003   16/03/92
+    35900  C           PCFLAG    IFEQ 'A'                                               B004   16/03/92
+    36000  C                     MOVEA'11'      *IN,31                                   004   16/03/92
+    36100  C                     MOVE 'SYS1904' WSMSID                                   004   16/03/92
+    36200  C                     EXSR REGERR                                             004   16/03/92
+    36300  C                     END                                                    E004   16/03/92
+    36400  C                     END                                                    E003   16/03/92
+    36500  C                     END                                                    E002   16/03/92
+    36600   *                                                                                  16/03/92
+    36700  C           UVSCEL    IFEQ '3'                                               B002   16/03/92
+    36800  C                     MOVEL'1'       *IN03                                    002   16/03/92
+    36900  C                     MOVEL*BLANKS   UVDECO                                   002   16/03/92
+    37000  C                     MOVELMSG,3     UVDECO                                   002   16/03/92
+    37100  C                     EXSR CHKCED                                             002   16/03/92
+    37200  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    37300  C                     MOVEL'1'       *IN31                                    003   16/03/92
+    37400  C                     MOVE 'SYS1092' WSMSID                                   003   16/03/92
+    37500  C                     EXSR REGERR                                             003   16/03/92
+    37600  C                     END                                                    E003   16/03/92
+    37700   *                                                                                  16/03/92
+    37800  C                     EXSR CHKAPP                                             002   16/03/92
+    37900  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    38000  C                     MOVEA'11'      *IN,31                                   003   16/03/92
+    38100  C                     MOVE 'SYS1903' WSMSID                                   003   16/03/92
+    38200  C                     EXSR REGERR                                             003   16/03/92
+    38300  C                     ELSE                                                   X003   16/03/92
+    38400  C           PCFLAG    IFEQ 'A'                                               B004   16/03/92
+    38500  C                     MOVEA'11'      *IN,31                                   004   16/03/92
+    38600  C                     MOVE 'SYS1904' WSMSID                                   004   16/03/92
+    38700  C                     EXSR REGERR                                             004   16/03/92
+    38800  C                     END                                                    E004   16/03/92
+    38900  C                     END                                                    E003   16/03/92
+    39000  C                     END                                                    E002   16/03/92
+    39100  C*                                                                                  16/03/92
+    39200  C           UVSCEL    IFEQ '4'                                               B002   16/03/92
+    39300  C                     MOVEL'1'       *IN04                                    002   16/03/92
+    39400  C                     MOVEL*BLANKS   UVDECO                                   002   16/03/92
+    39500  C                     MOVELMSG,4     UVDECO                                   002   16/03/92
+    39600  C                     EXSR CHKCED                                             002   16/03/92
+    39700  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    39800  C                     MOVEL'1'       *IN31                                    003   16/03/92
+    39900  C                     MOVE 'SYS1092' WSMSID                                   003   16/03/92
+    40000  C                     EXSR REGERR                                             003   16/03/92
+    40100  C                     END                                                    E003   16/03/92
+    40200   *                                                                                  16/03/92
+    40300  C                     EXSR CHKAPP                                             002   16/03/92
+    40400  C           *IN90     IFEQ '1'                                               B003   16/03/92
+    40500  C                     MOVEA'11'      *IN,31                                   003   16/03/92
+    40600  C                     MOVE 'SYS1903' WSMSID                                   003   16/03/92
+    40700  C                     EXSR REGERR                                             003   16/03/92
+    40800  C                     ELSE                                                   X003   16/03/92
+    40900  C           PCFLAG    IFEQ 'V'                                               B004   16/03/92
+    41000  C                     MOVEA'11'      *IN,31                                   004   16/03/92
+    41100  C                     MOVE 'SYS1905' WSMSID                                   004   16/03/92
+    41200  C                     EXSR REGERR                                             004   16/03/92
+    41300  C                     END                                                    E004   16/03/92
+    41400  C                     END                                                    E003   16/03/92
+    41500  C                     END                                                    E002   16/03/92
+    41600  C*                                                                                  16/03/92
+    41700  C                     END                                                    E001   16/03/92
+    41800  C*                                                                                  16/03/92
+    41900  C                     ENDSR                                                         16/03/92
+    42000  C******************************************************************                 16/03/92
+    42100  C*        CONTR2 - ESEGUE LE VIDEATE                              *                 16/03/92
+    42200  C******************************************************************                 16/03/92
+    42300  C           CONTR2    BEGSR                                                         16/03/92
+    42400   *                                                                                  16/03/92
+    42500  C           *IN01     IFEQ '1'                                               B001   16/03/92   B1
+    42600  C           *IN02     OREQ '1'                                                001   16/03/92         S
+    42700   *                                                                                  16/03/92
+    42800   *          INTERROGAZIONE C.A.P.                                                   17/03/92
+    42900   *                                                                                  17/03/92
+    43000  C           UVNAZ     IFEQ '086'                                             B002   10/03/99   B
+    43100  C           UVCAP     IFEQ *BLANKS                                           B003   16/03/92   B2
+    43200  C                     MOVEL'1'       *IN32                                    003   16/03/92         S
+    43300  C                     MOVE 'SYS0006' WSMSID                                   003   16/03/92
+    43400  C                     EXSR REGERR                                             003   16/03/92
+    43500  C                     ELSE                                                   X003   17/03/92   X2
+    43600   *                                                                                  17/03/92         S
+    43700  C                     CLEAREPCMNI                                             003   01/02/96
+    43800  C                     MOVE UVCAP     ECCAP                                    003   17/11/95
+    43900  C                     MOVELUVLOC     ECLOCA                                   003   01/02/96
+    44000  C                     CALL 'BCT800'                                           003   18/01/96
+    44100  C                     PARM           EPCMNI                                   003   01/02/96
+    44200  C                     MOVE ECCAP     UVCAP                                    003   17/11/95
+    44300  C           ECRTNC    IFEQ '1'                                               B004   17/11/95   B3
+    44400  C                     MOVEL'1'       *IN90                                    004   17/11/95         S
+    44500  C                     MOVEL'1'       *IN32                                    004   17/11/95
+    44600  C                     MOVE 'SYS1223' WSMSID                                   004   17/03/92
+    44700  C                     EXSR REGERR                                             004   17/03/92
+    44800  C                     ELSE                                                   X004   17/03/92   X3
+    44900   * IMPOSTA CODICE PROVINCIA                                                         17/03/92         S
+    45000  C                     MOVE ECCDPR    UVPROV                                   004   17/11/95
+    45100  C                     MOVELECPROV    UVDEPR                                   004   17/11/95
+    45200  C***        UVLOC     IFEQ *BLANK                                                   01/02/96   B4
+    45300  C                     MOVELECLOCA    UVLOC                                    004   01/02/96         S
+    45400  C***                  END                                                           01/02/96   E4
+    45500  C           UVINAL    IFEQ *BLANK                                            B005   18/01/96   B4    S
+    45600  C                     MOVELECTOPO    DSDESC                                   005   16/05/02         S
+    45700  C                     END                                                    E005   18/01/96   E4
+    45800  C                     END                                                    E004   18/01/96   E3    S
+    45900  C                     END                                                    E003   17/03/92   E2    S
+    46000  C                     ENDIF                                                  E002   10/03/99   E     S
+    46100   *                                                                                  16/03/92         S
+    46200  C           UVNAZ     IFNE '086'                                             B002   11/03/99
+    46300  C                     MOVEL*BLANKS   UVPROV                                   002   11/03/99
+    46400  C                     MOVEL*BLANKS   UVDEPR                                   002   11/03/99
+    46500  C                     ENDIF                                                  E002   11/03/99
+    46600  C           UVINAL    IFEQ *BLANKS                                           B002   01/02/96   B2
+    46700  C                     MOVEL'1'       *IN31                                    002   01/02/96         S
+    46800  C                     MOVE 'SYS0006' WSMSID                                   002   01/02/96
+    46900  C                     EXSR REGERR                                             002   01/02/96
+    47000  C                     END                                                    E002   01/02/96   E2
+    47100   *                                                                                  01/02/96         S
+    47200  C           UVLOC     IFEQ *BLANKS                                           B002   16/03/92   B2
+    47300  C                     MOVEL'1'       *IN33                                    002   16/03/92         S
+    47400  C                     MOVE 'SYS0006' WSMSID                                   002   16/03/92
+    47500  C                     EXSR REGERR                                             002   16/03/92
+    47600  C                     END                                                    E002   16/03/92   E2
+    47700   *                                                                                  16/03/92         S
+    47800  C           UVPROV    IFEQ *BLANKS                                           B002   16/03/92   B2
+    47900  C           UVNAZ     ANDEQ'086'                                              002   10/03/99   B2
+    48000  C                     MOVEL'1'       *IN34                                    002   16/03/92         S
+    48100  C                     MOVE 'SYS0006' WSMSID                                   002   16/03/92
+    48200  C                     EXSR REGERR                                             002   16/03/92
+    48300  C                     END                                                    E002   16/03/92   E2
+    48400  C           UVNAZ     IFEQ *BLANKS                                           B002   09/03/99   B2    S
+    48500  C                     MOVEL'1'       *IN35                                    002   09/03/99         S
+    48600  C                     MOVE 'SYS0006' WSMSID                                   002   09/03/99
+    48700  C                     EXSR REGERR                                             002   09/03/99
+    48800  C                     END                                                    E002   09/03/99   E2
+    48900   *   Interrogazione codice nazione                                                  09/03/99         S
+    49000  C                     MOVELUVNAZ     WSA1    1                                001   09/03/99
+    49100  C           WSA1      IFEQ '?'                                               B002   09/03/99
+    49200  C                     MOVE KCSOC     PTSOC  14                                002   09/03/99
+    49300  C                     MOVE 'SGL'     PTKEYP  3                                002   09/03/99
+    49400  C                     EXSR R9B25                                              002   09/03/99
+    49500   *                                                                                  09/03/99
+    49600  C           PTFLAG    IFEQ '1'                                               B003   09/03/99
+    49700  C                     MOVE *BLANKS   UVNAZ                                    003   09/03/99
+    49800  C                     ELSE                                                   X003   09/03/99
+    49900  C                     MOVE PTKEYT    UVNAZ                                    003   09/03/99
+    50000  C                     END                                                    E003   09/03/99
+    50100  C                     END                                                    E002   09/03/99
+    50200   *  Validità codice nazione                                                         09/03/99
+    50300  C                     MOVE 'SGL'     MTKEYA                                   001   09/03/99
+    50400  C                     MOVE *ZEROS    MTKEYB                                   001   09/03/99
+    50500  C                     MOVE UVNAZ     MTKEYB                                   001   09/03/99
+    50600  C           MTKEY     CHAINMST0011L             11                    1       001   09/03/99
+    50700  C  N11                MOVELMTDESC    SGL                                      001   09/03/99
+    50800  C  N11                MOVE SGLNAZ    UVDNAZ                                   001   10/03/99
+    50900  C           *IN11     IFEQ '1'                                               B002   09/03/99
+    51000  C                     MOVE 'SYS2900' WSMSID                                   002   10/03/99
+    51100  C                     MOVE '1'       *IN35                                    002   09/03/99
+    51200  C                     EXSR REGERR                                             002   09/03/99
+    51300  C                     END                                                    E002   09/03/99
+    51400   *  Congruenza  C.A.P./Codice Nazione                                               09/03/99
+    51500  C           UVNAZ     IFNE '086'                                             B002   09/03/99
+    51600  C           UVCAP     ANDGE*ZEROS                                             002   09/03/99
+    51700  C                     MOVEL'SYS2901' WSMSID                                   002   10/03/99
+    51800  C                     EXSR REGERR                                             002   09/03/99
+    51900  C                     MOVE '1'       *IN32                                    002   09/03/99
+    52000  C                     MOVE '1'       *IN35                                    002   09/03/99
+    52100  C                     END                                                    E002   09/03/99
+    52200   *                                                                                  09/03/99
+    52300  C           UVNAZ     IFEQ '086'                                             B002   09/03/99
+    52400  C           UVCAP     ANDLT*ZEROS                                             002   09/03/99
+    52500  C                     MOVE 'SYS2901' WSMSID                                   002   10/03/99
+    52600  C                     EXSR REGERR                                             002   09/03/99
+    52700  C                     MOVE '1'       *IN32                                    002   09/03/99
+    52800  C                     MOVE '1'       *IN35                                    002   09/03/99
+    52900  C                     END                                                    E002   09/03/99
+    53000   *                                                                                  16/03/92
+    53100  C                     END                                                    E001   09/03/99   E1
+    53200   * ANNULLAMENTO                                                                     16/03/92         S
+    53300  C           *IN03     IFEQ '1'                                               B001   16/03/92   B1
+    53400   *                                                                                  16/03/92         S
+    53500  C           UVANRI    IFEQ *BLANKS                                           B002   16/03/92   B2
+    53600  C                     MOVEL'1'       *IN30                                    002   16/03/92         S
+    53700  C                     MOVE 'SYS0001' WSMSID                                   002   16/03/92
+    53800  C                     EXSR REGERR                                             002   16/03/92
+    53900  C                     ELSE                                                   X002   16/03/92   X2
+    54000  C           UVANRI    IFNE 'A'                                               B003   16/03/92   B3    S
+    54100  C                     MOVEL'1'       *IN30                                    003   16/03/92         S
+    54200  C                     MOVE 'SYS1907' WSMSID                                   003   16/03/92
+    54300  C                     EXSR REGERR                                             003   16/03/92
+    54400  C                     END                                                    E003   16/03/92   E3
+    54500  C                     END                                                    E002   16/03/92   E2    S
+    54600  C                     END                                                    E001   16/03/92   E1    S
+    54700   *                                                                                  16/03/92         S
+    54800   * RIPRISTINO                                                                       16/03/92
+    54900  C           *IN04     IFEQ '1'                                               B001   16/03/92   B1
+    55000   *                                                                                  16/03/92         S
+    55100  C           UVANRI    IFEQ *BLANKS                                           B002   16/03/92   B2
+    55200  C                     MOVEL'1'       *IN30                                    002   16/03/92         S
+    55300  C                     MOVE 'SYS0001' WSMSID                                   002   16/03/92
+    55400  C                     EXSR REGERR                                             002   16/03/92
+    55500  C                     ELSE                                                   X002   16/03/92   X2
+    55600  C           UVANRI    IFNE 'V'                                               B003   16/03/92   B3    S
+    55700  C                     MOVEL'1'       *IN30                                    003   16/03/92         S
+    55800  C                     MOVE 'SYS1908' WSMSID                                   003   16/03/92
+    55900  C                     EXSR REGERR                                             003   16/03/92
+    56000  C                     END                                                    E003   16/03/92   E3
+    56100  C                     END                                                    E002   16/03/92   E2    S
+    56200  C                     END                                                    E001   16/03/92   E1    S
+    56300   *                                                                                  16/03/92         S
+    56400  C                     ENDSR                                                         16/03/92
+    56500   *****************************************************************                  09/03/99
+    56600   *          GESTIONE INTERROGAZIONE TABELLE          R9B25                          09/03/99
+    56700   *****************************************************************                  09/03/99
+    56800  C           R9B25     BEGSR                                                         09/03/99
+    56900  C                     MOVE '1'       *IN53                                          09/03/99
+    57000  C                     MOVE *BLANKS   PTKEYT  9                                      09/03/99
+    57100  C                     MOVE *BLANK    PTFLAG  1                                      09/03/99
+    57200  C                     CALL 'TRA120'                                                 09/03/99
+    57300  C                     PARM           PTSOC                                          09/03/99
+    57400  C                     PARM           PTKEYP                                         09/03/99
+    57500  C                     PARM           PTKEYT                                         09/03/99
+    57600  C                     PARM           PTFLAG                                         09/03/99
+    57700  C                     ENDSR                                                         09/03/99
+    57800   ******************************************************************                 16/03/92
+    57900   *        EXECUT - ESEGUE LE VIDEATE                              *                 16/03/92
+    58000   ******************************************************************                 16/03/92
+    58100  C           EXECUT    BEGSR                                                         16/03/92
+    58200   *                                                                                  16/03/92
+    58300   * Esegue controlli sulla mappa immissione/variazione                               16/03/92
+    58400  C           WSNMAP    CASEQ1         EXECT1                                         16/03/92
+    58500   * Esegue controlli sulla mappa di conferma                                         16/03/92
+    58600  C           WSNMAP    CASEQ2         EXECT2                                         16/03/92
+    58700  C                     END                                                           16/03/92
+    58800   *                                                                                  16/03/92
+    58900  C                     ENDSR                                                         16/03/92
+    59000   ******************************************************************                 16/03/92
+    59100   *        EXECT1 - ESEGUE LA PRIMA VIDEATA                        *                 16/03/92
+    59200   ******************************************************************                 16/03/92
+    59300  C           EXECT1    BEGSR                                                         16/03/92
+    59400   *                                                                                  16/03/92
+    59500  C           *IN01     IFEQ '1'                                               B001   16/03/92
+    59600  C                     EXSR BLK002                                             001   16/03/92
+    59700  C                     MOVEL*BLANKS   UVANNU                                   001   16/03/92
+    59800  C                     ELSE                                                   X001   16/03/92
+    59900  C                     EXSR CARSC2                                             001   16/03/92
+    60000  C           *IN04     IFEQ '1'                                               B002   16/03/92
+    60100  C                     MOVELMSG,5     UVANNU                                   002   16/03/92
+    60200  C                     ELSE                                                   X002   16/03/92
+    60300  C                     MOVEL*BLANKS   UVANNU                                   002   16/03/92
+    60400  C                     END                                                    E002   16/03/92
+    60500  C                     END                                                    E001   16/03/92
+    60600   *                                                                                  16/03/92
+    60700  C                     ADD  1         WSNMAP                                         16/03/92
+    60800  C                     MOVEA'000000'  *IN,30                                         16/03/92
+    60900   *                                                                                  16/03/92
+    61000  C                     ENDSR                                                         16/03/92
+    61100   ******************************************************************                 16/03/92
+    61200   *        CARSC2 - RIEMPIMENTO CAMPI SECONDA VIDEATA              *                 16/03/92
+    61300   ******************************************************************                 16/03/92
+    61400  C           CARSC2    BEGSR                                                         16/03/92
+    61500   *                                                                                  16/03/92
+    61600  C                     EXSR CHKAPP                                                   16/03/92
+    61700  C           *IN90     IFEQ '0'                                               B001   16/03/92
+    61800  C                     MOVELPCIND     UVINAL                                   001   16/03/92
+    61900  C                     MOVELPCIND2    UVINA2                                   001   16/05/02
+    62000  C                     MOVELPCCAP     UVCAP                                    001   16/03/92
+    62100  C                     MOVELPCLOC     UVLOC                                    001   16/03/92
+    62200  C                     MOVELPCPROV    UVPROV                                   001   16/03/92
+    62300  C                     Z-ADDPCDUPD    UVDTMA                                   001   16/03/92
+    62400  C                     MOVELUVDTMA    AA                                       001   08/04/03
+    62500  C                     MOVE UVDTMA    GG                                       001   08/04/03
+    62600  C                     MOVE AA        UVDTMA                                   001   08/04/03
+    62700  C                     MOVELGG        UVDTMA                                   001   08/04/03
+    62800  C                     MOVE PCFLAG    UVANRI                                   001   16/03/92
+    62900  C                     MOVE PCNAZ     UVNAZ                                    001   09/03/99
+    63000  C                     END                                                    E001   16/03/92
+    63100   *                                                                                  16/03/92
+    63200  C                     ENDSR                                                         16/03/92
+    63300   ******************************************************************                 16/03/92
+    63400   *        BLK002 - AZZERAMENTO CAMPI SECONDA VIDEATA              *                 16/03/92
+    63500   ******************************************************************                 16/03/92
+    63600  C           BLK002    BEGSR                                                         16/03/92
+    63700   *                                                                                  16/03/92
+    63800  C                     MOVEL*BLANKS   UVANRI                                         16/03/92
+    63900  C                     MOVEL*BLANKS   UVINAL                                         16/03/92
+    64000  C                     MOVEL*BLANKS   UVINA2                                         16/05/02
+    64100  C                     MOVEL*BLANKS   UVCAP                                          16/03/92
+    64200  C                     MOVEL*BLANKS   UVLOC                                          16/03/92
+    64300  C                     MOVEL*BLANKS   UVPROV                                         16/03/92
+    64400  C                     MOVEL*BLANKS   UVNAZ                                          09/03/99
+    64500  C                     MOVEL*BLANKS   UVDNAZ                                         09/03/99
+    64600  C                     MOVEL*BLANKS   UVANNU                                         16/03/92
+    64700  C                     MOVEL*BLANKS   UVDEPR                                         17/03/92
+    64800  C                     Z-ADDUDATE     UVDTMA                                         16/03/92
+    64900  C                     MOVELUVDTMA    AA                                             08/04/03
+    65000  C                     MOVE UVDTMA    GG                                             08/04/03
+    65100  C                     MOVE AA        UVDTMA                                         08/04/03
+    65200  C                     MOVELGG        UVDTMA                                         08/04/03
+    65300  C                     MOVEL'1'       *IN06                                          16/03/92
+    65400   *                                                                                  16/03/92
+    65500  C                     ENDSR                                                         16/03/92
+    65600  C******************************************************************                 16/03/92
+    65700  C*        EXECT2 - ESEGUE LA SECONDA VIDEATA                      *                 16/03/92
+    65800  C******************************************************************                 16/03/92
+    65900  C           EXECT2    BEGSR                                                         16/03/92
+    66000   *                                                                                  16/03/92
+    66100   * INSERIMENTO                                                                      16/03/92
+    66200  C           *IN01     IFEQ '1'                                               B001   16/03/92
+    66300  C                     MOVEL'PC1'     PCTREC                                   001   16/03/92
+    66400  C                     MOVEL'V'       PCFLAG                                   001   16/03/92
+    66500  C                     MOVEL' '       PCLOCK                                   001   16/03/92
+    66600  C                     Z-ADDUDATE     PCDINS                                   001   16/03/92
+    66700  C                     END                                                    E001   16/03/92
+    66800   * INSERIMENTO O VARIAZIONE                                                         16/03/92
+    66900  C           *IN01     IFEQ '1'                                               B001   16/03/92
+    67000  C           *IN02     OREQ '1'                                                001   16/03/92
+    67100  C                     Z-ADDUVCEDE    PCCED                                    001   16/03/92
+    67200  C                     MOVE UVSUFF    PCSUFF                                   001   16/03/92
+    67300  C                     MOVELUVINAL    PCIND                                    001   16/03/92
+    67400  C                     MOVELUVINA2    PCIND2                                   001   16/05/02
+    67500  C                     MOVELUVCAP     PCCAP                                    001   16/03/92
+    67600  C                     MOVELUVLOC     PCLOC                                    001   16/03/92
+    67700  C                     MOVELUVPROV    PCPROV                                   001   16/03/92
+    67800  C                     MOVELUVNAZ     PCNAZ                                    001   10/03/99
+    67900  C                     END                                                    E001   16/03/92
+    68000   * ANNULLAMENTO                                                                     16/03/92
+    68100  C           *IN03     IFEQ '1'                                               B001   16/03/92
+    68200  C                     MOVELUVANRI    PCFLAG                                   001   16/03/92
+    68300  C                     END                                                    E001   16/03/92
+    68400   * RIPRISTINO                                                                       16/03/92
+    68500  C           *IN04     IFEQ '1'                                               B001   16/03/92
+    68600  C                     MOVELUVANRI    PCFLAG                                   001   16/03/92
+    68700  C                     END                                                    E001   16/03/92
+    68800  C                     Z-ADDUVDTMA    PCDUPD                                         16/03/92
+    68900  C                     MOVELPCDUPD    GG                                             08/04/03
+    69000  C                     MOVE UVDTMA    AA                                             08/04/03
+    69100  C                     MOVELAA        PCDUPD                                         08/04/03
+    69200  C                     MOVE GG        PCDUPD                                         08/04/03
+    69300   *                                                                                  16/03/92
+    69400   * SCRITTURA O AGGIORNAMENTO APPCED0F                                               16/03/92
+    69500  C           *IN01     IFEQ '1'                                               B001   16/03/92
+    69600  C                     WRITEAPPCED1R                                           001   16/03/92
+    69700  C                     ELSE                                                   X001   16/03/92
+    69800  C                     UPDATAPPCED1R                                           001   16/03/92
+    69900  C                     END                                                    E001   16/03/92
+    70000   *                                                                                  16/03/92
+    70100  C                     ENDSR                                                         16/03/92
+    70200  C******************************************************************                 16/03/92
+    70300  C*        CLRSCR - PULIZZIA VIDEATA SCELTA FUNZIONE               *                 16/03/92
+    70400  C******************************************************************                 16/03/92
+    70500  C           CLRSCR    BEGSR                                                         16/03/92
+    70600  C*                                                                                  16/03/92
+    70700  C                     MOVEL*BLANKS   UVSCEL                                         16/03/92
+    70800  C                     Z-ADD0         UVCEDE                                         16/03/92
+    70900  C                     MOVEL*BLANKS   UVSUFF                                         16/03/92
+    71000  C                     MOVEL*BLANKS   UVDECE                                         16/03/92
+    71100  C*                                                                                  16/03/92
+    71200  C                     ENDSR                                                         16/03/92
+    71300  C******************************************************************                 16/03/92
+    71400  C*        REGERR - REGISTRA GLI ERRORI                            *                 16/03/92
+    71500  C******************************************************************                 16/03/92
+    71600  C           REGERR    BEGSR                                                         16/03/92
+    71700  C*                                                                                  16/03/92
+    71800  C           X1        IFLT 30                                                B001   16/03/92
+    71900  C                     ADD  1         X1                                       001   16/03/92
+    72000  C                     MOVELWSMSID    CID,X1                                   001   16/03/92
+    72100  C                     MOVEL*BLANKS   WSMSID                                   001   16/03/92
+    72200  C                     MOVELWSCDER    CDE,X1                                   001   16/03/92
+    72300  C                     MOVEL*BLANKS   WSCDER                                   001   16/03/92
+    72400  C                     END                                                    E001   16/03/92
+    72500  C                     MOVE '1'       *IN99                                          16/03/92
+    72600  C*                                                                                  16/03/92
+    72700  C                     ENDSR                                                         16/03/92
+    72800  C******************************************************************                 16/03/92
+    72900  C*        DECODE - DECODIFICA GLI ERRORI                          *                 16/03/92
+    73000  C******************************************************************                 16/03/92
+    73100  C           DECODE    BEGSR                                                         16/03/92
+    73200  C*                                                                                  16/03/92
+    73300  C                     CALL 'DCER01'  PLIST2                                         16/03/92
+    73400  C*                                                                                  16/03/92
+    73500  C           WSSLVL    IFLT 60                                                B001   16/03/92
+    73600  C                     MOVE '1'       *IN97                                    001   16/03/92
+    73700  C                     END                                                    E001   16/03/92
+    73800  C*                                                                                  16/03/92
+    73900  C                     MOVEL'1'       *IN98                                          16/03/92
+    74000  C                     MOVEL' '       WSFUNC                                         16/03/92
+    74100  C*                                                                                  16/03/92
+    74200  C                     ENDSR                                                         16/03/92
+    74300   ******************************************************************                 17/03/92
+    74400   *          DECODIFICA CEDENTE                                                      17/03/92
+    74500   ******************************************************************                 17/03/92
+    74600  C           CHKCED    BEGSR                                                         17/03/92
+    74700   *                                                                                  17/03/92
+    74800  C           KEYANA    CHAINANACED1R             90                    1             16/03/92
+    74900  C           *IN90     IFEQ '0'                                               B001   16/03/92
+    75000  C                     MOVELACRAS     UVRAS                                    001   16/03/92
+    75100  C                     MOVELACRAS2    UVRAS1                                   001   16/03/92
+    75200  C                     MOVELACRAS     UVDECE                                   001   16/03/92
+    75300  C                     END                                                    E001   16/03/92
+    75400   *                                                                                  16/03/92
+    75500  C                     ENDSR                                                         16/03/92
+    75600   ******************************************************************                 16/03/92
+    75700   *          DECODIFICA CEDENTE/SUFFISSO SU APPCED0F                                 16/03/92
+    75800   ******************************************************************                 16/03/92
+    75900  C           CHKAPP    BEGSR                                                         16/03/92
+    76000   *                                                                                  16/03/92
+    76100  C           KEYAPP    CHAINAPPCED1R             90                    1             16/03/92
+    76200   *                                                                                  16/03/92
+    76300  C                     ENDSR                                                         16/03/92
+    76400   ******************************************************************                 16/03/92
+    76500   *     RICERCA SUFFISSO SEDE                                                        16/03/92
+    76600   ******************************************************************                 16/03/92
+    76700  C           LOKSUF    BEGSR                                                         16/03/92
+    76800   *                                                                                  16/03/92
+    76900  C                     Z-ADD1         X       10                                     16/03/92
+    77000  C           UVSUFF    LOKUPSUF,X                    15                    3         16/03/92
+    77100   *                                                                                  16/03/92
+    77200  C                     ENDSR                                                         16/03/92
+    77300   ******************************************************************                 16/03/92
+  L000000   OUTPUT CAMPI PER RECORD APPCED1R FILE APPCED0F FORMATO APPCED1R.
+  L000000         APPENDICE ANAGRAFE CEDENTI
+  L000001                            PCTREC     3  CHAR    3                    Cde Tipo Rec.File -PC1-      CMN
+  L000002                            PCFLAG     4  CHAR    1                    Sts Record V/A               CMN
+  L000003                            PCLOCK     5  CHAR    1                    Sts Blocco record            CMN
+  L000004                            PCDINS    11  ZONE  6,0                    Dte Inserimento              CMN
+  L000005                            PCDUPD    17  ZONE  6,0                    Dte Aggiornamento            CMN
+  L000006                            PCCED     22  ZONE  5,0                    Cde Cedente                  AC
+  L000007                            PCSUFF    23  CHAR    1                    Cde Suffisso Sede            AP
+  L000008                            PCIND     53  CHAR   30                    Nar Indirizzo Alternativo    PC
+  L000009                            PCCAP     58  CHAR    5                    Cde C.A.P.                   MST
+  L000010                            PCLOC     83  CHAR   25                    Nar Località                 AC
+  L000011                            PCPROV    85  CHAR    2                    Cde Provincia                MST
+  L000012                            PCNAZ     88  CHAR    3                    Cde Nazione                  MST
+  L000013                            PCIND2   118  CHAR   30                    Nar Indirizzo Alternativo 2  PC
+  L000014                            PCUINS   124  CHAR    6                    Utente di Inserimento
+  L000015                            PCUUPD   130  CHAR    6                    Utente di Aggiornamento
+  M000000   OUTPUT CAMPI PER RECORD TRA0111 FILE TRA0110V FORMATO TRA0111.
+  M000001                            *IN30      1  CHAR    1
+  M000002                            *IN31      2  CHAR    1
+  M000003                            *IN32      3  CHAR    1
+  M000004                            KNSIF     12  CHAR    9
+  M000005                            KNMUS     22  CHAR   10
+  M000006                            UVSCEL    23  CHAR    1
+  M000007                            UVCEDE    28  ZONE  5,0
+  M000008                            UVDECE    63  CHAR   35
+  M000009                            UVSUFF    64  CHAR    1
+  N000000   OUTPUT CAMPI PER RECORD TRA0112 FILE TRA0110V FORMATO TRA0112.
+  N000001                            *IN01      2  CHAR    1
+  N000002                            *IN02      3  CHAR    1
+  N000003                            *IN03      5  CHAR    1
+  N000004                            *IN04      6  CHAR    1
+  N000005                            *IN30      4  CHAR    1
+  N000006                            *IN31      7  CHAR    1
+  N000007                            *IN32      8  CHAR    1
+  N000008                            *IN33      9  CHAR    1
+  N000009                            *IN34     10  CHAR    1
+  N000010                            *IN35     11  CHAR    1
+  N000011                            *IN98      1  CHAR    1
+  N000012                            KNSIF     20  CHAR    9
+  N000013                            KNMUS     30  CHAR   10
+  N000014                            UVDECO    45  CHAR   15
+  N000015                            UVCEDE    50  ZONE  5,0
+  N000016                            UVRAS     85  CHAR   35
+  N000017                            UVRAS1   120  CHAR   35
+  N000018                            UVSUFF   121  CHAR    1
+  N000019                            UVDTMA   127  ZONE  6,0
+  N000020                            UVANNU   148  CHAR   21
+  N000021                            UVANRI   149  CHAR    1
+  N000022                            UVINAL   179  CHAR   30
+  N000023                            UVCAP    184  CHAR    5
+  N000024                            UVLOC    209  CHAR   25
+  N000025                            UVPROV   211  CHAR    2
+  N000026                            UVDEPR   226  CHAR   15
+  N000027                            UVDNAZ   256  CHAR   30
+  N000028                            UVNAZ    259  CHAR    3
+  N000029                            UVINA2   289  CHAR   30
+  O000000   OUTPUT CAMPI PER RECORD UVSCTL99 FILE TRA0110V FORMATO UVSCTL99.
+  O000001                            *IN99      1  CHAR    1
+  O000002                            UVSFLQ    11  CHAR   10
+  P000000   OUTPUT CAMPI PER RECORD UVMAPPA9 FILE TRA0110V FORMATO UVMAPPA9.
+  P000001                            UVNONE     1  CHAR    1
+           * * * * *    F I N E   O R I G I N E    * * * * *
+       M e s s a g g i   d i a g n o s t i c i   a d d i z i o n a l i
+NUMERO                                                                                               ULTIMO
+                T a b e l l e  T e m p o - C o m p i l a z i o n e
+ Tabella/schiera. . . . . :   SUF
+    77500  0                                                                                   16/03/92
+    77600  1                                                                                   16/03/92
+    77700  2                                                                                   16/03/92
+    77800  3                                                                                   16/03/92
+    77900  4                                                                                   16/03/92
+    78000  5                                                                                   16/03/92
+    78100  6                                                                                   16/03/92
+    78200  7                                                                                   16/03/92
+    78300  8                                                                                   16/03/92
+    78400  9                                                                                   16/03/92
+ Tabella/schiera. . . . . :   MSG
+    78600  INSERIMENTO                                                                         16/03/92
+    78700  VARIAZIONE                                                                          16/03/92
+    78800  ANNULLAMENTO                                                                        16/03/92
+    78900  RIPRISTINO                                                                          16/03/92
+    79000  * A N N U L L A T O *                                                               16/03/92
+                I n f o r m a z i o n i  C a m p i  C h i a v e
+                       FISICO      LOGICO
+        FILE/REC       CAMPO       CAMPO       ATTRIBUTI
+    01  ANACED0F
+             ANACED1R
+                       ACCED                   ZONE  5,0  SIGNED
+    02  MST0011L
+             MST0011R
+                       MTKEYA                  CHAR    3
+                       MTKEYB                  CHAR    9
+    03  APPCED0F
+             APPCED1R
+                       PCCED                   ZONE  5,0  SIGNED
+                       PCSUFF                  CHAR    1
+                     R i f e r i m e n t i   I n c r o c i a t i
+ Riferimenti file e record:
+        FILE/REC    UNITA/REC   RIFERIMENTI (D=DEFINITO)
+    01  ANACED0F    DISK           5000D
+          ANACED1R                 5000D A000000    74800
+    03  APPCED0F    DISK           5200D
+          APPCED1R                 5200D C000000    69600    69800    76100
+                                L000000
+    02  MST0011L    DISK           5100D   50600
+          MST0011R                 5100D B000000
+    04  TRA0110V    WORKSTN        5300D
+          TRA0111                  5300D D000000    16100  M000000
+          TRA0112                  5300D E000000    18900  N000000
+          UVMAPPA9                 5300D H000000    15900    18700  P000000
+          UVSCTL99                 5300D G000000    15800    18600  O000000
+          UVSFL99                  5300D F000000
+ Riferimenti campi:
+        CAMPO       ATTR    RIFERIMENTI (M=MODIFICATO D=DEFINITO)
+        *ENTRY      PLIST     12600D
+        *IN(99)     A(1)
+          *IN,1               24400M   28400M
+          *IN,30              24300M   26400M   60800M
+          *IN,31              32900M   35500M   36000M   38000M   38500M
+                              40500M   41000M
+        *INKA       A(1)      21400
+        *INKB       A(1)      23800
+        *INKC       A(1)      24800
+        *INKH       A(1)      17000    21900
+        *INLR       A(1)      14000M
+        *IN01       A(1)      31700M   42500    59500    66200    66900
+                              69500  N000001D
+        *IN02       A(1)      34300M   42600    67000  N000002D
+        *IN03       A(1)      36800M   53300    68100  N000003D
+        *IN04       A(1)      39300M   54900    60000    68500  N000004D
+        *IN06       A(1)      65300M
+* 7031  *IN08       A(1)    D000001
+        *IN10       A(1)    D000002  E000001  F000001  G000001  H000001
+                              21200    22500M   23600    25400M
+        *IN11       A(1)      50900
+        *IN15       A(1)      33400
+        *IN30       A(1)      28700M   29700M   53600M   54100M   55200M
+                              55700M M000001D N000005D
+        *IN31       A(1)      30300M   32200M   34800M   37300M   39800M
+                              46700M M000002D N000006D
+        *IN32       A(1)      30900M   33500M   43200M   44500M   51900M
+                              52700M M000003D N000007D
+        *IN33       A(1)      47300M N000008D
+        *IN34       A(1)      48000M N000009D
+        *IN35       A(1)      48500M   51100M   52000M   52800M N000010D
+        *IN53       A(1)      56900M
+        *IN90       A(1)      32100    32800    34700    35400    37200
+                              37900    39700    40400    44400M   61700
+                              74900
+        *IN97       A(1)      73600M
+        *IN98       A(1)      14600M   18100M   73900M N000011D
+        *IN99       A(1)      16900    24900    27400    72500M O000001D
+        AA          Z(2,0)     8100D   62400M   62600    64900M   65100
+                              69000M   69100
+* 7031  ACAVVB      A(1)    A000120D
+* 7031  ACBRAN      A(3)    A000102D
+* 7031  ACCANI      P(7,2)  A000133D
+* 7031  ACCAP       A(5)    A000012D
+* 7031  ACCBLO      A(6)    A000097D
+* 7031  ACCDIS      A(3)    A000130D
+* 7031  ACCDIV      A(3)    A000109D
+* 7031  ACCED       P(5,0)  A000008D
+* 7031  ACCERT      P(7,2)  A000135D
+* 7031  ACCIVI      A(15)   A000148D
+* 7031  ACCNTZ      A(1)    A000026D
+* 7031  ACDASA      P(2,0)  A000035D
+* 7031  ACDASG      P(2,0)  A000037D
+* 7031  ACDASM      P(2,0)  A000036D
+* 7031  ACDASS      P(2,0)  A000034D
+* 7031  ACDCON      P(8,0)  A000028D
+* 7031  ACDECO      P(8,0)  A000127D
+* 7031  ACDEXA      P(2,0)  A000039D
+* 7031  ACDEXG      P(2,0)  A000041D
+* 7031  ACDEXM      P(2,0)  A000040D
+* 7031  ACDEXS      P(2,0)  A000038D
+* 7031  ACDFT2      P(8,0)  A000123D
+* 7031  ACDINS      P(8,0)  A000006D
+* 7031  ACDMCA      P(2,0)  A000111D
+* 7031  ACDMCG      P(2,0)  A000113D
+* 7031  ACDMCM      P(2,0)  A000112D
+* 7031  ACDMCS      P(2,0)  A000110D
+* 7031  ACDM01      A(2)    A000049D
+* 7031  ACDM02      A(2)    A000050D
+* 7031  ACDM03      A(2)    A000051D
+* 7031  ACDM04      A(2)    A000052D
+* 7031  ACDM05      A(2)    A000053D
+* 7031  ACDM06      A(2)    A000054D
+* 7031  ACDM07      A(2)    A000055D
+* 7031  ACDM08      A(2)    A000056D
+* 7031  ACDM09      A(2)    A000057D
+* 7031  ACDM10      A(2)    A000058D
+* 7031  ACDM11      A(2)    A000059D
+* 7031  ACDM12      A(2)    A000060D
+* 7031  ACDM13      A(2)    A000061D
+* 7031  ACDM14      A(2)    A000062D
+* 7031  ACDM15      A(2)    A000063D
+* 7031  ACDM16      A(2)    A000064D
+* 7031  ACDM17      A(2)    A000065D
+* 7031  ACDM18      A(2)    A000066D
+* 7031  ACDM19      A(2)    A000067D
+* 7031  ACDM20      A(2)    A000068D
+* 7031  ACDRCA      P(2,0)  A000030D
+* 7031  ACDRCG      P(2,0)  A000032D
+* 7031  ACDRCM      P(2,0)  A000031D
+* 7031  ACDRCS      P(2,0)  A000029D
+* 7031  ACDSTA      P(2,0)  A000043D
+* 7031  ACDSTG      P(2,0)  A000045D
+* 7031  ACDSTM      P(2,0)  A000044D
+* 7031  ACDSTS      P(2,0)  A000042D
+* 7031  ACDTFS      P(8,0)  A000126D
+* 7031  ACDTW1      P(8,0)  A000149D
+* 7031  ACDTW2      P(8,0)  A000150D
+* 7031  ACDUPD      P(8,0)  A000007D
+* 7031  ACEVI       A(2)    A000025D
+* 7031  ACFACT      A(5)    A000016D
+* 7031  ACFCFC      A(1)    A000124D
+* 7031  ACFGRD      A(4)    A000021D
+* 7031  ACFIL       A(1)    A000023D
+* 7031  ACFISC      A(16)   A000019D
+* 7031  ACFLAG      A(1)    A000002D
+* 7031  ACFLEM      A(1)    A000033D
+* 7031  ACFMCH      A(1)    A000143D
+* 7031  ACFSOF      A(1)    A000027D
+* 7031  ACGAR       A(2)    A000046D
+* 7031  ACGAR2      A(2)    A000047D
+* 7031  ACGAR3      A(2)    A000048D
+* 7031  ACGGDL      P(3,0)  A000115D
+* 7031  ACGGVB      P(3,0)  A000118D
+* 7031  ACGRP       A(3)    A000101D
+* 7031  ACGSIC      P(3,0)  A000116D
+* 7031  ACGVAL      P(3,0)  A000114D
+* 7031  ACIFPT      P(9,0)  A000121D
+* 7031  ACIMGR      A(1)    A000096D
+* 7031  ACINCO      P(7,2)  A000136D
+* 7031  ACIND       A(30)   A000011D
+* 7031  ACINDI      A(30)   A000147D
+* 7031  ACIPFU      P(9,0)  A000122D
+* 7031  ACLANG      A(2)    A000128D
+* 7031  ACLIQ       A(1)    A000117D
+* 7031  ACLOC       A(25)   A000013D
+* 7031  ACLOCK      A(1)    A000004D
+* 7031  ACMAIL      A(50)   A000129D
+* 7031  ACMCVB      A(2)    A000119D
+* 7031  ACNAZ       A(3)    A000015D
+* 7031  ACNAZN      P(9,0)  A000003D
+* 7031  ACNCCG      A(1)    A000146D
+* 7031  ACNOT1      A(35)   A000091D
+* 7031  ACNOT2      A(35)   A000092D
+* 7031  ACNOT3      A(35)   A000093D
+* 7031  ACNOT4      A(35)   A000094D
+* 7031  ACNOT5      A(35)   A000095D
+* 7031  ACNREC      P(9,0)  A000005D
+* 7031  ACNRFS      P(5,0)  A000125D
+* 7031  ACPEC       A(100)  A000144D
+* 7031  ACPERB      A(20)   A000071D
+* 7031  ACPERI      P(2,0)  A000134D
+* 7031  ACPIVA      P(11,0) A000020D
+* 7031  ACPRE       P(5,0)  A000083D
+* 7031  ACPROV      A(2)    A000014D
+* 7031  ACPUMA      A(100)  A000145D
+* 7031  ACRAMO      A(4)    A000017D
+* 7031  ACRAPB      A(3)    A000072D
+        ACRAS       A(35)   A000009D   75000    75200
+        ACRAS2      A(35)   A000010D   75100
+* 7031  ACRIVA      A(2)    A000022D
+* 7031  ACRSR       A(10)   A000018D
+* 7031  ACSCHI      P(8,2)  A000106D
+* 7031  ACSDIN      P(7,2)  A000132D
+* 7031  ACSDPR      P(8,2)  A000108D
+* 7031  ACSEO       A(1)    A000024D
+* 7031  ACSETE      A(3)    A000099D
+* 7031  ACSFAX      P(7,2)  A000137D
+* 7031  ACSGRP      A(3)    A000098D
+* 7031  ACSIDE      P(9,2)  A000141D
+* 7031  ACSIDI      P(9,2)  A000140D
+* 7031  ACSIDX      P(9,2)  A000142D
+* 7031  ACSPCB      A(1)    A000088D
+* 7031  ACSPCD      P(8,2)  A000105D
+* 7031  ACSPCR      A(1)    A000085D
+* 7031  ACSPEC      A(1)    A000086D
+* 7031  ACSPID      P(9,2)  A000104D
+* 7031  ACSPIF      P(9,2)  A000103D
+* 7031  ACSPMC      A(1)    A000131D
+* 7031  ACSPSC      A(1)    A000087D
+* 7031  ACSPWE      A(1)    A000084D
+* 7031  ACSPW1      A(1)    A000089D
+* 7031  ACSPW2      A(1)    A000090D
+* 7031  ACSRIS      P(8,2)  A000107D
+* 7031  ACSSET      A(3)    A000100D
+* 7031  ACTELB      A(16)   A000069D
+* 7031  ACTEXB      A(16)   A000070D
+* 7031  ACTREC      A(3)    A000001D
+* 7031  ACUINS      A(6)    A000138D
+* 7031  ACUUPD      A(6)    A000139D
+* 7031  ACWRK0      A(1)    A000082D
+* 7031  ACWRK1      A(1)    A000073D
+* 7031  ACWRK2      A(1)    A000074D
+* 7031  ACWRK3      A(1)    A000075D
+* 7031  ACWRK4      A(1)    A000076D
+* 7031  ACWRK5      A(1)    A000077D
+* 7031  ACWRK6      A(1)    A000078D
+* 7031  ACWRK7      A(1)    A000079D
+* 7031  ACWRK8      A(1)    A000080D
+* 7031  ACWRK9      A(1)    A000081D
+        BLK002      BEGSR     59600    63600D
+        CARSC2      BEGSR     59900    61400D
+        CDE(30)     A(60)      5700D   10800    26500M
+          CDE,X1              72200M
+        CHKAPP      BEGSR     32700    35300    37800    40300    61600
+                              75900D
+        CHKCED      BEGSR     22100    32000    34600    37100    39600
+                              74600D
+        CID(30)     A(7)       5800D   10700    26600M
+          CID,X1              72000M
+        CKCMD1      BEGSR     16300    20800D
+        CKCMD2      BEGSR     19100    23200D
+        CLRSCR      BEGSR     14700    19900    24500    70500D
+        CONTRL      BEGSR     16700    19400    26100D
+        CONTR1      BEGSR     26900    28200D
+        CONTR2      BEGSR     27100    42300D
+* 7031  COST        A(8)       7000D
+* 7031  DATA        Z(6,0)     7800D
+        DECODE      BEGSR     27500    73100D
+* 7031  DESC1       A(30)      7500D
+* 7031  DESC2       A(50)      7600D
+        DSDESC      A(80)      7400D   45600M
+        ECCAP       A(5)    J000004D   43800M   44200
+* 7031  ECCDCA      A(4)    J000006D
+        ECCDPR      A(2)    J000008D   45000
+* 7031  ECCODI      Z(6,0)  J000005D
+        ECLOCA      A(40)   J000009D   43900M   45300
+        ECPROV      A(35)   J000007D   45100
+        ECRTNC      A(1)    J000001D   44300
+* 7031  ECTIPO      A(1)    J000003D
+        ECTOPO      A(75)   J000010D   45600
+* 7031  ECTORD      A(1)    J000002D
+        EPCMNI      DS(170)    6700D   43700M   44100
+        EXECT1      BEGSR     58400    59300D
+        EXECT2      BEGSR     58600    65900D
+        EXECUT      BEGSR     17100    19600    58100D
+        GG          Z(2,0)     7900D   62500M   62700    65000M   65200
+                              68900M   69200
+        HOUSEK      BEGSR     12900    14400D
+* 7031  KBUFF       A(8)    I000046D
+* 7031  KCANC       A(1)    I000038D
+* 7031  KCDAZ       A(4)    I000013D
+* 7031  KCDJD       A(2)    I000022D
+* 7031  KCDRC       A(1)    I000015D
+* 7031  KCOAZ       A(4)    I000028D
+* 7031  KCOJB       A(2)    I000034D
+        KCSOC       A(6)       6600D   49200
+* 7031  KDTJB       A(6)    I000042D
+* 7031  KEXCN       A(1)    I000027D
+        KEYANA      KLIST     11100D   74800
+        KEYAPP      KLIST     11400D   76100
+* 7031  KFIER       A(30)   I000037D
+* 7031  KFLAD       A(1)    I000029D
+* 7031  KFLMS       A(1)    I000011D
+* 7031  KFLRC       A(1)    I000006D
+* 7031  KFSLG       A(1)    I000040D
+* 7031  KGRAZ       A(3)    I000039D
+* 7031  KJOST       A(1)    I000032D
+* 7031  KJRLB       A(10)   I000044D
+* 7031  KJRNM       A(10)   I000043D
+* 7031  KKEYF       Z(5,0)  I000025D
+* 7031  KMDST       A(10)   I000036D
+* 7031  KMSMN       A(7)    I000008D
+* 7031  KNMCP       A(2)    I000031D
+* 7031  KNMEB       A(10)   I000018D
+* 7031  KNMSB       Z(3,0)  I000019D
+* 7031  KNMTD       A(10)   I000005D
+        KNMUS       A(10)   I000001D M000005D N000013D
+* 7031  KNRAZ       Z(9,0)  I000003D
+* 7031  KNRJO       A(6)    I000009D
+* 7031  KNRRB       A(2)    I000020D
+* 7031  KNRVJ       Z(9,0)  I000007D
+        KNSIF       A(9)    I000021D M000004D N000012D
+        KPJBA       DS(502)    6400D   10300    10600    12700
+* 7031  KPJBU       A(256)  I000047D
+* 7031  KQEBI       A(7)    I000035D
+* 7031  KQIEB       A(7)    I000023D
+* 7031  KQOFR       A(10)   I000024D
+* 7031  KQOPR       A(10)   I000030D
+* 7031  KQOTD       A(10)   I000017D
+* 7031  KRCDS       Z(5,0)  I000026D
+* 7031  KRITB       A(1)    I000045D
+* 7031  KSTEB       A(1)    I000033D
+* 7031  KSTJO       A(1)    I000010D
+* 7031  KTMIN       Z(6,0)  I000012D
+* 7031  KTPAZ       A(1)    I000014D
+* 7031  KTPFN       A(1)    I000016D
+* 7031  KTPRF       A(3)    I000002D
+* 7031  KTPWS       A(1)    I000041D
+* 7031  KTSIF       A(3)    I000004D
+        LOKSUF      BEGSR     33300    76700D
+* 7031  MM          Z(2,0)     8000D
+        MSG(5)      A(21)      6000D
+          MSG,1               31900
+          MSG,2               34500
+          MSG,3               37000
+          MSG,4               39500
+          MSG,5               60100
+        MTDESC      A(113)  B000005D   50700
+* 7031  MTFLAG      A(1)    B000001D
+        MTKEY       KLIST     11800D   50600
+        MTKEYA      A(3)    B000003D   11900    50300M
+        MTKEYB      A(9)    B000004D   12000    50400M   50500M
+* 7031  MTTREC      A(2)    B000002D
+        PCCAP       A(5)    C000009D   62000    67500M L000009D
+        PCCED       P(5,0)  C000006D   67100M L000006D
+        PCDINS      P(6,0)  C000004D   66600M L000004D
+        PCDUPD      P(6,0)  C000005D   62300    68800M   68900    69100M
+                              69200M L000005D
+        PCFLAG      A(1)    C000002D   35900    38400    40900    62800
+                              66400M   68200M   68600M L000002D
+        PCIND       A(30)   C000008D   61800    67300M L000008D
+        PCIND2      A(30)   C000013D   61900    67400M L000013D
+        PCLOC       A(25)   C000010D   62100    67600M L000010D
+        PCLOCK      A(1)    C000003D   66500M L000003D
+        PCNAZ       A(3)    C000012D   62900    67800M L000012D
+        PCPROV      A(2)    C000011D   62200    67700M L000011D
+        PCSUFF      A(1)    C000007D   67200M L000007D
+        PCTREC      A(3)    C000001D   66300M L000001D
+        PCUINS      A(6)    C000014D L000014D
+        PCUUPD      A(6)    C000015D L000015D
+* 7031  PLIST1      PLIST     10200D
+        PLIST2      PLIST     10500D   73300M
+        PTFLAG      A(1)      49600    57100D   57600
+        PTKEYP      A(3)      49300D   57400
+        PTKEYT      A(9)      49900    57000D   57500
+        PTSOC       A(14)     49200D   57300
+        REGERR      BEGSR     28900    29900    30500    31100    32400
+                              33100    33700    35000    35700    36200
+                              37500    38200    38700    40000    40700
+                              41200    43400    44700    46900    47500
+                              48200    48700    51200    51800    52600
+                              53800    54300    55400    55900    71600D
+        RUNSC1      BEGSR     13600    15300D
+        RUNSC2      BEGSR     13700    18000D
+* 7031  R2INT       A(14)      6900D
+        R9B25       BEGSR     49400    56800D
+* 7031  SGIBAN      A(1)    K000006D
+        SGL         DS(113)    7200D   50700M
+* 7031  SGLAAI      Z(2,0)  K000004D
+* 7031  SGLAPP      A(1)    K000010D
+* 7031  SGLARE      A(3)    K000011D
+* 7031  SGLBGR      A(1)    K000007D
+* 7031  SGLCTL      A(1)    K000016D
+* 7031  SGLDFD      Z(8,0)  K000015D
+* 7031  SGLDID      Z(8,0)  K000014D
+* 7031  SGLDIV      A(3)    K000008D
+* 7031  SGLFES      A(1)    K000009D
+* 7031  SGLFL2      A(35)   K000024D
+* 7031  SGLISO      A(3)    K000017D
+* 7031  SGLIS2      A(2)    K000019D
+* 7031  SGLMAX      Z(2,0)  K000023D
+* 7031  SGLMER      A(2)    K000002D
+* 7031  SGLMIN      Z(2,0)  K000022D
+        SGLNAZ      A(30)   K000001D   50800
+* 7031  SGLPNC      A(1)    K000013D
+* 7031  SGLPVA      A(2)    K000020D
+* 7031  SGLRES      A(1)    K000003D
+* 7031  SGLSEP      A(1)    K000018D
+* 7031  SGLTPV      A(1)    K000021D
+* 7031  SGLUME      A(1)    K000012D
+* 7031  SGLZTP      A(1)    K000005D
+* 7031  SOCI        A(6)       7100D
+        SUF(10)     A(1)       5900D
+          SUF,X               77000
+        UDATE       P(6,0)    64800    66600
+        UVANNU      A(21)     59700M   60100M   60300M   64600M N000020D
+        UVANRI      A(1)    E000002D   53500    54000    55100    55600
+                              62800M   63800M   68200    68600  N000021D
+        UVCAP       A(5)    E000004D   43100    43800    44200M   51600
+                              52400    62000M   64100M   67500  N000023D
+        UVCEDE      P(5,0)  D000004D   11200    11500    30200    31500
+                              67100    70800M M000007D N000015D
+        UVDECE      A(35)     71000M   75200M M000008D
+        UVDECO      A(15)     31800M   31900M   34400M   34500M   36900M
+                              37000M   39400M   39500M N000014D
+        UVDEPR      A(15)     45100M   46400M   64700M N000026D
+        UVDNAZ      A(30)     50800M   64500M N000027D
+        UVDTMA      P(6,0)    62300M   62400    62500    62600M   62700M
+                              64800M   64900    65000    65100M   65200M
+                              68800    69000  N000019D
+        UVINAL      A(30)   E000003D   45500    46600    61800M   63900M
+                              67300  N000022D
+        UVINA2      A(30)   E000008D   61900M   64000M   67400  N000029D
+        UVLOC       A(25)   E000005D   43900    45300M   47200    62100M
+                              64200M   67600  N000024D
+* 7031  UVMSGK      A(4)    F000002D
+        UVNAZ       A(3)    E000007D   43000    46200    47900    48400
+                              49000    49700M   49900M   50500    51500
+                              52300    62900M   64400M   67800  N000028D
+        UVNONE      A(1)    P000001D
+        UVPROV      A(2)    E000006D   45000M   46300M   47800    62200M
+                              64300M   67700  N000025D
+        UVRAS       A(35)     75000M N000016D
+        UVRAS1      A(35)     75100M N000017D
+        UVSCEL      A(1)    D000003D   28600    29200    29300    29400
+                              29500    29600    31400    31600    34200
+                              36700    39200    70700M M000006D
+        UVSFLQ      A(10)   F000003D G000002D   15700M   18500M O000002D
+        UVSUFF      A(1)    D000005D   11600    30800    67200    70900M
+                              77000  M000009D N000018D
+        WSA1        A(1)      49000D   49100
+        WSCDER      A(60)      9100D   72200    72300M
+        WSFUNC      A(1)       9300D   19500    19800M   21000M   21600M
+                              23400M   24100M   25100M   74000M
+        WSMSID      A(7)       9200D   28800M   29800M   30400M   31000M
+                              32300M   33000M   33600M   34900M   35600M
+                              36100M   37400M   38100M   38600M   39900M
+                              40600M   41100M   43300M   44600M   46800M
+                              47400M   48100M   48600M   51000M   51700M
+                              52500M   53700M   54200M   55300M   55800M
+                              72000    72100M
+        WSNMAP      P(2,0)     9400D   13500    13600    13700    15500
+                              16500    18300    19300    19700M   21700M
+                              22200M   24200M   26900    27100    58400
+                              58600    60700M
+        WSSLVL      P(2,0)     9500D   10900    73500
+        WSSTOF      A(20)      9000D   26400
+        WSZERO      A(40)      8900D
+        X           P(1,0)    76900D   77000M
+        X1          P(2,0)     9600D   26700M   71800    71900M   72000
+                              72200
+        *ALL        LITERAL    8900     9000
+        *BLANK      LITERAL    9300    45500    57100
+        *BLANKS     LITERAL    9100     9200    26500    26600    28600
+                              29200    30800    31400    31800    34400
+                              36900    39400    43100    46300    46400
+                              46600    47200    47800    48400    49700
+                              53500    55100    57000    59700    60300
+                              63800    63900    64000    64100    64200
+                              64300    64400    64500    64600    64700
+                              70700    70900    71000    72100    72300
+        *ZEROS      LITERAL   30200    31500    50400    51600    52400
+        ' '         LITERAL   19800    21600    24100    66500    74000
+        '*       '  LITERAL   15700    18500
+        '?'         LITERAL   49100
+        'A'         LITERAL   35900    38400    54000
+        'BCT800'    LITERAL   44000
+        'C'         LITERAL   21000    23400
+        'DCER01'    LITERAL   73300
+        'E'         LITERAL   19500    25100
+        'PC1'       LITERAL   66300
+        'SGL'       LITERAL   49300    50300
+        'SYS0001'   LITERAL   29800    53700    55300
+        'SYS0006'   LITERAL   28800    30400    31000    43300    46800
+                              47400    48100    48600
+        'SYS1092'   LITERAL   32300    34900    37400    39900
+        'SYS1223'   LITERAL   44600
+        'SYS1902'   LITERAL   33000
+        'SYS1903'   LITERAL   35600    38100    40600
+        'SYS1904'   LITERAL   36100    38600
+        'SYS1905'   LITERAL   41100
+        'SYS1906'   LITERAL   33600
+        'SYS1907'   LITERAL   54200
+        'SYS1908'   LITERAL   55800
+        'SYS2900'   LITERAL   51000
+        'SYS2901'   LITERAL   51700    52500
+        'TRA120'    LITERAL   57200
+        'V'         LITERAL   40900    55600    66400
+        '0'         LITERAL   16900    17000    22500    24900    25400
+                              32800    33400    61700    74900
+        '000'       LITERAL   24300
+        '0000'      LITERAL   24400    28400
+        '000000'    LITERAL   60800
+        '086'       LITERAL   43000    46200    47900    51500    52300
+        '1'         LITERAL   14000    14600    18100    21200    21400
+                              21900    23600    23800    24800    27400
+                              28700    29300    29700    30300    30900
+                              31600    31700    32100    32200    33500
+                              34300    34700    34800    35400    36800
+                              37200    37300    37900    39300    39700
+                              39800    40400    42500    42600    43200
+                              44300    44400    44500    46700    47300
+                              48000    48500    49600    50900    51100
+                              51900    52000    52700    52800    53300
+                              53600    54100    54900    55200    55700
+                              56900    59500    60000    65300    66200
+                              66900    67000    68100    68500    69500
+                              72500    73600    73900
+        '11'        LITERAL   32900    35500    36000    38000    38500
+                              40500    41000
+        '2'         LITERAL   29400    34200
+        '3'         LITERAL   29500    36700
+        '4'         LITERAL   29600    39200
+        0           LITERAL    8900     9000     9500     9600    26700
+                              70800
+        1           LITERAL    9400    13600    15500    16500    19700
+                              22200    24200    26900    31900    58400
+                              60700    71900    76900
+        2           LITERAL   13700    18300    19300    27100    34500
+                              58600
+        3           LITERAL   37000
+        30          LITERAL   71800
+        4           LITERAL   39500
+        5           LITERAL   60100
+        60          LITERAL   73500
+        99          LITERAL   13500    21700
+ Riferimenti indicatori:
+        INDICATORE RIFERIMENTI (M=MODIFICATO D=DEFINITO)
+        *IN        D000001  D000002  E000001  F000001  G000001  H000001
+                     14600M   16900    18100M   21200    22500M   23600
+                     24300M   24400M   24900    25400M   26400M   27400
+                     28400M   28700M   29700M   30300M   30900M   31700M
+                     32100    32200M   32800    32900M   33400    33500M
+                     34300M   34700    34800M   35400    35500M   36000M
+                     36800M   37200    37300M   37900    38000M   38500M
+                     39300M   39700    39800M   40400    40500M   41000M
+                     42500    42600    43200M   44400M   44500M   46700M
+                     47300M   48000M   48500M   50900    51100M   51900M
+                     52000M   52700M   52800M   53300    53600M   54100M
+                     54900    55200M   55700M   56900M   59500    60000
+                     60800M   61700    65300M   66200    66900    67000
+                     68100    68500    69500    72500M   73600M   73900M
+                     74900  M000001D M000002D M000003D N000001D N000002D
+                   N000003D N000004D N000005D N000006D N000007D N000008D
+                   N000009D N000010D N000011D O000001D
+        KA           21400
+        KB           23800
+        KC           24800
+        KH           17000    21900
+        LR           14000M
+        01           24400M   28400M   31700M   42500    59500    66200
+                     66900    69500  N000001D
+        02           24400M   28400M   34300M   42600    67000  N000002D
+        03           24400M   28400M   36800M   53300    68100  N000003D
+        04           24400M   28400M   39300M   54900    60000    68500
+                   N000004D
+        06           65300M
+* 7031  08         D000001
+        10         D000002  E000001  F000001  G000001  H000001    21200
+                     22500M   23600    25400M
+        11           50600M   50700    50800    50900
+        15           33400    77000M
+        30           24300M   26400M   28700M   29700M   53600M   54100M
+                     55200M   55700M   60800M M000001D N000005D
+        31           24300M   26400M   30300M   32200M   32900M   34800M
+                     35500M   36000M   37300M   38000M   38500M   39800M
+                     40500M   41000M   46700M   60800M M000002D N000006D
+        32           24300M   26400M   30900M   32900M   33500M   35500M
+                     36000M   38000M   38500M   40500M   41000M   43200M
+                     44500M   51900M   52700M   60800M M000003D N000007D
+        33           26400M   47300M   60800M N000008D
+        34           26400M   48000M   60800M N000009D
+        35           26400M   48500M   51100M   52000M   52800M   60800M
+                   N000010D
+        36           26400M
+        37           26400M
+        38           26400M
+        39           26400M
+        40           26400M
+        41           26400M
+        42           26400M
+        43           26400M
+        44           26400M
+        45           26400M
+        46           26400M
+        47           26400M
+        48           26400M
+        49           26400M
+        53           56900M
+        90           32100    32800    34700    35400    37200    37900
+                     39700    40400    44400M   61700    74800M   74900
+                     76100M
+        97           26300M   73600M
+        98           14600M   18100M   26300M   73900M N000011D
+        99           15800    15900    16900    18600    18700    23900M
+                     24900    26300M   27400    72500M O000001D
+      * * *  F I N E  R I F E R I M E N T I  I N C R O C I A T I  * * *
+                     R i e p i l o g o    M e s s a g g i
+* QRG7031 Gravità:  00   Numero:  233
+          Messaggio . . . :   Nessun riferimento al nome o all'indicatore.
+      * * * * * F I N E   R I E P I L O G O   M E S S A G G I * * * * *
+                       R i e p i l o g o    F i n a l e
+ Conteggio messaggi:  (per numero di gravità)
+            TOTALE   00     10     20     30     40     50
+            233     233      0      0      0      0      0
+ Totali del programma origine:
+    Record  . . . . . . . . . . :   790
+    Specifiche  . . . . . . :   523
+    Record tabelle . . . . . . . :   15
+    Commenti  . . . . . . . . . :   245
+ E' stato richiamato il PRM.
+ Il programma TRA011 posto nella libreria QTEMP. 00 è il livello di gravità massimo. Creato il 13/12/17 alle 14:20:55.
+          * * * * *   F I N E  C O M P I L A Z I O N E    * * * * *

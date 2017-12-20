@@ -1,0 +1,254 @@
+ Programma . . . . . . . . . . . . . . . . . . :   TCA151
+   Libreria . . . . . . . . . . . . . . . .    :     QTEMP
+ File origine  . . . . . . . . . . . . . . . . :   QCLSRC
+   Libreria . . . . . . . . . . . . . . . .    :     SRCFAC
+ Nome membro origine . . . . . . . . . . . . . :   TCA151   04/11/15 14:54:12
+ Opzioni stampa origine  . . . . . . . . . . . :   *SOURCE  *XREF  *GEN  *NOSECLVL  *NOSRCDBG  *NOLSTDBG
+ Opzioni di generazione del programma  . . . . :   *NOLIST  *NOXREF  *NOPATCH
+ Profilo utente  . . . . . . . . . . . . . . . :   *USER
+ Registrazione programma . . . . . . . . . . . :   *JOB
+ Comando RTVCLSRC consentito . . . . . . . . . :   *YES
+ Sostituzione programma . . . . . . . . . .  . :   *NO
+ Release di destinazione . . . . . . . . . . . :   V6R1M0
+ Autorizzazione . . . . . . . . . . . . . .  . :   *LIBCRTAUT
+ Sequenza di ordin.  . . . . . . . . . . . . . :   *HEX
+ Identificativo lingua . . . . . . . . . . . . :   *JOBRUN
+ Testo  . . . . . . . . . . . . . . . . .    . :   Aggiornamento Anagrafe Fidi
+ Compilatore . . . . . . . . . . . . . . . . . :   IBM Control Language Compiler
+                                      Origine linguaggio di controllo
+ NUMSEQ  *...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8 ...+... 9 ...+.  DATA
+    100- /**        20150081    LESENR      04/11/2015  14:33:31                      **/                 04/11/15
+    200- /** LR01   EDP200S1    RICLUI      21/06/2012  12:35:28                      **/                 21/06/12
+    300- /** AE     EDP150S2    EMMAND      22/04/2009  10:36:44                      **/                 22/04/09
+    400- /** AE016  EDP150S1    EMMAND      06/11/2007  13:27:14                      **/                 06/11/07
+    500- /** AE016  EDP150S2    EMMAND      08/10/2007  10:49:01                      **/                 08/10/07
+    600- /**        EDP380S2    DARDIG      18/07/2007  17:04:53                      **/                 18/07/07
+    700- /** AE016  EDP150S2    EMMAND      07/06/2007  10:43:30                      **/                 07/06/07
+    800- /******************************************************************************/                 10/05/06
+    900- /* AE016   NUOVA VERSIONE DEL PROGRAMMA TCA151 DI GESTIONE ANAGRAFE FIDI      */                 10/05/06
+   1000- /******************************************************************************/                 10/05/06
+   1100-                                                                                                  10/05/06
+   1200-              PGM        PARM(&KPJBA)
+   1300-                                                                                                  10/05/06
+   1400- /* ---------------------------------------------------------------------------*/                 10/05/06
+   1500-                                                                                                  10/05/06
+   1600-              DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)                                         15/02/88
+   1700-              DCL        VAR(&RGZPFM) TYPE(*CHAR) LEN(1) VALUE('N')                               15/05/06
+   1800-                                                                                                  11/05/06
+   1900- /* Gestione fidi (Solo 1° videata)--------------------------------------------*/                 11/05/06
+   2000-                                                                                                  11/05/06
+   2100-  VIDEO01:                                                                                        11/05/06
+   2200-                                                                                                  15/05/06
+   2300-              CHGVAR     VAR(%SST(&KPJBA 247 1)) VALUE(' ')                                       15/05/06
+   2400-                                                                                                  11/05/06
+   2500-                                                                                                  12/05/06
+   2600-           /* ----------------------------------------- */                                        16/05/06
+   2700-              CALL       PGM(*LIBL/TRA151) PARM(&KPJBA)                                           16/05/06
+   2800-           /* ----------------------------------------- */                                        16/05/06
+   2900-                                                                                                  11/05/06
+   3000-                                                                                                  11/05/06
+   3100-              IF         COND(%SST(&KPJBA 248 1) *LE '1') THEN(GOTO +                             11/05/06
+   3200                            CMDLBL(LASTOPERAZ))                                                    15/05/06
+   3300-                                                                                                  15/02/88
+   3400- /* Creazione dei file di lavoro ----------------------------------------------*/                 10/05/06
+   3500-                                                                                                  11/05/06
+   3600-              DLTF       FILE(QTEMP/WANFID*)                                                      11/05/06
+   3700-              MONMSG     MSGID(CPF0000)                                                           11/05/06
+   3800-              KCDO       OBJ(WANFID0F) OBJTYPE(*PF)                                               11/05/06
+   3900-                                                                                                  11/05/06
+   4000-              DLTF       FILE(QTEMP/WANFI2*)                                                      11/05/06
+   4100-              MONMSG     MSGID(CPF0000)                                                           11/05/06
+   4200-              KCDO       OBJ(WANFI20F) OBJTYPE(*PF)                                               11/05/06
+   4300-                                                                                                  12/05/06
+   4400-              DLTF       FILE(QTEMP/WANFI3*)                                                      12/05/06
+   4500-              MONMSG     MSGID(CPF0000)                                                           12/05/06
+   4600-              KCDO       OBJ(WANFI30F) OBJTYPE(*PF)                                               12/05/06
+   4700-                                                                                                  07/07/06
+   4800-              DLTF       FILE(QTEMP/WPIFID*)                                                      07/07/06
+   4900-              MONMSG     MSGID(CPF0000)                                                           07/07/06
+   5000-              KCDO       OBJ(WPIFID0F) OBJTYPE(*PF)                                               07/07/06
+   5100-                                                                                                  11/05/06
+   5200-              DLTF       FILE(QTEMP/WLOGSC*)                                                      13/09/06
+   5300-              MONMSG     MSGID(CPF0000)                                                           13/09/06
+   5400-              KCDO       OBJ(WLOGSC0F) OBJTYPE(*PF)                                               13/09/06
+   5500- /* AE016 */                                                                                      07/06/07
+   5600- /* AE016 */  DLTF       FILE(QTEMP/WFICHG*)                                                      07/06/07
+   5700- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           07/06/07
+   5800- /* AE016 */  KCDO       OBJ(WFICHG0F) OBJTYPE(*PF)                                               07/06/07
+   5900- /* LR01  */                                                                                      21/06/12
+   6000- /* LR01  */  DLTF       FILE(QTEMP/WCLFID*)                                                      21/06/12
+   6100- /* LR01  */  MONMSG     MSGID(CPF0000)                                                           21/06/12
+   6200- /* LR01  */  KCDO       OBJ(WCLFID0F) OBJTYPE(*PF)                                               21/06/12
+   6300-                                                                                                  13/09/06
+   6400- /* Copia dati dai file effettivi ai file di lavoro ---------------------------*/                 11/05/06
+   6500-                                                                                                  12/05/06
+   6600-              IF         COND(%SST(&KPJBA 247 1) *EQ '2') THEN(DO)                                12/05/06
+   6700-                                                                                                  12/05/06
+   6800-                                                                                                  12/05/06
+   6900-           /* ----------------------------------------- */                                        12/05/06
+   7000-              CALL       PGM(*LIBL/TRA150) PARM(&KPJBA)                                           12/05/06
+   7100-           /* ----------------------------------------- */                                        12/05/06
+   7200-                                                                                                  12/05/06
+   7300-                                                                                                  12/05/06
+   7400-              ENDDO                                                                               12/05/06
+   7500-                                                                                                  12/05/06
+   7600- /* Reindirizzamento file di lavoro -------------------------------------------*/                 11/05/06
+   7700-                                                                                                  11/05/06
+   7800-              OVRDBF     FILE(ANAFID0F) TOFILE(WANFID0F)                                          12/05/06
+   7900-              OVRDBF     FILE(ANAFID2L) TOFILE(WANFID2L)                                          12/05/06
+   8000-              OVRDBF     FILE(ANAFID3L) TOFILE(WANFID3L)                                          12/05/06
+   8100-              OVRDBF     FILE(ANAFID4L) TOFILE(WANFID4L)                                          12/05/06
+   8200-              OVRDBF     FILE(ANAFID5L) TOFILE(WANFID5L)                                          12/05/06
+   8300-              OVRDBF     FILE(ANAFID6L) TOFILE(WANFID6L)                                          12/05/06
+   8400-                                                                                                  12/05/06
+   8500-              OVRDBF     FILE(ANAFI20F) TOFILE(WANFI20F)                                          12/05/06
+   8600-              OVRDBF     FILE(ANAFI22L) TOFILE(WANFI22L)                                          12/05/06
+   8700-                                                                                                  12/05/06
+   8800-              OVRDBF     FILE(ANAFI30F) TOFILE(WANFI30F)                                          12/05/06
+   8900- /* AE016     OVRDBF     FILE(ANAFI30L) TOFILE(WANFI30L)  */                                      08/10/07
+   9000-              OVRDBF     FILE(ANAFI31L) TOFILE(WANFI31L)                                          12/05/06
+   9100-              OVRDBF     FILE(ANAFI32L) TOFILE(WANFI32L)                                          12/05/06
+   9200-              OVRDBF     FILE(ANAFI33L) TOFILE(WANFI33L)                                          12/05/06
+   9300-                                                                                                  07/07/06
+   9400-              OVRDBF     FILE(PIAFID0F) TOFILE(WPIFID0F)                                          07/07/06
+   9500-              OVRDBF     FILE(PIAFID1L) TOFILE(WPIFID1L)                                          07/07/06
+   9600- /* AE    */  OVRDBF     FILE(PIAFID2L) TOFILE(WPIFID2L)                                          22/04/09
+   9700-                                                                                                  14/09/06
+   9800-              OVRDBF     FILE(LOGSCI0F) TOFILE(WLOGSC0F)                                          14/09/06
+   9900-              OVRDBF     FILE(LogSci01) TOFILE(WLogSc01)                                          04/11/15
+  10000-                                                                                                  21/06/12
+  10100- /* LR01 */   OVRDBF     FILE(CLAFID0F) TOFILE(WCLFID0F)                                          21/06/12
+  10200- /* LR01 */   OVRDBF     FILE(CLAFID2L) TOFILE(WCLFID2L)                                          21/06/12
+  10300- /* LR01 */   OVRDBF     FILE(CLAFID3L) TOFILE(WCLFID3L)                                          21/06/12
+  10400-                                                                                                  11/05/06
+  10500- /* Gestione fidi (Saltando la prima videata) ---------------------------------*/                 11/05/06
+  10600-                                                                                                  10/05/06
+  10700-                                                                                                  11/05/06
+  10800-           /* ----------------------------------------- */                                        11/05/06
+  10900-              CALL       PGM(*LIBL/TRA151) PARM(&KPJBA)                                           16/05/06
+  11000-           /* ----------------------------------------- */                                        11/05/06
+  11100-                                                                                                  11/05/06
+  11200-                                                                                                  11/05/06
+  11300- /* Rimozione reindirizzamento file di lavoro ---------------------------------*/                 11/05/06
+  11400-                                                                                                  11/05/06
+  11500-              DLTOVR     FILE(ANAFID0F)                                                           12/05/06
+  11600-              DLTOVR     FILE(ANAFID2L)                                                           12/05/06
+  11700-              DLTOVR     FILE(ANAFID3L)                                                           12/05/06
+  11800-              DLTOVR     FILE(ANAFID4L)                                                           12/05/06
+  11900-              DLTOVR     FILE(ANAFID5L)                                                           12/05/06
+  12000-              DLTOVR     FILE(ANAFID6L)                                                           12/05/06
+  12100-                                                                                                  12/05/06
+  12200-              DLTOVR     FILE(ANAFI20F)                                                           12/05/06
+  12300-              DLTOVR     FILE(ANAFI22L)                                                           12/05/06
+  12400-                                                                                                  12/05/06
+  12500-              DLTOVR     FILE(ANAFI30F)                                                           12/05/06
+  12600- /* AE016     DLTOVR     FILE(ANAFI30L)  */                                                       08/10/07
+  12700-              DLTOVR     FILE(ANAFI31L)                                                           12/05/06
+  12800-              DLTOVR     FILE(ANAFI32L)                                                           12/05/06
+  12900-              DLTOVR     FILE(ANAFI33L)                                                           12/05/06
+  13000-                                                                                                  07/07/06
+  13100-              DLTOVR     FILE(PIAFID0F)                                                           07/07/06
+  13200-              DLTOVR     FILE(PIAFID1L)                                                           07/07/06
+  13300- /* AE    */  DLTOVR     FILE(PIAFID2L)                                                           22/04/09
+  13400-                                                                                                  14/09/06
+  13500-              DLTOVR     FILE(LOGSCI0F)                                                           14/09/06
+  13600-              DLTOVR     FILE(LogSci01)                                                           04/11/15
+  13700-                                                                                                  21/06/12
+  13800- /* LR01 */   DLTOVR     FILE(CLAFID0F)                                                           21/06/12
+  13900- /* LR01 */   DLTOVR     FILE(CLAFID2L)                                                           21/06/12
+  14000- /* LR01 */   DLTOVR     FILE(CLAFID3L)                                                           21/06/12
+  14100-                                                                                                  11/05/06
+  14200- /* Copia dati dai file di lavoro ai file effettivi ---------------------------*/                 11/05/06
+  14300-                                                                                                  11/05/06
+  14400-                                                                                                  11/05/06
+  14500-           /* ----------------------------------------- */                                        11/05/06
+  14600-              CALL       PGM(*LIBL/TRA150) PARM(&KPJBA)                                           11/05/06
+  14700-           /* ----------------------------------------- */                                        11/05/06
+  14800-                                                                                                  15/05/06
+  14900-                                                                                                  17/05/06
+  15000-              IF         COND(%SST(&KPJBA 248 1) *EQ '3') THEN(DO)                                17/05/06
+  15100-              CHGVAR     VAR(&RGZPFM) VALUE('S')                                                  15/05/06
+  15200-              ENDDO                                                                               11/05/06
+  15300-                                                                                                  11/05/06
+  15400- /* Rimozione file di lavoro --------------------------------------------------*/                 11/05/06
+  15500-
+  15600-              DLTF       FILE(QTEMP/WANFID*)                                                      11/05/06
+  15700- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           06/11/07
+  15800-                                                                                                  11/05/06
+  15900-              DLTF       FILE(QTEMP/WANFI2*)                                                      11/05/06
+  16000- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           06/11/07
+  16100-                                                                                                  12/05/06
+  16200-              DLTF       FILE(QTEMP/WANFI3*)                                                      12/05/06
+  16300- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           06/11/07
+  16400-                                                                                                  07/07/06
+  16500-              DLTF       FILE(QTEMP/WPIFID*)                                                      07/07/06
+  16600- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           06/11/07
+  16700-                                                                                                  11/05/06
+  16800-              DLTF       FILE(QTEMP/WLOGSC*)                                                      13/09/06
+  16900- /* AE016 */  MONMSG     MSGID(CPF0000)                                                           06/11/07
+  17000- /* AE016 */                                                                                      07/06/07
+  17100- /* AE016 */  DLTF       FILE(QTEMP/WFICHG*)                                                      07/06/07
+  17200-                                                                                                  21/06/12
+  17300- /* LR01  */  DLTF       FILE(QTEMP/WCLFID*)                                                      21/06/12
+  17400- /* LR01  */  MONMSG     MSGID(CPF0000)                                                           21/06/12
+  17500-                                                                                                  13/09/06
+  17600- /* Ritorno alla prima videata se richiesto -----------------------------------*/                 11/05/06
+  17700-                                                                                                  11/05/06
+  17800-              IF         COND(%SST(&KPJBA 248 1) *NE '0') THEN(GOTO +                             12/05/06
+  17900                            CMDLBL(VIDEO01))                                                       12/05/06
+  18000-                                                                                                  15/05/06
+  18100- /* Esecuzione RGZPFM se effettuato aggiornamento file effettivi --------------*/                 15/05/06
+  18200-                                                                                                  15/05/06
+  18300-  LASTOPERAZ:                                                                                     15/05/06
+  18400-                                                                                                  15/05/06
+  18500- /*           IF         COND(&RGZPFM *EQ 'S') THEN(DO)                        */                 18/07/07
+  18600- /*                                                                            */                 18/07/07
+  18700- /* RGZ_1:      ALCOBJ     OBJ((ANAFID0F *FILE *EXCL)) WAIT(0)                 */                 18/07/07
+  18800- /*           MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(RGZ_2))               */                 18/07/07
+  18900- /*           RGZPFM     FILE(ANAFID0F)                                        */                 18/07/07
+  19000- /*           MONMSG     MSGID(CPF0000)                                        */                 18/07/07
+  19100- /*           DLCOBJ     OBJ((ANAFID0F *FILE *EXCL))                           */                 18/07/07
+  19200- /* RGZ_2:      ALCOBJ     OBJ((ANAFI20F *FILE *EXCL)) WAIT(0)                 */                 18/07/07
+  19300- /*           MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(RGZ_3))               */                 18/07/07
+  19400- /*           RGZPFM     FILE(ANAFI20F)                                        */                 18/07/07
+  19500- /*           MONMSG     MSGID(CPF0000)                                        */                 18/07/07
+  19600- /*           DLCOBJ     OBJ((ANAFI20F *FILE *EXCL))                           */                 18/07/07
+  19700- /* RGZ_3:      ALCOBJ     OBJ((ANAFI30F *FILE *EXCL)) WAIT(0)                 */                 18/07/07
+  19800- /*           MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(RGZ_4))               */                 18/07/07
+  19900- /*           RGZPFM     FILE(ANAFI30F)                                        */                 18/07/07
+  20000- /*           MONMSG     MSGID(CPF0000)                                        */                 18/07/07
+  20100- /*           DLCOBJ     OBJ((ANAFI30F *FILE *EXCL))                           */                 18/07/07
+  20200- /* RGZ_4:      ALCOBJ     OBJ((PIAFID0F *FILE *EXCL)) WAIT(0)                 */                 18/07/07
+  20300- /*           MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(RGZ_END))             */                 18/07/07
+  20400- /*           RGZPFM     FILE(PIAFID0F)                                        */                 18/07/07
+  20500- /*           MONMSG     MSGID(CPF0000)                                        */                 18/07/07
+  20600- /*           DLCOBJ     OBJ((PIAFID0F *FILE *EXCL))                           */                 18/07/07
+  20700- /* RGZ_END:                                                                   */                 18/07/07
+  20800- /*                                                                            */                 18/07/07
+  20900- /*           ENDDO                                                            */                 18/07/07
+  21000-                                                                                                  19/07/07
+  21100- /* ---------------------------------------------------------------------------*/                 11/05/06
+  21200-
+  21300-  ENDOFPGM:   ENDPGM                                                                              11/05/06
+                               * * * * * *  F I N E   O R I G I N E  * * * * * *
+                                          Riferimenti incrociati
+ Variabili dichiarate
+ Proprietar.                 Definito    Oggetto         Lunghezza   Riferimenti
+ &KPJBA                        1600      *CHAR             502          1200   2300   2700   3100   6600   7000  10900  14600  15000
+                                                                       17800
+ &RGZPFM                       1700      *CHAR               1         15100
+ Identificativi definiti
+ Identific.       Definito    Riferimenti
+ ENDOFPGM          21300
+ LASTOPERAZ        18300        3100
+ VIDEO01            2100       17800
+                     * * *  F I N E   R I F E R I M E N T I   I N C R O C I A T I  * * *
+                                         Riepilogo messaggi
+               Gravità
+ Totale        0-9  10-19  20-29  30-39  40-49  50-59  60-69  70-79  80-89  90-99
+     0           0      0      0      0      0      0      0      0      0      0
+ Programma TCA151 creato nella libreria QTEMP sul 12/10/17 al 10:00:34.
+ Programma TCA151 creato in libreria QTEMP. Gravità massima errori è 00.
+                                 * * * *   F I N E   R I E P I L O G O   M E S S A G G I   * * * *
+                                 * * * * *   F I N E   C O M P I L A Z I O N E   * * * * * *
+

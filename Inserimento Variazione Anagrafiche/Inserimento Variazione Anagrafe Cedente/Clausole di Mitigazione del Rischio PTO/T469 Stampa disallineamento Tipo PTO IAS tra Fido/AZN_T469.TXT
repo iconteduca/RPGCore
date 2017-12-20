@@ -1,0 +1,9 @@
+                                      Lista dei Riferimenti fra Programmi del 12/12/2017
+        --------------------------------------------------------------------------------
+        Azn.T469                      Stampa disallineamento Tipo PTO IAS tra Fido e RAC
+        --------------------------------------------------------------------------------
+        TRA435                        Disallineamento Tipo PTO IAS tra Fido E RAC
+        --------------------------------------------------------------------------------
+        TRA435    RPGLE 1-ANACED1L  1-ANADEB1L  1-ANAFID3L  1-PARAM     1-RAPPTOCL
+        .         .     1-REFIRA2L  1-TABFID1L  2-TRA4350P
+        --------------------------------------------------------------------------------

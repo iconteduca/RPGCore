@@ -1,0 +1,1684 @@
+  Comando  . . . . . . . . . . . . :   CRTBNDRPG
+    Emesso da  . . . . . . . . . . :     LESENR
+  Programma  . . . . . . . . . . . :   RRA024
+    Libreria . . . . . . . . . . . :     QTEMP
+  Testo 'Descrizione'  . . . . . . :   *SRCMBRTXT
+  Membro origine . . . . . . . . . :   RRA024
+  File origine . . . . . . . . . . :   QRPGSRC
+    Libreria . . . . . . . . . . . :     SRCFAC
+    CCSID  . . . . . . . . . . . . :     280
+  Testo 'Descrizione'  . . . . . . :   RUA - Annullamento / Ripristino Soggetto
+  Ultima modifica. . . . . . . . . :   13/08/11  21:19:26
+  Livello di gravità generazione . :   10
+  Gruppo di attivazione assunto. . :   *YES
+  Opzioni compilatore. . . . . . . :   *XREF      *GEN       *NOSECLVL  *SHOWCPY
+                                       *EXPDDS    *EXT       *NOSHOWSKP *NOSRCSTMT
+                                       *DEBUGIO   *UNREF     *NOEVENTF
+  Visualizzazione debug  . . . . . :   *STMT
+  Emissione. . . . . . . . . . . . :   *PRINT
+  Livello  di ottimizzazione . . . :   *NONE
+  Rientro listato origine. . . . . :   *NONE
+  Opzioni conversione tipo . . . . :   *NONE
+  Sequenza di ordinamento. . . . . :   *HEX
+  Identificativo lingua. . . . . . :   *JOBRUN
+  Sostituzione programma . . . . . :   *NO
+  Profilo utente . . . . . . . . . :   *USER
+  Autorizzazione . . . . . . . . . :   *LIBCRTAUT
+  Troncamento numerico . . . . . . :   *YES
+  Correzione campo numerico. . . . :   *NONE
+  Release di destinazione. . . . . :   *CURRENT
+  Consentire valori nulli. . . . . :   *NO
+  Definiz. nomi condizione . . . . :   *NONE
+  Abilitaz. raccolta prestazioni . :   *PEP
+  Dati modellamento. . . . . . . . :   *NOCOL
+  Opzioni LIC (Licensed Internal Code):
+  Creazione interfaccia programma. :   *NO
+  Includere indirizzario. . . . . . :
+  Opzioni preprocessore . . . . . . :   *NONE
+Riga   <---------------------- Specifiche origine    ----------------------------><---- Commenti ----> Es  Pag.  Modif. OrigSeq.
+Numero ....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10 Num Riga  Data   Id  Numero
+                          L i s t a t o    o r i g i n e
+     1 H**   EDP190S3    CALGIU      09/06/2011  09:39:50                                                  GC01  110609     000100
+     2 H**     SISTEMATO ERRORE DI USCITA LETTURA TITOLARI/DICHIARANTI                                     GC01  110609     000200
+     3 H**   EDP140S1    STRSTE      24/11/2010  10:40:34 Mod.test x CTRL che deve                         SS03  101124     000300
+     4 H**                                       vedere SOLO TIT e DIC NON chiusi!                         SS03  101124     000400
+     5 H**   EDP200S1    RICLUI      12/07/2010  15:45:00                                                  LR01  100712     000500
+     6 H**   EDP140S1    STRSTE      22/01/2009  14:13:37 Sist.errore ripr.coint.                          SS02  090122     000600
+     7 H* Aggiunta gestione NDG cliente per COMIFIN.                                                       SS01  081104     000700
+     8 H******************************************************************                                       080514     000800
+     9 H*    TOGLIERE LA SPECIFICA CHE NON INTERESSA.                    *                                       080514     000900
+    10 H*            /J      GIORNO - MESE - ANNO                        *                                       080514     001000
+    11 H*           Y J      ANNO - MESE - GIORNO                        *                                       080514     001100
+    12 H******************************************************************                                       080514     001200
+    13 H DECEDIT('0,') DATEDIT(*YMD/)                                                                            080514     001300
+    14 H******************************************************************                                       080514     001400
+    15 H*                                                                *                                       080514     001500
+    16 H*    SSSSSSS   IIIIIII   SSSSSSS        PPPPPPP     AAAAAAA      *                                       080514     001600
+    17 H*   SS           III    SS              PP    PP   AA     AA     *                                       080514     001700
+    18 H*   SS            I     SS              PP     PP  AA     AA     *                                       080514     001800
+    19 H*    SSSSSSS      I      SSSSSSS        PPPPPPPP   AAAAAAAAA     *                                       080514     001900
+    20 H*          SS     I            SS       PP         AA     AA     *                                       080514     002000
+    21 H*          SS    III           SS  ..   PP         AA     AA ..  *                                       080514     002100
+    22 H*    SSSSSSS   IIIIIII   SSSSSSS   ..   PP         AA     AA ..  *                                       080514     002200
+    23 H*                                                                *                                       080514     002300
+    24 H*   SISTEMI PARABANCARI S.P.A.       SISTEMI PARABANCARI S.P.A.  *                                       080514     002400
+    25 H*   (C) Copyright 2007. Vietata la riproduzione anche in parte.  *                                       080514     002500
+    26 H*                                                                *                                       080514     002600
+    27 H******************************************************************                                       080514     002700
+    28 H*                                                                                                        080514     002800
+    29 H******************************************************************                                       080514     002900
+    30 H*                                                                *                                       080514     003000
+    31 H*  SISTEMA ...........: R.U.A.                                   *                                       080514     003100
+    32 H*  SOTTOSISTEMA ......: REGISTRO UNICO ANTIRICICLAGGIO           *                                       080514     003200
+    33 H*                                                                *                                       080514     003300
+    34 H*  PROGRAMMATORE .....: S. STRADA                                *                                       080514     003400
+    35 H*  PRIMA COMPILAZ. ...: 14/05/2008                               *                                       080520     003500
+    36 H*                                                                *                                       080514     003600
+    37 H*  DESCRIZIONE .......: ANNULLAMENTO / RIPRISTINO SOGGETTO RUA   *                                       080515     003700
+    38 H*                                                                *                                       080514     003800
+    39 H*  Il programma annulla o ripristina un soggetto RUA sulla       *                                       080515     003900
+    40 H*  base dei parametri ricevuti in input che sono:                *                                       080515     004000
+    41 H*     * Codice soggetto da annullare o ripristinare    (D24SOG)  *                                       080515     004100
+    42 H*     * Rapporto al quale è legato il soggetto passato (D24RAP)  *                                       080515     004200
+    43 H*     * Flag ANnullamento (A) /RIpriostino (R)         (D24FAR)  *                                       080515     004300
+    44 H*            Controllo (C) solo su legami ancora attivi!!!       *                                 SS03  101124     004400
+    45 H*            Esclude cioè tutti i legami già chiusi              *                                 SS03  101124     004500
+    46 H*                                                                *                                       080515     004600
+    47 H*  D24SOG è un parametro obbligatorio                            *                                       080515     004700
+    48 H*  D24RAP è fortemente consigliato in quanto, se viene fornito,  *                                       080515     004800
+    49 H*         questo programma è in grado di chiudere, se possibile, *                                       080515     004900
+    50 H*         anche eventuali altri soggetti presenti sul rapporto   *                                       080515     005000
+    51 H*         e specificati come cointestatari.                      *                                       080515     005100
+    52 H*  D24FAR è un parametro obbligatorio                            *                                       080515     005200
+    53 H*                                                                *                                       080515     005300
+    54 F******************************************************************                                       080514     005400
+    55 F*              F I L E                                           *                                       080514     005500
+    56 F******************************************************************                                       080514     005600
+    57 FANSOG01L  UF   E           K DISK                                                                        080515     005700
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANSOG01L         MODELL/ANSOG01L                             *
+        * Formato/i record . . . . . :  RANSOG           RANSOG                                      *
+        *--------------------------------------------------------------------------------------------*
+    58 FANRAP01L  IF   E           K DISK                                                                        080514     005800
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP01L         MODELL/ANRAP01L                             *
+        * Formato/i record . . . . . :  RANRAP           RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    59 FANRAP02L  IF   E           K DISK                                                                        080514     005900
+    60 F                                     RENAME(RANRAP:RANRAP2)                                              080514     006000
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP02L         MODELL/ANRAP02L                             *
+        * Formato/i record . . . . . :  RANRAP2          RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    61 FANRAP03L  IF   E           K DISK                                                                        080514     006100
+    62 F                                     RENAME(RANRAP:RANRAP3)                                              080514     006200
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP03L         MODELL/ANRAP03L                             *
+        * Formato/i record . . . . . :  RANRAP3          RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    63 FANRAP04L  IF   E           K DISK                                                                        080514     006300
+    64 F                                     RENAME(RANRAP:RANRAP4)                                              080514     006400
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP04L         MODELL/ANRAP04L                             *
+        * Formato/i record . . . . . :  RANRAP4          RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    65 FANRAP05L  IF   E           K DISK                                                                        080514     006500
+    66 F                                     RENAME(RANRAP:RANRAP5)                                              080514     006600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP05L         MODELL/ANRAP05L                             *
+        * Formato/i record . . . . . :  RANRAP5          RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    67 FANRAP06L  IF   E           K DISK                                                                        080514     006700
+    68 F                                     RENAME(RANRAP:RANRAP6)                                              080514     006800
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANRAP06L         MODELL/ANRAP06L                             *
+        * Formato/i record . . . . . :  RANRAP6          RANRAP                                      *
+        *--------------------------------------------------------------------------------------------*
+    69 FANDEL01L  IF   E           K DISK                                                                        080515     006900
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANDEL01L         MODELL/ANDEL01L                             *
+        * Formato/i record . . . . . :  RANDEL           RANDEL                                      *
+        *--------------------------------------------------------------------------------------------*
+    70 FPARAM     IF   E           K DISK                                                                  SS01  081104     007000
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  PARAM            MODELL/PARAM                                *
+        * Formato/i record . . . . . :  PARAM1R          PARAM1R                                     *
+        *--------------------------------------------------------------------------------------------*
+    71 FRELSOG3L  UF   E           K DISK                                                                  SS01  081104     007100
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  RELSOG3L         MODELL/RELSOG3L                             *
+        * Formato/i record . . . . . :  RELSOG1R         RELSOG1R                                    *
+        *--------------------------------------------------------------------------------------------*
+    72 FANDIC04L  IF   E           K DISK                                                                  LR01  100712     007200
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANDIC04L         MODELL/ANDIC04L                             *
+        * Formato/i record . . . . . :  RANDIC           RANDIC                                      *
+        *--------------------------------------------------------------------------------------------*
+    73 FANTIT04L  IF   E           K DISK                                                                  LR01  100712     007300
+    74 D******************************************************************                                       080514     007400
+    75 D*              T A B E L L E   E   S C H I E R E                 *                                       080514     007500
+    76 D******************************************************************                                       080514     007600
+        *--------------------------------------------------------------------------------------------*
+        *                               Nome RPG         Nome esterno                                *
+        * Nome file. . . . . . . . . :  ANTIT04L         MODELL/ANTIT04L                             *
+        * Formato/i record . . . . . :  RANTIT           RANTIT                                      *
+        *--------------------------------------------------------------------------------------------*
+    77 D SOG             S             16    DIM(5)                                                              080514     007700
+    78 D******************************************************************                                       080514     007800
+    79 D*              D S   E S T E R N E                               *                                       080514     007900
+    80 D******************************************************************                                       080514     008000
+    81 D KPJBA         E DS                                                                                      080514     008100
+    82 D******************************************************************                                       080514     008200
+    83 D*              D S   I N T E R N E                               *                                       080514     008300
+    84 D******************************************************************                                       080514     008400
+        *--------------------------------------------------------------------------------------------*                     1
+        * Struttura dati . . . . . . :  KPJBA                                                        *                     1
+        * Formato esterno  . . . . . :  FMKPJBA : MODELL/KPJBA                                       *                     1
+        * Formato testo. . . . . . . :  Parametro Job Architetturali                                 *                     1
+        *--------------------------------------------------------------------------------------------*                     1
+    85=D KNMUS                         10A                                        Nome Utente                   -B-        1000001
+    86=D KTPRF                          3A                                        Tipo Utente                   -B-        1000002
+    87=D KNRAZ                          9S 0                                      Num. Azione                   -B-        1000003
+    88=D KTSIF                          3A                                        Tipo Sistema Informativo      -B-        1000004
+    89=D KNMTD                         10A                                        Nome Terminale                -B-        1000005
+    90=D KFLRC                          1A                                        Flag Ripartenza               -B- b=Nrm R=Rip
+    91=D KNRVJ                          9S 0                                      Num. Azione Interrotta        -B-        1000007
+    92=D KMSMN                          7A                                        Cod. Messaggio Finale         -C- AAANNNN KPJBNNN
+    93=D KNRJO                          6A                                        Num. Lavoro                   -B-        1000009
+    94=D KSTJO                          1A                                        Flag Stato Lavoro             -A- N=Nrm H=Hld
+    95=D KFLMS                          1A                                        Flag Messaggio Pendente       -X-        1000011
+    96=D KTMIN                          6S 0                                      Time Fine Azione              -A- HHMMSS
+    97=D KCDAZ                          4A                                        Cod. Azione                   -B-        1000013
+    98=D KTPAZ                          1A                                        Tipo Azione                   -B- I/W=Int B/N=Bch
+    99=D KCDRC                          1A                                        Cod. Ripartenza               -C- b 0123 5678
+   100=D KTPFN                          1A                                        Tipo Fine Azione              -C- N=Nrm ACEFKLOR=E
+   101=D KQOTD                         10A                                        Nome OutQ Terminale           -B-        1000017
+   102=D KNMEB                         10A                                        Nome Lavoro                   -B-        1000018
+   103=D KNMSB                          3S 0                                      Num. Sbmjob Eseguiti          -B-        1000019
+   104=D KNRRB                          2A                                        Num. ReSbmjob Batch           -A-        1000020
+   105=D KNSIF                          9A                                        Nome Sistema Informativo      -B-        1000021
+   106=D KCDJD                          2A                                        Cod. JobD                     -A-        1000022
+   107=D KQIEB                          7A                                        Nome JobQ                     -B-        1000023
+   108=D KQOFR                         10A                                        Nome OutQ                     -B-        1000024
+   109=D KKEYF                          5S 0                                      Cod. RRN Azione               -B-        1000025
+   110=D KRCDS                          5S 0                                      Cod. RRN Sessione             -A-        1000026
+   111=D KEXCN                          1A                                        Flag Controllo JobD     Batch -X-        1000027
+   112=D KCOAZ                          4A                                        Cod. Azione             Batch -C-        1000028
+   113=D KFLAD                          1A                                        Flag Indirizzam. Stampe Batch -X- b=Nrm T=Tod
+   114=D KQOPR                         10A                                        Nome OutQ               Batch -C-        1000030
+   115=D KNMCP                          2A                                        Num. Copie Stampe       Batch -X-        1000031
+   116=D KJOST                          1A                                        Flag Stato Stampe       Batch -X- b=Nrm H=Hld
+   117=D KSTEB                          1A                                        Flag Stato Lavoro       Batch -C- b=Nrm H=Hld
+   118=D KCOJB                          2A                                        Cod. JobD               Batch -C-        1000034
+   119=D KQEBI                          7A                                        Nome JobQ               Batch -C-        1000035
+   120=D KMDST                         10A                                        Nome Modulo Stampe      Batch -X-        1000036
+   121=D KFIER                         30A                                        Cod. LibFilMbr in Errore      -X-        1000037
+   122=D KCANC                          1A                                        Flag Azione Cancellabile      -C- A=Aut N=No  S=Sì
+   123=D KGRAZ                          3A                                        Cod. Gruppo Azione            -C-        1000039
+   124=D KFSLG                          1A                                        Flag Stampa Joblog            -C- b=Nrm EJKLRS=Err
+   125=D KTPWS                          1A                                        Tipo Terminale                -X- N=Nrm
+   126=D KDTJB                          6A                                        Data Lavoro             Batch -X-        1000042
+   127=D KJRNM                         10A                                        Nome Journal                  -X-        1000043
+   128=D KJRLB                         10A                                        Libr.Journal                  -X-        1000044
+   129=D KRITB                          1A                                        Flag Ritorno Batch            -C-        1000045
+   130=D KBUFF                          8A                                        Fllr                          -X-        1000046
+   131=D KPJBU                        256A                                        Dati Applicativo              -D-        1000047
+   132 D DSA024        E DS                  EXTNAME(RRA024DS)                                                   080515     008500
+   133 C******************************************************************                                       080514     008600
+   134 C*              SEQUENZA PRINCIPALE                               *                                       080514     008700
+   135 C******************************************************************                                       080514     008800
+   136 C*                                                                                                        080514     008900
+        *--------------------------------------------------------------------------------------------*                     2
+        * Struttura dati . . . . . . :  DSA024                                                       *                     2
+        * Formato esterno  . . . . . :  RRA024 : MODELL/RRA024DS                                     *                     2
+        *--------------------------------------------------------------------------------------------*                     2
+   137=D D24SOG                        16A                                        CODICE SOGGETTO                          2000001
+   138=D D24RAP                        16A                                        CODICE RAPPORTO                          2000002
+   139=D D24FAR                         1A                                        A=ANNULLAMENTO, R=RIPRISTINO, C=CONTROLLO
+   140=D D24ERR                         1A                                        E=SOGGETTO NON ANNULLABILE               2000004
+   141=D D24FIL                        79A                                        FILLER                                   2000005
+   142=IRANSOG                                                                                                             3000001
+        *--------------------------------------------------------------------------------------------*                     3
+        * Formato record RPG . . . . :  RANSOG                                                       *                     3
+        * Formato esterno  . . . . . :  RANSOG : MODELL/ANSOG01L                                     *                     3
+        * Formato testo. . . . . . . :  Anagrafica Soggetti R.U.A.                                   *                     3
+        *--------------------------------------------------------------------------------------------*                     3
+   143=I                             A    1   16  KODSOT                          Cod. Sogg.                               3000002
+   144=I                             A   17   17  SOGBLK                          STATO Sog. B/I                           3000003
+   145=I                             A   18   87  CGNSOT                          Cogn Nome                                3000004
+   146=I                             S   88   95 0DTNSOT                          Data Nasc.                               3000005
+   147=I                             A   96  125  LGNSOT                          Luogo Nasc.                              3000006
+   148=I                             A  126  127  PRNSOT                          Prov Nasc                                3000007
+   149=I                             A  128  157  LGRSOT                          Luogo Resid                              3000008
+   150=I                             A  158  192  VIASOT                          Indirizzo                                3000009
+   151=I                             A  193  194  PRRSOT                          Prov Resid                               3000010
+   152=I                             A  195  199  CAPSOT                          Codice Avviamento Postale                3000011
+   153=I                             A  200  205  CCASOT                          Codice C.A.B.                            3000012
+   154=I                             A  206  206  SEXSOT                          Sesso                                    3000013
+   155=I                             A  207  222  CFSSOT                          Codice Fiscale                           3000014
+   156=I                             A  223  225  PAESOT                          Codice Paese Residenza                   3000015
+   157=I                             A  226  228  STGSOT                          Sgrp Attiv. Econ.                        3000016
+   158=I                             A  229  231  RAMSOT                          Gruppo Attiv. Econ.                      3000017
+   159=I                             A  232  241  NUMDCI                          Num. Doc                                 3000018
+   160=I                             A  242  243  TIPDCI                          Tipo Doc                                 3000019
+   161=I                             S  244  251 0DTRDCI                          Data Ril Doc                             3000020
+   162=I                             A  252  281  ENRDCI                          Ente Ril Doc                             3000021
+   163=I                             A  282  297  KODSO2                          Cod. Sogg.                               3000022
+   164=I                             A  298  367  CGNSO2                          Cogn Nome                                3000023
+   165=I                             S  368  375 0DTNSO2                          Data Nasc.                               3000024
+   166=I                             A  376  405  LGNSO2                          Luogo Nasc.                              3000025
+   167=I                             A  406  407  PRNSO2                          Prov Nasc                                3000026
+   168=I                             A  408  437  LGRSO2                          Luogo Resid                              3000027
+   169=I                             A  438  472  VIASO2                          Indirizzo                                3000028
+   170=I                             A  473  474  PRRSO2                          Prov Resid                               3000029
+   171=I                             A  475  479  CAPSO2                          Codice Avviamento Postale                3000030
+   172=I                             A  480  485  CCASO2                          Codice C.A.B.                            3000031
+   173=I                             A  486  486  SEXSO2                          Sesso                                    3000032
+   174=I                             A  487  502  CFSSO2                          Codice Fiscale                           3000033
+   175=I                             A  503  505  PAESO2                          Codice Paese Residenza                   3000034
+   176=I                             A  506  508  STGSO2                          Sgrp Attiv. Econ.                        3000035
+   177=I                             A  509  511  RAMSO2                          Gruppo Attiv. Econ.                      3000036
+   178=I                             A  512  521  NUMDC2                          Num. Doc                                 3000037
+   179=I                             A  522  523  TIPDC2                          Tipo Doc                                 3000038
+   180=I                             S  524  531 0DTRDC2                          Data Ril Doc                             3000039
+   181=I                             A  532  561  ENRDC2                          Ente Ril Doc                             3000040
+   182=I                             A  562  591  COGSOT                          COGNONE PURO                             3000041
+   183=I                             A  592  621  NOMSOT                          NOME PURO                                3000042
+   184=I                             A  622  622  STSQUO                          SOCIETA QUOTATA                          3000043
+   185=I                             A  623  623  FRETIT                          IGNORA TITOLARE                          3000044
+   186=I                             A  624  624  SXECSZ                          Cde Sezione Ateco                        3000045
+   187=I                             A  625  626  SXECDV                          Cde Divisione Ateco                      3000046
+   188=I                             A  627  627  SXECGR                          Cde Gruppo Ateco                         3000047
+   189=I                             A  628  628  SXECCL                          Cde Classe Ateco                         3000048
+   190=I                             A  629  629  SXECCA                          Cde Categoria Ateco                      3000049
+   191=I                             A  630  630  SXECSC                          Cde Sottocategoria Ateco                 3000050
+   192=I                             A  631  631  SOFLG1                          FLAG 1                                   3000051
+   193=I                             A  632  632  SOFLG2                          FLAG 2                                   3000052
+   194=I                             A  633  633  SOFLG3                          FLAG 3                                   3000053
+   195=I                             A  634  643  SOUTIM                          ID Utente Inserimento                    3000054
+   196=I                             S  644  651 0SODTIM                          Data Inserimento                         3000055
+   197=I                             S  652  657 0SOHHIM                          Ora Inserimento                          3000056
+   198=I                             A  658  667  SOUTVA                          ID Utente Ultima Var.                    3000057
+   199=I                             S  668  675 0SODTVA                          Data Ultima Var.                         3000058
+   200=I                             S  676  681 0SOHHVA                          Ora Ultima Var.                          3000059
+   201=I                             A  682  682  DITTA                           X = DITTA INDIVIDUALE                    3000060
+   202=I                             A  683  683  ART25                           X = SOCIETA ART. 25                      3000061
+   203=IRANRAP                                                                                                             4000001
+        *--------------------------------------------------------------------------------------------*                     4
+        * Formato record RPG . . . . :  RANRAP                                                       *                     4
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP01L                                     *                     4
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     4
+        *--------------------------------------------------------------------------------------------*                     4
+   204=I                             A    1   16  ARKRAP                          Codice Rapporto                          4000002
+   205=I                             A   17   32  ARKINT                          Codice Intestatario                      4000003
+   206=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    4000004
+   207=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    4000005
+   208=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    4000006
+   209=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    4000007
+   210=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       4000008
+   211=I                             A   98   98  ARTRAP                          Tipo Rapporto                            4000009
+   212=I                             A   99  104  ARCABD                          CAB Dipendenza                           4000010
+   213=I                             A  105  107  ARKDIV                          Codice Divisa                            4000011
+   214=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 4000012
+   215=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   4000013
+   216=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        4000014
+   217=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      4000015
+   218=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 4000016
+   219=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 4000017
+   220=I                             A  135  150  ARROLD                          Cod Rapp.                                4000018
+   221=I                             A  151  166  ARIOLD                          Cod Intest.                              4000019
+   222=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         4000020
+   223=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         4000021
+   224=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         4000022
+   225=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    4000023
+   226=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    4000024
+   227=I                             S  241  248 0ARDTIM                          Data Inserimento                         4000025
+   228=I                             S  249  254 0ARHHIM                          Ora Inserimento                          4000026
+   229=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    4000027
+   230=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         4000028
+   231=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          4000029
+   232=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   4000030
+   233=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          4000031
+   234=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      4000032
+   235=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          4000033
+   236=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      4000034
+   237=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          4000035
+   238=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      4000036
+   239=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          4000037
+   240=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      4000038
+   241=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          4000039
+   242=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      4000040
+   243=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      4000041
+   244=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        4000042
+   245=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        4000043
+   246=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        4000044
+   247=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        4000045
+   248=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         4000046
+   249=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     4000047
+   250=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   4000048
+   251=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   4000049
+   252=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   4000050
+   253=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   4000051
+   254=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   4000052
+   255=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      4000053
+   256=IRANRAP2                                                                                                            5000001
+        *--------------------------------------------------------------------------------------------*                     5
+        * Formato record RPG . . . . :  RANRAP2                                                      *                     5
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP02L                                     *                     5
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     5
+        *--------------------------------------------------------------------------------------------*                     5
+   257=I                             A    1   16  ARKRAP                          Codice Rapporto                          5000002
+   258=I                             A   17   32  ARKINT                          Codice Intestatario                      5000003
+   259=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    5000004
+   260=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    5000005
+   261=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    5000006
+   262=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    5000007
+   263=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       5000008
+   264=I                             A   98   98  ARTRAP                          Tipo Rapporto                            5000009
+   265=I                             A   99  104  ARCABD                          CAB Dipendenza                           5000010
+   266=I                             A  105  107  ARKDIV                          Codice Divisa                            5000011
+   267=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 5000012
+   268=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   5000013
+   269=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        5000014
+   270=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      5000015
+   271=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 5000016
+   272=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 5000017
+   273=I                             A  135  150  ARROLD                          Cod Rapp.                                5000018
+   274=I                             A  151  166  ARIOLD                          Cod Intest.                              5000019
+   275=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         5000020
+   276=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         5000021
+   277=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         5000022
+   278=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    5000023
+   279=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    5000024
+   280=I                             S  241  248 0ARDTIM                          Data Inserimento                         5000025
+   281=I                             S  249  254 0ARHHIM                          Ora Inserimento                          5000026
+   282=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    5000027
+   283=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         5000028
+   284=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          5000029
+   285=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   5000030
+   286=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          5000031
+   287=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      5000032
+   288=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          5000033
+   289=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      5000034
+   290=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          5000035
+   291=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      5000036
+   292=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          5000037
+   293=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      5000038
+   294=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          5000039
+   295=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      5000040
+   296=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      5000041
+   297=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        5000042
+   298=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        5000043
+   299=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        5000044
+   300=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        5000045
+   301=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         5000046
+   302=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     5000047
+   303=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   5000048
+   304=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   5000049
+   305=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   5000050
+   306=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   5000051
+   307=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   5000052
+   308=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      5000053
+   309=IRANRAP3                                                                                                            6000001
+        *--------------------------------------------------------------------------------------------*                     6
+        * Formato record RPG . . . . :  RANRAP3                                                      *                     6
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP03L                                     *                     6
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     6
+        *--------------------------------------------------------------------------------------------*                     6
+   310=I                             A    1   16  ARKRAP                          Codice Rapporto                          6000002
+   311=I                             A   17   32  ARKINT                          Codice Intestatario                      6000003
+   312=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    6000004
+   313=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    6000005
+   314=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    6000006
+   315=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    6000007
+   316=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       6000008
+   317=I                             A   98   98  ARTRAP                          Tipo Rapporto                            6000009
+   318=I                             A   99  104  ARCABD                          CAB Dipendenza                           6000010
+   319=I                             A  105  107  ARKDIV                          Codice Divisa                            6000011
+   320=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 6000012
+   321=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   6000013
+   322=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        6000014
+   323=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      6000015
+   324=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 6000016
+   325=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 6000017
+   326=I                             A  135  150  ARROLD                          Cod Rapp.                                6000018
+   327=I                             A  151  166  ARIOLD                          Cod Intest.                              6000019
+   328=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         6000020
+   329=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         6000021
+   330=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         6000022
+   331=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    6000023
+   332=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    6000024
+   333=I                             S  241  248 0ARDTIM                          Data Inserimento                         6000025
+   334=I                             S  249  254 0ARHHIM                          Ora Inserimento                          6000026
+   335=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    6000027
+   336=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         6000028
+   337=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          6000029
+   338=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   6000030
+   339=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          6000031
+   340=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      6000032
+   341=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          6000033
+   342=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      6000034
+   343=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          6000035
+   344=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      6000036
+   345=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          6000037
+   346=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      6000038
+   347=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          6000039
+   348=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      6000040
+   349=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      6000041
+   350=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        6000042
+   351=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        6000043
+   352=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        6000044
+   353=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        6000045
+   354=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         6000046
+   355=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     6000047
+   356=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   6000048
+   357=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   6000049
+   358=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   6000050
+   359=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   6000051
+   360=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   6000052
+   361=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      6000053
+   362=IRANRAP4                                                                                                            7000001
+        *--------------------------------------------------------------------------------------------*                     7
+        * Formato record RPG . . . . :  RANRAP4                                                      *                     7
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP04L                                     *                     7
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     7
+        *--------------------------------------------------------------------------------------------*                     7
+   363=I                             A    1   16  ARKRAP                          Codice Rapporto                          7000002
+   364=I                             A   17   32  ARKINT                          Codice Intestatario                      7000003
+   365=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    7000004
+   366=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    7000005
+   367=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    7000006
+   368=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    7000007
+   369=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       7000008
+   370=I                             A   98   98  ARTRAP                          Tipo Rapporto                            7000009
+   371=I                             A   99  104  ARCABD                          CAB Dipendenza                           7000010
+   372=I                             A  105  107  ARKDIV                          Codice Divisa                            7000011
+   373=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 7000012
+   374=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   7000013
+   375=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        7000014
+   376=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      7000015
+   377=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 7000016
+   378=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 7000017
+   379=I                             A  135  150  ARROLD                          Cod Rapp.                                7000018
+   380=I                             A  151  166  ARIOLD                          Cod Intest.                              7000019
+   381=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         7000020
+   382=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         7000021
+   383=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         7000022
+   384=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    7000023
+   385=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    7000024
+   386=I                             S  241  248 0ARDTIM                          Data Inserimento                         7000025
+   387=I                             S  249  254 0ARHHIM                          Ora Inserimento                          7000026
+   388=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    7000027
+   389=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         7000028
+   390=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          7000029
+   391=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   7000030
+   392=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          7000031
+   393=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      7000032
+   394=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          7000033
+   395=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      7000034
+   396=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          7000035
+   397=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      7000036
+   398=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          7000037
+   399=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      7000038
+   400=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          7000039
+   401=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      7000040
+   402=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      7000041
+   403=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        7000042
+   404=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        7000043
+   405=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        7000044
+   406=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        7000045
+   407=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         7000046
+   408=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     7000047
+   409=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   7000048
+   410=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   7000049
+   411=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   7000050
+   412=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   7000051
+   413=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   7000052
+   414=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      7000053
+   415=IRANRAP5                                                                                                            8000001
+        *--------------------------------------------------------------------------------------------*                     8
+        * Formato record RPG . . . . :  RANRAP5                                                      *                     8
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP05L                                     *                     8
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     8
+        *--------------------------------------------------------------------------------------------*                     8
+   416=I                             A    1   16  ARKRAP                          Codice Rapporto                          8000002
+   417=I                             A   17   32  ARKINT                          Codice Intestatario                      8000003
+   418=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    8000004
+   419=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    8000005
+   420=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    8000006
+   421=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    8000007
+   422=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       8000008
+   423=I                             A   98   98  ARTRAP                          Tipo Rapporto                            8000009
+   424=I                             A   99  104  ARCABD                          CAB Dipendenza                           8000010
+   425=I                             A  105  107  ARKDIV                          Codice Divisa                            8000011
+   426=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 8000012
+   427=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   8000013
+   428=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        8000014
+   429=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      8000015
+   430=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 8000016
+   431=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 8000017
+   432=I                             A  135  150  ARROLD                          Cod Rapp.                                8000018
+   433=I                             A  151  166  ARIOLD                          Cod Intest.                              8000019
+   434=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         8000020
+   435=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         8000021
+   436=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         8000022
+   437=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    8000023
+   438=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    8000024
+   439=I                             S  241  248 0ARDTIM                          Data Inserimento                         8000025
+   440=I                             S  249  254 0ARHHIM                          Ora Inserimento                          8000026
+   441=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    8000027
+   442=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         8000028
+   443=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          8000029
+   444=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   8000030
+   445=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          8000031
+   446=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      8000032
+   447=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          8000033
+   448=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      8000034
+   449=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          8000035
+   450=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      8000036
+   451=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          8000037
+   452=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      8000038
+   453=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          8000039
+   454=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      8000040
+   455=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      8000041
+   456=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        8000042
+   457=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        8000043
+   458=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        8000044
+   459=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        8000045
+   460=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         8000046
+   461=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     8000047
+   462=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   8000048
+   463=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   8000049
+   464=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   8000050
+   465=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   8000051
+   466=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   8000052
+   467=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      8000053
+   468=IRANRAP6                                                                                                            9000001
+        *--------------------------------------------------------------------------------------------*                     9
+        * Formato record RPG . . . . :  RANRAP6                                                      *                     9
+        * Formato esterno  . . . . . :  RANRAP : MODELL/ANRAP06L                                     *                     9
+        * Formato testo. . . . . . . :  Anagrafica rapporti                                          *                     9
+        *--------------------------------------------------------------------------------------------*                     9
+   469=I                             A    1   16  ARKRAP                          Codice Rapporto                          9000002
+   470=I                             A   17   32  ARKINT                          Codice Intestatario                      9000003
+   471=I                             A   33   48  ARKCO1                          Cod. 1 Cointestatario                    9000004
+   472=I                             A   49   64  ARKCO2                          Cod. 2 Cointestatario                    9000005
+   473=I                             A   65   80  ARKCO3                          Cod. 3 Cointestatario                    9000006
+   474=I                             A   81   96  ARKCO4                          Cod. 4 Cointestatario                    9000007
+   475=I                             A   97   97  ARRBLK                          Stato Rapporto B/I                       9000008
+   476=I                             A   98   98  ARTRAP                          Tipo Rapporto                            9000009
+   477=I                             A   99  104  ARCABD                          CAB Dipendenza                           9000010
+   478=I                             A  105  107  ARKDIV                          Codice Divisa                            9000011
+   479=I                             A  108  108  ARFCAP                          Flag Apertura Registrata                 9000012
+   480=I                             S  109  116 0ARDTAP                          Data Apertura RAPPORTO                   9000013
+   481=I                             A  117  117  ARFCCC                          Flag Conto Chiuso                        9000014
+   482=I                             S  118  125 0ARDTCC                          Data Chiusura Conto                      9000015
+   483=I                             A  126  126  ARFCCH                          Flag Chiusura Registrata                 9000016
+   484=I                             S  127  134 0ARDTCH                          Data Chiusura Registrata                 9000017
+   485=I                             A  135  150  ARROLD                          Cod Rapp.                                9000018
+   486=I                             A  151  166  ARIOLD                          Cod Intest.                              9000019
+   487=I                             A  167  182  AR1OLD                          Cod. 1 Cointest.                         9000020
+   488=I                             A  183  198  AR2OLD                          Cod. 2 Cointest.                         9000021
+   489=I                             A  199  214  AR3OLD                          Cod. 3 Cointest.                         9000022
+   490=I                             A  215  230  AR4OLD                          Cod. 4 Cointestatario                    9000023
+   491=I                             A  231  240  ARUTIM                          ID Utente Inserimento                    9000024
+   492=I                             S  241  248 0ARDTIM                          Data Inserimento                         9000025
+   493=I                             S  249  254 0ARHHIM                          Ora Inserimento                          9000026
+   494=I                             A  255  264  ARUTVA                          ID Utente Ultima Var.                    9000027
+   495=I                             S  265  272 0ARDTVA                          Data Ultima Var.                         9000028
+   496=I                             S  273  278 0ARHHVA                          Ora Ultima Var.                          9000029
+   497=I                             A  279  280  ARTRAT                          T.RAPP. PER AN.TRIBUT.                   9000030
+   498=I                             A  281  295  ARPRFI                          NOME FILE INVIO                          9000031
+   499=I                             A  296  320  ARPRRE                          NUMERO RECORD INVIO                      9000032
+   500=I                             A  321  335  ARPRF1                          NOME FILE INVIO                          9000033
+   501=I                             A  336  360  ARPRR1                          NUMERO RECORD INVIO                      9000034
+   502=I                             A  361  375  ARPRF2                          NOME FILE INVIO                          9000035
+   503=I                             A  376  400  ARPRR2                          NUMERO RECORD INVIO                      9000036
+   504=I                             A  401  415  ARPRF3                          NOME FILE INVIO                          9000037
+   505=I                             A  416  440  ARPRR3                          NUMERO RECORD INVIO                      9000038
+   506=I                             A  441  455  ARPRF4                          NOME FILE INVIO                          9000039
+   507=I                             A  456  480  ARPRR4                          NUMERO RECORD INVIO                      9000040
+   508=I                             A  481  482  ARRIIN                          FLAG A/C INTESTATAR                      9000041
+   509=I                             A  483  484  ARRIC1                          FLAG A/C COINT. 1                        9000042
+   510=I                             A  485  486  ARRIC2                          FLAG A/C COINT. 2                        9000043
+   511=I                             A  487  488  ARRIC3                          FLAG A/C COINT. 3                        9000044
+   512=I                             A  489  490  ARRIC4                          FLAG A/C COINT. 4                        9000045
+   513=I                             A  491  514  ARDR99                          RAPPORTO TIPO 99                         9000046
+   514=I                             A  515  544  ARDESC                          DESCRIZIONE RAPPORTO                     9000047
+   515=I                             S  545  553 0ARNUM1                          PROGRESSIVO ANAGRAFICA                   9000048
+   516=I                             S  554  562 0ARNUM2                          PROGRESSIVO ANAGRAFICA                   9000049
+   517=I                             S  563  571 0ARNUM3                          PROGRESSIVO ANAGRAFICA                   9000050
+   518=I                             S  572  580 0ARNUM4                          PROGRESSIVO ANAGRAFICA                   9000051
+   519=I                             S  581  589 0ARNUM5                          PROGRESSIVO ANAGRAFICA                   9000052
+   520=I                             A  590  639  ARKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA      9000053
+   521=IRANDEL                                                                                                            10000001
+        *--------------------------------------------------------------------------------------------*                    10
+        * Formato record RPG . . . . :  RANDEL                                                       *                    10
+        * Formato esterno  . . . . . :  RANDEL : MODELL/ANDEL01L                                     *                    10
+        * Formato testo. . . . . . . :  Anagrafica delegati                                          *                    10
+        *--------------------------------------------------------------------------------------------*                    10
+   522=I                             A    1   16  ADKDEL                          Codice Delegato                         10000002
+   523=I                             A   17   32  ADKRAP                          Codice Rapporto                         10000003
+   524=I                             A   33   33  ADLEGA                          Legame con Rapporto                     10000004
+   525=I                             A   34   34  ADFCAP                          Flag Apertura Registrata                10000005
+   526=I                             S   35   42 0ADDTAP                          Data Apertura Delega                    10000006
+   527=I                             A   43   43  ADFDCD                          Flag Delega Chiusa                      10000007
+   528=I                             S   44   51 0ADDTCD                          Data Chiusura Delega                    10000008
+   529=I                             A   52   52  ADFDCR                          Flag Chiusura Registrata                10000009
+   530=I                             S   53   60 0ADDTCR                          Data Chiusura Registrata                10000010
+   531=I                             A   61   76  ADDOLD                          Cod Deleg.                              10000011
+   532=I                             A   77   92  ADROLD                          Cod Rapp.                               10000012
+   533=I                             A   93  102  ADUTIM                          ID Utente Inserimento                   10000013
+   534=I                             S  103  110 0ADDTIM                          Data Inserimento                        10000014
+   535=I                             S  111  116 0ADHHIM                          Ora Inserimento                         10000015
+   536=I                             A  117  126  ADUTVA                          ID Utente Ultima Var.                   10000016
+   537=I                             S  127  134 0ADDTVA                          Data Ultima Var.                        10000017
+   538=I                             S  135  140 0ADHHVA                          Ora Ultima Var.                         10000018
+   539=I                             A  141  142  ADTRAT                          T.RAPP. PER AN.TRIBUT.                  10000019
+   540=I                             A  143  157  ADPRFI                          NOME FILE INVIO                         10000020
+   541=I                             A  158  182  ADPRRE                          NUMERO RECORD INVIO                     10000021
+   542=I                             A  183  184  ADRIIN                          FLAG AVANZAMENTO                        10000022
+   543=I                             S  185  193 0ADNUM1                          PROGRESSIVO ANAGRAFICA                  10000023
+   544=I                             A  194  243  ADKCOD                          CODICE RAPPORTO ANAGRAFE TRIBUTARIA     10000024
+   545=IPARAM1R                                                                                                           11000001
+        *--------------------------------------------------------------------------------------------*                    11
+        * Formato record RPG . . . . :  PARAM1R                                                      *                    11
+        * Formato esterno  . . . . . :  PARAM1R : MODELL/PARAM                                       *                    11
+        *--------------------------------------------------------------------------------------------*                    11
+   546=I                             A    1    1  PAFLAG                                                                  11000002
+   547=I                             A    2    3  PATREC                                                                  11000003
+   548=I                             A    4    6  PAKEYA                                                                  11000004
+   549=I                             A    7   15  PAKEYB                                                                  11000005
+   550=I                             A   16  128  PADESC                                                                  11000006
+   551=IRELSOG1R                                                                                                          12000001
+        *--------------------------------------------------------------------------------------------*                    12
+        * Formato record RPG . . . . :  RELSOG1R                                                     *                    12
+        * Formato esterno  . . . . . :  RELSOG1R : MODELL/RELSOG3L                                   *                    12
+        * Formato testo. . . . . . . :  RELAZIONI NDG SISPA/CLIENTE                                  *                    12
+        *--------------------------------------------------------------------------------------------*                    12
+   552=I                             A    1    1  RSFLAG                          Sts Record V/A               CMN        12000002
+   553=I                             P    2    6 0RSDINS                          Data Inserimento                        12000003
+   554=I                             A    7   16  RSUINS                          Utente Inserimento                      12000004
+   555=I                             P   17   21 0RSDUPD                          Data Aggiornamento                      12000005
+   556=I                             A   22   31  RSUUPD                          Utente Aggiornamento                    12000006
+   557=I                             A   32   39  RSNDGC                          Cod. NDG del Cliente                    12000007
+   558=I                             A   40   55  RSSOGS                          Cod. SOG di SISPA                       12000008
+   559=I                             A   56   71  RSFISC                          Cde Fiscale                  AC         12000009
+   560=IRANDIC                                                                                                            13000001
+        *--------------------------------------------------------------------------------------------*                    13
+        * Formato record RPG . . . . :  RANDIC                                                       *                    13
+        * Formato esterno  . . . . . :  RANDIC : MODELL/ANDIC04L                                     *                    13
+        *--------------------------------------------------------------------------------------------*                    13
+   561=I                             A    1   16  ANITEF                          CODICE DICHIARANTE                      13000002
+   562=I                             A   17   32  ANKINT                          CODICE INTESTATARIO                     13000003
+   563=I                             A   33   33  ANFCAP                          FLAG APERTURA                           13000004
+   564=I                             S   34   41 0ANDTAP                          DATA APERTURA LEGAME                    13000005
+   565=I                             A   42   42  ANFDCD                          FLAG CHIUSURA                           13000006
+   566=I                             S   43   50 0ANDTCD                          DATA CHIUSURA LEGAME                    13000007
+   567=I                             A   51   51  ANFDCR                          FLAG CHIUSURA REGISTRATA                13000008
+   568=I                             S   52   59 0ANDTCR                          DATA CHIUSURA REGISTRATA                13000009
+   569=I                             A   60   69  ANUTIM                          ID UTENTE INSERIMENTO                   13000010
+   570=I                             S   70   77 0ANDTIM                          DATA INSERIMENTO                        13000011
+   571=I                             S   78   83 0ANHHIM                          ORA INSERIMENTO                         13000012
+   572=I                             A   84   93  ANUTVA                          ID UTENTE ULTIMO UPDATE                 13000013
+   573=I                             S   94  101 0ANDTVA                          DATA ULTIMO UPDATE                      13000014
+   574=I                             S  102  107 0ANHHVA                          ORA ULTIMO UPDATE                       13000015
+   575=IRANTIT                                                                                                            14000001
+        *--------------------------------------------------------------------------------------------*                    14
+        * Formato record RPG . . . . :  RANTIT                                                       *                    14
+        * Formato esterno  . . . . . :  RANTIT : MODELL/ANTIT04L                                     *                    14
+        *--------------------------------------------------------------------------------------------*                    14
+   576=I                             A    1   16  ATITEF                          COD.TITOLARE EFFETTIVO                  14000002
+   577=I                             A   17   32  ATKINT                          CODICE INTESTATARIO                     14000003
+   578=I                             A   33   33  ATFCAP                          FLAG APERTURA                           14000004
+   579=I                             S   34   41 0ATDTAP                          DATA APERTURA LEGAME                    14000005
+   580=I                             A   42   42  ATFDCD                          FLAG CHIUSURA                           14000006
+   581=I                             S   43   50 0ATDTCD                          DATA CHIUSURA LEGAME                    14000007
+   582=I                             A   51   51  ATFDCR                          FLAG CHIUSURA REGISTRATA                14000008
+   583=I                             S   52   59 0ATDTCR                          DATA CHIUSURA REGISTRATA                14000009
+   584=I                             A   60   69  ATUTIM                          ID UTENTE INSERIMENTO                   14000010
+   585=I                             S   70   77 0ATDTIM                          DATA INSERIMENTO                        14000011
+   586=I                             S   78   83 0ATHHIM                          ORA INSERIMENTO                         14000012
+   587=I                             A   84   93  ATUTVA                          ID UTENTE ULTIMO UPDATE                 14000013
+   588=I                             S   94  101 0ATDTVA                          DATA ULTIMO UPDATE                      14000014
+   589=I                             S  102  107 0ATHHVA                          ORA ULTIMO UPDATE                       14000015
+   590 C                   CLEAR                   D24ERR                                                  LR01  100712     009000
+   591 C     D24SOG        IFNE      *BLANKS                                                           B01       080515     009100
+   592 C                   SELECT                                                                      B02       080515     009200
+   593 C     D24FAR        WHENEQ    'A'                                                               X02       080515     009300
+   594 C     D24FAR        OREQ      'C'                                                                02 LR01  100712     009400
+   595 C                   EXSR      $ANNSO                                                             02       080515     009500
+   596 C     D24FAR        WHENEQ    'R'                                                               X02       080515     009600
+   597 C                   EXSR      $RIPSO                                                             02       080515     009700
+   598 C                   ENDSL                                                                       E02       080515     009800
+   599 C                   ENDIF                                                                       E01       080515     009900
+   600 C*                                                                                                        080515     010000
+   601 C                   MOVEL     DSA024        KPJBU                                                   LR01  100712     010100
+   602 C                   MOVE      *ON           *INLR                                                         080515     010200
+   603 C******************************************************************                                       080515     010300
+   604 C*              ANNULLAMENTO SOGGETTO                             *                                       080515     010400
+   605 C******************************************************************                                       080515     010500
+   606 C     $ANNSO        BEGSR                                                                                 080515     010600
+   607 C*                                                                                                        080515     010700
+   608 C                   CLEAR                   SOG                                                           080515     010800
+   609 C                   CLEAR                   SVKRAP                                                        080515     010900
+   610 C                   MOVEL     *OFF          FLCLSO                                                        080515     011000
+   611 C*                                                                                                        080515     011100
+   612 C* Legge il rapporto passato come parametro per poter recuperare                                          080515     011200
+   613 C* eventuali altri soggetti da chiudere                                                                   080515     011300
+   614 C     D24RAP        CHAIN     ANRAP01L                           73----                                   080515     011400
+   615 C     *IN73         IFEQ      *OFF                                                              B01       080515     011500
+   616 C                   MOVEL     ARKRAP        SVKRAP                                               01       080514     011600
+   617 C                   MOVEL     ARKINT        SOG(1)                                               01       080514     011700
+   618 C                   MOVEL     ARKCO1        SOG(2)                                               01       080514     011800
+   619 C                   MOVEL     ARKCO2        SOG(3)                                               01       080514     011900
+   620 C                   MOVEL     ARKCO3        SOG(4)                                               01       080514     012000
+   621 C                   MOVEL     ARKCO4        SOG(5)                                               01       080514     012100
+   622 C                   ELSE                                                                        X01       080515     012200
+   623 C*                                                                                                        080515     012300
+   624 C* Se non è stato trovato il rapporto (o non è stato passato)                                             080515     012400
+   625 C* utilizza solamente il dato del soggetto che c'è per forza (test inizio)                                080515     012500
+   626 C                   MOVEL     D24SOG        SOG(1)                                               01       080515     012600
+   627 C                   MOVEL     D24RAP        SVKRAP                                               01       080515     012700
+   628 C     SVKRAP        IFEQ      *BLANKS                                                           B02       080515     012800
+   629 C                   MOVEL     D24SOG        SVKRAP                                               02       080515     012900
+   630 C                   ENDIF                                                                       E02       080515     013000
+   631 C                   ENDIF                                                                       E01       080515     013100
+   632 C*                                                                                                        080514     013200
+   633 C* Verifica sui rapporti se è possibile chiudere il/i soggetto/i                                          080515     013300
+   634 C     1             DO        5             I                 2 0                               B01       080514     013400
+   635 C     SOG(I)        IFEQ      *BLANKS                                                           B02       080514     013500
+   636 C                   LEAVE                                                                        02       080514     013600
+   637 C                   ENDIF                                                                       E02       080514     013700
+   638 C*                                                                                                        080514     013800
+   639 C                   MOVEL     *ON           FLCLSO                                               01       080514     013900
+   640 C*                                                                                                        080514     014000
+   641 C     SOG(I)        SETLL     ANRAP02L                                                           01       080514     014100
+   642 C                   DO        *HIVAL                                                            B02       080514     014200
+   643 C     SOG(I)        READE     ANRAP02L                           ----73                          02       080514     014300
+   644 C   73              LEAVE                                                                        02       080514     014400
+   645 C     ARFCCC        IFNE      'C'                                                               B03       080514     014500
+   646 C     ARKRAP        ANDNE     SVKRAP                                                             03       080514     014600
+   647 C                   MOVEL     *OFF          FLCLSO                                               03       080514     014700
+   648 C                   LEAVE                                                                        03       080514     014800
+   649 C                   ENDIF                                                                       E03       080514     014900
+   650 C                   ENDDO                                                                       E02       080514     015000
+   651 C*                                                                                                        080514     015100
+   652 C     FLCLSO        IFEQ      *ON                                                               B02       080514     015200
+   653 C     SOG(I)        SETLL     ANRAP03L                                                           02       080514     015300
+   654 C                   DO        *HIVAL                                                            B03       080514     015400
+   655 C     SOG(I)        READE     ANRAP03L                           ----73                          03       080514     015500
+   656 C   73              LEAVE                                                                        03       080514     015600
+   657 C     ARFCCC        IFNE      'C'                                                               B04       080514     015700
+   658 C     ARKRAP        ANDNE     SVKRAP                                                             04       080514     015800
+   659 C                   MOVEL     *OFF          FLCLSO                                               04       080514     015900
+   660 C                   LEAVE                                                                        04       080514     016000
+   661 C                   ENDIF                                                                       E04       080514     016100
+   662 C                   ENDDO                                                                       E03       080514     016200
+   663 C                   ENDIF                                                                       E02       080514     016300
+   664 C*                                                                                                        080514     016400
+   665 C     FLCLSO        IFEQ      *ON                                                               B02       080514     016500
+   666 C     SOG(I)        SETLL     ANRAP04L                                                           02       080514     016600
+   667 C                   DO        *HIVAL                                                            B03       080514     016700
+   668 C     SOG(I)        READE     ANRAP04L                           ----73                          03       080514     016800
+   669 C   73              LEAVE                                                                        03       080514     016900
+   670 C     ARFCCC        IFNE      'C'                                                               B04       080514     017000
+   671 C     ARKRAP        ANDNE     SVKRAP                                                             04       080514     017100
+   672 C                   MOVEL     *OFF          FLCLSO                                               04       080514     017200
+   673 C                   LEAVE                                                                        04       080514     017300
+   674 C                   ENDIF                                                                       E04       080514     017400
+   675 C                   ENDDO                                                                       E03       080514     017500
+   676 C                   ENDIF                                                                       E02       080514     017600
+   677 C*                                                                                                        080514     017700
+   678 C     FLCLSO        IFEQ      *ON                                                               B02       080514     017800
+   679 C     SOG(I)        SETLL     ANRAP05L                                                           02       080514     017900
+   680 C                   DO        *HIVAL                                                            B03       080514     018000
+   681 C     SOG(I)        READE     ANRAP05L                           ----73                          03       080514     018100
+   682 C   73              LEAVE                                                                        03       080514     018200
+   683 C     ARFCCC        IFNE      'C'                                                               B04       080514     018300
+   684 C     ARKRAP        ANDNE     SVKRAP                                                             04       080514     018400
+   685 C                   MOVEL     *OFF          FLCLSO                                               04       080514     018500
+   686 C                   LEAVE                                                                        04       080514     018600
+   687 C                   ENDIF                                                                       E04       080514     018700
+   688 C                   ENDDO                                                                       E03       080514     018800
+   689 C                   ENDIF                                                                       E02       080514     018900
+   690 C*                                                                                                        080514     019000
+   691 C     FLCLSO        IFEQ      *ON                                                               B02       080514     019100
+   692 C     SOG(I)        SETLL     ANRAP06L                                                           02       080514     019200
+   693 C                   DO        *HIVAL                                                            B03       080514     019300
+   694 C     SOG(I)        READE     ANRAP06L                           ----73                          03       080514     019400
+   695 C   73              LEAVE                                                                        03       080514     019500
+   696 C     ARFCCC        IFNE      'C'                                                               B04       080514     019600
+   697 C     ARKRAP        ANDNE     SVKRAP                                                             04       080514     019700
+   698 C                   MOVEL     *OFF          FLCLSO                                               04       080514     019800
+   699 C                   LEAVE                                                                        04       080514     019900
+   700 C                   ENDIF                                                                       E04       080514     020000
+   701 C                   ENDDO                                                                       E03       080514     020100
+   702 C                   ENDIF                                                                       E02       080514     020200
+   703 C*                                                                                                        080515     020300
+   704 C* Verifica sulle deleghe se è possibile chiudere il/i soggetto/i                                         080515     020400
+   705 C     FLCLSO        IFEQ      *ON                                                               B02       080515     020500
+   706 C     SOG(I)        SETLL     ANDEL01L                                                           02       080515     020600
+   707 C                   DO        *HIVAL                                                            B03       080515     020700
+   708 C     SOG(I)        READE     ANDEL01L                           ----73                          03       080515     020800
+   709 C   73              LEAVE                                                                        03       080515     020900
+   710 C*                    La vista logica vede già solo                                                       080515     021000
+   711 C*                    le deleghe aperte per cui se viene                                                  080515     021100
+   712 C*                    trovato qualcosa è sicuramente valido                                               080515     021200
+   713 C*                    e quindi il soggetto corrente NON deve essere chiuso                                080515     021300
+   714 C                   MOVEL     *OFF          FLCLSO                                               03       080515     021400
+   715 C                   LEAVE                                                                        03       080515     021500
+   716 C                   ENDDO                                                                       E03       080515     021600
+   717 C                   ENDIF                                                                       E02       080515     021700
+   718 C*                                                                                                  LR01  100712     021800
+   719 C* Verifica esistenza in Titolari                                                                   LR01  100712     021900
+   720 C     FLCLSO        IFEQ      *ON                                                               B02 LR01  101124     022000
+   721 C**SS03     SOG,I     CHAINRANTIT               73                                                  LR01  101124     022100
+   722 C**SS03     *IN73     IFEQ *OFF                                                                     LR01  101124     022200
+   723 C**SS03               MOVEL*OFF      FLCLSO                                                         LR01  101124     022300
+   724 C**SS03               ENDIF                                                                         LR01  101124     022400
+   725 C     SOG(I)        SETLL     ANTIT04L                                                           02 SS03  101124     022500
+   726 C                   DO        *HIVAL                                                            B03 SS03  101124     022600
+   727 C     SOG(I)        READE     ANTIT04L                           ----73                          03 SS03  101124     022700
+   728 C   73              LEAVE                                                                        03 SS03  101124     022800
+   729 C     ATFDCD        IFNE      'C'                                                               B04 SS03  101124     022900
+   730 C                   MOVEL     *OFF          FLCLSO                                               04 SS03  101124     023000
+   731 C                   LEAVE                                                                        04 GC01  110609     023100
+   732 C                   ENDIF                                                                       E04 SS03  101124     023200
+   733 C                   ENDDO                                                                       E03 SS03  101124     023300
+   734 C                   ENDIF                                                                       E02 LR01  101124     023400
+   735 C*                                                                                                  LR01  100712     023500
+   736 C* Verifica esistenza in Dichiaranti                                                                LR01  100712     023600
+   737 C     FLCLSO        IFEQ      *ON                                                               B02 LR01  101124     023700
+   738 C**SS03     SOG,I     CHAINRANDIC               73                                                  LR01  101124     023800
+   739 C**SS03     *IN73     IFEQ *OFF                                                                     LR01  101124     023900
+   740 C**SS03               MOVEL*OFF      FLCLSO                                                         LR01  101124     024000
+   741 C**SS03               ENDIF                                                                         LR01  101124     024100
+   742 C     SOG(I)        SETLL     ANDIC04L                                                           02 SS03  101124     024200
+   743 C                   DO        *HIVAL                                                            B03 SS03  101124     024300
+   744 C     SOG(I)        READE     ANDIC04L                           ----73                          03 SS03  101124     024400
+   745 C   73              LEAVE                                                                        03 SS03  101124     024500
+   746 C     ANFDCD        IFNE      'C'                                                               B04 SS03  101124     024600
+   747 C                   MOVEL     *OFF          FLCLSO                                               04 SS03  101124     024700
+   748 C                   LEAVE                                                                        04 GC01  110609     024800
+   749 C                   ENDIF                                                                       E04 SS03  101124     024900
+   750 C                   ENDDO                                                                       E03 SS03  101124     025000
+   751 C                   ENDIF                                                                       E02 LR01  100712     025100
+   752 C*                                                                                                  LR01  100712     025200
+   753 C* Imposta flag che ritorna errore                                                                  LR01  100712     025300
+   754 C     FLCLSO        IFEQ      *OFF                                                              B02 LR01  100712     025400
+   755 C                   MOVE      'E'           D24ERR                                               02 LR01  100712     025500
+   756 C                   ENDIF                                                                       E02 LR01  100712     025600
+   757 C* Se solo controllo salta aggiornamenti                                                            LR01  100712     025700
+   758 C     D24FAR        IFEQ      'C'                                                               B02 LR01  100712     025800
+   759 C                   MOVEL     *OFF          FLCLSO                                               02 LR01  100712     025900
+   760 C                   ENDIF                                                                       E02 LR01  100712     026000
+   761 C*                                                                                                        080514     026100
+   762 C* Chiude il soggetto                                                                                     080515     026200
+   763 C     FLCLSO        IFEQ      *ON                                                               B02       080514     026300
+   764 C     SOG(I)        CHAIN     ANSOG01L                           73----                          02       080514     026400
+   765 C     *IN73         IFEQ      *OFF                                                              B03       080514     026500
+   766 C                   MOVEL     'C'           SOGBLK                                               03       080514     026600
+   767 C                   UPDATE    RANSOG                                                             03       080514     026700
+   768 C                   ENDIF                                                                       E03       080514     026800
+   769 C*                                                                                                  SS01  081104     026900
+   770 C* Chiude relazione NDG Sispa/NDG cliente legata al soggetto                                        SS01  081104     027000
+   771 C     FLNDGC        IFEQ      *ON                                                               B03 SS01  081104     027100
+   772 C     SOG(I)        CHAIN     RELSOG3L                           73----                          03 SS01  081104     027200
+   773 C     *IN73         IFEQ      *OFF                                                              B04 SS01  081104     027300
+   774 C     RSFLAG        ANDEQ     'V'                                                                04 SS01  081104     027400
+   775 C                   MOVEL     'A'           RSFLAG                                               04 SS01  081104     027500
+   776 C                   Z-ADD     *DATE         RSDUPD                                               04 SS01  081104     027600
+   777 C                   MOVEL     KNMUS         RSUUPD                                               04 SS01  081104     027700
+   778 C                   UPDATE    RELSOG1R                                                           04 SS01  081104     027800
+   779 C                   ENDIF                                                                       E04 SS01  081104     027900
+   780 C                   ENDIF                                                                       E03 SS01  081104     028000
+   781 C*                                                                                                  SS01  081104     028100
+   782 C                   ENDIF                                                                       E02       080514     028200
+   783 C*                                                                                                        080514     028300
+   784 C                   ENDDO                                                                       E01       080514     028400
+   785 C*                                                                                                        080514     028500
+   786 C                   ENDSR                                                                                 080515     028600
+   787 C******************************************************************                                       080515     028700
+   788 C*              RIPRISTINO SOGGETTO                               *                                       080515     028800
+   789 C******************************************************************                                       080515     028900
+   790 C     $RIPSO        BEGSR                                                                                 080515     029000
+   791 C*                                                                                                  SS02  090122     029100
+   792 C                   CLEAR                   SOG                                                     SS02  090122     029200
+   793 C                   CLEAR                   SVKRAP                                                  SS02  090122     029300
+   794 C                   MOVEL     *OFF          FLCLSO                                                  SS02  090122     029400
+   795 C*                                                                                                  SS02  090122     029500
+   796 C* Legge il rapporto passato come parametro per poter recuperare                                    SS02  090122     029600
+   797 C* eventuali altri soggetti da aprire nel caso di cointestazioni                                    SS02  090122     029700
+   798 C* (es. riapertura di una garanzia cointestata)                                                     SS02  090122     029800
+   799 C     D24RAP        CHAIN     ANRAP01L                           73----                             SS02  090122     029900
+   800 C     *IN73         IFEQ      *OFF                                                              B01 SS02  090122     030000
+   801 C                   MOVEL     ARKRAP        SVKRAP                                               01 SS02  090122     030100
+   802 C                   MOVEL     ARKINT        SOG(1)                                               01 SS02  090122     030200
+   803 C                   MOVEL     ARKCO1        SOG(2)                                               01 SS02  090122     030300
+   804 C                   MOVEL     ARKCO2        SOG(3)                                               01 SS02  090122     030400
+   805 C                   MOVEL     ARKCO3        SOG(4)                                               01 SS02  090122     030500
+   806 C                   MOVEL     ARKCO4        SOG(5)                                               01 SS02  090122     030600
+   807 C                   ELSE                                                                        X01 SS02  090122     030700
+   808 C*                                                                                                  SS02  090122     030800
+   809 C* Se non è stato trovato il rapporto (o non è stato passato)                                       SS02  090122     030900
+   810 C* utilizza solamente il dato del soggetto che c'è per forza (test inizio)                          SS02  090122     031000
+   811 C                   MOVEL     D24SOG        SOG(1)                                               01 SS02  090122     031100
+   812 C                   MOVEL     D24RAP        SVKRAP                                               01 SS02  090122     031200
+   813 C     SVKRAP        IFEQ      *BLANKS                                                           B02 SS02  090122     031300
+   814 C                   MOVEL     D24SOG        SVKRAP                                               02 SS02  090122     031400
+   815 C                   ENDIF                                                                       E02 SS02  090122     031500
+   816 C                   ENDIF                                                                       E01 SS02  090122     031600
+   817 C*                                                                                                        080515     031700
+   818 C* Riapre il/i soggetto/i                                                                           SS02  090122     031800
+   819 C     1             DO        5             I                 2 0                               B01 SS02  090122     031900
+   820 C     SOG(I)        IFEQ      *BLANKS                                                           B02 SS02  090122     032000
+   821 C                   LEAVE                                                                        02 SS02  090122     032100
+   822 C                   ENDIF                                                                       E02 SS02  090122     032200
+   823 C*                                                                                                  SS02  090122     032300
+   824 C     SOG(I)        CHAIN     ANSOG01L                           73----                          01 SS02  090122     032400
+   825 C     *IN73         IFEQ      *OFF                                                              B02       080521     032500
+   826 C     SOGBLK        IFEQ      'C'                                                               B03       080521     032600
+   827 C                   MOVEL     *BLANKS       SOGBLK                                               03       080521     032700
+   828 C                   UPDATE    RANSOG                                                             03       080521     032800
+   829 C                   ELSE                                                                        X03       080521     032900
+   830 C                   UNLOCK    ANSOG01L                                                           03       080521     033000
+   831 C                   ENDIF                                                                       E03       080521     033100
+   832 C                   ENDIF                                                                       E02       080521     033200
+   833 C*                                                                                                  SS01  081104     033300
+   834 C* Ripristina relazione NDG Sispa/NDG cliente legata al soggetto                                    SS01  081104     033400
+   835 C     FLNDGC        IFEQ      *ON                                                               B02 SS01  081104     033500
+   836 C     D24SOG        CHAIN     RELSOG3L                           73----                          02 SS01  081104     033600
+   837 C     *IN73         IFEQ      *OFF                                                              B03 SS01  081104     033700
+   838 C     RSFLAG        IFEQ      'A'                                                               B04 SS01  081104     033800
+   839 C                   MOVEL     'V'           RSFLAG                                               04 SS01  081104     033900
+   840 C                   Z-ADD     *DATE         RSDUPD                                               04 SS01  081104     034000
+   841 C                   MOVEL     KNMUS         RSUUPD                                               04 SS01  081104     034100
+   842 C                   UPDATE    RELSOG1R                                                           04 SS01  081104     034200
+   843 C                   ELSE                                                                        X04 SS01  081104     034300
+   844 C                   UNLOCK    RELSOG3L                                                           04 SS01  081104     034400
+   845 C                   ENDIF                                                                       E04 SS01  081104     034500
+   846 C                   ENDIF                                                                       E03 SS01  081104     034600
+   847 C                   ENDIF                                                                       E02 SS01  081104     034700
+   848 C*                                                                                                  SS01  081104     034800
+   849 C                   ENDDO                                                                       E01 SS02  090122     034900
+   850 C*                                                                                                        080515     035000
+   851 C                   ENDSR                                                                                 080515     035100
+   852 C******************************************************************                                       080514     035200
+   853 C*              OPERAZIONI INIZIALI                               *                                       080514     035300
+   854 C******************************************************************                                       080514     035400
+   855 C     *INZSR        BEGSR                                                                                 080514     035500
+   856 C*                                                                                                        080514     035600
+   857 C     *ENTRY        PLIST                                                                                 080514     035700
+   858 C                   PARM                    KPJBA                                                         080514     035800
+   859 C                   MOVEL     KPJBU         DSA024                                                        080514     035900
+   860 C*                                                                                                        080514     036000
+   861 C     *LIKE         DEFINE    *INLR         FLCLSO                                                        080514     036100
+   862 C     *LIKE         DEFINE    ARKRAP        SVKRAP                                                        080818     036200
+   863 C     *LIKE         DEFINE    *INLR         FLNDGC                                                  SS01  081104     036300
+   864 C*                                                                                                  SS01  081104     036400
+   865 C* Chiave per PARAM                                                                                 SS01  081104     036500
+   866 C     PAKEY         KLIST                                                                           SS01  081104     036600
+   867 C                   KFLD                    PAKEYA                                                  SS01  081104     036700
+   868 C                   KFLD                    PAKEYB                                                  SS01  081104     036800
+   869 C*                                                                                                  SS01  081104     036900
+   870 C* GESTIONE PARAMETRO NDG                                                                           SS01  081104     037000
+   871 C* (se la società è abilitata, gestisco anche RELSOG)                                               SS01  081104     037100
+   872 C                   MOVE      'NDG'         PAKEYA                                                  SS01  081104     037200
+   873 C                   MOVE      *ZEROS        PAKEYB                                                  SS01  081104     037300
+   874 C                   MOVE      '1'           PAKEYB                                                  SS01  081104     037400
+   875 C     PAKEY         CHAIN     PARAM                              74----                             SS01  081104     037500
+   876 C     *IN74         IFEQ      *OFF                                                              B01 SS01  081104     037600
+   877 C                   MOVEL     D24SOG        PREFSO            3                                  01 SS01  081104     037700
+   878 C     PREFSO        IFEQ      'CED'                                                             B02 SS01  081104     037800
+   879 C     PREFSO        OREQ      'DEB'                                                              02 SS01  081104     037900
+   880 C     PREFSO        OREQ      'CPP'                                                              02 SS01  081104     038000
+   881 C     PREFSO        OREQ      'GAR'                                                              02 SS01  081104     038100
+   882 C     PREFSO        OREQ      'TIT'                                                              02 SS01  081104     038200
+   883 C                   MOVEL     *OFF          FLNDGC                                               02 SS01  081104     038300
+   884 C                   ELSE                                                                        X02 SS01  081104     038400
+   885 C                   MOVEL     *ON           FLNDGC                                               02 SS01  081104     038500
+   886 C                   ENDIF                                                                       E02 SS01  081104     038600
+   887 C                   ELSE                                                                        X01 SS01  081104     038700
+   888 C                   MOVEL     *OFF          FLNDGC                                               01 SS01  081104     038800
+   889 C                   ENDIF                                                                       E01 SS01  081104     038900
+   890 C*                                                                                                        080514     039000
+   891 C                   ENDSR                                                                                 080514     039100
+   892=ORANSOG                                                                                                            15000001
+        *--------------------------------------------------------------------------------------------*                    15
+        * Formato record RPG . . . . :  RANSOG                                                       *                    15
+        * Formato esterno  . . . . . :  RANSOG : MODELL/ANSOG01L                                     *                    15
+        * Formato testo. . . . . . . :  Anagrafica Soggetti R.U.A.                                   *                    15
+        *--------------------------------------------------------------------------------------------*                    15
+   893=O                       KODSOT              16A CHAR       16              Cod. Sogg.                              15000002
+   894=O                       SOGBLK              17A CHAR        1              STATO Sog. B/I                          15000003
+   895=O                       CGNSOT              87A CHAR       70              Cogn Nome                               15000004
+   896=O                       DTNSOT              95S ZONE      8,0              Data Nasc.                              15000005
+   897=O                       LGNSOT             125A CHAR       30              Luogo Nasc.                             15000006
+   898=O                       PRNSOT             127A CHAR        2              Prov Nasc                               15000007
+   899=O                       LGRSOT             157A CHAR       30              Luogo Resid                             15000008
+   900=O                       VIASOT             192A CHAR       35              Indirizzo                               15000009
+   901=O                       PRRSOT             194A CHAR        2              Prov Resid                              15000010
+   902=O                       CAPSOT             199A CHAR        5              Codice Avviamento Postale               15000011
+   903=O                       CCASOT             205A CHAR        6              Codice C.A.B.                           15000012
+   904=O                       SEXSOT             206A CHAR        1              Sesso                                   15000013
+   905=O                       CFSSOT             222A CHAR       16              Codice Fiscale                          15000014
+   906=O                       PAESOT             225A CHAR        3              Codice Paese Residenza                  15000015
+   907=O                       STGSOT             228A CHAR        3              Sgrp Attiv. Econ.                       15000016
+   908=O                       RAMSOT             231A CHAR        3              Gruppo Attiv. Econ.                     15000017
+   909=O                       NUMDCI             241A CHAR       10              Num. Doc                                15000018
+   910=O                       TIPDCI             243A CHAR        2              Tipo Doc                                15000019
+   911=O                       DTRDCI             251S ZONE      8,0              Data Ril Doc                            15000020
+   912=O                       ENRDCI             281A CHAR       30              Ente Ril Doc                            15000021
+   913=O                       KODSO2             297A CHAR       16              Cod. Sogg.                              15000022
+   914=O                       CGNSO2             367A CHAR       70              Cogn Nome                               15000023
+   915=O                       DTNSO2             375S ZONE      8,0              Data Nasc.                              15000024
+   916=O                       LGNSO2             405A CHAR       30              Luogo Nasc.                             15000025
+   917=O                       PRNSO2             407A CHAR        2              Prov Nasc                               15000026
+   918=O                       LGRSO2             437A CHAR       30              Luogo Resid                             15000027
+   919=O                       VIASO2             472A CHAR       35              Indirizzo                               15000028
+   920=O                       PRRSO2             474A CHAR        2              Prov Resid                              15000029
+   921=O                       CAPSO2             479A CHAR        5              Codice Avviamento Postale               15000030
+   922=O                       CCASO2             485A CHAR        6              Codice C.A.B.                           15000031
+   923=O                       SEXSO2             486A CHAR        1              Sesso                                   15000032
+   924=O                       CFSSO2             502A CHAR       16              Codice Fiscale                          15000033
+   925=O                       PAESO2             505A CHAR        3              Codice Paese Residenza                  15000034
+   926=O                       STGSO2             508A CHAR        3              Sgrp Attiv. Econ.                       15000035
+   927=O                       RAMSO2             511A CHAR        3              Gruppo Attiv. Econ.                     15000036
+   928=O                       NUMDC2             521A CHAR       10              Num. Doc                                15000037
+   929=O                       TIPDC2             523A CHAR        2              Tipo Doc                                15000038
+   930=O                       DTRDC2             531S ZONE      8,0              Data Ril Doc                            15000039
+   931=O                       ENRDC2             561A CHAR       30              Ente Ril Doc                            15000040
+   932=O                       COGSOT             591A CHAR       30              COGNONE PURO                            15000041
+   933=O                       NOMSOT             621A CHAR       30              NOME PURO                               15000042
+   934=O                       STSQUO             622A CHAR        1              SOCIETA QUOTATA                         15000043
+   935=O                       FRETIT             623A CHAR        1              IGNORA TITOLARE                         15000044
+   936=O                       SXECSZ             624A CHAR        1              Cde Sezione Ateco                       15000045
+   937=O                       SXECDV             626A CHAR        2              Cde Divisione Ateco                     15000046
+   938=O                       SXECGR             627A CHAR        1              Cde Gruppo Ateco                        15000047
+   939=O                       SXECCL             628A CHAR        1              Cde Classe Ateco                        15000048
+   940=O                       SXECCA             629A CHAR        1              Cde Categoria Ateco                     15000049
+   941=O                       SXECSC             630A CHAR        1              Cde Sottocategoria Ateco                15000050
+   942=O                       SOFLG1             631A CHAR        1              FLAG 1                                  15000051
+   943=O                       SOFLG2             632A CHAR        1              FLAG 2                                  15000052
+   944=O                       SOFLG3             633A CHAR        1              FLAG 3                                  15000053
+   945=O                       SOUTIM             643A CHAR       10              ID Utente Inserimento                   15000054
+   946=O                       SODTIM             651S ZONE      8,0              Data Inserimento                        15000055
+   947=O                       SOHHIM             657S ZONE      6,0              Ora Inserimento                         15000056
+   948=O                       SOUTVA             667A CHAR       10              ID Utente Ultima Var.                   15000057
+   949=O                       SODTVA             675S ZONE      8,0              Data Ultima Var.                        15000058
+   950=O                       SOHHVA             681S ZONE      6,0              Ora Ultima Var.                         15000059
+   951=O                       DITTA              682A CHAR        1              X = DITTA INDIVIDUALE                   15000060
+   952=O                       ART25              683A CHAR        1              X = SOCIETA ART. 25                     15000061
+   953=ORELSOG1R                                                                                                          16000001
+        *--------------------------------------------------------------------------------------------*                    16
+        * Formato record RPG . . . . :  RELSOG1R                                                     *                    16
+        * Formato esterno  . . . . . :  RELSOG1R : MODELL/RELSOG3L                                   *                    16
+        * Formato testo. . . . . . . :  RELAZIONI NDG SISPA/CLIENTE                                  *                    16
+        *--------------------------------------------------------------------------------------------*                    16
+   954=O                       RSFLAG               1A CHAR        1              Sts Record V/A               CMN        16000002
+   955=O                       RSDINS               6P PACK      8,0              Data Inserimento                        16000003
+   956=O                       RSUINS              16A CHAR       10              Utente Inserimento                      16000004
+   957=O                       RSDUPD              21P PACK      8,0              Data Aggiornamento                      16000005
+   958=O                       RSUUPD              31A CHAR       10              Utente Aggiornamento                    16000006
+   959=O                       RSNDGC              39A CHAR        8              Cod. NDG del Cliente                    16000007
+   960=O                       RSSOGS              55A CHAR       16              Cod. SOG di SISPA                       16000008
+   961=O                       RSFISC              71A CHAR       16              Cde Fiscale                  AC         16000009
+       * * * * *   F I N E   O R I G I N E    * * * * *
+      M e s s a g g i   d i   d i a g n o s t i c a   a g g i u n t i v i
+ Id msg  Sv Numero Seq.    Testo messaggio
+*RNF7066 00     70 007000  Il Formato record PARAM1R non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     69 006900  Il Formato record RANDEL non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     72 007200  Il Formato record RANDIC non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     58 005800  Il Formato record RANRAP non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     59 005900  Il Formato record RANRAP2 non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     61 006100  Il Formato record RANRAP3 non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     63 006300  Il Formato record RANRAP4 non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     65 006500  Il Formato record RANRAP5 non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     67 006700  Il Formato record RANRAP6 non viene utilizzato per
+                           l'immissione e l'emissione.
+*RNF7066 00     73 007300  Il Formato record RANTIT non viene utilizzato per
+                           l'immissione e l'emissione.
+ * * * * *   F I N E   M E S S A G G I  D I   D I A G N O S T I C A   A G G I U N T I V I   * * * * *
+          P o s i z i o n i   b u f f e r    d i   e m i s s i o n e
+Riga   Iniz. Fine  Campo o costante
+Numero Pos   Pos
+   893     1    16 KODSOT
+   894    17    17 SOGBLK
+   895    18    87 CGNSOT
+   896    88    95 DTNSOT
+   897    96   125 LGNSOT
+   898   126   127 PRNSOT
+   899   128   157 LGRSOT
+   900   158   192 VIASOT
+   901   193   194 PRRSOT
+   902   195   199 CAPSOT
+   903   200   205 CCASOT
+   904   206   206 SEXSOT
+   905   207   222 CFSSOT
+   906   223   225 PAESOT
+   907   226   228 STGSOT
+   908   229   231 RAMSOT
+   909   232   241 NUMDCI
+   910   242   243 TIPDCI
+   911   244   251 DTRDCI
+   912   252   281 ENRDCI
+   913   282   297 KODSO2
+   914   298   367 CGNSO2
+   915   368   375 DTNSO2
+   916   376   405 LGNSO2
+   917   406   407 PRNSO2
+   918   408   437 LGRSO2
+   919   438   472 VIASO2
+   920   473   474 PRRSO2
+   921   475   479 CAPSO2
+   922   480   485 CCASO2
+   923   486   486 SEXSO2
+   924   487   502 CFSSO2
+   925   503   505 PAESO2
+   926   506   508 STGSO2
+   927   509   511 RAMSO2
+   928   512   521 NUMDC2
+   929   522   523 TIPDC2
+   930   524   531 DTRDC2
+   931   532   561 ENRDC2
+   932   562   591 COGSOT
+   933   592   621 NOMSOT
+   934   622   622 STSQUO
+   935   623   623 FRETIT
+   936   624   624 SXECSZ
+   937   625   626 SXECDV
+   938   627   627 SXECGR
+   939   628   628 SXECCL
+   940   629   629 SXECCA
+   941   630   630 SXECSC
+   942   631   631 SOFLG1
+   943   632   632 SOFLG2
+   944   633   633 SOFLG3
+   945   634   643 SOUTIM
+   946   644   651 SODTIM
+   947   652   657 SOHHIM
+   948   658   667 SOUTVA
+   949   668   675 SODTVA
+   950   676   681 SOHHVA
+   951   682   682 DITTA
+   952   683   683 ART25
+   954     1     1 RSFLAG
+   955     2     6 RSDINS
+   956     7    16 RSUINS
+   957    17    21 RSDUPD
+   958    22    31 RSUUPD
+   959    32    39 RSNDGC
+   960    40    55 RSSOGS
+   961    56    71 RSFISC
+     * * * * *   F I N E   P O S I Z I O N E   B U F F E R   D I   E M I S I O N E    * * * * *
+                I n f o r m a z i o n i  c a m p i   c h i a v e
+         File           Interno     Esterno
+           Record       nome campo  nome campo  Attributi
+      8  ANDEL01L
+           RANDEL
+                        ADKDEL                  CHAR       16
+                        ADKRAP                  CHAR       16
+     11  ANDIC04L
+           RANDIC
+                        ANITEF                  CHAR       16
+      2  ANRAP01L
+           RANRAP
+                        ARKRAP                  CHAR       16
+      3  ANRAP02L
+           RANRAP2 è il nome RPG del formato esterno RANRAP.
+                        ARKINT                  CHAR       16
+      4  ANRAP03L
+           RANRAP3 è il nome RPG del formato esterno RANRAP.
+                        ARKCO1                  CHAR       16
+      5  ANRAP04L
+           RANRAP4 è il nome RPG del formato esterno RANRAP.
+                        ARKCO2                  CHAR       16
+      6  ANRAP05L
+           RANRAP5 è il nome RPG del formato esterno RANRAP.
+                        ARKCO3                  CHAR       16
+      7  ANRAP06L
+           RANRAP6 è il nome RPG del formato esterno RANRAP.
+                        ARKCO4                  CHAR       16
+      1  ANSOG01L
+           RANSOG
+                        KODSOT                  CHAR       16
+     12  ANTIT04L
+           RANTIT
+                        ATITEF                  CHAR       16
+      9  PARAM
+           PARAM1R
+                        PAKEYA                  CHAR        3
+                        PAKEYB                  CHAR        9
+     10  RELSOG3L
+           RELSOG1R
+                        RSSOGS                  CHAR       16
+                        RSNDGC                  CHAR        8
+                        RSFISC                  CHAR       16
+ * * * * *   F I N E   I N F O R M A Z I O N I   C A M P I   C H I A V E   * * * * *
+                    R i f e r i m e n t i   i n c r o c i a t i
+      Riferimenti file e record:
+         File              Unità              Riferimenti (D=Definito)
+           Record
+         ANDEL01L          DISK                   69D    706     708
+           RANDEL                                 69D    521
+         ANDIC04L          DISK                   72D    742     744
+           RANDIC                                 72D    560
+         ANRAP01L          DISK                   58D    614     799
+           RANRAP                                 58D    203
+         ANRAP02L          DISK                   59D    641     643
+           RANRAP2                                60     256
+         ANRAP03L          DISK                   61D    653     655
+           RANRAP3                                62     309
+         ANRAP04L          DISK                   63D    666     668
+           RANRAP4                                64     362
+         ANRAP05L          DISK                   65D    679     681
+           RANRAP5                                66     415
+         ANRAP06L          DISK                   67D    692     694
+           RANRAP6                                68     468
+         ANSOG01L          DISK                   57D    764     824     830
+           RANSOG                                 57D    142     767     828
+                                                 892
+         ANTIT04L          DISK                   73D    725     727
+           RANTIT                                 73D    575
+         PARAM             DISK                   70D    875
+           PARAM1R                                70D    545
+         RELSOG3L          DISK                   71D    772     836     844
+           RELSOG1R                               71D    551     778     842
+                                                 953
+Riferimenti campo globali:
+         Campo             Attributi          Riferimenti (D=Defin. M=Modific.)
+         $ANNSO            BEGSR                 595     606D
+         $RIPSO            BEGSR                 597     790D
+         *DATE             S(8,0)                776     840
+         *ENTRY            PLIST                 857D
+         *INLR             N(1)                  602M    861     863
+         *INZSR            BEGSR                 855D
+         *IN73             N(1)                  615     765     773     800
+                                                 825     837
+         *IN74             N(1)                  876
+*RNF7031 ADDOLD            A(16)                 531D
+*RNF7031 ADDTAP            P(8,0)                526D
+*RNF7031 ADDTCD            P(8,0)                528D
+*RNF7031 ADDTCR            P(8,0)                530D
+*RNF7031 ADDTIM            P(8,0)                534D
+*RNF7031 ADDTVA            P(8,0)                537D
+*RNF7031 ADFCAP            A(1)                  525D
+*RNF7031 ADFDCD            A(1)                  527D
+*RNF7031 ADFDCR            A(1)                  529D
+*RNF7031 ADHHIM            P(6,0)                535D
+*RNF7031 ADHHVA            P(6,0)                538D
+*RNF7031 ADKCOD            A(50)                 544D
+*RNF7031 ADKDEL            A(16)                 522D
+*RNF7031 ADKRAP            A(16)                 523D
+*RNF7031 ADLEGA            A(1)                  524D
+*RNF7031 ADNUM1            P(9,0)                543D
+*RNF7031 ADPRFI            A(15)                 540D
+*RNF7031 ADPRRE            A(25)                 541D
+*RNF7031 ADRIIN            A(2)                  542D
+*RNF7031 ADROLD            A(16)                 532D
+*RNF7031 ADTRAT            A(2)                  539D
+*RNF7031 ADUTIM            A(10)                 533D
+*RNF7031 ADUTVA            A(10)                 536D
+*RNF7031 ANDTAP            P(8,0)                564D
+*RNF7031 ANDTCD            P(8,0)                566D
+*RNF7031 ANDTCR            P(8,0)                568D
+*RNF7031 ANDTIM            P(8,0)                570D
+*RNF7031 ANDTVA            P(8,0)                573D
+*RNF7031 ANFCAP            A(1)                  563D
+         ANFDCD            A(1)                  565D    746
+*RNF7031 ANFDCR            A(1)                  567D
+*RNF7031 ANHHIM            P(6,0)                571D
+*RNF7031 ANHHVA            P(6,0)                574D
+*RNF7031 ANITEF            A(16)                 561D
+*RNF7031 ANKINT            A(16)                 562D
+*RNF7031 ANUTIM            A(10)                 569D
+*RNF7031 ANUTVA            A(10)                 572D
+*RNF7031 ARCABD            A(6)                  212D    265M    318M    371M
+                                                 424M    477M
+*RNF7031 ARDESC            A(30)                 249D    302M    355M    408M
+                                                 461M    514M
+*RNF7031 ARDR99            A(24)                 248D    301M    354M    407M
+                                                 460M    513M
+*RNF7031 ARDTAP            P(8,0)                215D    268M    321M    374M
+                                                 427M    480M
+*RNF7031 ARDTCC            P(8,0)                217D    270M    323M    376M
+                                                 429M    482M
+*RNF7031 ARDTCH            P(8,0)                219D    272M    325M    378M
+                                                 431M    484M
+*RNF7031 ARDTIM            P(8,0)                227D    280M    333M    386M
+                                                 439M    492M
+*RNF7031 ARDTVA            P(8,0)                230D    283M    336M    389M
+                                                 442M    495M
+*RNF7031 ARFCAP            A(1)                  214D    267M    320M    373M
+                                                 426M    479M
+         ARFCCC            A(1)                  216D    269M    322M    375M
+                                                 428M    481M    645     657
+                                                 670     683     696
+*RNF7031 ARFCCH            A(1)                  218D    271M    324M    377M
+                                                 430M    483M
+*RNF7031 ARHHIM            P(6,0)                228D    281M    334M    387M
+                                                 440M    493M
+*RNF7031 ARHHVA            P(6,0)                231D    284M    337M    390M
+                                                 443M    496M
+*RNF7031 ARIOLD            A(16)                 221D    274M    327M    380M
+                                                 433M    486M
+*RNF7031 ARKCOD            A(50)                 255D    308M    361M    414M
+                                                 467M    520M
+         ARKCO1            A(16)                 206D    259M    312M    365M
+                                                 418M    471M    618     803
+         ARKCO2            A(16)                 207D    260M    313M    366M
+                                                 419M    472M    619     804
+         ARKCO3            A(16)                 208D    261M    314M    367M
+                                                 420M    473M    620     805
+         ARKCO4            A(16)                 209D    262M    315M    368M
+                                                 421M    474M    621     806
+*RNF7031 ARKDIV            A(3)                  213D    266M    319M    372M
+                                                 425M    478M
+         ARKINT            A(16)                 205D    258M    311M    364M
+                                                 417M    470M    617     802
+         ARKRAP            A(16)                 204D    257M    310M    363M
+                                                 416M    469M    616     646
+                                                 658     671     684     697
+                                                 801     862
+*RNF7031 ARNUM1            P(9,0)                250D    303M    356M    409M
+                                                 462M    515M
+*RNF7031 ARNUM2            P(9,0)                251D    304M    357M    410M
+                                                 463M    516M
+*RNF7031 ARNUM3            P(9,0)                252D    305M    358M    411M
+                                                 464M    517M
+*RNF7031 ARNUM4            P(9,0)                253D    306M    359M    412M
+                                                 465M    518M
+*RNF7031 ARNUM5            P(9,0)                254D    307M    360M    413M
+                                                 466M    519M
+*RNF7031 ARPRFI            A(15)                 233D    286M    339M    392M
+                                                 445M    498M
+*RNF7031 ARPRF1            A(15)                 235D    288M    341M    394M
+                                                 447M    500M
+*RNF7031 ARPRF2            A(15)                 237D    290M    343M    396M
+                                                 449M    502M
+*RNF7031 ARPRF3            A(15)                 239D    292M    345M    398M
+                                                 451M    504M
+*RNF7031 ARPRF4            A(15)                 241D    294M    347M    400M
+                                                 453M    506M
+*RNF7031 ARPRRE            A(25)                 234D    287M    340M    393M
+                                                 446M    499M
+*RNF7031 ARPRR1            A(25)                 236D    289M    342M    395M
+                                                 448M    501M
+*RNF7031 ARPRR2            A(25)                 238D    291M    344M    397M
+                                                 450M    503M
+*RNF7031 ARPRR3            A(25)                 240D    293M    346M    399M
+                                                 452M    505M
+*RNF7031 ARPRR4            A(25)                 242D    295M    348M    401M
+                                                 454M    507M
+*RNF7031 ARRBLK            A(1)                  210D    263M    316M    369M
+                                                 422M    475M
+*RNF7031 ARRIC1            A(2)                  244D    297M    350M    403M
+                                                 456M    509M
+*RNF7031 ARRIC2            A(2)                  245D    298M    351M    404M
+                                                 457M    510M
+*RNF7031 ARRIC3            A(2)                  246D    299M    352M    405M
+                                                 458M    511M
+*RNF7031 ARRIC4            A(2)                  247D    300M    353M    406M
+                                                 459M    512M
+*RNF7031 ARRIIN            A(2)                  243D    296M    349M    402M
+                                                 455M    508M
+*RNF7031 ARROLD            A(16)                 220D    273M    326M    379M
+                                                 432M    485M
+*RNF7031 ARTRAP            A(1)                  211D    264M    317M    370M
+                                                 423M    476M
+*RNF7031 ARTRAT            A(2)                  232D    285M    338M    391M
+                                                 444M    497M
+         ART25             A(1)                  202M    952
+*RNF7031 ARUTIM            A(10)                 226D    279M    332M    385M
+                                                 438M    491M
+*RNF7031 ARUTVA            A(10)                 229D    282M    335M    388M
+                                                 441M    494M
+*RNF7031 AR1OLD            A(16)                 222D    275M    328M    381M
+                                                 434M    487M
+*RNF7031 AR2OLD            A(16)                 223D    276M    329M    382M
+                                                 435M    488M
+*RNF7031 AR3OLD            A(16)                 224D    277M    330M    383M
+                                                 436M    489M
+*RNF7031 AR4OLD            A(16)                 225D    278M    331M    384M
+                                                 437M    490M
+*RNF7031 ATDTAP            P(8,0)                579D
+*RNF7031 ATDTCD            P(8,0)                581D
+*RNF7031 ATDTCR            P(8,0)                583D
+*RNF7031 ATDTIM            P(8,0)                585D
+*RNF7031 ATDTVA            P(8,0)                588D
+*RNF7031 ATFCAP            A(1)                  578D
+         ATFDCD            A(1)                  580D    729
+*RNF7031 ATFDCR            A(1)                  582D
+*RNF7031 ATHHIM            P(6,0)                586D
+*RNF7031 ATHHVA            P(6,0)                589D
+*RNF7031 ATITEF            A(16)                 576D
+*RNF7031 ATKINT            A(16)                 577D
+*RNF7031 ATUTIM            A(10)                 584D
+*RNF7031 ATUTVA            A(10)                 587D
+         CAPSOT            A(5)                  152M    902
+         CAPSO2            A(5)                  171M    921
+         CCASOT            A(6)                  153M    903
+         CCASO2            A(6)                  172M    922
+         CFSSOT            A(16)                 155M    905
+         CFSSO2            A(16)                 174M    924
+         CGNSOT            A(70)                 145M    895
+         CGNSO2            A(70)                 164M    914
+         COGSOT            A(30)                 182M    932
+         DITTA             A(1)                  201M    951
+         DSA024            DS(113)               132D    601     859M
+         DTNSOT            P(8,0)                146M    896
+         DTNSO2            P(8,0)                165M    915
+         DTRDCI            P(8,0)                161M    911
+         DTRDC2            P(8,0)                180M    930
+         D24ERR            A(1)                  140D    590M    755M
+         D24FAR            A(1)                  139D    593     594     596
+                                                 758
+*RNF7031 D24FIL            A(79)                 141D
+         D24RAP            A(16)                 138D    614     627     799
+                                                 812
+         D24SOG            A(16)                 137D    591     626     629
+                                                 811     814     836     877
+         ENRDCI            A(30)                 162M    912
+         ENRDC2            A(30)                 181M    931
+         FLCLSO            N(1)                  610M    639M    647M    652
+                                                 659M    665     672M    678
+                                                 685M    691     698M    705
+                                                 714M    720     730M    737
+                                                 747M    754     759M    763
+                                                 794M    861D
+         FLNDGC            N(1)                  771     835     863D    883M
+                                                 885M    888M
+         FRETIT            A(1)                  185M    935
+         I                 P(2,0)                634D    635     641     643
+                                                 653     655     666     668
+                                                 679     681     692     694
+                                                 706     708     725     727
+                                                 742     744     764     772
+                                                 819D    820     824
+*RNF7031 KBUFF             A(8)                  130D
+*RNF7031 KCANC             A(1)                  122D
+*RNF7031 KCDAZ             A(4)                   97D
+*RNF7031 KCDJD             A(2)                  106D
+*RNF7031 KCDRC             A(1)                   99D
+*RNF7031 KCOAZ             A(4)                  112D
+*RNF7031 KCOJB             A(2)                  118D
+*RNF7031 KDTJB             A(6)                  126D
+*RNF7031 KEXCN             A(1)                  111D
+*RNF7031 KFIER             A(30)                 121D
+*RNF7031 KFLAD             A(1)                  113D
+*RNF7031 KFLMS             A(1)                   95D
+*RNF7031 KFLRC             A(1)                   90D
+*RNF7031 KFSLG             A(1)                  124D
+*RNF7031 KGRAZ             A(3)                  123D
+*RNF7031 KJOST             A(1)                  116D
+*RNF7031 KJRLB             A(10)                 128D
+*RNF7031 KJRNM             A(10)                 127D
+*RNF7031 KKEYF             S(5,0)                109D
+*RNF7031 KMDST             A(10)                 120D
+*RNF7031 KMSMN             A(7)                   92D
+*RNF7031 KNMCP             A(2)                  115D
+*RNF7031 KNMEB             A(10)                 102D
+*RNF7031 KNMSB             S(3,0)                103D
+*RNF7031 KNMTD             A(10)                  89D
+         KNMUS             A(10)                  85D    777     841
+*RNF7031 KNRAZ             S(9,0)                 87D
+*RNF7031 KNRJO             A(6)                   93D
+*RNF7031 KNRRB             A(2)                  104D
+*RNF7031 KNRVJ             S(9,0)                 91D
+*RNF7031 KNSIF             A(9)                  105D
+         KODSOT            A(16)                 143M    893
+         KODSO2            A(16)                 163M    913
+         KPJBA             DS(502)                81D    858M
+                           BASED(_QRNL_PRM+)
+         KPJBU             A(256)                131D    601M    859
+*RNF7031 KQEBI             A(7)                  119D
+*RNF7031 KQIEB             A(7)                  107D
+*RNF7031 KQOFR             A(10)                 108D
+*RNF7031 KQOPR             A(10)                 114D
+*RNF7031 KQOTD             A(10)                 101D
+*RNF7031 KRCDS             S(5,0)                110D
+*RNF7031 KRITB             A(1)                  129D
+*RNF7031 KSTEB             A(1)                  117D
+*RNF7031 KSTJO             A(1)                   94D
+*RNF7031 KTMIN             S(6,0)                 96D
+*RNF7031 KTPAZ             A(1)                   98D
+*RNF7031 KTPFN             A(1)                  100D
+*RNF7031 KTPRF             A(3)                   86D
+*RNF7031 KTPWS             A(1)                  125D
+*RNF7031 KTSIF             A(3)                   88D
+         LGNSOT            A(30)                 147M    897
+         LGNSO2            A(30)                 166M    916
+         LGRSOT            A(30)                 149M    899
+         LGRSO2            A(30)                 168M    918
+         NOMSOT            A(30)                 183M    933
+         NUMDCI            A(10)                 159M    909
+         NUMDC2            A(10)                 178M    928
+*RNF7031 PADESC            A(113)                550D
+         PAESOT            A(3)                  156M    906
+         PAESO2            A(3)                  175M    925
+*RNF7031 PAFLAG            A(1)                  546D
+         PAKEY             KLIST                 866D    875
+         PAKEYA            A(3)                  548D    867     872M
+         PAKEYB            A(9)                  549D    868     873M    874M
+*RNF7031 PATREC            A(2)                  547D
+         PREFSO            A(3)                  877D    878     879     880
+                                                 881     882
+         PRNSOT            A(2)                  148M    898
+         PRNSO2            A(2)                  167M    917
+         PRRSOT            A(2)                  151M    901
+         PRRSO2            A(2)                  170M    920
+         RAMSOT            A(3)                  158M    908
+         RAMSO2            A(3)                  177M    927
+         RSDINS            P(8,0)                553M    955
+         RSDUPD            P(8,0)                555M    776M    840M    957
+         RSFISC            A(16)                 559M    961
+         RSFLAG            A(1)                  552M    774     775M    838
+                                                 839M    954
+         RSNDGC            A(8)                  557M    959
+         RSSOGS            A(16)                 558M    960
+         RSUINS            A(10)                 554M    956
+         RSUUPD            A(10)                 556M    777M    841M    958
+         SEXSOT            A(1)                  154M    904
+         SEXSO2            A(1)                  173M    923
+         SODTIM            P(8,0)                196M    946
+         SODTVA            P(8,0)                199M    949
+         SOFLG1            A(1)                  192M    942
+         SOFLG2            A(1)                  193M    943
+         SOFLG3            A(1)                  194M    944
+         SOG(5)            A(16)                  77D    608M    617M    618M
+                                                 619M    620M    621M    626M
+                                                 635     641     643     653
+                                                 655     666     668     679
+                                                 681     692     694     706
+                                                 708     725     727     742
+                                                 744     764     772     792M
+                                                 802M    803M    804M    805M
+                                                 806M    811M    820     824
+         SOGBLK            A(1)                  144M    766M    826     827M
+                                                 894
+         SOHHIM            P(6,0)                197M    947
+         SOHHVA            P(6,0)                200M    950
+         SOUTIM            A(10)                 195M    945
+         SOUTVA            A(10)                 198M    948
+         STGSOT            A(3)                  157M    907
+         STGSO2            A(3)                  176M    926
+         STSQUO            A(1)                  184M    934
+         SVKRAP            A(16)                 609M    616M    627M    628
+                                                 629M    646     658     671
+                                                 684     697     793M    801M
+                                                 812M    813     814M    862D
+         SXECCA            A(1)                  190M    940
+         SXECCL            A(1)                  189M    939
+         SXECDV            A(2)                  187M    937
+         SXECGR            A(1)                  188M    938
+         SXECSC            A(1)                  191M    941
+         SXECSZ            A(1)                  186M    936
+         TIPDCI            A(2)                  160M    910
+         TIPDC2            A(2)                  179M    929
+         VIASOT            A(35)                 150M    900
+         VIASO2            A(35)                 169M    919
+      Riferimenti dell'indicatore
+         Indicatore                           Riferimenti (D=Defin. M=Modific.)
+         73                                      614D    615     643D    644
+                                                 655D    656     668D    669
+                                                 681D    682     694D    695
+                                                 708D    709     727D    728
+                                                 744D    745     764D    765
+                                                 772D    773     799D    800
+                                                 824D    825     836D    837
+         74                                      875D    876
+         LR                                      602M    861     863
+       * * * * *   F I N E   R I F E R I M E N T I   I N C R O C I A T I   * * * * *
+                      R i f e r i m e n t i   e s t e r n i
+      Procedure di cui si è effettuato il collegamento statico:
+         Procedura                            Riferimenti
+         Non ci sono riferimenti nell'origine.
+      Campi importati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+      Campi esportati:
+         Campo             Attributi          Definito
+         Non ci sono riferimenti nell'origine.
+    * * * * *   F I N E   R I F E R I M E N T I   E S T E R N I   * * * * *
+                       S o m m a r i o   m e s s a g g i o
+ Id msg  Sv Numero Testo messaggio
+*RNF7031 00    143 Il nome o l'indicatore non sono referenziati.
+*RNF7066 00     10 Il nome di formato record di un file descritto esternamente
+                   non è utilizzato.
+     * * * * *   F I N E   S O M M A R I O   M E S S A G G I O   * * * * *
+                          S o m m a r i o   f i n a l e
+  Totali messaggio:
+    Informativi (00). . . . . . . . :      153
+    Avvertenze   (10) . . . . . . . :        0
+    Errori       (20) . . . . . . . :        0
+    Errori gravi (30+). . . . . . . :        0
+    ---------------------------------  -------
+    Totale. . . . . . . . . . . . . :      153
+  Totali origine
+    Record . . . . . . . . . . . . :      961
+    Specifiche  . . . . . . . . . . :      817
+    Record dati . . . . . . . . . . :        0
+    Commenti  . . . . . . . . . . . :      144
+         * * * * *   F I N E   S O M M A R I O   F I N A L E   * * * * *
+Il programma RRA024 è stato posto nella libreria QTEMP. 00 è l'errore con il livello di gravità massima. Creato il 30/10/17 alle 10:
+          * * * * *   E N D   O F   C O M P I L A T I O N * * * * *
